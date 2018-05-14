@@ -59,9 +59,9 @@ const invoiceReducer = (state = initialState, action) => {
 
     case GET_INVOICES_SUCCESS:
       return Object.assign({}, {...state}, {
-        invoiceRows: _createInvoiceRow(action.invoices, state.selected),
-        invoices: action.invoices,
-        customers: action.customerResult.data
+        invoiceRows: _createInvoiceRow(JSON.parse(action.invoices), state.selected),
+        invoices: JSON.parse(action.invoices),
+        customers: JSON.parse(action.customerResult)
       })
 
     case CALCULATE_INVOICE_SUM:
@@ -203,7 +203,7 @@ const _calculateRowSum = rowNumber => {
   formValues['rows'][rowNumber]['vat_percent_description'] = `${formValues['rows'][rowNumber]['vat_percent']} %`
 }
 
-const _createInvoiceRow = (invoices, selected) => invoices.slice((selected*10), (selected*10) + 10).map(el => <InvoiceRow key={el.id}
+const _createInvoiceRow = (invoices, selected) => invoices.slice((selected*10), (selected*10) + 10).map(el => <InvoiceRow key={el.invoice_id}
                                                                        billing_date={new DateTimeFormat('fi', {
                                                                          day: 'numeric',
                                                                          month: 'numeric',
@@ -218,7 +218,7 @@ const _createInvoiceRow = (invoices, selected) => invoices.slice((selected*10), 
 
                                                                        customer={el.company_name}
 
-                                                                       invoice_id={el.id}
+                                                                       invoice_id={el.invoice_id}
 
                                                                        totalSumWithVAT={new Intl.NumberFormat('fi-FI', {
                                                                          style: 'currency',

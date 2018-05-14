@@ -15,7 +15,7 @@ import { getInvoicesSuccess,
          addInvoiceRow,
          saveAndSendInvoice
 } from '../actions/index'
-import { apiPost, apiRequest } from '../utils/request'
+import { apiPost, apiRequest, apiManualPost, apiManualRequest } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 import DateTimeFormat from '../utils/DateTimeFormat'
 import store from '../store'
@@ -24,7 +24,7 @@ import store from '../store'
  * @author Skylar Kong
  */
 
-function* getInvoiceSaga() {
+/* function* getInvoiceSaga() {
   try {
     const url = `${API_SERVER}/user-invoices`
     const uuid = (store.getState()).profile.uuid
@@ -51,14 +51,30 @@ function* getInvoiceSaga() {
   } catch (e) {
     yield put(getInvoicesFailed(e))
   }
+} */
+
+function* getInvoiceSaga() {
+  try {
+    const invoiceUrl = `${API_SERVER}/GetInvoices`
+    const customerUrl = `${API_SERVER}/GetCustomers`
+    const invoiceResult = yield apiManualRequest(invoiceUrl)
+    const customerResult = yield apiManualRequest(customerUrl)
+    //console.log('Inside getInvoiceSaga:: ', invoiceResult.data)
+   // console.log('Inside getInvoiceSaga:: ', customerResult.data)
+
+    if (invoiceResult.data && customerResult.data)
+      yield put(getInvoicesSuccess(invoiceResult.data, customerResult.data))
+  } catch (e) {
+    yield put(getInvoicesFailed(e))
+  }
 }
 
 function* saveAndSendInvoiceSaga() {
 
   try {
-    const url = `${API_SERVER}/invoices`
+    const url = `${API_SERVER}/AddInvoice`
     const formValues = getFormValues('invoiceReview')(store.getState())
-    const uuid = (store.getState()).profile.uuid
+    //const uuid = (store.getState()).profile.uuid
 
     formValues.due_date = formatFiToISO((formValues.due_date).split('.'))
     formValues.billing_date = formatFiToISO((formValues.billing_date).split('.'))
@@ -73,8 +89,8 @@ function* saveAndSendInvoiceSaga() {
     }
 
     const body = JSON.parse(JSON.stringify({
-      ...formValues,
-      user_info_uuid: uuid
+      ...formValues
+     // user_info_uuid: uuid
     }))
     body.instant_payment = !!formValues.instant_payment
 
@@ -96,7 +112,7 @@ function* saveAndSendInvoiceSaga() {
     }
     body.rows = bodyRows
     // FIXME: prevent success happening when error occures
-    const result = yield call(apiPost, url, JSON.stringify(body))
+    const result = yield call(apiManualPost, url, JSON.stringify(body))
 
     yield put(reset('invoice'))
     yield put(change('invoice', 'rows', {}))

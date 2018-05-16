@@ -81,36 +81,56 @@ function* saveAndSendInvoiceSaga() {
 
     const rows = formValues.rows
 
+    console.log('Inside formValues.rows:: ',rows)
+
     rows[Symbol.iterator] = function* () {
       const keys = Reflect.ownKeys(this)
       for (const key of keys) {
         yield this[key]
       }
     }
+    console.log('Inside saveAndSendInvoiceSaga::  ', [...rows] )
 
     const body = JSON.parse(JSON.stringify({
       ...formValues
      // user_info_uuid: uuid
     }))
-    body.instant_payment = !!formValues.instant_payment
 
-    let bodyRows = {}
+    console.log('body_1:: ', JSON.stringify(body))
+
+    body.instant_payment = !!formValues.instant_payment
+    console.log('body.instant_payment:: ', body.instant_payment)
+
+    //let bodyRows = {}
+    let bodyRows = []
+
+
     const l = Array.isArray(body.rows) ? body.rows.length : Object.keys(body.rows).length
     for(let i = 0; i < l; i++) {
-      body.rows[i].description = body.rows[i][`description${i}`]
-      body.rows[i].quantity = body.rows[i][`quantity${i}`]
-      body.rows[i].quantity_price = parseFloat(body.rows[i][`quantity_price${i}`].replace(/,/g, '.')).toString()
-      body.rows[i].sum_tax_free =  parseFloat(body.rows[i][`sum_tax_free${i}`].replace(/,/g, '.').replace(/\s/g, '')).toString()
-      body.rows[i].sum_tax_vat = body.rows[i][`sum_tax_vat${i}`]
-      body.rows[i].unit = body.rows[i][`unit${i}`]
-      body.rows[i].vat_percent = body.rows[i][`vat_percent${i}`]
-      body.rows[i].vat = body.rows[i][`vat${i}`]
-      body.rows[i].vat_percent_description = body.rows[i][`vat_percent_description${i}`]
-      body.rows[i].start_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i][`start_date${i}`]))).split('.'))
-      body.rows[i].end_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i][`end_date${i}`]))).split('.'))
+      body.rows[i].description = body.rows[i]['description']
+      body.rows[i].quantity = body.rows[i]['quantity']
+     
+      body.rows[i].quantity_price = parseFloat(body.rows[i]['quantity_price'].replace(/,/g, '.')).toString()
+      body.rows[i].sum_tax_free =  parseFloat(body.rows[i]['sum_tax_free'].replace(/,/g, '.').replace(/\s/g, '')).toString()
+     
+      body.rows[i].sum_tax_vat = body.rows[i]['sum_tax_vat']
+      body.rows[i].unit = body.rows[i]['unit']
+      body.rows[i].vat_percent = body.rows[i]['vat_percent']
+      body.rows[i].vat = body.rows[i]['vat']
+      body.rows[i].vat_percent_description = body.rows[i]['vat_percent_description']
+
+      body.rows[i].start_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i]['start_date']))).split('.'))
+      body.rows[i].end_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i]['end_date']))).split('.'))
+      
       bodyRows[i] = body.rows[i]
     }
+
+    console.log('bodyRows:: ',bodyRows)
+    
     body.rows = bodyRows
+
+    console.log('body_2:: ', JSON.stringify(body))
+
     // FIXME: prevent success happening when error occures
     const result = yield call(apiManualPost, url, JSON.stringify(body))
 

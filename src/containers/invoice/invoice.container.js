@@ -29,47 +29,84 @@ let date = new Date()
 let NewInvoiceContainer = reduxForm({
   form: 'invoice',
   destroyOnUnmount: false,
+
+  /*    initialValues: {
+      country: 'Suomi',
+      delivery_method: 'Sähköposti',
+      delivery_address: '',
+      invoice_reference: '',
+      person_to_contact: '',
+      person_to_contact_email: '',
+      overdue: 14,
+      workDescription: 'Valitse ammattinimike',
+      rows: {
+        0: {
+          quantity0: '0',
+          quantity_price0: '0',
+          vat_percent0: 24,
+          description0: '',
+          unit0: 'kpl',
+          sum_tax_free0: new Intl.NumberFormat('fi-FI', {
+            style: 'currency',
+            currency: 'EUR'
+          }).format(0)
+        }
+      },
+      finvoice_address: '',
+      finvoice_operator: '',
+      description: '',
+      customer: '',
+      web_invoice: '',
+      job_title: '',
+      zip_code: '',
+      city: '',
+      company_name: '',
+      business_id: '',
+      state: 1,
+      salary_status: '',
+      billing_date: new Date(),
+      due_date: new DateTimeFormat('fi', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+      }).format(date.setDate(date.getDate() + 14)),
+      instant_payment: false
+    }, */
+
   initialValues: {
-    country: 'Suomi',
-    delivery_method: 'Sähköposti',
-    delivery_address: '',
-    invoice_reference: '',
-    person_to_contact: '',
-    person_to_contact_email: '',
-    overdue: 14,
-    workDescription: 'Valitse ammattinimike',
-    rows: {
-      0: {
-        quantity0: '0',
-        quantity_price0: '0',
-        vat_percent0: 24,
-        description0: '',
-        unit0: 'kpl',
-        sum_tax_free0: new Intl.NumberFormat('fi-FI', {
-          style: 'currency',
-          currency: 'EUR'
-        }).format(0)
-      }
-    },
-    finvoice_address: '',
-    finvoice_operator: '',
     description: '',
-    customer: '',
-    web_invoice: '',
     job_title: '',
-    zip_code: '',
-    city: '',
-    company_name: '',
-    business_id: '',
-    state: 1,
-    salary_status: '',
+    invoice_reference: '',
     billing_date: new Date(),
     due_date: new DateTimeFormat('fi', {
       day: 'numeric',
       month: 'numeric',
       year: 'numeric'
     }).format(date.setDate(date.getDate() + 14)),
-    instant_payment: false
+    overdue: 14,
+    instant_payment: 0,
+    state: 1,
+    country: 'Suomi',
+    company_name: '',
+    business_id: '',
+    person_to_contact: '',
+    person_to_contact_email: '',
+    delivery_address: '',
+    zip_code: '',
+    city: '',
+    web_invoice: '',
+    delivery_method: 'Sähköposti',
+    rows: [{
+      description: '',
+      quantity: 0,
+      unit: 'kpl',
+      quantity_price: '0',
+      vat_percent: 14,
+      sum_tax_free: new Intl.NumberFormat('fi-FI', {
+        style: 'currency',
+        currency: 'EUR'
+      }).format(0)
+    }]
   },
   validate
 })(NewInvoice)
@@ -85,13 +122,13 @@ const mapStateToProps = (state) => {
   // FIXME: TO BE REFACTORED
   let totalSum = 0
 
-  for(let r of Object.keys(formValues['rows'])) {
+  for (let r of Object.keys(formValues['rows'])) {
     !invoiceInputRows.reduce((sum, value) => {
       return value.key === r || sum
     }, false) && delete formValues['rows'][r]
   }
 
-  invoiceInputRows.forEach(el => {
+/*   invoiceInputRows.forEach(el => {
     if (!formValues['rows'][el.key]) {
       formValues['rows'][el.key] = {}
       formValues['rows'][el.key][`description${el.key}`] = ''
@@ -105,7 +142,7 @@ const mapStateToProps = (state) => {
     const formQuantity = parseFloat(quantity.replace(/,/g, '.'))
 
     const quantityPrice = formValues['rows'][el.key][`quantity_price${el.key}`] || '0'
-    const formQuantityPrice = parseFloat(quantityPrice.replace(/,/g , '.'))
+    const formQuantityPrice = parseFloat(quantityPrice.replace(/,/g, '.'))
 
     const sum = formQuantity * formQuantityPrice
     const vat = formValues['rows'][el.key][`vat_percent${el.key}`] / 100
@@ -126,6 +163,46 @@ const mapStateToProps = (state) => {
     }).format(sum * (vat + 1))
 
     formValues['rows'][el.key][`vat_percent_description${el.key}`] = `${formValues['rows'][el.key][`vat_percent${el.key}`]} %`
+    //TODO figure out if vat is wanted to be shown or not
+    totalSum += sum * (vat + 1)
+
+  }) */
+
+  invoiceInputRows.forEach(el => {
+    if (!formValues['rows'][el.key]) {
+      formValues['rows'][el.key] = {}
+      formValues['rows'][el.key]['description'] = ''
+      formValues['rows'][el.key]['quantity'] = '0'
+      formValues['rows'][el.key]['unit'] = 'kpl'
+      formValues['rows'][el.key]['quantity_price'] = '0'
+      formValues['rows'][el.key]['vat_percent'] = 24
+    }
+
+    const quantity = formValues['rows'][el.key]['quantity'] || '0'
+    const formQuantity = parseFloat(quantity.replace(/,/g, '.'))
+
+    const quantityPrice = formValues['rows'][el.key]['quantity_price'] || '0'
+    const formQuantityPrice = parseFloat(quantityPrice.replace(/,/g, '.'))
+
+    const sum = formQuantity * formQuantityPrice
+    const vat = formValues['rows'][el.key]['vat_percent'] / 100
+
+    formValues['rows'][el.key]['sum_tax_free'] = new Intl.NumberFormat('fi-FI', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(sum)
+
+    formValues['rows'][el.key]['vat'] = new Intl.NumberFormat('fi-FI', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(sum * vat)
+
+    formValues['rows'][el.key]['sum_with_vat'] = new Intl.NumberFormat('fi-FI', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(sum * (vat + 1))
+
+    formValues['rows'][el.key]['vat_percent_description'] = `${formValues['rows'][el.key]['vat_percent']} %`
     //TODO figure out if vat is wanted to be shown or not
     totalSum += sum * (vat + 1)
 
@@ -171,7 +248,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const mergeProps = ( stateProps, dispatchProps, ownProps ) => Object.assign({}, stateProps, dispatchProps, ownProps)
+const mergeProps = (stateProps, dispatchProps, ownProps) => Object.assign({}, stateProps, dispatchProps, ownProps)
 
 NewInvoiceContainer = connect(mapStateToProps, mapDispatchToProps, mergeProps)(NewInvoiceContainer)
 

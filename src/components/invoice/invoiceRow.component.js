@@ -49,8 +49,8 @@ const InvoiceRow = ({
   </TableRow>
 
 const actionsByState = (state, invoice_id) =>
-state === 0 ? <Link><p style={{marginLeft: '10px'}} onClick={() => {store.dispatch(copyInvoice(invoice_id))}}><FontAwesome name="pencil"/></p></Link>
-: <Link to={'/dashboard/invoice/edit'}><p style={{marginLeft: '10px'}} onClick={() => {store.dispatch(copyInvoice(invoice_id))}}><FontAwesome name="clone"/></p></Link>
+state === 0 ? <Link><p style={{marginLeft: '10px'}} onClick={() => {store.dispatch(copyInvoice(invoice_id))}}><FontAwesome name="clone"/></p></Link>
+: <Link to={'/dashboard/invoice/edit'}><p style={{marginLeft: '10px'}} onClick={() => {store.dispatch(copyInvoice(invoice_id))}}><FontAwesome name="pencil"/></p></Link>
 
 
 export default InvoiceRow

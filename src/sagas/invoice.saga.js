@@ -18,49 +18,19 @@ import { getInvoicesSuccess,
 import { apiPost, apiRequest, apiManualPost, apiManualRequest } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 import DateTimeFormat from '../utils/DateTimeFormat'
+import { nestProperties } from '../utils/invoice.utils'
 import store from '../store'
 
 /**
  * @author Skylar Kong
  */
 
-/* function* getInvoiceSaga() {
-  try {
-    const url = `${API_SERVER}/user-invoices`
-    const uuid = (store.getState()).profile.uuid
-    if(!!uuid) {
-      const body = JSON.stringify({ user_info_uuid: uuid })
-      const result = yield call(apiPost, url, body)
-      const invoices = []
-      const customerUrl = `${API_SERVER}/users/${uuid}/customers`
-      const customerResult = yield apiRequest(customerUrl)
-
-      result[Symbol.iterator] = function*() {
-        const keys = Reflect.ownKeys(this)
-        for (const key of keys) {
-          yield this[key]
-        }
-      }
-
-      for (const invoice of result.data) {
-        invoices.push(invoice)
-      }
-      yield put(getInvoicesSuccess(invoices, customerResult))
-    }
-
-  } catch (e) {
-    yield put(getInvoicesFailed(e))
-  }
-} */
-
 function* getInvoiceSaga() {
   try {
     const invoiceUrl = `${API_SERVER}/GetInvoices`
     const customerUrl = `${API_SERVER}/GetCustomers`
     const invoiceResult = yield apiManualRequest(invoiceUrl)
-    const customerResult = yield apiManualRequest(customerUrl)
-    //console.log('Inside getInvoiceSaga:: ', invoiceResult.data)
-   // console.log('Inside getInvoiceSaga:: ', customerResult.data)
+    const customerResult = yield apiManualRequest(customerUrl)    
 
     if (invoiceResult.data && customerResult.data)
       yield put(getInvoicesSuccess(invoiceResult.data, customerResult.data))
@@ -73,66 +43,62 @@ function* saveAndSendInvoiceSaga() {
 
   try {
     const url = `${API_SERVER}/AddInvoice`
-    const formValues = getFormValues('invoiceReview')(store.getState())
-    //const uuid = (store.getState()).profile.uuid
+    const formValues = getFormValues('invoiceReview')(store.getState())   
 
     formValues.due_date = formatFiToISO((formValues.due_date).split('.'))
     formValues.billing_date = formatFiToISO((formValues.billing_date).split('.'))
 
     const rows = formValues.rows
-
-    console.log('Inside formValues.rows:: ',rows)
-
+   
     rows[Symbol.iterator] = function* () {
       const keys = Reflect.ownKeys(this)
       for (const key of keys) {
         yield this[key]
       }
-    }
-    console.log('Inside saveAndSendInvoiceSaga::  ', [...rows] )
+    }    
 
     const body = JSON.parse(JSON.stringify({
-      ...formValues
-     // user_info_uuid: uuid
+      ...formValues     
     }))
+   
 
-    console.log('body_1:: ', JSON.stringify(body))
+    body.instant_payment = !!formValues.instant_payment    
 
-    body.instant_payment = !!formValues.instant_payment
-    console.log('body.instant_payment:: ', body.instant_payment)
-
-    //let bodyRows = {}
     let bodyRows = []
-
-
     const l = Array.isArray(body.rows) ? body.rows.length : Object.keys(body.rows).length
     for(let i = 0; i < l; i++) {
       body.rows[i].description = body.rows[i]['description']
-      body.rows[i].quantity = body.rows[i]['quantity']
-     
+      body.rows[i].quantity = body.rows[i]['quantity']     
       body.rows[i].quantity_price = parseFloat(body.rows[i]['quantity_price'].replace(/,/g, '.')).toString()
-      body.rows[i].sum_tax_free =  parseFloat(body.rows[i]['sum_tax_free'].replace(/,/g, '.').replace(/\s/g, '')).toString()
-     
+      body.rows[i].sum_tax_free =  parseFloat(body.rows[i]['sum_tax_free'].replace(/,/g, '.').replace(/\s/g, '')).toString()     
       body.rows[i].sum_tax_vat = body.rows[i]['sum_tax_vat']
       body.rows[i].unit = body.rows[i]['unit']
       body.rows[i].vat_percent = body.rows[i]['vat_percent']
       body.rows[i].vat = body.rows[i]['vat']
       body.rows[i].vat_percent_description = body.rows[i]['vat_percent_description']
-
       body.rows[i].start_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i]['start_date']))).split('.'))
       body.rows[i].end_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i]['end_date']))).split('.'))
       
       bodyRows[i] = body.rows[i]
-    }
-
-    console.log('bodyRows:: ',bodyRows)
+    }    
     
-    body.rows = bodyRows
+    body.rows = bodyRows      
 
-    console.log('body_2:: ', JSON.stringify(body))
+    const nestedBody = nestProperties(body,'customer', [ 
+      'country',
+      'company_name',
+      'business_id',
+      'person_to_contact',
+      'person_to_contact_email',
+      'delivery_address',
+      'zip_code',
+      'city',
+      'web_invoice',
+      'delivery_method'
+    ])
 
     // FIXME: prevent success happening when error occures
-    const result = yield call(apiManualPost, url, JSON.stringify(body))
+    const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
 
     yield put(reset('invoice'))
     yield put(change('invoice', 'rows', {}))
@@ -144,8 +110,8 @@ function* saveAndSendInvoiceSaga() {
 }
 
 function* saveInvoiceDraft() {
-  yield put(change('invoiceReview', 'state', 0))
-  yield put(change('invoice', 'state', 0))
+  yield put(change('invoiceReview', 'status', 0))
+  yield put(change('invoice', 'status', 0))
   yield put(saveAndSendInvoice())
 }
 
@@ -177,7 +143,7 @@ function* copyInvoiceSaga({ id }) {
     for(let key of invoiceKeys) {
       yield put(change('invoice', key, invoiceResult.data[key]))
     }
-    yield put(change('invoice', 'state', 1))
+    yield put(change('invoice', 'status', 1))
 
     yield put(emptyInvoiceRows())
     //dispatch invoice rows to redux form

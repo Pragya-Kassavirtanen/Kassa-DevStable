@@ -33,17 +33,6 @@ const mapStateToProps = (state) => {
   }
 
   //fix the invalid input from user when validation with date picker fails
-/*   for (let row of Object.keys(formInvoice['rows'])) {
-    if(formInvoice['rows'][row][`description${row}`] === undefined) {
-      delete formInvoice['rows'][row]
-    } else {
-      if(typeof formInvoice['rows'][row][`start_date${row}`] === 'string') {
-        formInvoice['rows'][row][`start_date${row}`] = new Date(formatFiToISO(formInvoice['rows'][row][`start_date${row}`].split('.')))}
-      if(typeof formInvoice['rows'][row][`end_date${row}`] === 'string') {
-        formInvoice['rows'][row][`end_date${row}`] = new Date(formatFiToISO(formInvoice['rows'][row][`end_date${row}`].split('.')))
-      }
-    }
-  } */
 
   for (let row of Object.keys(formInvoice['rows'])) {
     if(formInvoice['rows'][row]['description'] === undefined) {

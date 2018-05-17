@@ -106,3 +106,28 @@ export const convertIntToState = (state) => {
     case 5: return 'Ylimaksettu'
   }
 }
+
+export const nestProperties = (obj, property, nestedProperties) => {
+  var newObj = {}
+  var nestedObj = {}
+
+  for (var i = 0; i < nestedProperties.length; ++i)
+  {
+    if (nestedProperties[i] in obj)
+    {
+      nestedObj[nestedProperties[i]] = obj[nestedProperties[i]]
+    }
+  }
+
+  for (var k in obj)
+  {
+    if (!(k in nestedObj))
+    {
+      newObj[k] = obj[k]
+    }
+  }
+
+  newObj[property] = nestedObj
+
+  return newObj
+}

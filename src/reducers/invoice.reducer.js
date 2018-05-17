@@ -24,22 +24,6 @@ import DateTimeFormat from '../utils/DateTimeFormat'
 import InvoiceInputRow from '../components/invoice/invoiceInputRow.component'
 import InvoiceRow from '../components/invoice/invoiceRow.component'
 const initialState  = {
-/*   invoiceInputRows: [
-    <InvoiceInputRow  key={0}
-                      description={`rows[${0}][description${0}]`}
-                      startDate={`rows[${0}][start_date${0}]`}
-                      endDate={`rows[${0}][end_date${0}]`}
-                      quantity={`rows[${0}][quantity${0}]`}
-                      unit={`rows[${0}][unit${0}]`}
-                      quantityPrice={`rows[${0}][quantity_price${0}]`}
-                      vatPercent={`rows[${0}][vat_percent${0}]`}
-                      vatPercentDescription={`rows[${0}][vat_percent_description${0}]`}
-                      sumTaxFree={`rows[${0}][sum_tax_free${0}]`}
-                      vat={`rows[${0}][vat${0}]`}
-                      sumWithVAT={`rows[${0}][sum_with_vat${0}]`}
-                      selectedStartDate={new Date('1900-01-01')}
-                      selectedEndDate={new Date('3000-01-01')}/>
-  ], */
   invoiceInputRows: [
     <InvoiceInputRow  key={0}
                       description={`rows[${0}][description]`}
@@ -243,28 +227,10 @@ const _createInvoiceRow = (invoices, selected) => invoices.slice((selected*10), 
 
                                                                        instant_payment={el.instant_payment}
 
-                                                                       state={el.state}
+                                                                       status={el.status}
                                                                        
                                                                        functions=""/>)
 
-/* const _createInputRow = (index, copy) => [
-  <InvoiceInputRow  key={index}
-       copy={copy}
-       autoFocusIndex={`${index}`}
-       description={`rows[${index}][description${index}]`}
-       startDate={`rows[${index}][start_date${index}]`}
-       endDate={`rows[${index}][end_date${index}]`}
-       quantity={`rows[${index}][quantity${index}]`}
-       unit={`rows[${index}][unit${index}]`}
-       quantityPrice={`rows[${index}][quantity_price${index}]`}
-       vatPercent={`rows[${index}][vat_percent${index}]`}
-       vatPercentDescription={`rows[${index}][vat_percent_description${index}]`}
-       sumTaxFree={`rows[${index}][sum_tax_free${index}]`}
-       vat={`rows[${index}][vat${index}]`}
-       sumWithVAT={`rows[${index}][sum_with_vat${index}]`}
-       selectedStartDate={new Date('1900-01-01')}
-       selectedEndDate={new Date('3000-01-01')}/>
-] */
 
 const _createInputRow = (index, copy) => [
   <InvoiceInputRow  key={index}

@@ -13,7 +13,8 @@ import {
   COPY_INVOICE_SUCCESS,
   INVOICE_PAGE_CHANGE,
   EMPTY_INVOICE_ROWS,
-  CHANGE_INVOICE_BILLING_DATE
+  CHANGE_INVOICE_BILLING_DATE,
+  GET_INVOICE_BY_ID_SUCCESS
 } from '../constants'
 import { SESSION_TERMINATED, USER_EXPIRED } from 'redux-oidc'
 import { getFormValues } from 'redux-form'
@@ -23,22 +24,22 @@ import store from '../store'
 import DateTimeFormat from '../utils/DateTimeFormat'
 import InvoiceInputRow from '../components/invoice/invoiceInputRow.component'
 import InvoiceRow from '../components/invoice/invoiceRow.component'
-const initialState  = {
+const initialState = {
   invoiceInputRows: [
-    <InvoiceInputRow  key={0}
-                      description={`rows[${0}][description]`}
-                      startDate={`rows[${0}][start_date]`}
-                      endDate={`rows[${0}][end_date]`}
-                      quantity={`rows[${0}][quantity]`}
-                      unit={`rows[${0}][unit]`}
-                      quantityPrice={`rows[${0}][quantity_price]`}
-                      vatPercent={`rows[${0}][vat_percent]`}
-                      vatPercentDescription={`rows[${0}][vat_percent_description]`}
-                      sumTaxFree={`rows[${0}][sum_tax_free]`}
-                      vat={`rows[${0}][vat]`}
-                      sumWithVAT={`rows[${0}][sum_with_vat]`}
-                      selectedStartDate={new Date('1900-01-01')}
-                      selectedEndDate={new Date('3000-01-01')}/>
+    <InvoiceInputRow key={0}
+      description={`rows[${0}][description]`}
+      startDate={`rows[${0}][start_date]`}
+      endDate={`rows[${0}][end_date]`}
+      quantity={`rows[${0}][quantity]`}
+      unit={`rows[${0}][unit]`}
+      quantityPrice={`rows[${0}][quantity_price]`}
+      vatPercent={`rows[${0}][vat_percent]`}
+      vatPercentDescription={`rows[${0}][vat_percent_description]`}
+      sumTaxFree={`rows[${0}][sum_tax_free]`}
+      vat={`rows[${0}][vat]`}
+      sumWithVAT={`rows[${0}][sum_with_vat]`}
+      selectedStartDate={new Date('1900-01-01')}
+      selectedEndDate={new Date('3000-01-01')} />
   ],
   customers: [],
   invoiceRowCounter: 1,
@@ -46,7 +47,8 @@ const initialState  = {
   invoiceRows: [],
   apiInvoices: [],
   invoices: [],
-  selected: 0
+  selected: 0,
+  invoiceEdit: []
 }
 
 const invoiceReducer = (state = initialState, action) => {
@@ -55,17 +57,27 @@ const invoiceReducer = (state = initialState, action) => {
 
     case SESSION_TERMINATED:
     case USER_EXPIRED:
-      return Object.assign({}, {...state}, {invoiceRows: []})
+      return Object.assign({}, { ...state }, { invoiceRows: [] })
 
     case GET_INVOICES_SUCCESS:
-      return Object.assign({}, {...state}, {
+      return Object.assign({}, { ...state }, {
         invoiceRows: _createInvoiceRow(JSON.parse(action.invoices), state.selected),
         invoices: JSON.parse(action.invoices),
         customers: JSON.parse(action.customerResult)
       })
 
+    case GET_INVOICE_BY_ID_SUCCESS:
+      console.log('result:: ', action.result)
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          invoiceEdit: JSON.parse(action.result)
+        }
+      )
+
     case CALCULATE_INVOICE_SUM:
-      return Object.assign( {}, state, {
+      return Object.assign({}, state, {
         rowKeys: state.rowKeys.concat(action.key)
       })
 
@@ -73,27 +85,27 @@ const invoiceReducer = (state = initialState, action) => {
       const copy = action.copy
       const rowState = state.invoiceInputRows
 
-      return Object.assign( {}, state, {
+      return Object.assign({}, state, {
         invoiceInputRows: rowState.concat(_createInputRow(state.invoiceRowCounter, copy)),
         invoiceRowCounter: state.invoiceRowCounter + 1
       })
 
     case REMOVE_INVOICE_ROW:
-      return Object.assign( {}, state,  {
+      return Object.assign({}, state, {
         invoiceInputRows: state.invoiceInputRows.filter((el, index) => index !== action.rowNumber)
       })
 
     case REMOVE_INVOICE:
-      return Object.assign( {}, state,  {
-        invoices: state.invoices.filter((el) => el.id !== action.id),
-        invoiceRows: _createInvoiceRow(state.invoices.filter((el) => el.id !== action.id), state.selected)
+      return Object.assign({}, state, {
+        invoices: state.invoices.filter((el) => el.invoice_id !== action.invoice_id),
+        invoiceRows: _createInvoiceRow(state.invoices.filter((el) => el.invoice_id !== action.invoice_id), state.selected)
       })
 
     case COPY_INVOICE_SUCCESS:
-      return Object.assign( {}, state,  {billing_date: new Date(action.result.data.billing_date)})
+      return Object.assign({}, state, { billing_date: new Date(action.result.data.billing_date) })
 
     case EMPTY_INVOICE_ROWS:
-      return Object.assign( {}, state,  {invoiceInputRows: [], invoiceRowCounter: 0})
+      return Object.assign({}, state, { invoiceInputRows: [], invoiceRowCounter: 0 })
 
     case MIN_DATE_CHANGE:
 
@@ -142,12 +154,14 @@ const invoiceReducer = (state = initialState, action) => {
       return state
 
     case INVOICE_PAGE_CHANGE:
-      return Object.assign({}, {...state}, {invoiceRows: _createInvoiceRow(state.invoices,
-        action.selected.selected),
-        selected: action.selected.selected})
+      return Object.assign({}, { ...state }, {
+        invoiceRows: _createInvoiceRow(state.invoices,
+          action.selected.selected),
+        selected: action.selected.selected
+      })
 
     case CHANGE_INVOICE_BILLING_DATE:
-      return Object.assign( {}, state, {billing_date: action.date})
+      return Object.assign({}, state, { billing_date: action.date })
 
     default:
       return state
@@ -180,7 +194,7 @@ const _calculateRowSum = rowNumber => {
   const formQuantity = parseFloat(quantity.replace(/,/g, '.'))
 
   const quantityPrice = formValues['rows'][rowNumber]['quantity_price'] || '0'
-  const formQuantityPrice = parseFloat(quantityPrice.replace(/,/g , '.'))
+  const formQuantityPrice = parseFloat(quantityPrice.replace(/,/g, '.'))
 
   const sum = formQuantity * formQuantityPrice
   const vat = formValues['rows'][rowNumber]['vat_percent'] / 100
@@ -203,52 +217,52 @@ const _calculateRowSum = rowNumber => {
   formValues['rows'][rowNumber]['vat_percent_description'] = `${formValues['rows'][rowNumber]['vat_percent']} %`
 }
 
-const _createInvoiceRow = (invoices, selected) => invoices.slice((selected*10), (selected*10) + 10).map(el => <InvoiceRow key={el.invoice_id}
-                                                                       billing_date={new DateTimeFormat('fi', {
-                                                                         day: 'numeric',
-                                                                         month: 'numeric',
-                                                                         year: 'numeric'
-                                                                       }).format(new Date(el.billing_date))}
+const _createInvoiceRow = (invoices, selected) => invoices.slice((selected * 10), (selected * 10) + 10).map(el => <InvoiceRow key={el.invoice_id}
+  billing_date={new DateTimeFormat('fi', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric'
+  }).format(new Date(el.billing_date))}
 
-                                                                       due_date={new DateTimeFormat('fi', {
-                                                                         day: 'numeric',
-                                                                         month: 'numeric',
-                                                                         year: 'numeric'
-                                                                       }).format(new Date(el.due_date))}
+  due_date={new DateTimeFormat('fi', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric'
+  }).format(new Date(el.due_date))}
 
-                                                                       customer={el.company_name}
+  customer={el.company_name}
 
-                                                                       invoice_id={el.invoice_id}
+  invoice_id={el.invoice_id}
 
-                                                                       totalSumWithVAT={new Intl.NumberFormat('fi-FI', {
-                                                                         style: 'currency',
-                                                                         currency: 'EUR'
-                                                                       }).format(el.total_sum)}
+  totalSumWithVAT={new Intl.NumberFormat('fi-FI', {
+    style: 'currency',
+    currency: 'EUR'
+  }).format(el.total_sum)}
 
-                                                                       instant_payment={el.instant_payment}
+  instant_payment={el.instant_payment}
 
-                                                                       status={el.status}
-                                                                       
-                                                                       functions=""/>)
+  status={el.status}
+
+  functions="" />)
 
 
 const _createInputRow = (index, copy) => [
-  <InvoiceInputRow  key={index}
-       copy={copy}
-       autoFocusIndex={`${index}`}
-       description={`rows[${index}][description]`}
-       startDate={`rows[${index}][start_date]`}
-       endDate={`rows[${index}][end_date]`}
-       quantity={`rows[${index}][quantity]`}
-       unit={`rows[${index}][unit]`}
-       quantityPrice={`rows[${index}][quantity_price]`}
-       vatPercent={`rows[${index}][vat_percent]`}
-       vatPercentDescription={`rows[${index}][vat_percent_description]`}
-       sumTaxFree={`rows[${index}][sum_tax_free]`}
-       vat={`rows[${index}][vat]`}
-       sumWithVAT={`rows[${index}][sum_with_vat]`}
-       selectedStartDate={new Date('1900-01-01')}
-       selectedEndDate={new Date('3000-01-01')}/>
+  <InvoiceInputRow key={index}
+    copy={copy}
+    autoFocusIndex={`${index}`}
+    description={`rows[${index}][description]`}
+    startDate={`rows[${index}][start_date]`}
+    endDate={`rows[${index}][end_date]`}
+    quantity={`rows[${index}][quantity]`}
+    unit={`rows[${index}][unit]`}
+    quantityPrice={`rows[${index}][quantity_price]`}
+    vatPercent={`rows[${index}][vat_percent]`}
+    vatPercentDescription={`rows[${index}][vat_percent_description]`}
+    sumTaxFree={`rows[${index}][sum_tax_free]`}
+    vat={`rows[${index}][vat]`}
+    sumWithVAT={`rows[${index}][sum_with_vat]`}
+    selectedStartDate={new Date('1900-01-01')}
+    selectedEndDate={new Date('3000-01-01')} />
 ]
 
 export default invoiceReducer

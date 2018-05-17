@@ -6,16 +6,18 @@ import {
   SAVE_AND_SEND_INVOICE,
   COPY_INVOICE,
   REMOVE_INVOICE,
-  SAVE_INVOICE_DRAFT} from '../constants'
+  SAVE_INVOICE_DRAFT,
+  EDIT_INVOICE} from '../constants'
 import { getInvoicesSuccess,
          getInvoicesFailed,
          saveInvoiceSuccess,
          saveInvoiceFailed,
          emptyInvoiceRows,
          addInvoiceRow,
-         saveAndSendInvoice
+         saveAndSendInvoice,
+         getInvoiceByIdSuccess
 } from '../actions/index'
-import { apiPost, apiRequest, apiManualPost, apiManualRequest } from '../utils/request'
+import { apiRequest, apiManualPost, apiManualRequest } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 import DateTimeFormat from '../utils/DateTimeFormat'
 import { nestProperties } from '../utils/invoice.utils'
@@ -58,7 +60,7 @@ function* saveAndSendInvoiceSaga() {
     }    
 
     const body = JSON.parse(JSON.stringify({
-      ...formValues     
+      ...formValues
     }))
    
 
@@ -73,8 +75,8 @@ function* saveAndSendInvoiceSaga() {
       body.rows[i].sum_tax_free =  parseFloat(body.rows[i]['sum_tax_free'].replace(/,/g, '.').replace(/\s/g, '')).toString()     
       body.rows[i].sum_tax_vat = body.rows[i]['sum_tax_vat']
       body.rows[i].unit = body.rows[i]['unit']
-      body.rows[i].vat_percent = body.rows[i]['vat_percent']
-      body.rows[i].vat = body.rows[i]['vat']
+      body.rows[i].vat_percent = body.rows[i]['vat_percent'] 
+      body.rows[i].vat = parseFloat(body.rows[i].vat.replace(/,/g, '.').replace(/\s/g,''))
       body.rows[i].vat_percent_description = body.rows[i]['vat_percent_description']
       body.rows[i].start_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i]['start_date']))).split('.'))
       body.rows[i].end_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i]['end_date']))).split('.'))
@@ -115,17 +117,25 @@ function* saveInvoiceDraft() {
   yield put(saveAndSendInvoice())
 }
 
-function* removeInvoiceSaga({ id }) {
-  try {
-    //TODO: send request to backend to remove invoice
-    const url = `${API_SERVER}/invoices`
-    const body = JSON.stringify({ id: id,
-      user_info_uuid: (store.getState()).profile.uuid
+function* removeInvoiceSaga({ invoice_id }) {
+  try {    
+    const url = `${API_SERVER}/DeleteInvoice`
+    const body = JSON.stringify({ 
+      invoice_id: invoice_id
     })
-    yield call(apiPost, url, body, 'DELETE')
-  } catch (e) {
+    yield call(apiManualPost, url, body)
+  } catch (e) {}
+}
 
-  }
+function* editInvoiceSaga({ invoice_id }) {
+  try {   
+    const url = `${API_SERVER}/GetInvoiceByInvoiceID`
+    const body = JSON.stringify({
+      invoice_id: invoice_id
+    })
+    const result =  yield call(apiManualPost, url, body)
+    if(result.data) yield put(getInvoiceByIdSuccess(result.data))
+  } catch (e) {}
 }
 
 function* copyInvoiceSaga({ id }) {
@@ -183,4 +193,8 @@ export function* watchCopyInvoice() {
 
 export function* watchSaveInvoiceDraft() {
   yield takeEvery(SAVE_INVOICE_DRAFT, saveInvoiceDraft)
+}
+
+export function* watchEditInvoice() {
+  yield takeEvery(EDIT_INVOICE, editInvoiceSaga)
 }

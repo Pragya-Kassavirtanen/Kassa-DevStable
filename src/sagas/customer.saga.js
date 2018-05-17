@@ -6,10 +6,11 @@ import { NEW_CUSTOMER,
          API_SERVER,         
          REMOVE_CUSTOMER,
          UPDATE_CUSTOMER,
-         SAVE_CUSTOMER_UPDATE
+         SAVE_CUSTOMER_UPDATE,
+         ADD_NEW_CUSTOMER_INVOICE
         } from '../constants'
 
-import { getCustomersSuccess, getCustomerByIdSuccess } from '../actions/index'
+import { getCustomersSuccess, getCustomerByIdSuccess, addNewCustomerInvoiceSuccess } from '../actions/index'
 
 import { getFormValues } from 'redux-form'
 import store from '../store'
@@ -73,6 +74,18 @@ function* getCustomerByIdSaga( customer_id ) {
   }
 }
 
+function* getCustomerToAddInvoiceSaga( customer_id ) {
+  try {
+      const url = `${API_SERVER}/GetCustomersByCustomerID`
+      const body = JSON.stringify({ customer_id: customer_id.id })
+      const result = yield call(apiManualPost, url, body)
+
+      console.log('Inside getCustomerToAddInvoiceSaga:: ', result)
+
+      if(result.data) yield put(addNewCustomerInvoiceSuccess(result.data))
+
+  } catch (e) {}
+}
 
 function* saveCustomerUpdateSaga() {
   try {
@@ -129,4 +142,8 @@ export function* watchSaveCustomerSaga() {
 
 export function* watchRemoveCustomerSaga() {
   yield takeEvery(REMOVE_CUSTOMER, removeCustomerSaga)
+}
+
+export function* watchGetCustomerToAddInvoiceSaga() {
+  yield takeEvery(ADD_NEW_CUSTOMER_INVOICE, getCustomerToAddInvoiceSaga)
 }

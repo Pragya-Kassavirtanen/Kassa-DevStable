@@ -54,6 +54,7 @@ export default class RouteComponent extends React.Component {
           <Route path="/dashboard/callback" component={Callback}/>
           <Route path="/dashboard/main" component={isUserAuthenticated(Dashboard)} />
           <Route path="/dashboard/invoice" component={isUserAuthenticated(Invoice)}/>
+          <Route path="/dashboard/invoice/:customer_id" component={isUserAuthenticated(Invoice)}/>
           <Route path="/dashboard/invoice/review" components={isUserAuthenticated(ReviewInvoice)}/>
           <Route path="/dashboard/salary" component={isUserAuthenticated(Salary)}/>
           <Route path="/dashboard/customer" components={isUserAuthenticated(Customer)}/>

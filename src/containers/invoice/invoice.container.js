@@ -11,7 +11,9 @@ import {
   getInvoicesStart,
   onInvoiceReview,
   invoicePageChange,
-  changeInvoiceBillingDate
+  changeInvoiceBillingDate,
+  editInvoice,
+  getInvoiceByIdSuccess
 } from '../../actions'
 import DateTimeFormat from '../../utils/DateTimeFormat'
 import {
@@ -161,7 +163,9 @@ const mapDispatchToProps = (dispatch) => {
     onInvoiceReview: () => dispatch(onInvoiceReview()),
     invoicePageChange: selected => dispatch(invoicePageChange(selected)),
     changeInvoiceBillingDate: date => dispatch(changeInvoiceBillingDate(date)),
-    selectInvoiceCustomer: customer => Object.keys(customer).forEach(key => dispatch(change('invoice', key, customer[key])))
+    selectInvoiceCustomer: customer => Object.keys(customer).forEach(key => dispatch(change('invoice', key, customer[key]))),
+    editInvoice: invoice_id => dispatch(editInvoice(invoice_id)),
+    getInvoiceByIdSuccess: result => dispatch(getInvoiceByIdSuccess(result))
   }
 }
 

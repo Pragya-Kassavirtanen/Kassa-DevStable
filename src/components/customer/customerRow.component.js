@@ -2,7 +2,7 @@ import React from 'react'
 import { TableRow, TableRowColumn } from 'material-ui'
 import { Link } from 'react-router'
 import store from '../../store'
-import { removeCustomer, updateCustomer, addInvoiceRow } from '../../actions/index'
+import { removeCustomer, updateCustomer, addNewCustomerInvoice } from '../../actions/index'
 
 import FontAwesome from 'react-fontawesome'
 
@@ -41,10 +41,10 @@ const CustomerRow = ({
             <FontAwesome name="window-close" />
           </p>
         </Link>
-        <Link>
+        <Link to={`/dashboard/invoice/${customer_id}`}>
           <p
             style={{ marginLeft: '10px' }}
-            onClick={() => { store.dispatch(addInvoiceRow( customer_id )) }}>
+            onClick={() => { store.dispatch(addNewCustomerInvoice( customer_id )) }}>
             <FontAwesome name="plus" />
           </p>
         </Link>

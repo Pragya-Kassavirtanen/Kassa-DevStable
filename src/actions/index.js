@@ -6,6 +6,8 @@ import {
   ADD_INVOICE_ROW,
   REMOVE_INVOICE_ROW,
   REMOVE_INVOICE,
+  EDIT_INVOICE,
+  GET_INVOICE_BY_ID_SUCCESS,
   COPY_INVOICE,
   GET_INVOICES_SUCCESS,
   GET_INVOICES_START,
@@ -38,6 +40,8 @@ import {
   GET_CUSTOMER_BY_ID_SUCCESS,
   SAVE_CUSTOMER_UPDATE,
   CANCEL_CUSTOMER_UPDATE,
+  ADD_NEW_CUSTOMER_INVOICE,
+  ADD_NEW_CUSTOMER_INVOICE_SUCCESS,
 
   GET_CUSTOMERS_START,
   GET_CUSTOMERS_SUCCESS,
@@ -139,8 +143,10 @@ export const getInvoicesFailed = error => ({ type: GET_INVOICES_FAILED, error })
 export const saveInvoiceSuccess = result => ({ type: SAVE_INVOICE_SUCCESS, result})
 export const saveInvoiceFailed = error => ({ type: SAVE_INVOICE_FAILED, error})
 export const closeInvoiceReviewSnackBar = () => ({type: CLOSE_INVOICE_REVIEW_SNACKBAR})
-export const removeInvoice = id => ({type: REMOVE_INVOICE, id})
-export const copyInvoice = id => ({type: COPY_INVOICE, id})
+export const removeInvoice = invoice_id => ({type: REMOVE_INVOICE, invoice_id})
+export const copyInvoice = invoice_id => ({type: COPY_INVOICE, invoice_id})
+export const editInvoice = invoice_id => ({type: EDIT_INVOICE, invoice_id})
+export const getInvoiceByIdSuccess = result => ({type: GET_INVOICE_BY_ID_SUCCESS, result})
 export const copyInvoiceSuccess = result => ({type: COPY_INVOICE_SUCCESS, result})
 export const invoicePageChange = selected => ({type: INVOICE_PAGE_CHANGE, selected})
 export const emptyInvoiceRows = () => ({type: EMPTY_INVOICE_ROWS})
@@ -181,6 +187,8 @@ export const updateCustomer = id => ({type: UPDATE_CUSTOMER, id})
 export const getCustomerByIdSuccess = (result) => ({type: GET_CUSTOMER_BY_ID_SUCCESS, result})
 export const saveCustomerUpdate = id => ({type: SAVE_CUSTOMER_UPDATE, id})
 export const cancelCustomerUpdate = id => ({type: CANCEL_CUSTOMER_UPDATE, id})
+export const addNewCustomerInvoice = id => ({type: ADD_NEW_CUSTOMER_INVOICE, id})
+export const addNewCustomerInvoiceSuccess = result => ({type: ADD_NEW_CUSTOMER_INVOICE_SUCCESS, result})
 
 export const getCustomersStart = () => ({type: GET_CUSTOMERS_START})
 export const getCustomersSuccess = (result) => ({type: GET_CUSTOMERS_SUCCESS, result})

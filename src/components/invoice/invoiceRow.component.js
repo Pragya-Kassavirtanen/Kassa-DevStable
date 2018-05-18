@@ -5,8 +5,8 @@ import store from '../../store'
 import {
   removeInvoice,
   copyInvoice,
-  saveAndSendInvoice
-  //editInvoice
+  saveAndSendInvoice,
+  editInvoice
 } from '../../actions/'
 
 import FontAwesome from 'react-fontawesome'
@@ -78,8 +78,7 @@ const actionsByState = (status, invoice_id) =>
       <p
         style={{ marginLeft: '10px' }}
         onClick={() => {
-          //store.dispatch(editInvoice(invoice_id))
-          store.dispatch(copyInvoice(invoice_id))
+          store.dispatch(editInvoice(invoice_id))      
         }}
       >
         <FontAwesome name="pencil" />

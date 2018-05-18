@@ -13,7 +13,7 @@ import { getInvoicesSuccess,
          saveInvoiceSuccess,
          saveInvoiceFailed,
          emptyInvoiceRows,
-         addInvoiceRow,
+         //addInvoiceRow,
          saveAndSendInvoice,
          getInvoiceByIdSuccess
 } from '../actions/index'
@@ -82,7 +82,7 @@ function* saveAndSendInvoiceSaga() {
       body.rows[i].end_date = formatFiToISO((new DateTimeFormat('fi', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(new Date(body.rows[i]['end_date']))).split('.'))
       
       bodyRows[i] = body.rows[i]
-    }    
+    }
     
     body.rows = bodyRows      
 
@@ -146,7 +146,7 @@ function* copyInvoiceSaga({ invoice_id }) {
     }) 
 
      //api calls for invoice data
-     const invoiceResult =  yield call(apiManualPost, invoiceUrl, body)   
+     const result =  yield call(apiManualPost, invoiceUrl, body)   
 
 /*     let invoiceResult = {
       'customer_id':17,
@@ -183,9 +183,18 @@ function* copyInvoiceSaga({ invoice_id }) {
       'status':1	 
     } */    
     
-    console.log('Inside copyInvoiceSaga:: ',invoiceResult)
+    console.log('Inside copyInvoiceSaga:: ',JSON.parse(result.data))
+ 
+    const invoiceResult = JSON.parse(result.data)
+    console.log('Value:: ', invoiceResult[0])    
+
+    const customerInfoKeys = Object.keys(invoiceResult[0]).filter(key => key !== 'Invoice')
+    console.log('customerInfoKeys::  ',customerInfoKeys)
+
+    const invoiceList = Object.keys(invoiceResult[0].Invoice)
+    console.log('invoiceList::  ',invoiceList)
     
-    const invoiceKeys = Object.keys(invoiceResult).filter(key => key !== 'rows')
+/*     const invoiceKeys = Object.keys(invoiceResult).filter(key => key !== 'rows')
     console.log('invoiceKeys:: ', invoiceKeys)
 
     //to remove ghost elements in rowResult
@@ -211,7 +220,7 @@ function* copyInvoiceSaga({ invoice_id }) {
       yield put(change('invoice', `rows.${i}.quantity_price`, JSON.stringify(invoiceResult.rows.slice(0, occurences)[i].quantity_price)))
       yield put(change('invoice', `rows.${i}.unit`, invoiceResult.rows.slice(0, occurences)[i].unit))
       yield put(change('invoice', `rows.${i}.vat_percent`, invoiceResult.rows.slice(0, occurences)[i].vat_percent))
-    }
+    } */
   } catch(e) {
     console.warn(e)
   }

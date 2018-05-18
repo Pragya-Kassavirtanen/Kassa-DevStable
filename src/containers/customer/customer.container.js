@@ -24,7 +24,7 @@ let CustomerContainer = reduxForm({
     country: 'Suomi',
     delivery_method: ''
   },
-  enableReinitialize : true,
+ // enableReinitialize : true,
   validate
 })(CustomerComponent)
 
@@ -37,7 +37,7 @@ const mapStateToProps = state => {
       ? Math.ceil(state.customer.customers.length / 10)
       : 0,
     isEdit: state.customer.isEdit,    
-    initialValues: state.customer.customerEdit,
+   // initialValues: state.customer.customerEdit,
     customer_id: state.customer.customerEdit.customer_id,   
     state
   }

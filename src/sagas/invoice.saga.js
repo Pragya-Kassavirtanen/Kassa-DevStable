@@ -17,7 +17,7 @@ import { getInvoicesSuccess,
          saveAndSendInvoice,
          getInvoiceByIdSuccess
 } from '../actions/index'
-import { apiRequest, apiManualPost, apiManualRequest } from '../utils/request'
+import { apiManualPost, apiManualRequest } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 import DateTimeFormat from '../utils/DateTimeFormat'
 import { nestProperties } from '../utils/invoice.utils'
@@ -138,37 +138,80 @@ function* editInvoiceSaga({ invoice_id }) {
   } catch (e) {}
 }
 
-function* copyInvoiceSaga({ id }) {
+function* copyInvoiceSaga({ invoice_id }) {
   try {
-    const uuid = (store.getState()).profile.uuid
-    const invoiceUrl = `${API_SERVER}/users/${uuid}/invoices/${id}`
-    //api calls for invoice data
-    const invoiceResult = yield call(apiRequest, invoiceUrl)
-    const invoiceKeys = Object.keys(invoiceResult.data).filter(key => key !== 'rows')
+    const invoiceUrl = `${API_SERVER}/CopyInvoiceByInvoiceID`
+     const body = JSON.stringify({
+      invoice_id: invoice_id
+    }) 
+
+     //api calls for invoice data
+     const invoiceResult =  yield call(apiManualPost, invoiceUrl, body)   
+
+/*     let invoiceResult = {
+      'customer_id':17,
+    'country':'Saksa',
+    'company_name':'jayapradha oy',
+    'business_id':'4523478',
+    'person_to_contact':'dfg',
+     'person_to_contact_email':'jaya@sdfsdg.com',
+     'delivery_address':'eryery',
+     'zip_code':'02100',
+     'city':'drty',
+     'web_invoice':'fh',
+     'delivery_method':'Sähköposti',
+      'rows': [{
+      'invoice_item_id':1,
+      'description':'Inv1',
+      'start_date':'2018-05-18',
+      'end_date':'2018-05-31',
+      'quantity':2.00,
+      'unit':'kpl',
+      'quantity_price':1000.00,
+      'vat':280.00,
+      'vat_percent':14,
+      'sum_tax_free':2000.00
+    }],
+      'invoice_id':43,
+       'invoiceDescription':'hfh',
+       'invoice_reference':'4456456',
+      'billing_date':'2018-05-18',
+      'due_date':'2018-06-01',
+      'overdue':14,
+      'total_sum':3270.00,
+      'instant_payment':true,
+      'status':1	 
+    } */    
+    
+    console.log('Inside copyInvoiceSaga:: ',invoiceResult)
+    
+    const invoiceKeys = Object.keys(invoiceResult).filter(key => key !== 'rows')
+    console.log('invoiceKeys:: ', invoiceKeys)
 
     //to remove ghost elements in rowResult
-    const occurences = invoiceResult.data.rows.filter(el => el.id).length
+    const occurences = invoiceResult.rows.filter(el => el.invoice_item_id).length
+    console.log('occurences:: ',occurences)
 
     //dispatch invoice datas to redux forms
     for(let key of invoiceKeys) {
-      yield put(change('invoice', key, invoiceResult.data[key]))
+      console.log('invoiceResult[key]:: ', invoiceResult[key])
+      yield put(change('invoice', key, invoiceResult[key]))
     }
     yield put(change('invoice', 'status', 1))
 
     yield put(emptyInvoiceRows())
     //dispatch invoice rows to redux form
-    const l = invoiceResult.data.rows.slice(0, occurences).length
+    const l = invoiceResult.rows.slice(0, occurences).length
     for (let i = 0; i < l; i++) {
       yield put(addInvoiceRow(true))
-      yield put(change('invoice', `rows.${i}.description${i}`, invoiceResult.data.rows.slice(0, occurences)[i].description))
-      yield put(change('invoice', `rows.${i}.end_date${i}`, new Date(invoiceResult.data.rows.slice(0, occurences)[i].end_date)))
-      yield put(change('invoice', `rows.${i}.start_date${i}`, new Date(invoiceResult.data.rows.slice(0, occurences)[i].start_date)))
-      yield put(change('invoice', `rows.${i}.quantity${i}`, JSON.stringify(invoiceResult.data.rows.slice(0, occurences)[i].quantity)))
-      yield put(change('invoice', `rows.${i}.quantity_price${i}`, JSON.stringify(invoiceResult.data.rows.slice(0, occurences)[i].quantity_price)))
-      yield put(change('invoice', `rows.${i}.unit${i}`, invoiceResult.data.rows.slice(0, occurences)[i].unit))
-      yield put(change('invoice', `rows.${i}.vat_percent${i}`, invoiceResult.data.rows.slice(0, occurences)[i].vat_percent))
+      yield put(change('invoice', `rows.${i}.description`, invoiceResult.rows.slice(0, occurences)[i].description))
+      yield put(change('invoice', `rows.${i}.end_date`, new Date(invoiceResult.rows.slice(0, occurences)[i].end_date)))
+      yield put(change('invoice', `rows.${i}.start_date`, new Date(invoiceResult.rows.slice(0, occurences)[i].start_date)))
+      yield put(change('invoice', `rows.${i}.quantity`, JSON.stringify(invoiceResult.rows.slice(0, occurences)[i].quantity)))
+      yield put(change('invoice', `rows.${i}.quantity_price`, JSON.stringify(invoiceResult.rows.slice(0, occurences)[i].quantity_price)))
+      yield put(change('invoice', `rows.${i}.unit`, invoiceResult.rows.slice(0, occurences)[i].unit))
+      yield put(change('invoice', `rows.${i}.vat_percent`, invoiceResult.rows.slice(0, occurences)[i].vat_percent))
     }
-
   } catch(e) {
     console.warn(e)
   }

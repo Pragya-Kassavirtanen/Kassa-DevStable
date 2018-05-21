@@ -17,7 +17,8 @@ import {
   emptyInvoiceRows,
   addInvoiceRow,
   saveAndSendInvoice,
-  getInvoiceByIdSuccess
+  getInvoiceByIdSuccess,
+  copyInvoiceSuccess
 } from '../actions/index'
 import { apiManualPost, apiManualRequest } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
@@ -137,6 +138,41 @@ function* editInvoiceSaga({ invoice_id }) {
     })
     const result = yield call(apiManualPost, url, body)
     if (result.data) yield put(getInvoiceByIdSuccess(result.data))
+
+    const invoiceResult = JSON.parse(result.data)    
+
+    const customerInfoKeys = Object.keys(invoiceResult[0]).filter(key => key !== 'Invoice')    
+
+    //dispatch customer data to redux form
+    for (let key of customerInfoKeys) {     
+      yield put(change('invoice', key, invoiceResult[0][key]))
+    }
+
+    const invoiceInfoKeys = Object.keys(invoiceResult[0].Invoice[0]).filter(key => key !== 'rows')   
+
+    //dispatch invoice data to redux form
+    for (let key of invoiceInfoKeys) {     
+      yield put(change('invoice', key, invoiceResult[0].Invoice[0][key]))
+    }
+
+    yield put(change('invoice', 'status', 1))
+
+    yield put(emptyInvoiceRows())       
+
+    const occurences = invoiceResult[0].Invoice[0].rows.filter(el => el.invoice_item_id).length
+
+    //dispatch invoice rows to redux form
+    const l = invoiceResult[0].Invoice[0].rows.slice(0, occurences).length  
+
+    for (let i = 0; i < l; i++) {
+      yield put(addInvoiceRow(true))
+      yield put(change('invoice', `rows.${i}.description`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].description))
+      yield put(change('invoice', `rows.${i}.end_date`, new Date(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].end_date)))
+      yield put(change('invoice', `rows.${i}.start_date`, new Date(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].start_date)))
+      yield put(change('invoice', `rows.${i}.quantity`, JSON.stringify(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].quantity)))
+      yield put(change('invoice', `rows.${i}.quantity_price`, JSON.stringify(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].quantity_price)))
+      yield put(change('invoice', `rows.${i}.unit`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].unit))
+      yield put(change('invoice', `rows.${i}.vat_percent`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].vat_percent))}
   } catch (e) { }
 }
 
@@ -148,43 +184,35 @@ function* copyInvoiceSaga({ invoice_id }) {
     })
 
     //api calls for invoice data
-    const result = yield call(apiManualPost, invoiceUrl, body)
-    console.log('Inside copyInvoiceSaga:: ', JSON.parse(result.data))
+    const result = yield call(apiManualPost, invoiceUrl, body)   
 
-    const invoiceResult = JSON.parse(result.data)
-    console.log('Value:: ', invoiceResult[0])
+    if (result.data) yield put(copyInvoiceSuccess(result.data))
 
-    const customerInfoKeys = Object.keys(invoiceResult[0]).filter(key => key !== 'Invoice')
-    console.log('customerInfoKeys::  ', customerInfoKeys)
+    const invoiceResult = JSON.parse(result.data)   
+
+    const customerInfoKeys = Object.keys(invoiceResult[0]).filter(key => key !== 'Invoice')    
 
     //dispatch customer data to redux form
-    for (let key of customerInfoKeys) {
-      console.log('key::   ', key)
-      console.log('invoiceResult[key]:: ', invoiceResult[0][key])
+    for (let key of customerInfoKeys) {    
       yield put(change('invoice', key, invoiceResult[0][key]))
     }
 
     const invoiceInfoKeys = Object.keys(invoiceResult[0].Invoice[0]).filter(key => key !== 'rows')
-    console.log('invoiceInfoKeys::  ', invoiceInfoKeys)
-
+   
     //dispatch invoice data to redux form
-    for (let key of invoiceInfoKeys) {
-      console.log('key::   ', key)
-      console.log('invoiceResult[key]:: ', invoiceResult[0].Invoice[0][key])
+    for (let key of invoiceInfoKeys) {     
       yield put(change('invoice', key, invoiceResult[0].Invoice[0][key]))
     }
 
     yield put(change('invoice', 'status', 1))
 
-    yield put(emptyInvoiceRows())
+    yield put(emptyInvoiceRows())       
 
-    const occurences = invoiceResult[0].Invoice[0].rows.filter(el => el.invoice_item_id).length
-    console.log('occurences:: ', occurences)
+    const occurences = invoiceResult[0].Invoice[0].rows.filter(el => el.invoice_item_id).length  
 
 
     //dispatch invoice rows to redux form
-    const l = invoiceResult[0].Invoice[0].rows.slice(0, occurences).length
-    console.log('Invoice Rows Counter: ',l)
+    const l = invoiceResult[0].Invoice[0].rows.slice(0, occurences).length   
 
     for (let i = 0; i < l; i++) {
       yield put(addInvoiceRow(true))

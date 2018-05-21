@@ -141,7 +141,8 @@ const mapStateToProps = (state) => {
     alvItems,
     alvPercentageItems,
     titleItems,
-    invoicePages: Math.ceil(state.invoice.invoices.length / 10)
+    invoicePages: Math.ceil(state.invoice.invoices.length / 10),
+    isEdit: state.invoice.isEdit
   }
 }
 

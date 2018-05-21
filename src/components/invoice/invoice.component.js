@@ -64,17 +64,13 @@ const NewInvoice = ({
   changeInvoiceBillingDate,
   customers,
   selectInvoiceCustomer,
-//  isEdit,
+  isEdit,
   dispatch
 }) =>
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
       <div className="row">
         <div className="dashboard-content-header">
-{/*           {isEdit ? (
-            <h1>MUOKKAA LASKUA</h1>) : (
-              <h1>LUOMASI LASKUT</h1>
-            )} */}
           <h1>LUOMASI LASKUT</h1>
         </div>
       </div>
@@ -97,16 +93,19 @@ const NewInvoice = ({
       </div>
       <div className="row">
         <div className="dashboard-content-header">
-          <h1>LUO UUSI LASKU</h1>
+          {isEdit ? (
+            <h1>MUOKKAA LASKUA</h1>) : (
+              <h1>LUO UUSI LASKU</h1>
+            )}
           <Field name="select-invoice-customer"
             className="pull-right dashboard-content-select-customer"
             component={SelectField}
             floatingLabelText="Asiakas"
+            disabled={isEdit}
             style={{ 'marginTop': '25px', 'marginRight': '20px' }}
             maxHeight={200}
             onChange={(e, i) => i >= 0 ? selectInvoiceCustomer(customers.filter(el => (i === el.customer_id)).pop()) : dispatch(reset('invoice'))}>
             {_createCustomerMenuItems(customers)}
-            {/* disabled={ isEdit } */}
           </Field>
         </div>
       </div>

@@ -110,6 +110,7 @@ export const convertIntToState = (state) => {
 export const nestProperties = (obj, property, nestedProperties) => {
   var newObj = {}
   var nestedObj = {}
+  var nestedArr = []
 
   for (var i = 0; i < nestedProperties.length; ++i)
   {
@@ -127,7 +128,9 @@ export const nestProperties = (obj, property, nestedProperties) => {
     }
   }
 
-  newObj[property] = nestedObj
+  nestedArr[0] = nestedObj
+
+  newObj[property] = nestedArr
 
   return newObj
 }

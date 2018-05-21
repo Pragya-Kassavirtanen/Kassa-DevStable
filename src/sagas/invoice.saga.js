@@ -45,61 +45,86 @@ function* getInvoiceSaga() {
 }
 
 function* saveAndSendInvoiceSaga() {
-
   try {
     const url = `${API_SERVER}/AddInvoice`
     const formValues = getFormValues('invoiceReview')(store.getState())
 
-    formValues.due_date = formatFiToISO((formValues.due_date).split('.'))
-    formValues.billing_date = formatFiToISO((formValues.billing_date).split('.'))
+    formValues.due_date = formatFiToISO(formValues.due_date.split('.'))
+    formValues.billing_date = formatFiToISO(formValues.billing_date.split('.'))
 
     const rows = formValues.rows
 
-    rows[Symbol.iterator] = function* () {
+    rows[Symbol.iterator] = function*() {
       const keys = Reflect.ownKeys(this)
       for (const key of keys) {
         yield this[key]
       }
     }
 
-    const body = JSON.parse(JSON.stringify({
-      ...formValues
-    }))
-
+    const body = JSON.parse(
+      JSON.stringify({
+        ...formValues
+      })
+    )
 
     body.instant_payment = !!formValues.instant_payment
 
     let bodyRows = []
-    const l = Array.isArray(body.rows) ? body.rows.length : Object.keys(body.rows).length
+    const l = Array.isArray(body.rows)
+      ? body.rows.length
+      : Object.keys(body.rows).length
     for (let i = 0; i < l; i++) {
       body.rows[i].description = body.rows[i]['description']
       body.rows[i].quantity = body.rows[i]['quantity']
-      body.rows[i].quantity_price = parseFloat(body.rows[i]['quantity_price'].replace(/,/g, '.')).toString()
-      body.rows[i].sum_tax_free = parseFloat(body.rows[i]['sum_tax_free'].replace(/,/g, '.').replace(/\s/g, '')).toString()
+      body.rows[i].quantity_price = parseFloat(
+        body.rows[i]['quantity_price'].replace(/,/g, '.')
+      ).toString()
+      body.rows[i].sum_tax_free = parseFloat(
+        body.rows[i]['sum_tax_free'].replace(/,/g, '.').replace(/\s/g, '')
+      ).toString()
       body.rows[i].sum_tax_vat = body.rows[i]['sum_tax_vat']
       body.rows[i].unit = body.rows[i]['unit']
       body.rows[i].vat_percent = body.rows[i]['vat_percent']
-      body.rows[i].vat = parseFloat(body.rows[i].vat.replace(/,/g, '.').replace(/\s/g, ''))
-      body.rows[i].vat_percent_description = body.rows[i]['vat_percent_description']
-      body.rows[i].start_date = formatFiToISO((new DateTimeFormat('fi', { day: 'numeric', month: 'numeric', year: 'numeric' }).format(new Date(body.rows[i]['start_date']))).split('.'))
-      body.rows[i].end_date = formatFiToISO((new DateTimeFormat('fi', { day: 'numeric', month: 'numeric', year: 'numeric' }).format(new Date(body.rows[i]['end_date']))).split('.'))
+      body.rows[i].vat = parseFloat(
+        body.rows[i].vat.replace(/,/g, '.').replace(/\s/g, '')
+      )
+      body.rows[i].vat_percent_description =
+        body.rows[i]['vat_percent_description']
+      body.rows[i].start_date = formatFiToISO(
+        new DateTimeFormat('fi', {
+          day: 'numeric',
+          month: 'numeric',
+          year: 'numeric'
+        })
+          .format(new Date(body.rows[i]['start_date']))
+          .split('.')
+      )
+      body.rows[i].end_date = formatFiToISO(
+        new DateTimeFormat('fi', {
+          day: 'numeric',
+          month: 'numeric',
+          year: 'numeric'
+        })
+          .format(new Date(body.rows[i]['end_date']))
+          .split('.')
+      )
 
       bodyRows[i] = body.rows[i]
     }
 
     body.rows = bodyRows
 
-    const nestedBody = nestProperties(body, 'customer', [
-      'country',
-      'company_name',
-      'business_id',
-      'person_to_contact',
-      'person_to_contact_email',
-      'delivery_address',
-      'zip_code',
-      'city',
-      'web_invoice',
-      'delivery_method'
+    const nestedBody = nestProperties(body, 'Invoice', [
+      'description',
+      'job_title',
+      'invoice_reference',
+      'billing_date',
+      'due_date',
+      'overdue',
+      'total_sum',
+      'instant_payment',
+      'status',
+      'rows'
     ])
 
     // FIXME: prevent success happening when error occures
@@ -127,7 +152,7 @@ function* removeInvoiceSaga({ invoice_id }) {
       invoice_id: invoice_id
     })
     yield call(apiManualPost, url, body)
-  } catch (e) { }
+  } catch (e) {}
 }
 
 function* editInvoiceSaga({ invoice_id }) {
@@ -139,41 +164,99 @@ function* editInvoiceSaga({ invoice_id }) {
     const result = yield call(apiManualPost, url, body)
     if (result.data) yield put(getInvoiceByIdSuccess(result.data))
 
-    const invoiceResult = JSON.parse(result.data)    
+    const invoiceResult = JSON.parse(result.data)
 
-    const customerInfoKeys = Object.keys(invoiceResult[0]).filter(key => key !== 'Invoice')    
+    const customerInfoKeys = Object.keys(invoiceResult[0]).filter(
+      key => key !== 'Invoice'
+    )
 
     //dispatch customer data to redux form
-    for (let key of customerInfoKeys) {     
+    for (let key of customerInfoKeys) {
       yield put(change('invoice', key, invoiceResult[0][key]))
     }
 
-    const invoiceInfoKeys = Object.keys(invoiceResult[0].Invoice[0]).filter(key => key !== 'rows')   
+    const invoiceInfoKeys = Object.keys(invoiceResult[0].Invoice[0]).filter(
+      key => key !== 'rows'
+    )
 
     //dispatch invoice data to redux form
-    for (let key of invoiceInfoKeys) {     
+    for (let key of invoiceInfoKeys) {
       yield put(change('invoice', key, invoiceResult[0].Invoice[0][key]))
     }
 
     yield put(change('invoice', 'status', 1))
 
-    yield put(emptyInvoiceRows())       
+    yield put(emptyInvoiceRows())
 
-    const occurences = invoiceResult[0].Invoice[0].rows.filter(el => el.invoice_item_id).length
+    const occurences = invoiceResult[0].Invoice[0].rows.filter(
+      el => el.invoice_item_id
+    ).length
 
     //dispatch invoice rows to redux form
-    const l = invoiceResult[0].Invoice[0].rows.slice(0, occurences).length  
+    const l = invoiceResult[0].Invoice[0].rows.slice(0, occurences).length
 
     for (let i = 0; i < l; i++) {
       yield put(addInvoiceRow(true))
-      yield put(change('invoice', `rows.${i}.description`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].description))
-      yield put(change('invoice', `rows.${i}.end_date`, new Date(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].end_date)))
-      yield put(change('invoice', `rows.${i}.start_date`, new Date(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].start_date)))
-      yield put(change('invoice', `rows.${i}.quantity`, JSON.stringify(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].quantity)))
-      yield put(change('invoice', `rows.${i}.quantity_price`, JSON.stringify(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].quantity_price)))
-      yield put(change('invoice', `rows.${i}.unit`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].unit))
-      yield put(change('invoice', `rows.${i}.vat_percent`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].vat_percent))}
-  } catch (e) { }
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.description`,
+          invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].description
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.end_date`,
+          new Date(
+            invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].end_date
+          )
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.start_date`,
+          new Date(
+            invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].start_date
+          )
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.quantity`,
+          JSON.stringify(
+            invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].quantity
+          )
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.quantity_price`,
+          JSON.stringify(
+            invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i]
+              .quantity_price
+          )
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.unit`,
+          invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].unit
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.vat_percent`,
+          invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].vat_percent
+        )
+      )
+    }
+  } catch (e) {}
 }
 
 function* copyInvoiceSaga({ invoice_id }) {
@@ -184,45 +267,101 @@ function* copyInvoiceSaga({ invoice_id }) {
     })
 
     //api calls for invoice data
-    const result = yield call(apiManualPost, invoiceUrl, body)   
+    const result = yield call(apiManualPost, invoiceUrl, body)
 
     if (result.data) yield put(copyInvoiceSuccess(result.data))
 
-    const invoiceResult = JSON.parse(result.data)   
+    const invoiceResult = JSON.parse(result.data)
 
-    const customerInfoKeys = Object.keys(invoiceResult[0]).filter(key => key !== 'Invoice')    
+    const customerInfoKeys = Object.keys(invoiceResult[0]).filter(
+      key => key !== 'Invoice'
+    )
 
     //dispatch customer data to redux form
-    for (let key of customerInfoKeys) {    
+    for (let key of customerInfoKeys) {
       yield put(change('invoice', key, invoiceResult[0][key]))
     }
 
-    const invoiceInfoKeys = Object.keys(invoiceResult[0].Invoice[0]).filter(key => key !== 'rows')
-   
+    const invoiceInfoKeys = Object.keys(invoiceResult[0].Invoice[0]).filter(
+      key => key !== 'rows'
+    )
+
     //dispatch invoice data to redux form
-    for (let key of invoiceInfoKeys) {     
+    for (let key of invoiceInfoKeys) {
       yield put(change('invoice', key, invoiceResult[0].Invoice[0][key]))
     }
 
     yield put(change('invoice', 'status', 1))
 
-    yield put(emptyInvoiceRows())       
+    yield put(emptyInvoiceRows())
 
-    const occurences = invoiceResult[0].Invoice[0].rows.filter(el => el.invoice_item_id).length  
-
+    const occurences = invoiceResult[0].Invoice[0].rows.filter(
+      el => el.invoice_item_id
+    ).length
 
     //dispatch invoice rows to redux form
-    const l = invoiceResult[0].Invoice[0].rows.slice(0, occurences).length   
+    const l = invoiceResult[0].Invoice[0].rows.slice(0, occurences).length
 
     for (let i = 0; i < l; i++) {
       yield put(addInvoiceRow(true))
-      yield put(change('invoice', `rows.${i}.description`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].description))
-      yield put(change('invoice', `rows.${i}.end_date`, new Date(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].end_date)))
-      yield put(change('invoice', `rows.${i}.start_date`, new Date(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].start_date)))
-      yield put(change('invoice', `rows.${i}.quantity`, JSON.stringify(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].quantity)))
-      yield put(change('invoice', `rows.${i}.quantity_price`, JSON.stringify(invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].quantity_price)))
-      yield put(change('invoice', `rows.${i}.unit`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].unit))
-      yield put(change('invoice', `rows.${i}.vat_percent`, invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].vat_percent))
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.description`,
+          invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].description
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.end_date`,
+          new Date(
+            invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].end_date
+          )
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.start_date`,
+          new Date(
+            invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].start_date
+          )
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.quantity`,
+          JSON.stringify(
+            invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].quantity
+          )
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.quantity_price`,
+          JSON.stringify(
+            invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i]
+              .quantity_price
+          )
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.unit`,
+          invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].unit
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.vat_percent`,
+          invoiceResult[0].Invoice[0].rows.slice(0, occurences)[i].vat_percent
+        )
+      )
     }
   } catch (e) {
     console.warn(e)

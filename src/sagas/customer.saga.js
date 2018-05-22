@@ -86,12 +86,16 @@ function* getCustomerToAddInvoiceSaga(customer_id) {
   try {
     const url = `${API_SERVER}/GetCustomersByCustomerID`
     const body = JSON.stringify({ customer_id: customer_id.id })
-    const result = yield call(apiManualPost, url, body)
-
-    console.log('Inside getCustomerToAddInvoiceSaga:: ', result)
+    const result = yield call(apiManualPost, url, body)   
 
     if (result.data) yield put(addNewCustomerInvoiceSuccess(result.data))
+    const customerInvoiceResult = result.data
+    const customerInvoiceKeys = Object.keys(customerInvoiceResult)
 
+    for (let key of customerInvoiceKeys) {
+      yield put(change('invoice', key, customerInvoiceResult[key]))
+    }
+    
   } catch (e) {
     console.warn(e)
   }

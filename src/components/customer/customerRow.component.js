@@ -41,7 +41,7 @@ const CustomerRow = ({
             <FontAwesome name="window-close" />
           </p>
         </Link>
-        <Link to={`/dashboard/invoice/${customer_id}`}>
+        <Link to="/dashboard/invoice">
           <p
             style={{ marginLeft: '10px' }}
             onClick={() => { store.dispatch(addNewCustomerInvoice( customer_id )) }}>

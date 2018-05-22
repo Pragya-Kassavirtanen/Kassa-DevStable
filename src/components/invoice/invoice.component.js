@@ -65,6 +65,7 @@ const NewInvoice = ({
   customers,
   selectInvoiceCustomer,
   isEdit,
+  noMenu,
   dispatch
 }) =>
   <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -101,7 +102,7 @@ const NewInvoice = ({
             className="pull-right dashboard-content-select-customer"
             component={SelectField}
             floatingLabelText="Asiakas"
-            disabled={isEdit}
+            disabled={ isEdit || noMenu }
             style={{ 'marginTop': '25px', 'marginRight': '20px' }}
             maxHeight={200}
             onChange={(e, i) => i >= 0 ? selectInvoiceCustomer(customers.filter(el => (i === el.customer_id)).pop()) : dispatch(reset('invoice'))}>

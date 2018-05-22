@@ -16,7 +16,8 @@ const customerReducer = (
     customers: [],
     selected: 0,
     customerEdit: [],
-    isEdit: false
+    isEdit: false,
+    noMenu: false
   },
   action
 ) => {
@@ -101,7 +102,8 @@ const customerReducer = (
         {},
         { ...state },
         {
-          customerEdit: action.result                                           
+          customerEdit: action.result,
+          noMenu: true                                   
         }
       )
 

@@ -1,24 +1,25 @@
 import { takeEvery, put, call } from 'redux-saga/effects'
-import { NEW_CUSTOMER,
-         GET_CUSTOMERS_START,
-         ADD_CUSTOMER_SUCCESS,
-         ADD_CUSTOMER_FAILED,
-         API_SERVER,         
-         REMOVE_CUSTOMER,
-         UPDATE_CUSTOMER,
-         SAVE_CUSTOMER_UPDATE,
-         ADD_NEW_CUSTOMER_INVOICE
-        } from '../constants'
+import {
+  NEW_CUSTOMER,
+  GET_CUSTOMERS_START,
+  ADD_CUSTOMER_SUCCESS,
+  ADD_CUSTOMER_FAILED,
+  API_SERVER,
+  REMOVE_CUSTOMER,
+  UPDATE_CUSTOMER,
+  SAVE_CUSTOMER_UPDATE,
+  ADD_NEW_CUSTOMER_INVOICE
+} from '../constants'
 
 import { getCustomersSuccess, getCustomerByIdSuccess, addNewCustomerInvoiceSuccess } from '../actions/index'
 
-import { getFormValues } from 'redux-form'
+import { getFormValues, change } from 'redux-form'
 import store from '../store'
 
 import { apiManualPost, apiManualRequest } from '../utils/request'
 
 function* newCustomerSaga() {
-  
+
   try {
 
     const url = `${API_SERVER}/CreateCustomer`
@@ -36,9 +37,9 @@ function* newCustomerSaga() {
       zip_code: formValues.zip_code,
       city: formValues.city,
       web_invoice: formValues.web_invoice
-    })   
+    })
 
-    yield call(apiManualPost, url, body) 
+    yield call(apiManualPost, url, body)
 
     yield put({ type: ADD_CUSTOMER_SUCCESS })
 
@@ -52,45 +53,54 @@ function* newCustomerSaga() {
 
 function* getCustomersSaga() {
   try {
-      const url = `${API_SERVER}/GetCustomers`
-      const result = yield apiManualRequest(url)     
-      if(result.data) yield put(getCustomersSuccess(result.data))    
+    const url = `${API_SERVER}/GetCustomers`
+    const result = yield apiManualRequest(url)
+    if (result.data) yield put(getCustomersSuccess(result.data))
   } catch (e) {
-    
+
   }
 }
 
 
-function* getCustomerByIdSaga( customer_id ) {
+function* getCustomerByIdSaga(customer_id) {
   try {
-      const url = `${API_SERVER}/GetCustomersByCustomerID`
-      const body = JSON.stringify({ customer_id: customer_id.id })
-      const result = yield call(apiManualPost, url, body)     
+    const url = `${API_SERVER}/GetCustomersByCustomerID`
+    const body = JSON.stringify({ customer_id: customer_id.id })
 
-      if(result.data) yield put(getCustomerByIdSuccess(result.data))
+    const result = yield call(apiManualPost, url, body)
+    if (result.data) yield put(getCustomerByIdSuccess(result.data))
 
+    const customerResult = result.data
+    const customerKeys = Object.keys(customerResult)
+
+    //dispatch customer data to redux form
+    for (let key of customerKeys) {
+      yield put(change('customer', key, customerResult[key]))
+    }
   } catch (e) {
-    
+    console.warn(e)
   }
 }
 
-function* getCustomerToAddInvoiceSaga( customer_id ) {
+function* getCustomerToAddInvoiceSaga(customer_id) {
   try {
-      const url = `${API_SERVER}/GetCustomersByCustomerID`
-      const body = JSON.stringify({ customer_id: customer_id.id })
-      const result = yield call(apiManualPost, url, body)
+    const url = `${API_SERVER}/GetCustomersByCustomerID`
+    const body = JSON.stringify({ customer_id: customer_id.id })
+    const result = yield call(apiManualPost, url, body)
 
-      console.log('Inside getCustomerToAddInvoiceSaga:: ', result)
+    console.log('Inside getCustomerToAddInvoiceSaga:: ', result)
 
-      if(result.data) yield put(addNewCustomerInvoiceSuccess(result.data))
+    if (result.data) yield put(addNewCustomerInvoiceSuccess(result.data))
 
-  } catch (e) {}
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 function* saveCustomerUpdateSaga() {
   try {
     const url = `${API_SERVER}/UpdateCustomer`
-    const formValues = getFormValues('customer')(store.getState())  
+    const formValues = getFormValues('customer')(store.getState())
 
     const body = JSON.stringify({
       customer_id: formValues.customer_id,
@@ -104,7 +114,7 @@ function* saveCustomerUpdateSaga() {
       zip_code: formValues.zip_code,
       city: formValues.city,
       web_invoice: formValues.web_invoice
-    })  
+    })
 
     yield call(apiManualPost, url, body)
   } catch (e) {
@@ -113,13 +123,13 @@ function* saveCustomerUpdateSaga() {
 }
 
 
-function* removeCustomerSaga( customer_id ) {
+function* removeCustomerSaga(customer_id) {
   try {
     const url = `${API_SERVER}/DeleteCustomer`
-    const body = JSON.stringify({ customer_id: customer_id.id })   
+    const body = JSON.stringify({ customer_id: customer_id.id })
     yield call(apiManualPost, url, body)
   } catch (e) {
-    
+
   }
 }
 

@@ -66,7 +66,8 @@ const mapDispatchToProps = (dispatch) => {
     dispatch,
     loadInvoiceReview: () => dispatch(loadInvoiceReview()),
     saveAndSendInvoice: () => dispatch(saveAndSendInvoice()),
-    saveInvoiceDraft: () => dispatch(saveInvoiceDraft()),
+    // saveInvoiceDraft: () => dispatch(saveInvoiceDraft()),
+    saveInvoiceDraft: (invoice_id) => dispatch(saveInvoiceDraft(invoice_id)),
     closeSnackbar: () => dispatch(closeInvoiceReviewSnackBar())
   }
 }

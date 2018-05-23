@@ -16,7 +16,7 @@ import {
   saveInvoiceFailed,
   emptyInvoiceRows,
   addInvoiceRow,
-  saveAndSendInvoice,
+  //saveAndSendInvoice,
   getInvoiceByIdSuccess,
   copyInvoiceSuccess
 } from '../actions/index'
@@ -139,10 +139,23 @@ function* saveAndSendInvoiceSaga() {
   }
 }
 
-function* saveInvoiceDraft() {
+/* function* saveInvoiceDraft() {
   yield put(change('invoiceReview', 'status', 0))
   yield put(change('invoice', 'status', 0))
   yield put(saveAndSendInvoice())
+} */
+
+function* saveInvoiceDraft({ invoice_id }) {
+  try {
+    const url = `${API_SERVER}/GenerateInvoicePDF`
+    const body = JSON.stringify({
+      invoice_id: invoice_id
+    })
+    const result = yield call(apiManualPost, url, body)   
+    console.log('Inside saveInvoiceDraft: ',result.data)
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 function* removeInvoiceSaga({ invoice_id }) {

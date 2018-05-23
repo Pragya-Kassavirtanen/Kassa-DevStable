@@ -5,7 +5,8 @@ import store from '../../store'
 import {
   removeInvoice,
   copyInvoice,
-  saveAndSendInvoice,
+  //saveAndSendInvoice,
+  saveInvoiceDraft,
   editInvoice
 } from '../../actions/'
 
@@ -39,7 +40,7 @@ const InvoiceRow = ({
           <p
             style={{ marginLeft: '10px' }}
             onClick={() => {
-              store.dispatch(saveAndSendInvoice(invoice_id))
+              store.dispatch(saveInvoiceDraft(invoice_id))
             }}
           >
             <FontAwesome name="telegram" />

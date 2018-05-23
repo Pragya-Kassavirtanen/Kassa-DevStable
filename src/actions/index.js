@@ -150,7 +150,8 @@ export const getInvoiceByIdSuccess = result => ({type: GET_INVOICE_BY_ID_SUCCESS
 export const copyInvoiceSuccess = result => ({type: COPY_INVOICE_SUCCESS, result})
 export const invoicePageChange = selected => ({type: INVOICE_PAGE_CHANGE, selected})
 export const emptyInvoiceRows = () => ({type: EMPTY_INVOICE_ROWS})
-export const saveInvoiceDraft = () => ({type: SAVE_INVOICE_DRAFT})
+// export const saveInvoiceDraft = () => ({type: SAVE_INVOICE_DRAFT})
+export const saveInvoiceDraft = invoice_id => ({type: SAVE_INVOICE_DRAFT, invoice_id})
 export const changeInvoiceBillingDate = date => ({type: CHANGE_INVOICE_BILLING_DATE, date})
 
 

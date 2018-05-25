@@ -3,6 +3,7 @@ import { getFormValues, reset, change } from 'redux-form'
 import {
   GET_INVOICES_START,
   API_SERVER,
+  API_PDF_SERVER,
   SAVE_AND_SEND_INVOICE,
   COPY_INVOICE,
   REMOVE_INVOICE,
@@ -19,8 +20,10 @@ import {
   //saveAndSendInvoice,
   getInvoiceByIdSuccess,
   copyInvoiceSuccess
+  //downloadPDFSuccess
 } from '../actions/index'
-import { apiManualPost, apiManualRequest } from '../utils/request'
+import { apiManualPost, apiManualRequest, apiBlobPost 
+} from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 import DateTimeFormat from '../utils/DateTimeFormat'
 import { nestProperties } from '../utils/invoice.utils'
@@ -145,14 +148,13 @@ function* saveAndSendInvoiceSaga() {
   yield put(saveAndSendInvoice())
 } */
 
-function* saveInvoiceDraft({ invoice_id }) {
+ function* saveInvoiceDraft({ invoice_id }) {  
   try {
-    const url = `${API_SERVER}/GenerateInvoicePDF`
+    const url = `${API_PDF_SERVER}/GenerateInvoicePDF`
     const body = JSON.stringify({
       invoice_id: invoice_id
     })
-    const result = yield call(apiManualPost, url, body)   
-    console.log('Inside saveInvoiceDraft: ',result.data)
+    yield call(apiBlobPost, url, body)
   } catch (e) {
     console.warn(e)
   }

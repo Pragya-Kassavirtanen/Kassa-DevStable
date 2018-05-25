@@ -52,6 +52,8 @@ export const ON_INVOICE_REVIEW = '@@invoice/ON_INVOICE_REVIEW'
 export const CLOSE_INVOICE_REVIEW_SNACKBAR = '@@invoice/CLOSE_INVOICE_REVIEW_SNACKBAR'
 export const EMPTY_INVOICE_ROWS = '@@invoice/EMPTY_INVOICE_ROWS'
 export const SAVE_INVOICE_DRAFT = '@@invoice/SAVE_INVOICE_DRAFT'
+export const DOWNLOAD_PDF_SUCCESS = '@@invoice/DOWNLOAD_PDF_SUCCESS'
+export const DOWNLOAD_PDF_FAILED = '@@invoice/DOWNLOAD_PDF_FAILED'
 
 export const GET_EXPENSE_START = '@@expense/GET_EXPENSE_START'
 export const GET_EXPENSE_SUCCESS = '@@expense/GET_EXPENSE_SUCCESS'
@@ -130,7 +132,7 @@ export const POST_SALARY = '@@salary/POST_SALARY'
 
 export const OPENID_SERVER = process.env.OPENID_SERVER
 
-
 export const API_SERVER = 'https://kvtmiddlelayer.azurewebsites.net/api'
+export const API_PDF_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
 export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'
 

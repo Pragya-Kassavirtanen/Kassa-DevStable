@@ -1,19 +1,21 @@
 import store from '../store'
 import { buffers, eventChannel, END } from 'redux-saga'
 
-
 /**
  * The request helper which reads the access_token from the redux state
  * and passes it in its HTTP request.
  *
- * @author Skylar Kong
+ * @author Pragya Gupta
  */
 
 const getAuthHeaders = () => {
   const headers = new Headers()
 
   headers.append('Accept', 'application/json')
-  headers.append('Authorization', `Bearer ${store.getState().oidc.user.access_token}`)
+  headers.append(
+    'Authorization',
+    `Bearer ${store.getState().oidc.user.access_token}`
+  )
 
   return headers
 }
@@ -21,15 +23,16 @@ const getAuthHeaders = () => {
 const getManualAuthHeaders = () => {
   const headers = new Headers()
 
-  headers.append('Accept', 'application/json')  
-  headers.append('Authorization', `Bearer ${store.getState().client.user.data[0].access_token}`)
+  headers.append('Accept', 'application/json')
+  headers.append(
+    'Authorization',
+    `Bearer ${store.getState().client.user.data[0].access_token}`
+  )
 
   return headers
 }
 
-
 export const apiRequest = (url, method = 'GET') => {
-
   const headers = getAuthHeaders()
   const options = {
     method,
@@ -43,7 +46,6 @@ export const apiRequest = (url, method = 'GET') => {
 }
 
 export const apiManualRequest = (url, method = 'GET') => {
-
   const headers = getManualAuthHeaders()
   const options = {
     method,
@@ -57,7 +59,6 @@ export const apiManualRequest = (url, method = 'GET') => {
 }
 
 export const registerPost = (url, body, method = 'POST') => {
-
   const headers = new Headers()
   headers.append('Content-Type', 'application/json')
 
@@ -70,11 +71,9 @@ export const registerPost = (url, body, method = 'POST') => {
     .then(res => res.json())
     .then(data => ({ data }))
     .catch(error => ({ error }))
-
 }
 
 export const apiPost = (url, body, method = 'POST') => {
-
   const headers = getAuthHeaders()
   headers.append('Content-Type', 'application/json')
 
@@ -90,7 +89,6 @@ export const apiPost = (url, body, method = 'POST') => {
 }
 
 export const apiManualPost = (url, body, method = 'POST') => {
-
   const headers = getManualAuthHeaders()
   headers.append('Content-Type', 'application/json')
 
@@ -98,16 +96,54 @@ export const apiManualPost = (url, body, method = 'POST') => {
     method,
     headers,
     body
-  }  
-  
+  }
+
   return fetch(url, options)
     .then(res => res.json())
     .then(data => ({ data }))
     .catch(error => ({ error }))
 }
 
-export const apiManualDelete = (url, body, method = 'DELETE') => {
+export const apiBlobPost = (url, body, method = 'POST') => {
+  const headers = getManualAuthHeaders()
+  headers.append('Content-Type', 'application/json')
 
+  const options = {
+    method,
+    headers,
+    body
+  }
+
+  return fetch(url, options).then(response => {
+    if (response.ok) {
+      response.blob().then(blob => {
+        // Convert the blob to an object URL — this is basically an temporary internal URL
+        // that points to an object stored inside the browser
+        let a = document.createElement('a')
+        a.style = 'display: none'
+        document.body.appendChild(a)
+        //Create a DOMString representing the blob
+        //and point the link element towards it
+        let url = window.URL.createObjectURL(blob)
+        a.href = url
+        a.download = 'NewInvoice.pdf'
+        //programatically click the link to trigger the download
+        a.click()
+        //release the reference to the file by revoking the Object URL
+        window.URL.revokeObjectURL(url)
+      })
+    } else {
+      console.log(
+        'Network request failed with response ' +
+        response.status +
+        ': ' +
+        response.statusText
+      )
+    }
+  })
+}
+
+export const apiManualDelete = (url, body, method = 'DELETE') => {
   const headers = getManualAuthHeaders()
   headers.append('Content-Type', 'application/json')
 
@@ -122,12 +158,12 @@ export const apiManualDelete = (url, body, method = 'DELETE') => {
     .catch(error => ({ error }))
 }
 
-export const createUploadFileChannel = (url, file, opt) =>  {
+export const createUploadFileChannel = (url, file, opt) => {
   return eventChannel(emitter => {
     const xhr = new XMLHttpRequest()
     let reader = new FileReader()
 
-    const onProgress = (e) => {
+    const onProgress = e => {
       if (e.lengthComputable) {
         const progress = e.loaded / e.total
         emitter({ progress })
@@ -149,8 +185,7 @@ export const createUploadFileChannel = (url, file, opt) =>  {
         if (status === 200) {
           emitter({ success: true })
           emitter(END)
-        }
-        else {
+        } else {
           onFailure(null)
         }
       }
@@ -166,12 +201,14 @@ export const createUploadFileChannel = (url, file, opt) =>  {
 
       xhr.open('POST', url, true)
       xhr.setRequestHeader('Content-Type', 'application/json')
-      xhr.setRequestHeader('Authorization', `Bearer ${store.getState().oidc.user.access_token}`)
+      xhr.setRequestHeader(
+        'Authorization',
+        `Bearer ${store.getState().oidc.user.access_token}`
+      )
       xhr.send(body)
     }
 
     reader.readAsDataURL(file)
-
 
     return () => {
       xhr.upload.removeEventListener('progress', onProgress)

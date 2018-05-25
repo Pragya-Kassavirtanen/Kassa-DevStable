@@ -111,8 +111,9 @@ import {
   LOGIN_FORM_SUBMIT_SUCCESS,
   LOGIN_FORM_SUBMIT_FAILED,
   CLIENT_SET,
-  CLIENT_UNSET
-  
+  CLIENT_UNSET,
+  DOWNLOAD_PDF_SUCCESS,
+  DOWNLOAD_PDF_FAILED  
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -153,6 +154,8 @@ export const emptyInvoiceRows = () => ({type: EMPTY_INVOICE_ROWS})
 // export const saveInvoiceDraft = () => ({type: SAVE_INVOICE_DRAFT})
 export const saveInvoiceDraft = invoice_id => ({type: SAVE_INVOICE_DRAFT, invoice_id})
 export const changeInvoiceBillingDate = date => ({type: CHANGE_INVOICE_BILLING_DATE, date})
+export const downloadPDFSuccess = () => ({ type: DOWNLOAD_PDF_SUCCESS })
+export const downloadPDFFailed = () => ({ type: DOWNLOAD_PDF_FAILED })
 
 
 export const getExpenseStart = () => ({type: GET_EXPENSE_START})

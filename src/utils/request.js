@@ -116,20 +116,17 @@ export const apiBlobPost = (url, body, method = 'POST') => {
 
   return fetch(url, options).then(response => {
     if (response.ok) {
-      response.blob().then(blob => {
-        // Convert the blob to an object URL — this is basically an temporary internal URL
-        // that points to an object stored inside the browser
+      response.blob().then(blob => {        
+        
+        let header = response.headers.get('Content-Disposition')        
+        let filename = header.match(/filename=(.+)/)[1]
         let a = document.createElement('a')
         a.style = 'display: none'
-        document.body.appendChild(a)
-        //Create a DOMString representing the blob
-        //and point the link element towards it
+        document.body.appendChild(a)        
         let url = window.URL.createObjectURL(blob)
         a.href = url
-        a.download = 'NewInvoice.pdf'
-        //programatically click the link to trigger the download
-        a.click()
-        //release the reference to the file by revoking the Object URL
+        a.download = filename       
+        a.click()        
         window.URL.revokeObjectURL(url)
       })
     } else {

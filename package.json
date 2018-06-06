@@ -20,7 +20,8 @@
     "test:tdd": "karma start --autoWatch=true --singleRun=false",
     "test:ava": "ava --verbose",
     "test:ava:tdd": "ava --verbose --watch",
-    "license": "./node_modules/.bin/license-to-fail ./cfg/license-check-config.js"
+    "license": "./node_modules/.bin/license-to-fail ./cfg/license-check-config.js",
+    "build": "webpack --env=dist"
   },
   "pre-commit": [
     "license",

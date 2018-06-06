@@ -5,7 +5,8 @@ import {
     TableBody,
     TableHeader,
     TableHeaderColumn,
-    TableRow
+    TableRow,
+    TableRowColumn
 } from  'material-ui'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -64,7 +65,6 @@ const Salary = ({salaryRows}) =>
             <div className="row">
               <PaySalaryContainer/>
             </div>
-          {/*
             <div className="row">
                 <div className="dashboard-content-header">
                     <h1>Yhteenvedot palkoista</h1>
@@ -131,6 +131,5 @@ const Salary = ({salaryRows}) =>
                     </div>
                 </div>
             </div>
-        */}
         </div>
     </MuiThemeProvider>

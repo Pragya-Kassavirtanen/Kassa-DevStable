@@ -59,13 +59,13 @@ const NewInvoice = ({
   invoicePages,
   invoicePageChange,
   addInvoiceRow,
-  invalid,
   handleSubmit,
   changeInvoiceBillingDate,
   customers,
   selectInvoiceCustomer,
   isEdit,
   noMenu,
+  cancelEditInvoice,
   dispatch
 }) =>
   <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -102,7 +102,7 @@ const NewInvoice = ({
             className="pull-right dashboard-content-select-customer"
             component={SelectField}
             floatingLabelText="Asiakas"
-            disabled={ isEdit || noMenu }
+            disabled={isEdit || noMenu}
             style={{ 'marginTop': '25px', 'marginRight': '20px' }}
             maxHeight={200}
             onChange={(e, i) => i >= 0 ? selectInvoiceCustomer(customers.filter(el => (i === el.customer_id)).pop()) : dispatch(reset('invoice'))}>
@@ -151,17 +151,25 @@ const NewInvoice = ({
             <div className="col-xs-12 col-sm-12 col-lg-12">
               <div className="panel panel-default">
                 <div className="panel-body">
-                  <div className="pull-right">
-                    {invalid
-                      ? <RaisedButton label="Esikatsele ja hyväksy lasku"
-                        primary={true}
-                        type="submit" />
-                      : <RaisedButton label="Esikatsele ja hyväksy lasku"
+                  {isEdit ? (
+                    <ul className="nav nav-pills pull-right">
+                      <li>
+                        <RaisedButton label="Peruuttaa"
+                          primary={true}
+                          onClick={cancelEditInvoice} />
+                      </li>
+                      <li>
+                        <RaisedButton label="Esikatsele ja hyväksy lasku"
+                          primary={true}
+                          type="submit" />
+                      </li>
+                    </ul>)
+                    : (<div className="pull-right">
+                      <RaisedButton label="Esikatsele ja hyväksy lasku"
                         primary={true}
                         type="submit"
                         containerElement={<Link to="/dashboard/invoice/review" />} />
-                    }
-                  </div>
+                    </div>)}
                 </div>
               </div>
             </div>

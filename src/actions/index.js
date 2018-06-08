@@ -9,6 +9,7 @@ import {
   EDIT_INVOICE,
   GET_INVOICE_BY_ID_SUCCESS,
   COPY_INVOICE,
+  CANCEL_EDIT_INVOICE,
   GET_INVOICES_SUCCESS,
   GET_INVOICES_START,
   LOAD_INVOICE_REVIEW,
@@ -146,6 +147,7 @@ export const saveInvoiceFailed = error => ({ type: SAVE_INVOICE_FAILED, error})
 export const closeInvoiceReviewSnackBar = () => ({type: CLOSE_INVOICE_REVIEW_SNACKBAR})
 export const removeInvoice = invoice_id => ({type: REMOVE_INVOICE, invoice_id})
 export const copyInvoice = invoice_id => ({type: COPY_INVOICE, invoice_id})
+export const cancelEditInvoice = () => ({type: CANCEL_EDIT_INVOICE})
 export const editInvoice = invoice_id => ({type: EDIT_INVOICE, invoice_id})
 export const getInvoiceByIdSuccess = result => ({type: GET_INVOICE_BY_ID_SUCCESS, result})
 export const copyInvoiceSuccess = result => ({type: COPY_INVOICE_SUCCESS, result})

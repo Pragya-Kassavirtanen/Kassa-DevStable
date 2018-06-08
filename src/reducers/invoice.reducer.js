@@ -14,7 +14,8 @@ import {
   INVOICE_PAGE_CHANGE,
   EMPTY_INVOICE_ROWS,
   CHANGE_INVOICE_BILLING_DATE,
-  GET_INVOICE_BY_ID_SUCCESS
+  GET_INVOICE_BY_ID_SUCCESS,
+  CANCEL_EDIT_INVOICE
 } from '../constants'
 import { SESSION_TERMINATED, USER_EXPIRED } from 'redux-oidc'
 import { getFormValues } from 'redux-form'
@@ -92,6 +93,17 @@ const invoiceReducer = (state = initialState, action) => {
           isEdit: true
         }
       )
+
+    case CANCEL_EDIT_INVOICE:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          invoiceEdit: [],
+          isEdit: false
+        }
+      )
+    
 
     case CALCULATE_INVOICE_SUM:
       return Object.assign({}, state, {

@@ -7,7 +7,8 @@ import {
   COPY_INVOICE,
   REMOVE_INVOICE,
   SAVE_INVOICE_DRAFT,
-  EDIT_INVOICE
+  EDIT_INVOICE,
+  CANCEL_EDIT_INVOICE
 } from '../constants'
 import {
   getInvoicesSuccess,
@@ -382,6 +383,14 @@ function* copyInvoiceSaga({ invoice_id }) {
   }
 }
 
+function* cancelEditInvoiceSaga() {
+  try {    
+     yield put(reset('invoice'))
+  } catch (e) {
+   console.warn(e)
+  }    
+}
+
 // Spawn a new getInvoiceSaga task on each GET_INVOICES_START
 export function* watchGetInvoiceSaga() {
   yield takeEvery(GET_INVOICES_START, getInvoiceSaga)
@@ -405,4 +414,8 @@ export function* watchSaveInvoiceDraft() {
 
 export function* watchEditInvoice() {
   yield takeEvery(EDIT_INVOICE, editInvoiceSaga)
+}
+
+export function* watchCancelEditInvoice() {
+  yield takeEvery(CANCEL_EDIT_INVOICE, cancelEditInvoiceSaga)
 }

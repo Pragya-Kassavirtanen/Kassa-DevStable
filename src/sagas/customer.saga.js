@@ -8,12 +8,13 @@ import {
   REMOVE_CUSTOMER,
   UPDATE_CUSTOMER,
   SAVE_CUSTOMER_UPDATE,
+  CANCEL_CUSTOMER_UPDATE,
   ADD_NEW_CUSTOMER_INVOICE
 } from '../constants'
 
 import { getCustomersSuccess, getCustomerByIdSuccess, addNewCustomerInvoiceSuccess } from '../actions/index'
 
-import { getFormValues, change } from 'redux-form'
+import { getFormValues, change, reset } from 'redux-form'
 import store from '../store'
 
 import { apiManualPost, apiManualRequest } from '../utils/request'
@@ -121,11 +122,19 @@ function* saveCustomerUpdateSaga() {
     })
 
     yield call(apiManualPost, url, body)
+    yield put(reset('customer'))
   } catch (e) {
-
+    console.warn(e)
   }
 }
 
+ function* cancelCustomerUpdateSaga() {
+   try {
+      yield put(reset('customer'))
+   } catch (e) {
+    console.warn(e)
+   }    
+}
 
 function* removeCustomerSaga(customer_id) {
   try {
@@ -136,7 +145,6 @@ function* removeCustomerSaga(customer_id) {
 
   }
 }
-
 
 export function* watchNewCustomerSaga() {
   yield takeEvery(NEW_CUSTOMER, newCustomerSaga)
@@ -153,6 +161,10 @@ export function* watchGetCustomerByIdSaga() {
 export function* watchSaveCustomerSaga() {
   yield takeEvery(SAVE_CUSTOMER_UPDATE, saveCustomerUpdateSaga)
 }
+
+ export function* watchCancelCustomerSaga() {
+  yield takeEvery(CANCEL_CUSTOMER_UPDATE, cancelCustomerUpdateSaga)
+} 
 
 export function* watchRemoveCustomerSaga() {
   yield takeEvery(REMOVE_CUSTOMER, removeCustomerSaga)

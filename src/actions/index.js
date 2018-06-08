@@ -190,7 +190,7 @@ export const removeCustomer = id => ({type: REMOVE_CUSTOMER, id})
 export const updateCustomer = id => ({type: UPDATE_CUSTOMER, id})
 export const getCustomerByIdSuccess = (result) => ({type: GET_CUSTOMER_BY_ID_SUCCESS, result})
 export const saveCustomerUpdate = id => ({type: SAVE_CUSTOMER_UPDATE, id})
-export const cancelCustomerUpdate = id => ({type: CANCEL_CUSTOMER_UPDATE, id})
+export const cancelCustomerUpdate = () => ({type: CANCEL_CUSTOMER_UPDATE})
 export const addNewCustomerInvoice = id => ({type: ADD_NEW_CUSTOMER_INVOICE, id})
 export const addNewCustomerInvoiceSuccess = result => ({type: ADD_NEW_CUSTOMER_INVOICE_SUCCESS, result})
 

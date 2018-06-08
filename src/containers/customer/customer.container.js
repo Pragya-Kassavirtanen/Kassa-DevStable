@@ -23,8 +23,7 @@ let CustomerContainer = reduxForm({
   initialValues: {
     country: 'Suomi',
     delivery_method: ''
-  },
- // enableReinitialize : true,
+  }, 
   validate
 })(CustomerComponent)
 
@@ -36,8 +35,7 @@ const mapStateToProps = state => {
     customerPages: !!state.customer.customers
       ? Math.ceil(state.customer.customers.length / 10)
       : 0,
-    isEdit: state.customer.isEdit,    
-   // initialValues: state.customer.customerEdit,
+    isEdit: state.customer.isEdit,  
     customer_id: state.customer.customerEdit.customer_id,   
     state
   }
@@ -53,7 +51,7 @@ const mapDispatchToProps = dispatch => {
     updateCustomer: customer_id => dispatch(updateCustomer(customer_id)),
     getCustomerByIdSuccess: result => dispatch(getCustomerByIdSuccess(result)),
     saveCustomerUpdate: customer_id => dispatch(saveCustomerUpdate(customer_id)),
-    cancelCustomerUpdate: customer_id => dispatch(cancelCustomerUpdate(customer_id)),
+    cancelCustomerUpdate: () => dispatch(cancelCustomerUpdate()),
     addNewCustomerInvoice: customer_id => dispatch(addNewCustomerInvoice(customer_id))
   }
 }

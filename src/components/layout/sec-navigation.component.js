@@ -34,21 +34,18 @@ export default class Navigation extends React.Component {
 
   _handleManualLogout = e => {
     e.preventDefault()   
-    console.log('Inside handleManualLogout...', this.props.handleManualLogout(e))
     this.props.handleManualLogout(e)
   }
 
-  render () {
-
-    //let { user, navItems } = this.props
-    let { navItems } = this.props
+  render () {   
+    let { user, navItems } = this.props
     return (
         <div className="navbar navbar-default">
           <div className="header-lined">
             <div className="container-fluid dashboard-header-emptytop"/>
             <div className="container-fluid dashboard-header-top">
                 <ul className="nav nav-pills nav-justified pull-right dashboard-nav-links">
-                  {/* <li>{user.profile.name}</li> */}
+                  <li>{user.data[1]}</li>
                   <li>
                     <Link to="/dashboard/profile">
                       ASETUKSET

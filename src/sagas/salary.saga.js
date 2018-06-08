@@ -5,33 +5,26 @@ import {
   SELECT_ROW_SALARY,
   POST_SALARY
 } from '../constants/index'
-import { getNewSalarySuccess, selectRowSalarySuccess, getSalariesSuccess } from '../actions/index'
+import {
+  getNewSalarySuccess,
+  selectRowSalarySuccess,
+  getSalariesSuccess
+} from '../actions/index'
 import store from '../store'
-import { apiRequest, apiPost } from '../utils/request'
-
+import { apiRequest, apiPost, apiManualRequest } from '../utils/request'
 
 function* getNewSalarySaga() {
   try {
-    const uuid = (store.getState()).profile.uuid
-    if(!!uuid) {
-      const url = `${API_SERVER}/salaries/${uuid}/invoices`
-
-      const result = yield call(apiRequest, url)
-      const invoices = []
-
-      result[Symbol.iterator] = function*() {
-        const keys = Reflect.ownKeys(this)
-        for (const key of keys) {
-          yield this[key]
-        }
+    const url = `${API_SERVER}/GetInvoiceInfoForWages`
+    const result = yield call(apiManualRequest, url)
+    const resultParsed = JSON.parse(result.data)
+    resultParsed[Symbol.iterator] = function*() {
+      const keys = Reflect.ownKeys(this)
+      for (const key of keys) {
+        yield this[key]
       }
-
-      for (const invoice of result.data) {
-        invoices.push(invoice)
-      }
-
-      yield put(getNewSalarySuccess(invoices))
     }
+    yield put(getNewSalarySuccess(resultParsed))
   } catch (e) {
     console.warn(e)
   }
@@ -39,8 +32,8 @@ function* getNewSalarySaga() {
 
 function* postSalarySaga({ selected }) {
   try {
-    const uuid = (store.getState()).profile.uuid
-    if(!!uuid) {
+    const uuid = store.getState().profile.uuid
+    if (!!uuid) {
       const body = JSON.stringify({
         user_info_uuid: uuid,
         invoices: selected
@@ -58,22 +51,24 @@ function* postSalarySaga({ selected }) {
 
 function* getSalariesSaga() {
   try {
-    const uuid = (store.getState()).profile.uuid
-    if(!!uuid) {
+    const uuid = store.getState().profile.uuid
+    if (!!uuid) {
       const url = `${API_SERVER}/users/${uuid}/salaries`
       const result = yield call(apiRequest, url)
       yield put(getSalariesSuccess(result))
     }
   } catch (e) {
-      console.warn(e)
+    console.warn(e)
   }
 }
 
-function* selectRowSalarySaga() {
+/*  function* selectRowSalarySaga() {
   try {
-    const uuid = (store.getState()).profile.uuid
-    if(!!uuid) {
-      const selected = (store.getState()).salary.selectedRows.map(a => (store.getState()).salary.newSalary[a].id)
+    const uuid = store.getState().profile.uuid
+    if (!!uuid) {
+      const selected = store
+        .getState()
+        .salary.selectedRows.map(a => store.getState().salary.newSalary[a].id)
       const body = JSON.stringify({
         id_list: selected,
         user_info_uuid: uuid
@@ -87,16 +82,47 @@ function* selectRowSalarySaga() {
 
       console.log(allowancesResult, expensesResult)
 
-      yield put(selectRowSalarySuccess({
-        allowancesResult: allowancesResult,
-        expensesResult: expensesResult
-      }))
+      yield put(
+        selectRowSalarySuccess({
+          allowancesResult: allowancesResult,
+          expensesResult: expensesResult
+        })
+      )
     }
   } catch (e) {
     console.warn(e)
   }
-}
+} */
 
+ function* selectRowSalarySaga() {
+  try {   
+       /* const selected = store
+        .getState()
+        .salary.selectedRows.map(a => store.getState().salary.newSalary[a].id)
+      const body = JSON.stringify({
+        id_list: selected      
+      })
+
+       const expensesUrl = `${API_SERVER}/expense-invoices/sum`
+      const allowancesUrl = `${API_SERVER}/allowances/sum` 
+
+       let allowancesResult = yield call(apiPost, allowancesUrl, body)
+      let expensesResult = yield call(apiPost, expensesUrl, body) 
+
+     console.log(allowancesResult, expensesResult) */
+
+      yield put(
+        selectRowSalarySuccess({
+           //allowancesResult: allowancesResult,
+           allowancesResult: '149',
+          //expensesResult: expensesResult 
+          expensesResult: '169'        
+        })
+      )   
+  } catch (e) {
+    console.warn(e)
+  }
+}
 
 export function* watchGetNewSalarySaga() {
   yield takeEvery(GET_NEW_SALARY_START, getNewSalarySaga)

@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
   return {   
     user : state.oidc.user ? state.oidc.user : (store.getState()).client.user,
     navItems: navItems,
-    path: ownProps.location.pathname
+    path: ownProps.location.pathname   
   }
 }
 
@@ -26,7 +26,6 @@ const mapDispatchToProps  = dispatch => {
     handleManualLogout: (e) => {
       dispatch({ type:CLIENT_UNSET, e })
     }
-
   }
 }
 

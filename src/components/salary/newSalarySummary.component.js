@@ -19,7 +19,7 @@ export default class NewSalarySummaryComponent extends React.Component {
 
 const NewSalarySummary = ({
   newSalarySummary,
-  taxPercent,
+  //taxPercent,
   postSalary,
   salaries
 }) =>
@@ -42,7 +42,7 @@ const NewSalarySummary = ({
                 <TableRowColumn>{new Intl.NumberFormat('fi-FI', {
                                   style: 'currency',
                                   currency: 'EUR'
-                                }).format(newSalarySummary.total_sum)}
+                                }).format(newSalarySummary.sumwithoutTax)}
                 </TableRowColumn>
               </TableRow>
             </TableBody>
@@ -82,7 +82,7 @@ const NewSalarySummary = ({
                   }).format(newSalarySummary.salary_sum)}
                 </TableRowColumn>
               </TableRow>
-              <TableRow>
+              {/* <TableRow>
                 <TableRowColumn>Työnantajakulut</TableRowColumn>
                 <TableRowColumn>
                   {new Intl.NumberFormat('fi-FI', {
@@ -90,25 +90,8 @@ const NewSalarySummary = ({
                     currency: 'EUR'
                   }).format(newSalarySummary.employer_cost)}
                   </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn><b>Bruttopalkka</b></TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.gross_sum)}
-                </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>Työntekijän pidätykset {taxPercent*100}%</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.tax)}
-                </TableRowColumn>
-              </TableRow>
+              </TableRow> */}
+              
               <TableRow>
                 <TableRowColumn>Matka- ja päivärahakorvaukset</TableRowColumn>
                 <TableRowColumn>
@@ -118,6 +101,7 @@ const NewSalarySummary = ({
                   }).format(newSalarySummary.allowances_cost)}
                 </TableRowColumn>
               </TableRow>
+
               <TableRow>
                 <TableRowColumn>Kulukorvaukset</TableRowColumn>
                 <TableRowColumn>
@@ -127,6 +111,52 @@ const NewSalarySummary = ({
                   }).format(newSalarySummary.expenses_cost)}
                 </TableRowColumn>
               </TableRow>
+
+              <TableRow>
+                <TableRowColumn>Sosiaaliturvamaksu</TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.expenses_cost)}
+                </TableRowColumn>
+              </TableRow>
+
+              <TableRow>
+                <TableRowColumn>Tapaturmavakuutus</TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.expenses_cost)}
+                </TableRowColumn>
+              </TableRow>
+              
+              <TableRow>
+                <TableRowColumn><b>Bruttopalkka</b></TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.gross_sum)}
+                </TableRowColumn>
+              </TableRow>
+
+             {/*  <TableRow>
+                <TableRowColumn>Työntekijän pidätykset {taxPercent*100}%</TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.tax)}
+                </TableRowColumn>
+              </TableRow> */}
+
+              <TableRow>
+                <TableRowColumn>YEL-vakuutus</TableRowColumn>
+                <TableRowColumn>0 £</TableRowColumn>
+              </TableRow>         
+
               <TableRow>
                 <TableRowColumn><b>Nettopalkka</b></TableRowColumn>
                 <TableRowColumn>
@@ -139,7 +169,7 @@ const NewSalarySummary = ({
             </TableBody>
           </Table>
           <hr/>
-          <Table selectable={false}>
+          {/* <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
                 <TableHeaderColumn><div className="dashboard-salary-header">Muut kulut</div></TableHeaderColumn>
@@ -152,7 +182,7 @@ const NewSalarySummary = ({
               </TableRow>
             </TableBody>
           </Table>
-          <hr/>
+          <hr/> */}
           <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>

@@ -132,7 +132,6 @@ export const POST_SALARY = '@@salary/POST_SALARY'
 
 export const OPENID_SERVER = process.env.OPENID_SERVER
 
-export const API_SERVER = 'https://kvtmiddlelayer.azurewebsites.net/api'
-export const API_PDF_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
+//export const API_SERVER_OLD = 'https://kvtmiddlelayer.azurewebsites.net/api'
+export const API_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
 export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'
-

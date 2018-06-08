@@ -18,7 +18,8 @@ const initialState = {
   salaryRows: [],
   taxPercent: 0.10,
   newSalarySummary: {
-    total_sum: 0,
+    //total_sum: 0,
+    sumwithoutTax:0,
     service_cost: 12,
     salary_sum: 0,
     employer_cost: 0,
@@ -49,19 +50,28 @@ const salaryReducer = (state = initialState, action) => {
        })
 
     case SELECT_ROW_SALARY_SUCCESS:
-      const sum = state.selectedRows.reduce((a, b) => a + state.newSalary[b].total_sum, 0)
-      const service_cost = Math.max(12, sum * 0.04)
+      //const sum = state.selectedRows.reduce((a, b) => a + state.newSalary[b].total_sum, 0)
+      const sum = state.selectedRows.reduce((a, b) => a + state.newSalary[b].sumwithoutTax, 0)
+      
+      //const service_cost = Math.max(12, sum * 0.04)
+      const service_cost = sum * 0.05
+
       const salary_sum = sum - service_cost
       const gross_sum = salary_sum - state.newSalarySummary.employer_cost
       const tax = gross_sum * state.taxPercent
       const net_sum = gross_sum - tax
-      const allowances_cost_sum = action.result.allowancesResult.data.coalesce
-      const expenses_cost_sum = action.result.expensesResult.data.coalesce
+      /* const allowances_cost_sum = action.result.allowancesResult.data.coalesce
+      const expenses_cost_sum = action.result.expensesResult.data.coalesce */
+      
+      const allowances_cost_sum = action.result.allowancesResult
+      const expenses_cost_sum = action.result.expensesResult
+
       const paid_sum = net_sum - allowances_cost_sum - expenses_cost_sum
       return Object.assign({}, {...state}, {
         salaryAllowances: action.result,
         newSalarySummary: {
-          total_sum: sum,
+          //total_sum: sum,
+          sumwithoutTax: sum,
           service_cost: service_cost,
           salary_sum: salary_sum,
           employer_cost: state.newSalarySummary.employer_cost,

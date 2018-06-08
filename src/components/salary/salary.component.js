@@ -5,8 +5,7 @@ import {
     TableBody,
     TableHeader,
     TableHeaderColumn,
-    TableRow,
-    TableRowColumn
+    TableRow
 } from  'material-ui'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -64,72 +63,6 @@ const Salary = ({salaryRows}) =>
             </div>
             <div className="row">
               <PaySalaryContainer/>
-            </div>
-            <div className="row">
-                <div className="dashboard-content-header">
-                    <h1>Yhteenvedot palkoista</h1>
-                </div>
-            </div>
-            <div className="row">
-                <div className="dashboard-content-header">
-                    <hr/>
-                </div>
-            </div>
-            <div className="row">
-                <div className="dashboard-content-header">
-                    <div className="col-md-12">
-                        <div className="col-md-6">
-                            <div className="panel panel-default">
-                                <div className="panel-heading">
-                                    Yhteensä
-                                </div>
-                                <div className="panel-body">
-                                    <Table selectable={false}>
-                                        <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                                            <TableRow>
-                                                <TableHeaderColumn>Brutto</TableHeaderColumn>
-                                                <TableHeaderColumn>Netto</TableHeaderColumn>
-                                                <TableHeaderColumn>Ennakonpidätys</TableHeaderColumn>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody displayRowCheckbox={false}>
-                                            <TableRow>
-                                                <TableRowColumn>0€</TableRowColumn>
-                                                <TableRowColumn>0€</TableRowColumn>
-                                                <TableRowColumn>0€</TableRowColumn>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="panel panel-default">
-                                <div className="panel-heading">
-                                    2017
-                                </div>
-                                <div className="panel-body">
-                                    <Table selectable={false}>
-                                        <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                                            <TableRow>
-                                                <TableHeaderColumn>Brutto</TableHeaderColumn>
-                                                <TableHeaderColumn>Netto</TableHeaderColumn>
-                                                <TableHeaderColumn>Ennakonpidätys</TableHeaderColumn>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody displayRowCheckbox={false}>
-                                            <TableRow>
-                                                <TableRowColumn>0€</TableRowColumn>
-                                                <TableRowColumn>0€</TableRowColumn>
-                                                <TableRowColumn>0€</TableRowColumn>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </MuiThemeProvider>

@@ -36,13 +36,13 @@ const NewSalarySelect = ({
     </TableHeader>
     <TableBody deselectOnClickaway={false}>
       {newSalary.map(element =>
-        <TableRow className="dashboard-admin-hover-row" key={element.id}>
-          <TableRowColumn>{element.id}</TableRowColumn>
+        <TableRow className="dashboard-admin-hover-row" key={element.invoice_id}>
+          <TableRowColumn>{element.invoice_id}</TableRowColumn>
           <TableRowColumn>{element.company_name}</TableRowColumn>
           <TableRowColumn>{new Intl.NumberFormat('fi-FI', {
                             style: 'currency',
                             currency: 'EUR'
-                          }).format(element.total_sum)}
+                          }).format(element.sumwithoutTax)}
           </TableRowColumn>
         </TableRow>
       )}

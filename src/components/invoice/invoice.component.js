@@ -161,7 +161,8 @@ const NewInvoice = ({
                       <li>
                         <RaisedButton label="Esikatsele ja hyväksy lasku"
                           primary={true}
-                          type="submit" />
+                          type="submit" 
+                          containerElement={<Link to="/dashboard/invoice/review" />}/>
                       </li>
                     </ul>)
                     : (<div className="pull-right">

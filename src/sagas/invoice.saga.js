@@ -49,7 +49,19 @@ function* getInvoiceSaga() {
 
 function* saveAndSendInvoiceSaga() {
   try {
-    const url = `${API_SERVER}/AddInvoice`
+    const invoiceEdit = (store.getState()).invoice.invoiceEdit   
+
+    let url
+
+    if (invoiceEdit.length > 0){      
+      const invoice_id = invoiceEdit[0].Invoice[0].invoice_id      
+      if(!!invoice_id){
+        url = `${API_SERVER}/UpdateInvoice`
+      }     
+    }else {
+      url = `${API_SERVER}/AddInvoice`
+    } 
+
     const formValues = getFormValues('invoiceReview')(store.getState())
 
     formValues.due_date = formatFiToISO(formValues.due_date.split('.'))
@@ -271,7 +283,9 @@ function* editInvoiceSaga({ invoice_id }) {
         )
       )
     }
-  } catch (e) {}
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 function* copyInvoiceSaga({ invoice_id }) {

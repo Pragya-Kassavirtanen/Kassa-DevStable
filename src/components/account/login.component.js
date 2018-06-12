@@ -3,11 +3,15 @@ import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Panel } from 'react-bootstrap'
-import { TextField, RaisedButton, Checkbox, FlatButton } from 'material-ui'
+import { TextField, RaisedButton, Checkbox, FlatButton, Dialog, Snackbar } from 'material-ui'
 import FontAwesome from 'react-fontawesome'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+
+import { registerValidate as validate } from '../../containers/validate'
+import { registerAsyncValidate as asyncValidate } from '../../containers/asyncValidate'
+import Spinner from 'react-spinner-material'
 
 import userManager from '../../utils/PHZUserManager'
 import { loginFormSubmit } from '../../actions'
@@ -54,7 +58,7 @@ class LoginComponent extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit, showSpinner, showFailSnackbar } = this.props
 
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -131,6 +135,23 @@ class LoginComponent extends Component {
               </div>
             </div>
           </form>
+          <Snackbar
+          open={showFailSnackbar}
+          message="Kirjautuminen epäonnistui, tarkista kentät"
+          autoHideDuration={4000}
+          bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}          
+        />
+        <Dialog
+          title="Kirjaudutaan"
+          contentStyle={{ width: '350px', height: '150px', textAlign: 'center' }}
+          modal={true}
+          open={showSpinner}>
+          <Spinner width={100}
+            height={120}
+            spinnerColor={'#44C0CC'}
+            spinnerWidth={2}
+            show={showSpinner} />
+        </Dialog>
         </div>
       </MuiThemeProvider>
     )
@@ -139,12 +160,17 @@ class LoginComponent extends Component {
 
 const mapStateToProps = state => {
   return {
-    loginForm: state.loginForm
+    loginForm: state.loginForm,
+    showSpinner: state.login.showSpinner,
+    showFailSnackbar: state.login.showFailSnackbar,
+    state
   }
 }
 
 const attached = connect(mapStateToProps, { loginFormSubmit })(LoginComponent)
 
 export default reduxForm({
-  form: 'login' 
+  form: 'login',
+  validate,
+  asyncValidate
 })(attached)

@@ -52,9 +52,10 @@ function* saveAndSendInvoiceSaga() {
     const invoiceEdit = (store.getState()).invoice.invoiceEdit   
 
     let url
+    let invoice_id
 
     if (invoiceEdit.length > 0){      
-      const invoice_id = invoiceEdit[0].Invoice[0].invoice_id      
+      invoice_id = invoiceEdit[0].Invoice[0].invoice_id      
       if(!!invoice_id){
         url = `${API_SERVER}/UpdateInvoice`
       }     
@@ -62,7 +63,7 @@ function* saveAndSendInvoiceSaga() {
       url = `${API_SERVER}/AddInvoice`
     } 
 
-    const formValues = getFormValues('invoiceReview')(store.getState())
+    const formValues = getFormValues('invoiceReview')(store.getState())  
 
     formValues.due_date = formatFiToISO(formValues.due_date.split('.'))
     formValues.billing_date = formatFiToISO(formValues.billing_date.split('.'))
@@ -129,18 +130,35 @@ function* saveAndSendInvoiceSaga() {
 
     body.rows = bodyRows
 
-    const nestedBody = nestProperties(body, 'Invoice', [
-      'description',
-      'job_title',
-      'invoice_reference',
-      'billing_date',
-      'due_date',
-      'overdue',
-      'total_sum',
-      'instant_payment',
-      'status',
-      'rows'
-    ])
+    let nestedBody       
+      if(!!invoice_id){       
+        nestedBody = nestProperties(body, 'Invoice', [
+          'description',
+          'invoice_id',
+          'job_title',
+          'invoice_reference',
+          'billing_date',
+          'due_date',
+          'overdue',
+          'total_sum',
+          'instant_payment',
+          'status',
+          'rows'
+        ])    
+      } else {     
+      nestedBody = nestProperties(body, 'Invoice', [
+        'description',        
+        'job_title',
+        'invoice_reference',
+        'billing_date',
+        'due_date',
+        'overdue',
+        'total_sum',
+        'instant_payment',
+        'status',
+        'rows'
+      ])
+    }    
 
     // FIXME: prevent success happening when error occures
     const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))

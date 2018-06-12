@@ -1,23 +1,34 @@
-import { LOGIN_FORM_SUBMIT } from '../constants'
+import { LOGIN_FORM_SUBMIT, LOGIN_FORM_SUBMIT_SUCCESS, LOGIN_FORM_SUBMIT_FAILED, CLOSE_LOGIN_SNACKBAR } from '../constants'
 
 /**
- * @author  Skylar Kong
+ * @author  Pragya Gupta
  *
  */
 
-const loginForm = (state = {}, action) => {
+const initialState = {
+  showFailSnackbar: false,
+  showSpinner: false
+}
 
+const loginForm = (state = initialState, action) => {
 
   switch (action.type) {
 
     case LOGIN_FORM_SUBMIT:
-      return Object.assign( {}, state, {
-        //username: action.username, password: action.password
+      return Object.assign({}, { ...state }, {
         email: action.email, password: action.password
-      })
+      }, { showSpinner: true })
+
+    case LOGIN_FORM_SUBMIT_SUCCESS:
+      return Object.assign({}, { ...state }, { showSpinner: false })
+
+    case LOGIN_FORM_SUBMIT_FAILED:
+      return Object.assign({}, { ...state }, { showSpinner: false, showFailSnackbar: true })
+
+    case CLOSE_LOGIN_SNACKBAR:
+      return Object.assign({}, state, { showFailSnackbar: false })
 
     default: return state
-
   }
 }
 

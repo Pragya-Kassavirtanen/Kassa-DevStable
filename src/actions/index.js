@@ -111,6 +111,7 @@ import {
   CLOSE_SIGNUP_SNACKBAR,
   LOGIN_FORM_SUBMIT_SUCCESS,
   LOGIN_FORM_SUBMIT_FAILED,
+  CLOSE_LOGIN_SNACKBAR,
   CLIENT_SET,
   CLIENT_UNSET,
   DOWNLOAD_PDF_SUCCESS,
@@ -212,6 +213,7 @@ export const loadProfileFailed = error => ({ type: LOAD_PROFILE_FAILED, error })
 export const loginFormSubmit = (email, password) => ({ type: LOGIN_FORM_SUBMIT, email, password })
 export const loginFormSubmitSuccess = (result) => ({ type: LOGIN_FORM_SUBMIT_SUCCESS, result })
 export const loginFormSubmitFailed = error => ({ type: LOGIN_FORM_SUBMIT_FAILED, error })
+export const closeLoginSnackbar = () => ({ type: CLOSE_LOGIN_SNACKBAR })
 export const setClient = (token) => ({ type: CLIENT_SET, token })
 export const unsetClient = () => ({ type: CLIENT_UNSET })
 

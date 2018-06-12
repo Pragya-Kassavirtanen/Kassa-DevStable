@@ -1,7 +1,10 @@
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import Login from '../components/account/login.component'
-import { loginFormSubmit } from '../actions/index'
+import { closeLoginSnackbar } from '../actions/index'
+
+import { registerValidate as validate } from './validate'
+import { registerAsyncValidate as asyncValidate } from './asyncValidate'
 
 /**
  * @author  Pragya Gupta
@@ -10,20 +13,25 @@ import { loginFormSubmit } from '../actions/index'
 
 // Return a new decorated component
 let LoginContainer = reduxForm({
-  form: 'login'
+  form: 'login',
+  validate,
+  asyncValidate
 })(Login)
 
 const mapStateToProps = state => {
   return {
-    loginForm: state.loginForm
+    loginForm: state.loginForm,
+    showSpinner: state.login.showSpinner,
+    showFailSnackbar: state.login.showFailSnackbar,
+    state
   }
 }
 
 const mapDispatchToProps = dispatch => {
-
   return {
     dispatch,
-    loginFormSubmit: (email, password) => dispatch(loginFormSubmit(email, password))    
+    // loginFormSubmit: (email, password) => dispatch(loginFormSubmit(email, password)),   
+    closeLoginSnackbar: () => dispatch(closeLoginSnackbar())    
   }
 }
 

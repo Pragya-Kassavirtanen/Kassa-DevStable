@@ -51,7 +51,7 @@ const initialState = {
   invoices: [],
   selected: 0,
   invoiceEdit: [],
-  isEdit: false
+  isEdit: false  
 }
 
 const invoiceReducer = (state = initialState, action) => {
@@ -207,7 +207,7 @@ const invoiceReducer = (state = initialState, action) => {
       )
 
     case CHANGE_INVOICE_BILLING_DATE:
-      return Object.assign({}, state, { billing_date: action.date })
+      return Object.assign({}, state, { billing_date: action.date })    
 
     default:
       return state
@@ -291,6 +291,7 @@ const _createInvoiceRow = (invoices, selected) =>
         currency: 'EUR'
       }).format(el.total_sum)}
       instant_payment={el.instant_payment}
+      invoice_reminder={el.invoice_reminder}
       status={el.status}
       functions=""
     />

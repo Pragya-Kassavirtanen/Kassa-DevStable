@@ -5,7 +5,7 @@ import {
   CLIENT_UNSET,
   KVT_IDENTITY_SERVER
 } from '../constants'
-import { loginFormSubmitSuccess, loginFormSubmitFailed, setClient, unsetClient } from '../actions'
+import { loginFormSubmitSuccess, loginFormSubmitFailed, closeLoginSnackbar, setClient, unsetClient } from '../actions'
 import { registerPost } from '../utils/request'
 import { getFormValues } from 'redux-form'
 import store from '../store'
@@ -31,16 +31,22 @@ function* loginFlow() {
       })
 
     user = yield call(registerPost, url, body)
+    console.log('user:: ',user.data[0].error_description)
 
     yield put(setClient(user))
+    sessionStorage.setItem('user', JSON.stringify(user))    
+ 
+    if (!!user.data[0].access_token){ 
+      yield put(loginFormSubmitSuccess())        
+      browserHistory.push('/dashboard/main')      
+    } else {
+      yield put(loginFormSubmitFailed(user.data[0].error_description))
+      yield put(closeLoginSnackbar())
+      }
 
-    yield put(loginFormSubmitSuccess(user))
-
-    sessionStorage.setItem('user', JSON.stringify(user))
-
-    browserHistory.push('/dashboard/main')
   } catch (error) {
     yield put(loginFormSubmitFailed(error))
+    yield put(closeLoginSnackbar())
   } finally {
     if (yield cancelled()) {
       browserHistory.push('/dashboard/login')

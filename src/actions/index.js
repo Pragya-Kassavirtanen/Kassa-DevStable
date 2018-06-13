@@ -211,7 +211,7 @@ export const loadProfileSuccess = result => ({ type: LOAD_PROFILE_SUCCESS, resul
 export const loadProfileFailed = error => ({ type: LOAD_PROFILE_FAILED, error })
 
 export const loginFormSubmit = (email, password) => ({ type: LOGIN_FORM_SUBMIT, email, password })
-export const loginFormSubmitSuccess = (result) => ({ type: LOGIN_FORM_SUBMIT_SUCCESS, result })
+export const loginFormSubmitSuccess = () => ({ type: LOGIN_FORM_SUBMIT_SUCCESS})
 export const loginFormSubmitFailed = error => ({ type: LOGIN_FORM_SUBMIT_FAILED, error })
 export const closeLoginSnackbar = () => ({ type: CLOSE_LOGIN_SNACKBAR })
 export const setClient = (token) => ({ type: CLIENT_SET, token })

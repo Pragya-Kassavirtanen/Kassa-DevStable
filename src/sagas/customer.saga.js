@@ -58,7 +58,7 @@ function* getCustomersSaga() {
     const result = yield apiManualRequest(url)
     if (result.data) yield put(getCustomersSuccess(result.data))
   } catch (e) {
-
+    console.warn(e)
   }
 }
 
@@ -123,6 +123,10 @@ function* saveCustomerUpdateSaga() {
 
     yield call(apiManualPost, url, body)
     yield put(reset('customer'))
+
+    const customerUrl = `${API_SERVER}/GetCustomers`   
+    const result = yield apiManualRequest(customerUrl)
+    if (result.data) yield put(getCustomersSuccess(result.data))
   } catch (e) {
     console.warn(e)
   }

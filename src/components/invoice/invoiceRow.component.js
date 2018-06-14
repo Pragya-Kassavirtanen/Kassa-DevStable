@@ -30,8 +30,8 @@ const InvoiceRow = ({
     <TableRowColumn>{billing_date}</TableRowColumn>
     <TableRowColumn>{due_date}</TableRowColumn>
     <TableRowColumn>{totalSumWithVAT}</TableRowColumn>
-    <TableRowColumn>
-      <Checkbox checked={instant_payment} disabled={true} />
+    <TableRowColumn>      
+      <Checkbox checked={instant_payment === 'quick_pay' ? true : false} disabled={true} />      
     </TableRowColumn>
     <TableRowColumn>{convertIntToState(status)}</TableRowColumn>
     <TableRowColumn>

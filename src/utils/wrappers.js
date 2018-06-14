@@ -1,5 +1,6 @@
 import React from 'react'
-import { TextField, Checkbox, SelectField, DatePicker, TimePicker, RadioButtonGroup, Slider } from 'material-ui'
+import { TextField, Checkbox, SelectField, DatePicker, TimePicker, Slider } from 'material-ui'
+import { RadioButtonGroup } from 'material-ui/RadioButton'
 import DateTimeFormat from './DateTimeFormat'
 
 export const renderTextField = ({ input, label, disabled, hintText, style, meta: { touched, error }, ...custom, autoFocus }) => (
@@ -69,12 +70,21 @@ export const renderCheckbox = ({ input, label, disabled }) => (
             disabled={disabled}/>
 )
 
-export const renderRadioButtonGroup = ({ input, name, children, defaultSelected }) => (
+/* export const renderRadioButtonGroup = ({ input, name, children, defaultSelected }) => (
   <RadioButtonGroup
     defaultSelected={defaultSelected}
     name={name}
-    children={children}
+    children={children}     
     {...input}
+  />
+) */
+
+export const renderRadioGroup = ({ input, ...rest }) => (
+  <RadioButtonGroup
+    {...input}
+    {...rest}
+    valueSelected={input.value}
+    onChange={(event, value) => input.onChange(value)}
   />
 )
 

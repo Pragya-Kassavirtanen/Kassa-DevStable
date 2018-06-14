@@ -8,7 +8,8 @@ import {
   REMOVE_INVOICE,
   SAVE_INVOICE_DRAFT,
   EDIT_INVOICE,
-  CANCEL_EDIT_INVOICE
+  CANCEL_EDIT_INVOICE,
+  GET_PROFESSION
 } from '../constants'
 import {
   getInvoicesSuccess,
@@ -17,6 +18,8 @@ import {
   saveInvoiceFailed,
   emptyInvoiceRows,
   addInvoiceRow,
+  getProfessionSuccess,
+  getProfessionFailed,
   //saveAndSendInvoice,
   getInvoiceByIdSuccess,
   copyInvoiceSuccess
@@ -44,6 +47,20 @@ function* getInvoiceSaga() {
       yield put(getInvoicesSuccess(invoiceResult.data, customerResult.data))
   } catch (e) {
     yield put(getInvoicesFailed(e))
+  }
+}
+
+function* getProfessionSaga() {
+  try {
+    const professionUrl = `${API_SERVER}/GetProffession`  
+    const professionResult = yield apiManualRequest(professionUrl)
+    const parsedResult = JSON.parse(professionResult.data)
+    console.log('professionResult:: ',parsedResult)   
+
+    if (parsedResult)
+      yield put(getProfessionSuccess(parsedResult))
+  } catch (e) {
+    yield put(getProfessionFailed(e))
   }
 }
 
@@ -450,4 +467,8 @@ export function* watchEditInvoice() {
 
 export function* watchCancelEditInvoice() {
   yield takeEvery(CANCEL_EDIT_INVOICE, cancelEditInvoiceSaga)
+}
+
+export function* watchGetProfession() {
+  yield takeEvery(GET_PROFESSION, getProfessionSaga)
 }

@@ -115,7 +115,10 @@ import {
   CLIENT_SET,
   CLIENT_UNSET,
   DOWNLOAD_PDF_SUCCESS,
-  DOWNLOAD_PDF_FAILED  
+  DOWNLOAD_PDF_FAILED,
+  GET_PROFESSION,
+  GET_PROFESSION_SUCCESS,
+  GET_PROFESSION_FAILED
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -143,6 +146,11 @@ export const getYelFailed = () => ({ type: GET_YEL_FAILED })
 export const getInvoicesStart = () => ({ type: GET_INVOICES_START })
 export const getInvoicesSuccess = (invoices, customerResult) => ({ type: GET_INVOICES_SUCCESS, invoices, customerResult })
 export const getInvoicesFailed = error => ({ type: GET_INVOICES_FAILED, error })
+
+export const getProfessions = () => ({ type: GET_PROFESSION })
+export const getProfessionSuccess = (professions) => ({ type: GET_PROFESSION_SUCCESS, professions })
+export const getProfessionFailed = error => ({ type: GET_PROFESSION_FAILED, error })
+
 export const saveInvoiceSuccess = result => ({ type: SAVE_INVOICE_SUCCESS, result})
 export const saveInvoiceFailed = error => ({ type: SAVE_INVOICE_FAILED, error})
 export const closeInvoiceReviewSnackBar = () => ({type: CLOSE_INVOICE_REVIEW_SNACKBAR})

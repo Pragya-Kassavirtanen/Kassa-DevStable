@@ -29,6 +29,11 @@ export const GET_YEL_FAILED = '@@tax/GET_YEL_FAILED'
 export const GET_INVOICES_START = '@@invoice-saga/GET_INVOICES_START'
 export const GET_INVOICES_SUCCESS = '@@invoice-saga/GET_INVOICES_SUCCESS'
 export const GET_INVOICES_FAILED = '@@invoice-saga/GET_INVOICE_FAILED'
+
+export const GET_PROFESSION = '@@invoice-saga/GET_PROFESSION'
+export const GET_PROFESSION_SUCCESS = '@@invoice-saga/GET_PROFESSION_SUCCESS'
+export const GET_PROFESSION_FAILED = '@@invoice-saga/GET_PROFESSION_FAILED'
+
 export const SAVE_INVOICE_SUCCESS = '@@invoice-saga/SAVE_INVOICE_SUCCESS'
 export const SAVE_INVOICE_FAILED = '@@invoice-saga/SAVE_INVOICE_FAILED'
 export const LOAD_INVOICES_START = '@@invoice-saga/LOAD_INVOICES_START'

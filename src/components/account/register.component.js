@@ -40,10 +40,10 @@ const RegisterComponent = ({handleSubmit, registerFormSubmit, showSnackbar, show
               <Field name="email" component={renderTextField} label="Sähköposti*" type="text"/>
             </div>
             <div>
-              <Field name="givenName" component={renderTextField} label="Etunimi*" type="text"/>
+              <Field name="FirstName" component={renderTextField} label="Etunimi*" type="text"/>
             </div>
             <div>
-              <Field name="familyName" component={renderTextField} label="Sukunimi*" type="text"/>
+              <Field name="Lastname" component={renderTextField} label="Sukunimi*" type="text"/>
             </div>
             <div>
               <Field name="password" component={renderTextField} label="Salasana*" type="password"/>

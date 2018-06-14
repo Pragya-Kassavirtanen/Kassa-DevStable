@@ -1,4 +1,4 @@
-import { watchGetInvoiceSaga, watchSaveAndSendInvoiceSaga, watchCopyInvoice, watchRemoveInvoiceSaga, watchSaveInvoiceDraft, watchEditInvoice, watchCancelEditInvoice } from './invoice.saga'
+import { watchGetInvoiceSaga, watchSaveAndSendInvoiceSaga, watchCopyInvoice, watchRemoveInvoiceSaga, watchSaveInvoiceDraft, watchEditInvoice, watchCancelEditInvoice, watchGetProfession } from './invoice.saga'
 import { watchTaxSaga, watchGetTaxCardStartSaga, watchPostYelSaga, watchGetYelSaga } from './tax.saga'
 import { watchCheckAuthInfoSaga } from './dashboard.saga'
 import { watchLoadProfileSaga, watchUpdateProfileSaga } from './profile.saga'
@@ -30,6 +30,7 @@ export default function* rootSaga() {
     watchRemoveInvoiceSaga(),
     watchEditInvoice(),
     watchCancelEditInvoice(),
+    watchGetProfession(),
     
     watchNewCustomerSaga(),
     watchGetCustomersSaga(),

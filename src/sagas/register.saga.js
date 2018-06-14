@@ -20,8 +20,8 @@ function* sendRegisterInfo() {
     const refinedForm = Object.assign({}, {...formValues})
     const body = JSON.stringify({    
       email: refinedForm.email,
-      firstname: refinedForm.firstname,
-      lastname: refinedForm.lastname,
+      FirstName: refinedForm.FirstName,
+      Lastname: refinedForm.Lastname,
       password: refinedForm.password,     
       SubjectId: refinedForm.email
       })

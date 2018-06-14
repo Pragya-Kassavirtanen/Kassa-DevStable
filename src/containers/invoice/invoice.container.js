@@ -9,6 +9,7 @@ import {
   addInvoiceRow,
   removeInvoiceRow,
   getInvoicesStart,
+  getProfessions,
   onInvoiceReview,
   invoicePageChange,
   changeInvoiceBillingDate,
@@ -44,8 +45,7 @@ let NewInvoiceContainer = reduxForm({
       year: 'numeric'
     }).format(date.setDate(date.getDate() + 14)),
     overdue: 14,
-    instant_payment: 0,
-    invoice_reminder:0,
+    instant_payment: 0,    
     status: 1,
     country: 'Suomi',
     company_name: '',
@@ -145,7 +145,7 @@ const mapStateToProps = (state) => {
     titleItems,
     invoicePages: Math.ceil(state.invoice.invoices.length / 10),
     isEdit: state.invoice.isEdit,
-    noMenu: state.customer.noMenu
+    noMenu: state.customer.noMenu    
   }
 }
 
@@ -162,6 +162,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
     getInvoicesStart: () => dispatch(getInvoicesStart()),
+    getProfessions: () => dispatch(getProfessions()),
     addInvoiceRow: () => dispatch(addInvoiceRow()),
     removeInvoiceRow: () => dispatch(removeInvoiceRow()),
     onInvoiceReview: () => dispatch(onInvoiceReview()),

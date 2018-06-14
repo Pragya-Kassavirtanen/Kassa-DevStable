@@ -20,13 +20,15 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import {
   renderTextField,
-  renderCheckbox,
+  renderRadioGroup,
   renderDatePicker
 } from '../../utils/wrappers'
 
 import { SelectField } from 'redux-form-material-ui'
 
 import InvoiceInputTable from './invoiceInputTable.component'
+
+import { RadioButton } from 'material-ui/RadioButton'
 
 /**
  * @author  Skylar Kong
@@ -36,6 +38,7 @@ export default class NewInvoiceComponent extends React.Component {
 
   componentWillMount() {
     this.props.getInvoicesStart()
+    this.props.getProfessions()
   }
 
   render() {
@@ -304,14 +307,9 @@ const invoiceAdditionalInformation = () =>
       <h3 className="panel-title">Laskun lisätiedot</h3>
     </div>
     <div className="panel-body">
-      <Field name="instant_payment"
-        component={renderCheckbox}
-        maxHeight={200}
-        label="Pikapalkka">
-      </Field>
-      <Field name="invoice_reminder"
-        label="Haluan, että Kassavirtanen.fi huolehtii maksunvalvonnasta, maksumuistutuksista ja tarvittaessa perinnästä"
-        component={renderCheckbox}>
+      <Field name="instant_payment" component={renderRadioGroup}>
+        <RadioButton value="quick_pay" label="Pikapalkka" />
+        <RadioButton value="invoice_reminder" label="Haluan, että Kassavirtanen.fi huolehtii maksunvalvonnasta, maksumuistutuksista ja tarvittaessa perinnästä" />
       </Field>
     </div>
   </div>

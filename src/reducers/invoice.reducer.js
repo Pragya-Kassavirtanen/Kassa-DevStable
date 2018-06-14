@@ -290,8 +290,7 @@ const _createInvoiceRow = (invoices, selected) =>
         style: 'currency',
         currency: 'EUR'
       }).format(el.total_sum)}
-      instant_payment={el.instant_payment}
-      invoice_reminder={el.invoice_reminder}
+      instant_payment={el.instant_payment}     
       status={el.status}
       functions=""
     />

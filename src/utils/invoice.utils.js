@@ -19,10 +19,10 @@ const alvList = [
   { alv: 0, description: '0% Euroopan unionin ulkopuolinen laskutus (AVL 44§)' },
   { alv: 0, description: '0% Kansainvälinen laivatyö (AVL 71§)' }
 ]
-const titleList = [ 'KONSULTTI', 'OHJELMISTOSUUNNITTELIJA', 'ART DIRECTOR', 'AGRONOMI' ]
-const countryList = [ 'Norja', 'Venäjä', 'Viro', 'Saksa', 'Islanti', 'Suomi', 'Ruotsi', 'Tanska' ]
-const invoiceList = [ 'Sähköposti', 'Kirjeposti' ]
-const invoiceStateList = [ 'Luonnos', 'Lähetetty', 'Maksettu', 'Erääntynyt', 'Alimaksettu', 'Ylimaksettu' ]
+const titleList = ['KONSULTTI', 'OHJELMISTOSUUNNITTELIJA', 'ART DIRECTOR', 'AGRONOMI']
+const countryList = ['Norja', 'Venäjä', 'Viro', 'Saksa', 'Islanti', 'Suomi', 'Ruotsi', 'Tanska']
+const invoiceList = ['Sähköposti', 'Kirjeposti']
+const invoiceStateList = ['Luonnos', 'Lähetetty', 'Maksettu', 'Erääntynyt', 'Alimaksettu', 'Ylimaksettu']
 
 const vehicleTypeList = [
   { type: 'default_vehicle_type', fi: 'Valitse' },
@@ -45,19 +45,19 @@ const additionalVehicleList = [
 
 const unitList = ['kpl', 'h']
 const alvPercentageList = [
-  { alv: 0, description: '0 %'},
-  { alv: 10, description: '10 %'},
-  { alv: 14, description: '14 %'},
-  { alv: 24, description: '24 %'}
+  { alv: 0, description: '0 %' },
+  { alv: 10, description: '10 %' },
+  { alv: 14, description: '14 %' },
+  { alv: 24, description: '24 %' }
 ]
 
 const _createMenuItems = menuItems =>
-  menuItems.map((item, index) => <MenuItem key={index} value={item} primaryText={item}/>)
+  menuItems.map((item, index) => <MenuItem key={index} value={item} primaryText={item} />)
 
 const _createOverdueItems = () => {
   let overdueItems = []
   for (let i = 0; i < 54; i++) {
-    overdueItems.push(<MenuItem key={i + 7} value={i + 7} primaryText={`${i + 7} päivää`}/>)
+    overdueItems.push(<MenuItem key={i + 7} value={i + 7} primaryText={`${i + 7} päivää`} />)
   }
   return overdueItems
 }
@@ -66,27 +66,27 @@ export const countryItems = _createMenuItems(countryList)
 export const invoiceItems = _createMenuItems(invoiceList)
 
 export const vehicleTypeItems = vehicleTypeList.map((el, index) => <MenuItem key={index}
-                                                                     value={el.type}
-                                                                     primaryText={el.fi}/>)
+  value={el.type}
+  primaryText={el.fi} />)
 
 export const vehicleAdditionalItems = additionalVehicleList.map((el, index) => <MenuItem key={index}
-                                                                                 value={el.type}
-                                                                                 primaryText={el.fi} />)
+  value={el.type}
+  primaryText={el.fi} />)
 
 export const alvPercentageItems = alvPercentageList.map((item, index) => <MenuItem key={index}
-                                                                                   value={item.alv}
-                                                                                   primaryText={item.description}/>)
+  value={item.alv}
+  primaryText={item.description} />)
 export const unitItems = _createMenuItems(unitList)
 export const overdueItems = _createOverdueItems()
 export const titleItems = _createMenuItems(titleList)
 export const alvItems = alvList.map((item, index) => <MenuItem key={index}
-                                                        value={item.alv}
-                                                        primaryText={item.description}/>)
+  value={item.alv}
+  primaryText={item.description} />)
 
 export const invoiceStateListItems = _createMenuItems(invoiceStateList)
 
 export const convertStateToInt = (state) => {
-  switch(state) {
+  switch (state) {
     case 'Luonnos': return 0
     case 'Lähetetty': return 1
     case 'Maksettu': return 2
@@ -97,7 +97,7 @@ export const convertStateToInt = (state) => {
 }
 
 export const convertIntToState = (state) => {
-  switch(state) {
+  switch (state) {
     case 0: return 'Luonnos'
     case 1: return 'Lähetetty'
     case 2: return 'Maksettu'
@@ -112,18 +112,14 @@ export const nestProperties = (obj, property, nestedProperties) => {
   var nestedObj = {}
   var nestedArr = []
 
-  for (var i = 0; i < nestedProperties.length; ++i)
-  {
-    if (nestedProperties[i] in obj)
-    {
+  for (var i = 0; i < nestedProperties.length; ++i) {
+    if (nestedProperties[i] in obj) {
       nestedObj[nestedProperties[i]] = obj[nestedProperties[i]]
     }
   }
 
-  for (var k in obj)
-  {
-    if (!(k in nestedObj))
-    {
+  for (var k in obj) {
+    if (!(k in nestedObj)) {
       newObj[k] = obj[k]
     }
   }
@@ -133,4 +129,12 @@ export const nestProperties = (obj, property, nestedProperties) => {
   newObj[property] = nestedArr
 
   return newObj
+}
+
+export const propertyArray = (array, key) => {
+  let list = []
+  for (var i = 0; i < array.length; i++) {
+    list.push(array[i][key])
+  }
+  return list
 }

@@ -19,7 +19,7 @@ import {
 } from '../../actions'
 import DateTimeFormat from '../../utils/DateTimeFormat'
 import {
-  countryItems, invoiceItems, unitItems, overdueItems, titleItems, alvItems, alvPercentageItems
+  countryItems, invoiceItems, unitItems, overdueItems, alvItems, alvPercentageItems
 } from '../../utils/invoice.utils'
 
 /**
@@ -45,7 +45,7 @@ let NewInvoiceContainer = reduxForm({
       year: 'numeric'
     }).format(date.setDate(date.getDate() + 14)),
     overdue: 14,
-    instant_payment: 0,    
+    instant_payment: '',    
     status: 1,
     country: 'Suomi',
     company_name: '',
@@ -142,7 +142,7 @@ const mapStateToProps = (state) => {
     unitItems,
     alvItems,
     alvPercentageItems,
-    titleItems,
+    titleItems: state.invoice.titleItems,
     invoicePages: Math.ceil(state.invoice.invoices.length / 10),
     isEdit: state.invoice.isEdit,
     noMenu: state.customer.noMenu    

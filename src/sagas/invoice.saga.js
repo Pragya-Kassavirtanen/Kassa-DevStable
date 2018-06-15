@@ -29,7 +29,7 @@ import { apiManualPost, apiManualRequest, apiBlobPost
 } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 import DateTimeFormat from '../utils/DateTimeFormat'
-import { nestProperties } from '../utils/invoice.utils'
+import { nestProperties, propertyArray } from '../utils/invoice.utils'
 import store from '../store'
 
 /**
@@ -54,9 +54,8 @@ function* getProfessionSaga() {
   try {
     const professionUrl = `${API_SERVER}/GetProffession`  
     const professionResult = yield apiManualRequest(professionUrl)
-    const parsedResult = JSON.parse(professionResult.data)
-    console.log('professionResult:: ',parsedResult)   
-
+    const parRes = JSON.parse(professionResult.data)
+    const parsedResult = propertyArray(parRes, 'profession')
     if (parsedResult)
       yield put(getProfessionSuccess(parsedResult))
   } catch (e) {
@@ -80,7 +79,7 @@ function* saveAndSendInvoiceSaga() {
       url = `${API_SERVER}/AddInvoice`
     } 
 
-    const formValues = getFormValues('invoiceReview')(store.getState())  
+    const formValues = getFormValues('invoiceReview')(store.getState()) 
 
     formValues.due_date = formatFiToISO(formValues.due_date.split('.'))
     formValues.billing_date = formatFiToISO(formValues.billing_date.split('.'))
@@ -100,7 +99,7 @@ function* saveAndSendInvoiceSaga() {
       })
     )
 
-    body.instant_payment = !!formValues.instant_payment
+    body.instant_payment = formValues.instant_payment   
 
     let bodyRows = []
     const l = Array.isArray(body.rows)

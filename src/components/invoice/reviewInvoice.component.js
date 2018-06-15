@@ -10,8 +10,10 @@ import {
 } from 'material-ui'
 import Spinner from 'react-spinner-material'
 
-import { renderTextField, renderCheckbox } from '../../utils/wrappers'
+import { renderTextField, renderRadioGroup } from '../../utils/wrappers'
 import ReviewInvoiceInputTable from './reviewInvoiceInputTable.component'
+
+import { RadioButton } from 'material-ui/RadioButton'
 
 export default class InvoiceRetro extends React.Component {
   componentWillMount() {
@@ -238,7 +240,7 @@ const ReviewInvoiceInfo = () =>
     </div>
   </div>
 
-const invoiceAdditionalInformation = () =>
+/* const invoiceAdditionalInformation = () =>
   <div className="panel panel-default">
     <div className="panel-heading">
       <h3 className="panel-title">Laskun lisätiedot</h3>
@@ -251,4 +253,18 @@ const invoiceAdditionalInformation = () =>
              label="Pikapalkka">
       </Field>
     </div>
+  </div> */
+
+const invoiceAdditionalInformation = () =>
+<div className="panel panel-default">
+  <div className="panel-heading">
+    <h3 className="panel-title">Laskun lisätiedot</h3>
   </div>
+  <div className="panel-body">
+    <Field name="instant_payment" component={renderRadioGroup}>
+      <RadioButton value="quick_pay" label="Pikapalkka" disabled={true} />
+      <RadioButton value="invoice_reminder" label="Haluan, että Kassavirtanen.fi huolehtii maksunvalvonnasta, maksumuistutuksista ja tarvittaessa perinnästä" 
+       disabled={true}/>
+    </Field>
+  </div>
+</div>

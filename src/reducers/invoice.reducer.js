@@ -1,4 +1,5 @@
 import React from 'react'
+import { MenuItem } from 'material-ui'
 import {
   CALCULATE_INVOICE_SUM,
   ADD_INVOICE_ROW,
@@ -15,7 +16,8 @@ import {
   EMPTY_INVOICE_ROWS,
   CHANGE_INVOICE_BILLING_DATE,
   GET_INVOICE_BY_ID_SUCCESS,
-  CANCEL_EDIT_INVOICE
+  CANCEL_EDIT_INVOICE,
+  GET_PROFESSION_SUCCESS
 } from '../constants'
 import { SESSION_TERMINATED, USER_EXPIRED } from 'redux-oidc'
 import { getFormValues } from 'redux-form'
@@ -51,7 +53,8 @@ const initialState = {
   invoices: [],
   selected: 0,
   invoiceEdit: [],
-  isEdit: false  
+  isEdit: false,
+  titleItems: []
 }
 
 const invoiceReducer = (state = initialState, action) => {
@@ -71,6 +74,16 @@ const invoiceReducer = (state = initialState, action) => {
           ),
           invoices: JSON.parse(action.invoices),
           customers: JSON.parse(action.customerResult)
+        }
+      )
+
+    case GET_PROFESSION_SUCCESS:
+    console.log('Inside Reducer of professions:: ', action.professions)
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          titleItems: _createMenuItems(action.professions)
         }
       )
 
@@ -103,7 +116,7 @@ const invoiceReducer = (state = initialState, action) => {
           isEdit: false
         }
       )
-    
+
 
     case CALCULATE_INVOICE_SUM:
       return Object.assign({}, state, {
@@ -207,7 +220,7 @@ const invoiceReducer = (state = initialState, action) => {
       )
 
     case CHANGE_INVOICE_BILLING_DATE:
-      return Object.assign({}, state, { billing_date: action.date })    
+      return Object.assign({}, state, { billing_date: action.date })
 
     default:
       return state
@@ -267,7 +280,7 @@ const _calculateRowSum = rowNumber => {
 
   formValues['rows'][rowNumber]['vat_percent_description'] = `${
     formValues['rows'][rowNumber]['vat_percent']
-  } %`
+    } %`
 }
 
 const _createInvoiceRow = (invoices, selected) =>
@@ -290,7 +303,7 @@ const _createInvoiceRow = (invoices, selected) =>
         style: 'currency',
         currency: 'EUR'
       }).format(el.total_sum)}
-      instant_payment={el.instant_payment}     
+      instant_payment={el.instant_payment}
       status={el.status}
       functions=""
     />
@@ -316,5 +329,8 @@ const _createInputRow = (index, copy) => [
     selectedEndDate={new Date('3000-01-01')}
   />
 ]
+
+const _createMenuItems = menuItems =>
+  menuItems.map((item, index) => <MenuItem key={index} value={item} primaryText={item}/>)
 
 export default invoiceReducer

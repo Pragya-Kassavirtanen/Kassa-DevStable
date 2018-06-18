@@ -118,7 +118,9 @@ import {
   DOWNLOAD_PDF_FAILED,
   GET_PROFESSION,
   GET_PROFESSION_SUCCESS,
-  GET_PROFESSION_FAILED
+  GET_PROFESSION_FAILED,
+  SHOW_TOOLTIP,
+  HIDE_TOOLTIP
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -167,7 +169,8 @@ export const saveInvoiceDraft = invoice_id => ({type: SAVE_INVOICE_DRAFT, invoic
 export const changeInvoiceBillingDate = date => ({type: CHANGE_INVOICE_BILLING_DATE, date})
 export const downloadPDFSuccess = () => ({ type: DOWNLOAD_PDF_SUCCESS })
 export const downloadPDFFailed = () => ({ type: DOWNLOAD_PDF_FAILED })
-
+export const showTooltip = () => ({ type: SHOW_TOOLTIP })
+export const hideTooltip = () => ({ type: HIDE_TOOLTIP })
 
 export const getExpenseStart = () => ({type: GET_EXPENSE_START})
 export const getExpenseSuccess = (expenses, allowances) => ({type: GET_EXPENSE_SUCCESS, expenses, allowances})

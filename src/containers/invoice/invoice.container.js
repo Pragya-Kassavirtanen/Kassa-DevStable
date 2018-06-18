@@ -15,7 +15,9 @@ import {
   changeInvoiceBillingDate,
   editInvoice,
   getInvoiceByIdSuccess,
-  cancelEditInvoice
+  cancelEditInvoice,
+  showTooltip,
+  hideTooltip
 } from '../../actions'
 import DateTimeFormat from '../../utils/DateTimeFormat'
 import {
@@ -145,7 +147,8 @@ const mapStateToProps = (state) => {
     titleItems: state.invoice.titleItems,
     invoicePages: Math.ceil(state.invoice.invoices.length / 10),
     isEdit: state.invoice.isEdit,
-    noMenu: state.customer.noMenu    
+    noMenu: state.customer.noMenu,
+    hoveredTooltip: state.invoice.hoveredTooltip
   }
 }
 
@@ -171,7 +174,9 @@ const mapDispatchToProps = (dispatch) => {
     selectInvoiceCustomer: customer => Object.keys(customer).forEach(key => dispatch(change('invoice', key, customer[key]))),
     editInvoice: invoice_id => dispatch(editInvoice(invoice_id)),
     cancelEditInvoice: () => dispatch(cancelEditInvoice()),
-    getInvoiceByIdSuccess: result => dispatch(getInvoiceByIdSuccess(result))
+    getInvoiceByIdSuccess: result => dispatch(getInvoiceByIdSuccess(result)),    
+    showTooltip: () => dispatch(showTooltip()),
+    hideTooltip: () => dispatch(hideTooltip())
   }
 }
 

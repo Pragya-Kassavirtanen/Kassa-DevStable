@@ -8,6 +8,8 @@ import {
   //saveAndSendInvoice,
   saveInvoiceDraft,
   editInvoice
+ // showTooltip,
+ // hideTooltip
 } from '../../actions/'
 
 import FontAwesome from 'react-fontawesome'
@@ -23,6 +25,7 @@ const InvoiceRow = ({
   totalSumWithVAT,
   status,
   instant_payment
+  //hoveredTooltip
 }) => (
   <TableRow key={id}>
     <TableRowColumn>{customer}</TableRowColumn>
@@ -42,10 +45,16 @@ const InvoiceRow = ({
             onClick={() => {
               store.dispatch(saveInvoiceDraft(invoice_id))
             }}
+           // onMouseEnter={()=>{store.dispatch({showTooltip})}}
+           // onMouseLeave={()=>{store.dispatch({hideTooltip})}}
           >
             <FontAwesome name="telegram" />
           </p>
         </Link>
+        {/* <Tooltip show={hoveredTooltip}
+         label="Preview and Accept"
+         touch={true}
+        /> */}
         {actionsByState(status, invoice_id)}
         <Link>
           <p

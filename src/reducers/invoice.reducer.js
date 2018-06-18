@@ -17,7 +17,9 @@ import {
   CHANGE_INVOICE_BILLING_DATE,
   GET_INVOICE_BY_ID_SUCCESS,
   CANCEL_EDIT_INVOICE,
-  GET_PROFESSION_SUCCESS
+  GET_PROFESSION_SUCCESS,
+  SHOW_TOOLTIP,
+  HIDE_TOOLTIP
 } from '../constants'
 import { SESSION_TERMINATED, USER_EXPIRED } from 'redux-oidc'
 import { getFormValues } from 'redux-form'
@@ -54,7 +56,8 @@ const initialState = {
   selected: 0,
   invoiceEdit: [],
   isEdit: false,
-  titleItems: []
+  titleItems: [],
+  hoveredTooltip: false
 }
 
 const invoiceReducer = (state = initialState, action) => {
@@ -78,7 +81,7 @@ const invoiceReducer = (state = initialState, action) => {
       )
 
     case GET_PROFESSION_SUCCESS:
-    console.log('Inside Reducer of professions:: ', action.professions)
+      console.log('Inside Reducer of professions:: ', action.professions)
       return Object.assign(
         {},
         { ...state },
@@ -222,6 +225,12 @@ const invoiceReducer = (state = initialState, action) => {
     case CHANGE_INVOICE_BILLING_DATE:
       return Object.assign({}, state, { billing_date: action.date })
 
+    case SHOW_TOOLTIP:
+      return Object.assign({}, { ...state }, { hoveredTooltip: true })
+
+    case HIDE_TOOLTIP:
+      return Object.assign({}, { ...state }, { hoveredTooltip: false })
+
     default:
       return state
   }
@@ -331,6 +340,6 @@ const _createInputRow = (index, copy) => [
 ]
 
 const _createMenuItems = menuItems =>
-  menuItems.map((item, index) => <MenuItem key={index} value={item} primaryText={item}/>)
+  menuItems.map((item, index) => <MenuItem key={index} value={item} primaryText={item} />)
 
 export default invoiceReducer

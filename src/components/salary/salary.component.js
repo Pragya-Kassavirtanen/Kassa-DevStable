@@ -17,7 +17,12 @@ import PaySalaryContainer from '../../containers/salary/paySalary.container'
  * @author  Kristian Lauttamus
  */
 
-export default class NewSalaryComponent extends React.Component {
+export default class NewSalaryComponent extends React.Component {    
+    
+  componentWillMount() {
+    this.props.getSalariesStart()    
+  }
+    
     render() {
         return <Salary {...this.props}/>
     }

@@ -77,10 +77,10 @@ const actionsByState = (status, invoice_id) =>
       <p
         style={{ marginLeft: '10px' }}
         onClick={() => {
-          store.dispatch(copyInvoice(invoice_id))
+          store.dispatch(editInvoice(invoice_id))
         }}
       >
-        <FontAwesome name="clone" />
+        <FontAwesome name="pencil" />
       </p>
     </Link>
   ) : (
@@ -88,10 +88,10 @@ const actionsByState = (status, invoice_id) =>
       <p
         style={{ marginLeft: '10px' }}
         onClick={() => {
-          store.dispatch(editInvoice(invoice_id))      
+          store.dispatch(copyInvoice(invoice_id))      
         }}
       >
-        <FontAwesome name="pencil" />
+        <FontAwesome name="clone" />
       </p>
     </Link>
   )

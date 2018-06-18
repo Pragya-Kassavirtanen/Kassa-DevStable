@@ -12,6 +12,7 @@ import {
   CANCEL_EDIT_INVOICE,
   GET_INVOICES_SUCCESS,
   GET_INVOICES_START,
+  GET_SALARIES_START,
   LOAD_INVOICE_REVIEW,
   POST_TAX_CARD,
   SAVE_AND_SEND_INVOICE,
@@ -254,7 +255,8 @@ export const hideAdminSnackbar = () => ({type: HIDE_ADMIN_SNACKBAR})
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})
-export const getSalariesSuccess = result => ({type: GET_SALARIES_SUCCESS, result})
+export const getSalariesStart = () => ({ type: GET_SALARIES_START })
+export const getSalariesSuccess = resultParsed => ({type: GET_SALARIES_SUCCESS, resultParsed})
 export const selectRowSalary = selected =>  ({type: SELECT_ROW_SALARY, selected})
 export const selectRowSalarySuccess = result => ({type: SELECT_ROW_SALARY_SUCCESS, result})
 export const postSalary = selected => ({type: POST_SALARY, selected})

@@ -309,7 +309,7 @@ const invoiceAdditionalInformation = () =>
     <div className="panel-body">
       <Field name="instant_payment" component={renderRadioGroup}>
         <RadioButton value="quick_pay" label="Pikapalkka" />
-        <RadioButton value="invoice_reminder" label="Haluan, että Kassavirtanen.fi huolehtii maksunvalvonnasta, maksumuistutuksista ja tarvittaessa perinnästä" />
+        <RadioButton value="invoice_reminder" label="En halua, että Kassavirtanen.fi tarjoaa maksuvalvonnan, maksun muistutukset ja tarvittaessa palautuksen" />
       </Field>
     </div>
   </div>

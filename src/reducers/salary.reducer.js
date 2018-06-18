@@ -41,7 +41,7 @@ const salaryReducer = (state = initialState, action) => {
       return Object.assign({}, {...state}, {newSalary: action.result})
 
     case GET_SALARIES_SUCCESS:
-      return Object.assign({}, {...state}, {salaryRows: _createSalaryRows(action.result.data)})
+      return Object.assign({}, {...state}, {salaryRows: _createSalaryRows(action.resultParsed)})
 
     case SELECT_ROW_SALARY:
 
@@ -97,15 +97,15 @@ const _createSalaryRows = salaries => salaries.map((el, index) =>
                day: 'numeric',
                month: 'numeric',
                year: 'numeric'
-             }).format(new Date(el.created_at))}
+             }).format(new Date(el.created))}
              gross_sum = {new Intl.NumberFormat('fi-FI', {
                style: 'currency',
                currency: 'EUR'
-             }).format(el.gross_sum)}
+             }).format(el.gross_salary)}
              net_sum = {new Intl.NumberFormat('fi-FI', {
                style: 'currency',
                currency: 'EUR'
-             }).format(el.net_sum)}
+             }).format(el.net_salary)}
              service_cost = {new Intl.NumberFormat('fi-FI', {
                style: 'currency',
                currency: 'EUR'
@@ -113,10 +113,10 @@ const _createSalaryRows = salaries => salaries.map((el, index) =>
              allowance_cost = {new Intl.NumberFormat('fi-FI', {
                style: 'currency',
                currency: 'EUR'
-             }).format(el.allowance_cost)}
+             }).format(el.expenses_cost)}
              expense_cost = {new Intl.NumberFormat('fi-FI', {
                style: 'currency',
                currency: 'EUR'
-             }).format(el.expense_cost)}/>)
+             }).format(el.reimbursment_cost)}/>)
 
 export default salaryReducer

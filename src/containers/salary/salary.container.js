@@ -2,6 +2,10 @@ import { connect } from 'react-redux'
 
 import Salary from '../../components/salary/salary.component'
 
+import {
+    getSalariesStart
+} from '../../actions'
+
 const mapStateToProps = state => {
     return {
         state,
@@ -9,13 +13,12 @@ const mapStateToProps = state => {
     }
 }
 
-
 const mapDispatchToProps = dispatch => {
     return {
-      dispatch
+      dispatch,
+      getSalariesStart: () => dispatch(getSalariesStart())
     }
 }
-
 
 const SalaryContainer = connect(mapStateToProps, mapDispatchToProps)(Salary)
 

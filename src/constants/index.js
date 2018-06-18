@@ -135,6 +135,7 @@ export const GET_NEW_SALARY_START = '@@salary/GET_NEW_SALARY_START'
 export const GET_NEW_SALARY_SUCCESS = '@@salary/GET_NEW_SALARY_SUCCESS'
 export const SELECT_ROW_SALARY = '@@salary/SELECT_ROW_SALARY'
 export const SELECT_ROW_SALARY_SUCCESS = '@@salary/SELECT_ROW_SALARY_SUCCESS'
+export const GET_SALARIES_START = '@@salary/GET_SALARIES_START'
 export const GET_SALARIES_SUCCESS = '@@salary/GET_SALARIES_SUCCESS'
 export const POST_SALARY = '@@salary/POST_SALARY'
 

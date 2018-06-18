@@ -11,7 +11,7 @@ import {
   getSalariesSuccess
 } from '../actions/index'
 import store from '../store'
-import { apiRequest, apiPost, apiManualRequest } from '../utils/request'
+import { apiPost, apiManualRequest } from '../utils/request'
 
 function* getNewSalarySaga() {
   try {
@@ -51,12 +51,14 @@ function* postSalarySaga({ selected }) {
 
 function* getSalariesSaga() {
   try {
-    const uuid = store.getState().profile.uuid
-    if (!!uuid) {
-      const url = `${API_SERVER}/users/${uuid}/salaries`
-      const result = yield call(apiRequest, url)
-      yield put(getSalariesSuccess(result))
-    }
+    //const uuid = store.getState().profile.uuid
+    //if (!!uuid) {
+      const url = `${API_SERVER}/GetSalaries`
+      const result = yield call(apiManualRequest, url)
+      const resultParsed = JSON.parse(result.data)
+      console.log('getSalariesSaga:: ',resultParsed)
+      yield put(getSalariesSuccess(resultParsed))
+   // }
   } catch (e) {
     console.warn(e)
   }

@@ -3,15 +3,15 @@ import {
   API_SERVER,
   GET_NEW_SALARY_START,
   SELECT_ROW_SALARY,
-  POST_SALARY
+  POST_SALARY 
 } from '../constants/index'
 import {
   getNewSalarySuccess,
   selectRowSalarySuccess,
-  getSalariesSuccess
+  getSalariesSuccess  
 } from '../actions/index'
 import store from '../store'
-import { apiPost, apiManualRequest } from '../utils/request'
+import { apiPost, apiManualRequest, apiManualPost } from '../utils/request'
 
 function* getNewSalarySaga() {
   try {
@@ -51,14 +51,11 @@ function* postSalarySaga({ selected }) {
 
 function* getSalariesSaga() {
   try {
-    //const uuid = store.getState().profile.uuid
-    //if (!!uuid) {
       const url = `${API_SERVER}/GetSalaries`
       const result = yield call(apiManualRequest, url)
       const resultParsed = JSON.parse(result.data)
       console.log('getSalariesSaga:: ',resultParsed)
-      yield put(getSalariesSuccess(resultParsed))
-   // }
+      yield put(getSalariesSuccess(resultParsed))   
   } catch (e) {
     console.warn(e)
   }
@@ -113,12 +110,19 @@ function* getSalariesSaga() {
 
      console.log(allowancesResult, expensesResult) */
 
+     const uuid = store.getState().client.user.data[2]    
+     const taxUrl = `${API_SERVER}/GetSalaryTaxPercentagesbyUUID`
+     const body = JSON.stringify({ uuid: uuid })
+     const taxResult = yield call(apiManualPost, taxUrl, body)
+     const resultParsed = JSON.parse(taxResult.data)
+
       yield put(
         selectRowSalarySuccess({
+           taxResult: resultParsed,
            //allowancesResult: allowancesResult,
            allowancesResult: '149',
           //expensesResult: expensesResult 
-          expensesResult: '169'        
+          expensesResult: '169'                  
         })
       )   
   } catch (e) {

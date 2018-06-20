@@ -139,7 +139,6 @@ export const GET_SALARIES_START = '@@salary/GET_SALARIES_START'
 export const GET_SALARIES_SUCCESS = '@@salary/GET_SALARIES_SUCCESS'
 export const POST_SALARY = '@@salary/POST_SALARY'
 
-
 export const OPENID_SERVER = process.env.OPENID_SERVER
 
 //export const API_SERVER_OLD = 'https://kvtmiddlelayer.azurewebsites.net/api'

@@ -82,16 +82,6 @@ const NewSalarySummary = ({
                   }).format(newSalarySummary.salary_sum)}
                 </TableRowColumn>
               </TableRow>
-              {/* <TableRow>
-                <TableRowColumn>Työnantajakulut</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.employer_cost)}
-                  </TableRowColumn>
-              </TableRow> */}
-              
               <TableRow>
                 <TableRowColumn>Matka- ja päivärahakorvaukset</TableRowColumn>
                 <TableRowColumn>
@@ -101,7 +91,6 @@ const NewSalarySummary = ({
                   }).format(newSalarySummary.allowances_cost)}
                 </TableRowColumn>
               </TableRow>
-
               <TableRow>
                 <TableRowColumn>Kulukorvaukset</TableRowColumn>
                 <TableRowColumn>
@@ -111,17 +100,15 @@ const NewSalarySummary = ({
                   }).format(newSalarySummary.expenses_cost)}
                 </TableRowColumn>
               </TableRow>
-
               <TableRow>
                 <TableRowColumn>Sosiaaliturvamaksu</TableRowColumn>
                 <TableRowColumn>
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
-                  }).format(newSalarySummary.expenses_cost)}
+                  }).format(newSalarySummary.social_contri)}
                 </TableRowColumn>
               </TableRow>
-
               <TableRow>
                 <TableRowColumn>Tapaturmavakuutus</TableRowColumn>
                 <TableRowColumn>
@@ -130,8 +117,7 @@ const NewSalarySummary = ({
                     currency: 'EUR'
                   }).format(newSalarySummary.expenses_cost)}
                 </TableRowColumn>
-              </TableRow>
-              
+              </TableRow>              
               <TableRow>
                 <TableRowColumn><b>Bruttopalkka</b></TableRowColumn>
                 <TableRowColumn>
@@ -141,22 +127,15 @@ const NewSalarySummary = ({
                   }).format(newSalarySummary.gross_sum)}
                 </TableRowColumn>
               </TableRow>
-
-             {/*  <TableRow>
-                <TableRowColumn>Työntekijän pidätykset {taxPercent*100}%</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.tax)}
-                </TableRowColumn>
-              </TableRow> */}
-
               <TableRow>
                 <TableRowColumn>YEL-vakuutus</TableRowColumn>
-                <TableRowColumn>0 £</TableRowColumn>
-              </TableRow>         
-
+                <TableRowColumn>
+                {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.yel_insurance)}
+                </TableRowColumn>
+              </TableRow>
               <TableRow>
                 <TableRowColumn><b>Nettopalkka</b></TableRowColumn>
                 <TableRowColumn>
@@ -168,21 +147,7 @@ const NewSalarySummary = ({
               </TableRow>
             </TableBody>
           </Table>
-          <hr/>
-          {/* <Table selectable={false}>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow>
-                <TableHeaderColumn><div className="dashboard-salary-header">Muut kulut</div></TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              <TableRow>
-                <TableRowColumn>YEL-vakuutus</TableRowColumn>
-                <TableRowColumn>0 £</TableRowColumn>
-              </TableRow>
-            </TableBody>
-          </Table>
-          <hr/> */}
+          <hr/>          
           <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
@@ -196,7 +161,6 @@ const NewSalarySummary = ({
               </TableRow>
             </TableHeader>
           </Table>
-
         </div>
       </div>
     </div>

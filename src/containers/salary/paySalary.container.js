@@ -13,7 +13,7 @@ const mapStateToProps = state => {
   const selectedIds = state.salary.selectedRows.map(el => state.salary.newSalary[el].id)
 
   return {
-    newSalary: state.salary.newSalary,
+    newSalary: state.salary.newSalary,    
     taxPercent: state.salary.taxPercent,
     newSalarySummary: state.salary.newSalarySummary,
     selectedRows: state.salary.selectedRows,
@@ -25,7 +25,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    getNewSalaryStart: () => dispatch(getNewSalaryStart()),
+    getNewSalaryStart: () => dispatch(getNewSalaryStart()),   
     selectRowSalary: selected => dispatch(selectRowSalary(selected)),
     postSalary: selected => dispatch(postSalary(selected))
   }

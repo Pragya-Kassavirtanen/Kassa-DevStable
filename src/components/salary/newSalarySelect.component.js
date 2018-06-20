@@ -12,7 +12,7 @@ import {
 export default class NewSalarySelectComponent extends React.Component {
 
   componentWillMount() {
-    this.props.getNewSalaryStart()
+    this.props.getNewSalaryStart()   
     this.props.selectRowSalary([])
   }
 
@@ -22,7 +22,7 @@ export default class NewSalarySelectComponent extends React.Component {
 }
 
 const NewSalarySelect = ({
-  newSalary,
+  newSalary, 
   selectRowSalary
 }) =>
 <div className="panel-body">

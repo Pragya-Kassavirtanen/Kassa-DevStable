@@ -60,7 +60,7 @@ export default function* rootSaga() {
     watchGetYelSaga(),
     watchSelectRowSalarySaga(),
     watchGetSalariesSaga(),
-    watchPostSalarySaga(),
+    watchPostSalarySaga(),   
     watchSendRegisterInfoSaga(),
     watchLoginSaga()
   ]

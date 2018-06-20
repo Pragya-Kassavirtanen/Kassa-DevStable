@@ -12,12 +12,12 @@ export default class PaySalaryComponent extends React.Component {
 }
 
 const PaySalary = ({
-  getNewSalaryStart,
+  getNewSalaryStart, 
   selectRowSalary,
   newSalarySummary,
   taxPercent,
   selectedRows,
-  newSalary,
+  newSalary, 
   postSalary,
   salaries
 }) =>
@@ -41,8 +41,8 @@ const PaySalary = ({
                 Laskut
               </div>
               <NewSalarySelectComponent
-                getNewSalaryStart={getNewSalaryStart}
-                newSalary={newSalary}
+                getNewSalaryStart={getNewSalaryStart}               
+                newSalary={newSalary}                
                 selectRowSalary={selectRowSalary}/>
             </div>
           </div>

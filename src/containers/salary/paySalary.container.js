@@ -10,7 +10,7 @@ import {
 
 const mapStateToProps = state => {
 
-  const selectedIds = state.salary.selectedRows.map(el => state.salary.newSalary[el].id)
+  const selectedIds = state.salary.selectedRows.map(el => state.salary.newSalary[el].invoice_id)
 
   return {
     newSalary: state.salary.newSalary,    

@@ -18,8 +18,7 @@ export default class NewSalarySummaryComponent extends React.Component {
 }
 
 const NewSalarySummary = ({
-  newSalarySummary,
-  //taxPercent,
+  newSalarySummary, 
   postSalary,
   salaries
 }) =>
@@ -115,7 +114,7 @@ const NewSalarySummary = ({
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
-                  }).format(newSalarySummary.expenses_cost)}
+                  }).format(newSalarySummary.acc_insurance)}
                 </TableRowColumn>
               </TableRow>              
               <TableRow>
@@ -125,6 +124,15 @@ const NewSalarySummary = ({
                     style: 'currency',
                     currency: 'EUR'
                   }).format(newSalarySummary.gross_sum)}
+                </TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>Ennakonpidätys</TableRowColumn>
+                <TableRowColumn>
+                {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.tax_percentage)}
                 </TableRowColumn>
               </TableRow>
               <TableRow>

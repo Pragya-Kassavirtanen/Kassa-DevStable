@@ -138,6 +138,9 @@ export const SELECT_ROW_SALARY_SUCCESS = '@@salary/SELECT_ROW_SALARY_SUCCESS'
 export const GET_SALARIES_START = '@@salary/GET_SALARIES_START'
 export const GET_SALARIES_SUCCESS = '@@salary/GET_SALARIES_SUCCESS'
 export const POST_SALARY = '@@salary/POST_SALARY'
+export const GET_SALARY_INFO = '@@salary/GET_SALARY_INFO'
+export const GET_SALARY_BY_ID_SUCCESS = '@@salary/GET_SALARY_BY_ID_SUCCESS'
+export const SALARY_PAGE_CHANGE = '@@salary/SALARY_PAGE_CHANGE'
 
 export const OPENID_SERVER = process.env.OPENID_SERVER
 

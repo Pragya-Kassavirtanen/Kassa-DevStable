@@ -3,12 +3,14 @@ import {
   API_SERVER,
   GET_NEW_SALARY_START,
   SELECT_ROW_SALARY,
-  POST_SALARY
+  POST_SALARY,
+  GET_SALARY_INFO
 } from '../constants/index'
 import {
   getNewSalarySuccess,
   selectRowSalarySuccess,
-  getSalariesSuccess
+  getSalariesSuccess,
+  getSalaryByIdSuccess
 } from '../actions/index'
 import store from '../store'
 import { apiManualRequest, apiManualPost } from '../utils/request'
@@ -31,16 +33,29 @@ function* getNewSalarySaga() {
 }
 
 function* postSalarySaga({ selected }) {
-  try {
-    const uuid = store.getState().client.user.data[2]
-    //gross_salary,net_salary,service_cost,expenses_cost,reimbursment_cost,take_home_pay,tax_cost,yel_cost
+  try {       
+    let bills = []
+    selected.map( el => bills.push({'invoice_id':el}))    
+    const salarySummary = store.getState().salary.newSalarySummary
+    console.log('salarySummary:: ',salarySummary)
+    const uuid = store.getState().client.user.data[2]    
     const body = JSON.stringify({
       uuid: uuid,
-      invoices: selected
+      invoices: bills,
+      gross_salary: salarySummary.gross_sum,
+      net_salary: salarySummary.net_sum,
+      service_cost:salarySummary.service_cost,
+      expenses_cost: salarySummary.allowances_cost,
+      reimbursment_cost:salarySummary.expenses_cost,
+      take_home_pay: salarySummary.paid_sum,
+      tax_cost: salarySummary.tax_percentage,
+      yel_cost: salarySummary.yel_insurance,
+      accidental_insurance: salarySummary.acc_insurance,
+      social_contribution: salarySummary.social_contri,
+      sumWithoutTax: salarySummary.sumwithoutTax,
+      palkka: salarySummary.palkka
     })
-    const url = `${API_SERVER}/AddSalary`
-    console.log(body)
-    console.log(url)
+    const url = `${API_SERVER}/AddSalary`   
     yield call(apiManualPost, url, body)
   } catch (e) {
     console.warn(e)
@@ -77,6 +92,18 @@ function* selectRowSalarySaga() {
   }
 }
 
+function* getSalaryByIdSaga({ id }) {
+  try {
+    const url = `${API_SERVER}/GetSalaryByID`
+    const body = JSON.stringify({ id: id })
+    const result = yield call(apiManualPost, url, body)
+    const resultParsed = JSON.parse(result.data)
+    yield put(getSalaryByIdSuccess(resultParsed))
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 export function* watchGetNewSalarySaga() {
   yield takeEvery(GET_NEW_SALARY_START, getNewSalarySaga)
 }
@@ -91,4 +118,8 @@ export function* watchPostSalarySaga() {
 
 export function* watchGetSalariesSaga() {
   yield takeEvery(GET_NEW_SALARY_START, getSalariesSaga)
+}
+
+export function* watchGetSalaryByIdSaga() {
+  yield takeEvery(GET_SALARY_INFO, getSalaryByIdSaga)
 }

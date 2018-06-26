@@ -76,6 +76,9 @@ import {
   GET_NEW_SALARY_START,
   GET_NEW_SALARY_SUCCESS,
   SELECT_ROW_SALARY,
+  GET_SALARY_INFO,
+  GET_SALARY_BY_ID_SUCCESS,
+  SALARY_PAGE_CHANGE,
   UPDATE_ADMIN_INVOICE,
   UPDATE_ADMIN_INVOICE_RESULT,
   HIDE_ADMIN_SNACKBAR,
@@ -260,3 +263,6 @@ export const getSalariesSuccess = resultParsed => ({type: GET_SALARIES_SUCCESS, 
 export const selectRowSalary = selected =>  ({type: SELECT_ROW_SALARY, selected})
 export const selectRowSalarySuccess = result => ({type: SELECT_ROW_SALARY_SUCCESS, result})
 export const postSalary = selected => ({type: POST_SALARY, selected})
+export const getSalaryInfo = id => ({type: GET_SALARY_INFO, id})
+export const getSalaryByIdSuccess = result => ({type: GET_SALARY_BY_ID_SUCCESS, result})
+export const salaryPageChange = selected => ({type: SALARY_PAGE_CHANGE, selected})

@@ -3,25 +3,37 @@ import { connect } from 'react-redux'
 import Salary from '../../components/salary/salary.component'
 
 import {
-    getSalariesStart,
-    getSalaryTaxPercentageSuccess
+  getSalariesStart,
+  getSalaryTaxPercentageSuccess,
+  getSalaryInfo,
+  salaryPageChange
 } from '../../actions'
 
 const mapStateToProps = state => {
-    return {
-        state,
-        salaryRows: state.salary.salaryRows        
-    }
+  return {
+    state,
+    salaryRows: state.salary.salaryRows,
+    salaryPages: !!state.salary.salaryRows
+      ? Math.ceil(state.salary.salaryRows.length / 10)
+      : 0,
+    id: state.salary.salaryInfo.id
+  }
 }
 
 const mapDispatchToProps = dispatch => {
-    return {
-      dispatch,
-      getSalariesStart: () => dispatch(getSalariesStart()),     
-      getSalaryTaxPercentageSuccess: (resultParsed) => dispatch(getSalaryTaxPercentageSuccess(resultParsed))
-    }
+  return {
+    dispatch,
+    getSalariesStart: () => dispatch(getSalariesStart()),
+    getSalaryTaxPercentageSuccess: resultParsed =>
+      dispatch(getSalaryTaxPercentageSuccess(resultParsed)),
+    getSalaryInfo: id => dispatch(getSalaryInfo(id)),
+    salaryPageChange: selected => dispatch(salaryPageChange(selected))
+  }
 }
 
-const SalaryContainer = connect(mapStateToProps, mapDispatchToProps)(Salary)
+const SalaryContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Salary)
 
 export default SalaryContainer

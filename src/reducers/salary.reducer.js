@@ -90,43 +90,58 @@ const salaryReducer = (state = initialState, action) => {
       }
 
       const service_cost = sum * service_percentage * 0.01
+
       const salary_sum = sum - service_cost
-
-      const insurance = state.selectedRows.map(
-        el =>
-          (state.newSalary[el].sumwithoutTax -
-            state.newSalary[el].expenses -
-            state.newSalary[el].expenses -
-            service_cost) *
-          state.newSalary[el].professionaltax *
-          0.01
-      )
-      //console.log('insurance:: ',insurance)
-      const accidental_insurance = insurance.reduce((a, b) => a + b, 0)
-      //console.log('accidental_insurance:: ', accidental_insurance)
-
-      const social_tax = state.selectedRows.map(
-        el =>
-          (state.newSalary[el].sumwithoutTax -
-            state.newSalary[el].expenses -
-            state.newSalary[el].expenses -
-            service_cost) *
-          standard_social_tax *
-          0.01
-      )
-      //console.log('social_tax:: ',social_tax)
-      const social_contribution = social_tax.reduce((a, b) => a + b, 0)
-      //console.log('social_contribution:: ', social_contribution)
 
       const palkka = state.selectedRows.map(
         el =>
           state.newSalary[el].sumwithoutTax -
           state.newSalary[el].expenses -
           state.newSalary[el].expenses -
-          service_cost
+          state.newSalary[el].sumwithoutTax * service_percentage * 0.01
       )
+      // console.log('palkka:: ',palkka)
+
       const palkka_sum = palkka.reduce((a, b) => a + b, 0)
-      const gross_sum = palkka_sum - social_contribution - accidental_insurance
+
+      const rule = state.selectedRows.map(
+        el =>
+          1.0 +
+          standard_social_tax * 0.01 +
+          state.newSalary[el].professionaltax * 0.01
+      )
+      // console.log('rule:: ',rule)
+
+      const grossPerInvoice = []
+      for (var i = 0; i < palkka.length; i++) {
+        grossPerInvoice.push(palkka[i] / rule[i])
+      }
+      //console.log('grossPerInvoice:: ',grossPerInvoice)
+
+      const gross_sum = grossPerInvoice.reduce((a, b) => a + b, 0)
+      //console.log('gross_sum:: ',gross_sum)
+
+      const prof_tax = state.selectedRows.map(
+        el => state.newSalary[el].professionaltax
+      )
+      //console.log('prof_tax:: ', prof_tax)
+
+      const insurance = []
+      for (var i = 0; i < grossPerInvoice.length; i++) {
+        insurance.push(grossPerInvoice[i] * prof_tax[i] * 0.01)
+      }
+      //console.log('insurance:: ',insurance)
+
+      const accidental_insurance = insurance.reduce((a, b) => a + b, 0)
+      //console.log('accidental_insurance:: ', accidental_insurance)
+
+      const social_tax = []
+      for (var i = 0; i < grossPerInvoice.length; i++) {
+        social_tax.push(grossPerInvoice[i] * standard_social_tax * 0.01)
+      }
+      //console.log('social_tax:: ',social_tax)
+      const social_contribution = social_tax.reduce((a, b) => a + b, 0)
+      //console.log('social_contribution:: ', social_contribution)
 
       const personal_tax = gross_sum * personal_tax_percentage
       const yel = gross_sum * yel_percentage

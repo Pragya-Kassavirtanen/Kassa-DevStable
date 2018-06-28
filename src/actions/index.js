@@ -124,7 +124,8 @@ import {
   GET_PROFESSION_SUCCESS,
   GET_PROFESSION_FAILED,
   SHOW_TOOLTIP,
-  HIDE_TOOLTIP
+  HIDE_TOOLTIP,
+  REMOVE_EXPENSE
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -200,6 +201,7 @@ export const loadAllowanceCost = () => ({ type: LOAD_ALLOWANCE_COST })
 export const loadAllowanceCostSuccess = (result) => ({ type: LOAD_ALLOWANCE_COST_SUCCESS, result })
 export const loadAllowanceCostFailed = (error) => ({ type: LOAD_ALLOWANCE_COST_FAILED, error })
 export const allowancePageChange = selected => ({ type: ALLOWANCE_CHANGE_PAGE, selected })
+export const removeExpense = invoice_expense_id => ({type: REMOVE_EXPENSE, invoice_expense_id})
 
 export const newCustomer = () => ({type: NEW_CUSTOMER})
 export const addCustomersSuccess = (result) => ({type: ADD_CUSTOMER_SUCCESS, result})

@@ -24,7 +24,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 export default class NewExpensesComponent extends React.Component {
 
   componentWillMount() {
-    this.props.loadAllowanceCost()
+    //this.props.loadAllowanceCost()
     this.props.getInvoicesStart()
     this.props.getExpenseStart()
   }
@@ -123,6 +123,7 @@ const createdExpenseRows = (expenseRow, expensePages, expensePageChange) =>
           <TableHeaderColumn>Osto pvm</TableHeaderColumn>
           <TableHeaderColumn>Ostopaikka</TableHeaderColumn>
           <TableHeaderColumn>Summa</TableHeaderColumn>
+          <TableHeaderColumn>Toiminnot</TableHeaderColumn>
         </TableRow>
       </TableHeader>
       <TableBody displayRowCheckbox={false}>
@@ -153,6 +154,7 @@ const createdAllowanceRows = (allowanceRow, allowancePages, allowancePageChange)
           <TableHeaderColumn>Aloituspvm</TableHeaderColumn>
           <TableHeaderColumn>Loppupvm</TableHeaderColumn>
           <TableHeaderColumn>Summa</TableHeaderColumn>
+          <TableHeaderColumn>Toiminnot</TableHeaderColumn>
         </TableRow>
       </TableHeader>
       <TableBody displayRowCheckbox={false}>

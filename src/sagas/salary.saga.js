@@ -92,6 +92,8 @@ function* selectRowSalarySaga() {
   }
 }
 
+//replace id by salary_id
+
 function* getSalaryByIdSaga({ id }) {
   try {
     const url = `${API_SERVER}/GetSalaryByID`

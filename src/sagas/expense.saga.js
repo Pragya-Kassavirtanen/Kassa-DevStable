@@ -9,8 +9,8 @@ import {
   emptyExpenseRows,
   loadAllowanceCostSuccess,
   saveTravellingExpenseSuccess} from '../actions/index'
-import { SAVE_EXPENSE, API_SERVER, GET_EXPENSE_START, SAVE_TRAVELLING_EXPENSE, LOAD_ALLOWANCE_COST } from '../constants/index'
-import { apiRequest, apiPost, createUploadFileChannel } from '../utils/request'
+import { SAVE_EXPENSE, API_SERVER, GET_EXPENSE_START, SAVE_TRAVELLING_EXPENSE, LOAD_ALLOWANCE_COST, REMOVE_EXPENSE } from '../constants/index'
+import { apiRequest, apiManualRequest, apiPost, apiManualPost, createUploadFileChannel } from '../utils/request'
 import store from '../store'
 import { getFormValues, reset } from 'redux-form'
 import { formatFiDateToISO } from '../utils/DateTimeFormat'
@@ -22,25 +22,30 @@ import { formatFiDateToISO } from '../utils/DateTimeFormat'
 function* getExpenseStartSaga() {
   try {
 
-    const uuid = (store.getState()).profile.uuid
+   // const uuid = (store.getState()).profile.uuid
 
-    if(!!uuid) {
-      const expenseUrl = `${API_SERVER}/users/${uuid}/expenses`
-      const expenseResult = yield apiRequest(expenseUrl)
+   // if(!!uuid) {
+      const expenseUrl = `${API_SERVER}/GetExpenses`
+      const expResult = yield apiManualRequest(expenseUrl)
+      const expenseResult = JSON.parse(expResult.data)
+
+      console.log('expenseResult:: ',expenseResult)
       const expenses = []
 
-      expenseResult[Symbol.iterator] = function*() {
+/*       expenseResult[Symbol.iterator] = function*() {
         const keys = Reflect.ownKeys(this)
         for (const key of keys) {
           yield this[key]
         }
-      }
+      } */
 
-      for (const expense of expenseResult.data) {
+      for (const expense of expenseResult) {
         expenses.push(expense)
       }
 
-      const allowanceUrl = `${API_SERVER}/users/${uuid}/allowances`
+      console.log('expenses:: ',expenses)
+
+      /* const allowanceUrl = `${API_SERVER}/users/${uuid}/allowances`
       const allowanceResult = yield apiRequest(allowanceUrl)
 
       const allowances = []
@@ -54,10 +59,11 @@ function* getExpenseStartSaga() {
 
       for (const allowance of allowanceResult.data) {
         allowances.push(allowance)
-      }
+      } */
 
-      yield put(getExpenseSuccess(expenses, allowances))
-    }
+      //yield put(getExpenseSuccess(expenses, allowances))
+      yield put(getExpenseSuccess(expenses))
+   // }
 
   } catch (e) {
     yield put(getExpenseFailed(e))
@@ -156,6 +162,16 @@ function* loadAllowanceCost() {
   yield put(loadAllowanceCostSuccess(result.data))
 }
 
+function* removeExpenseSaga({invoice_expense_id}) {
+  try {
+    const url = `${API_SERVER}/DeleteExpenses`
+    const body = JSON.stringify({ invoice_expense_id: invoice_expense_id })
+    yield call(apiManualPost, url, body)
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 export function* watchSaveExpenseSaga() {
   yield takeEvery(SAVE_EXPENSE, saveExpenseSaga)
 }
@@ -170,5 +186,9 @@ export function* watchSaveTravellingExpenseSaga() {
 
 export function* watchLoadAllowanceCostSaga() {
   yield takeEvery(LOAD_ALLOWANCE_COST, loadAllowanceCost)
+}
+
+export function* watchRemoveExpenseSaga() {
+  yield takeEvery(REMOVE_EXPENSE, removeExpenseSaga)
 }
 

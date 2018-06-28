@@ -15,6 +15,7 @@ import DateTimeFormat from '../utils/DateTimeFormat'
 import {
   ADD_EXPENSE_ROW,
   REMOVE_EXPENSE_ROW,
+  REMOVE_EXPENSE,
   ADD_ALLOWANCE_ROW,
   REMOVE_ALLOWANCE_ROW,
   ADD_PASSENGER_ROW,
@@ -67,9 +68,9 @@ const expenseReducer = (state = initialState, action) => {
     case GET_EXPENSE_SUCCESS:
       return Object.assign({}, {...state}, {
         expenseRow: _createExpenseRow(action.expenses, state.selected),
-        expenses: action.expenses,
-        allowanceRow: _createAllowanceRow(action.allowances, state.allowanceSelected, state.allowanceCost),
-        allowances: action.allowances
+        expenses: action.expenses
+        //allowanceRow: _createAllowanceRow(action.allowances, state.allowanceSelected, state.allowanceCost),
+        //allowances: action.allowances
       })
 
     case ADD_EXPENSE_ROW:
@@ -102,6 +103,17 @@ const expenseReducer = (state = initialState, action) => {
     case REMOVE_EXPENSE_ROW:
       return Object.assign({}, state, {
         expenseInputRow: state.expenseInputRow.filter((el, index) => index !== action.key)
+      })
+
+      case REMOVE_EXPENSE:
+      return Object.assign({}, state, {
+        expenses: state.expenses.filter(
+          el => el.invoice_expense_id !== action.invoice_expense_id
+        ),
+        expenseRow: _createExpenseRow(
+          state.expenses.filter(el => el.invoice_expense_id !== action.invoice_expense_id),
+          state.selected
+        )
       })
 
     case ADD_ALLOWANCE_ROW:
@@ -174,8 +186,8 @@ const expenseReducer = (state = initialState, action) => {
   }
 }
 
-const _createExpenseRow = (expenses, selected) => expenses.slice((selected * 10), (selected * 10) + 10).map((el, index) =>
-  <ExpenseRow key={index}
+const _createExpenseRow = (expenses, selected) => expenses.slice((selected * 10), (selected * 10) + 10).map((el) =>
+  <ExpenseRow key={el.invoice_expense_id}
               company_name={el.company_name}
               date_of_purchase={new DateTimeFormat('fi', {
                 day: 'numeric',
@@ -186,7 +198,8 @@ const _createExpenseRow = (expenses, selected) => expenses.slice((selected * 10)
               sum={new Intl.NumberFormat('fi-FI', {
                 style: 'currency',
                 currency: 'EUR'
-              }).format(el.sum)}/>)
+              }).format(el.sum)}
+              invoice_expense_id={el.invoice_expense_id}/>)
 
 
 const _createAllowanceRow = (allowances, selected, cost) => allowances.slice((selected * 10), (selected * 10) + 10).map((el, index) =>

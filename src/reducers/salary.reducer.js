@@ -65,6 +65,8 @@ const salaryReducer = (state = initialState, action) => {
       const salaryTaxPercent = action.result.taxResult
       let service_percentage = salaryTaxPercent[0].service_payment
       const standard_social_tax = salaryTaxPercent[0].standard_social_tax
+      const yel_option = salaryTaxPercent[0].yelselect
+      const total_gross = salaryTaxPercent[0].Totalgross
       const yel_percentage = salaryTaxPercent[0].yel_percentage * 0.01
       const personal_tax_percentage = salaryTaxPercent[0].tax_percentage * 0.01
       const sum = state.selectedRows.reduce(
@@ -119,7 +121,17 @@ const salaryReducer = (state = initialState, action) => {
       //console.log('grossPerInvoice:: ',grossPerInvoice)
 
       const gross_sum = grossPerInvoice.reduce((a, b) => a + b, 0)
-      //console.log('gross_sum:: ',gross_sum)
+      console.log('gross_sum:: ',gross_sum)
+
+      const total_sum = total_gross + gross_sum
+
+      let yel = gross_sum * yel_percentage
+      if(yel_option === 'yel_minimum'){         
+        if( total_sum > 7656.26 ){        
+          const difference = 7656.26 - total_gross
+          yel = difference * yel_percentage
+        }
+      }  
 
       const prof_tax = state.selectedRows.map(
         el => state.newSalary[el].professionaltax
@@ -143,8 +155,8 @@ const salaryReducer = (state = initialState, action) => {
       const social_contribution = social_tax.reduce((a, b) => a + b, 0)
       //console.log('social_contribution:: ', social_contribution)
 
-      const personal_tax = gross_sum * personal_tax_percentage
-      const yel = gross_sum * yel_percentage
+      const personal_tax = gross_sum * personal_tax_percentage     
+
       const net_sum = gross_sum - personal_tax - yel
 
       const expense = state.selectedRows.map(el => state.newSalary[el].expenses)

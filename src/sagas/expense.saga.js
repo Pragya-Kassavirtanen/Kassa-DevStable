@@ -70,6 +70,28 @@ function* getExpenseStartSaga() {
   }
 }
 
+//AddExpense Body::
+/* {  
+  "uuid":
+ "invoice_id": "Saksa",
+  "place_of_purchase": "jayapradha oy",
+  "date_of_purchase": "date",
+   "path": "dfg",
+   filename;
+   filetype:
+  "InvoiceExpensesItems":[
+        {
+           description
+           sum
+           vat     
+        }, {
+           description
+           sum
+           vat
+           }    
+      ]
+  } */
+
 function* saveExpenseSaga() {
   
   const url = `${API_SERVER}/AddExpenses`

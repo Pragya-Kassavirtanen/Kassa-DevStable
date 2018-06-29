@@ -66,6 +66,8 @@ function* postYelSaga() {
     const url =`${API_SERVER}/UpdateuserYelInfo`
     const uuid = store.getState().client.user.data[2]
     const formValues = getFormValues('yel')(store.getState())
+
+    //Update for firsttime_enterprenuer == false
     const body = JSON.parse(JSON.stringify({
       ...formValues,
       uuid: uuid

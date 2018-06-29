@@ -71,10 +71,10 @@ function* getExpenseStartSaga() {
 }
 
 function* saveExpenseSaga() {
+  
+  const url = `${API_SERVER}/AddExpenses`
 
-  const url = `${API_SERVER}/expense-invoices`
-
-  const user_uuid = (store.getState()).profile.uuid
+  //const user_uuid = (store.getState()).profile.uuid
   const formValues = getFormValues('newfee')(store.getState())
 
   formValues.date_of_purchase = formatFiDateToISO(formValues.date_of_purchase)
@@ -89,7 +89,7 @@ function* saveExpenseSaga() {
   }
 
   const body = {
-    user_info_uuid: user_uuid,
+    //user_info_uuid: user_uuid,
     date_of_purchase: formValues.date_of_purchase,
     place_of_purchase: formValues.place_of_purchase,
     invoice_id: formValues.invoice.id

@@ -1,8 +1,8 @@
 import { takeEvery, call, take, put } from 'redux-saga/effects'
 import { POST_TAX_CARD, API_SERVER, GET_TAX_CARD_START, POST_YEL_START, GET_YEL_START } from '../constants'
-import { createUploadFileChannel, apiRequest } from '../utils/request'
+import { createUploadFileChannel, apiRequest, apiManualPost } from '../utils/request'
 import { postTaxCardSuccess, getYelSuccess, getYelFailed } from '../actions/index'
-import { change } from 'redux-form'
+import { getFormValues, change } from 'redux-form'
 
 import store from '../store'
 
@@ -62,6 +62,16 @@ function* postYelSaga() {
     // Commented until backend ready
     // const result = yield call(apiPost, url, JSON.stringify(body))
     // console.log(result)
+
+    const url =`${API_SERVER}/UpdateuserYelInfo`
+    const uuid = store.getState().client.user.data[2]
+    const formValues = getFormValues('yel')(store.getState())
+    const body = JSON.parse(JSON.stringify({
+      ...formValues,
+      uuid: uuid
+    }))    
+     const result = yield call(apiManualPost, url, JSON.stringify(body))
+     console.log(result)
   } catch(e) {
     console.warn(e)
   }

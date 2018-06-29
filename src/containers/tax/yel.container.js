@@ -10,10 +10,10 @@ let YelContainer = reduxForm({
   form: 'yel',
   destroyOnUnmount: false,
   initialValues: {
-    income: '',
-    selectedPercent: 0,
-    yelSelect: 'payByMyself',
-    firstTimeEntrepreneur: ''
+    yel_income: '',    
+    yelSelect: 'yel_self',
+    firsttime_enterprenuer: false,
+    age_group: ''
   },
   validate
 })(Yel)
@@ -21,25 +21,28 @@ let YelContainer = reduxForm({
 const mapStateToProps = state => {
 
   const formValues = getFormValues('yel')(state)
-  const showSelectors = (
+  /* const showSelectors = (
     parseInt(formValues.income) > 7645 &&
     parseInt(formValues.income) < 173625 &&
     /^[0-9]*$/i.test(formValues.income) &&
     !!formValues.ageGroup
-  )
-  if (!showSelectors) formValues.yelSelect = 'payByMyself'
+  ) */
+  /* if (!showSelectors) formValues.yelSelect = 'payByMyself'
 
   const selectedYelGroup = state.tax.yel.filter(el => formValues.ageGroup === (el.min_age))
                                         .filter(el => !!formValues.firstTimeEntrepreneur === !!el.discount_percent)
                                         .pop()
-  const showYelCounter = !!selectedYelGroup
+  const showYelCounter = !!selectedYelGroup */
 
   return {
-    showYel: showSelectors,
-    income: formValues.income,
-    showFirstTimer: formValues.yelSelect  === 'payByDefaults' && showSelectors,
-    showYelCounter: showYelCounter,
-    selectedYelGroup: selectedYelGroup
+    //showYel: showSelectors,   
+    //income: formValues.income,
+    //showFirstTimer: formValues.yelSelect  === 'payByDefaults' && showSelectors,
+
+    showFirstTimer: formValues.yelSelect === 'yel_recommended' || formValues.yelSelect === 'yel_minimum'
+ 
+    //showYelCounter: showYelCounter,
+    //selectedYelGroup: selectedYelGroup
   }
 }
 

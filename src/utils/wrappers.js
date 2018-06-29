@@ -70,14 +70,14 @@ export const renderCheckbox = ({ input, label, disabled }) => (
             disabled={disabled}/>
 )
 
-/* export const renderRadioButtonGroup = ({ input, name, children, defaultSelected }) => (
+export const renderRadioButtonGroup = ({ input, name, children, defaultSelected }) => (
   <RadioButtonGroup
     defaultSelected={defaultSelected}
     name={name}
     children={children}     
     {...input}
   />
-) */
+)
 
 export const renderRadioGroup = ({ input, ...rest }) => (
   <RadioButtonGroup

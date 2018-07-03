@@ -1,5 +1,6 @@
 import store from '../store'
 import { buffers, eventChannel, END } from 'redux-saga'
+import { nestPropertyAsObject } from '../utils/invoice.utils'
 
 /**
  * The request helper which reads the access_token from the redux state
@@ -155,6 +156,7 @@ export const apiManualDelete = (url, body, method = 'DELETE') => {
     .catch(error => ({ error }))
 }
 
+
 export const createUploadFileChannel = (url, file, opt) => {
   return eventChannel(emitter => {
     const xhr = new XMLHttpRequest()
@@ -188,21 +190,33 @@ export const createUploadFileChannel = (url, file, opt) => {
       }
     }
 
-    reader.onloadend = e => {
-      const body = JSON.stringify({
+    reader.onloadend = e => {     
+
+      const body = {
         ...opt,
+        uuid: store.getState().client.user.data[2],     
         filename: file.name,
         filetype: file.type,
         data: e.target.result
-      })
+      }
+
+      let nestedBody = nestPropertyAsObject(body, 'document', [
+        'uuid',
+        'filename',
+        'filetype',
+        'data'        
+      ])
+
+      console.log('document:: ',nestedBody)
 
       xhr.open('POST', url, true)
       xhr.setRequestHeader('Content-Type', 'application/json')
       xhr.setRequestHeader(
-        'Authorization',
-        `Bearer ${store.getState().oidc.user.access_token}`
+        'Authorization',      
+        `Bearer ${store.getState().client.user.data[0].access_token}`
       )
-      xhr.send(body)
+           
+      xhr.send(JSON.stringify(nestedBody))
     }
 
     reader.readAsDataURL(file)

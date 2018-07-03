@@ -70,37 +70,13 @@ function* getExpenseStartSaga() {
   }
 }
 
-//AddExpense Body::
-/* {  
-  "uuid":
- "invoice_id": "Saksa",
-  "place_of_purchase": "jayapradha oy",
-  "date_of_purchase": "date",
-   "path": "dfg",
-   filename;
-   filetype:
-  "InvoiceExpensesItems":[
-        {
-           description
-           sum
-           vat     
-        }, {
-           description
-           sum
-           vat
-           }    
-      ]
-  } */
-
-function* saveExpenseSaga() {
-  
-  const url = `${API_SERVER}/AddExpenses`
-
-  //const user_uuid = (store.getState()).profile.uuid
+function* saveExpenseSaga() {  
+  const url = `${API_SERVER}/AddExpenses`  
   const formValues = getFormValues('newfee')(store.getState())
 
   formValues.date_of_purchase = formatFiDateToISO(formValues.date_of_purchase)
-  const file = formValues.inputFile[0]
+  const file = formValues.inputFile[0]  
+
   const rows = formValues.expenseInputRow
 
   rows[Symbol.iterator] = function* () {
@@ -110,17 +86,16 @@ function* saveExpenseSaga() {
     }
   }
 
-  const body = {
-    //user_info_uuid: user_uuid,
-    date_of_purchase: formValues.date_of_purchase,
+  const body = {    
+    invoice_id: formValues.invoice.invoice_id,
     place_of_purchase: formValues.place_of_purchase,
-    invoice_id: formValues.invoice.id
+    date_of_purchase: formValues.date_of_purchase    
   }
 
   body.rows = rows.map((el, ind) => {
-    el.vat = el['vat' + ind] / 100
     el.description = el['description' + ind]
     el.sum = el['sum' + ind]
+    el.vat = el['vat' + ind] / 100    
 
     delete el['vat' + ind]
     delete el['description' + ind]

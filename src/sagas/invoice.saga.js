@@ -144,7 +144,7 @@ function* saveAndSendInvoiceSaga() {
       bodyRows[i] = body.rows[i]
     }
 
-    body.rows = bodyRows
+    body.rows = bodyRows   
 
     let nestedBody       
       if(!!invoice_id){       

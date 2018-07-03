@@ -4,13 +4,13 @@ import {
   GET_NEW_SALARY_START,
   SELECT_ROW_SALARY,
   POST_SALARY,
-  GET_SALARY_INFO
+  GET_SALARY_INFO 
 } from '../constants/index'
 import {
   getNewSalarySuccess,
   selectRowSalarySuccess,
   getSalariesSuccess,
-  getSalaryByIdSuccess
+  getSalaryByIdSuccess  
 } from '../actions/index'
 import store from '../store'
 import { apiManualRequest, apiManualPost } from '../utils/request'

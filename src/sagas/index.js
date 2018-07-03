@@ -64,6 +64,6 @@ export default function* rootSaga() {
     watchGetSalaryByIdSaga(),  
     watchSendRegisterInfoSaga(),
     watchLoginSaga(),
-    watchRemoveExpenseSaga()
+    watchRemoveExpenseSaga()   
   ]
 }

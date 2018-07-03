@@ -16,7 +16,7 @@ const mapStateToProps = state => {
     salaryPages: !!state.salary.salaryRows
       ? Math.ceil(state.salary.salaryRows.length / 10)
       : 0,
-    id: state.salary.salaryInfo.id
+    id: state.salary.newSalaryInfo.id
   }
 }
 

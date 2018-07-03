@@ -16,7 +16,7 @@ const initialState = {
   selectedRows: [],
   salaryAllowances: [],
   salaryRows: [],
-  salaryInfo: [],
+  newSalaryInfo: [],
   newSalarySummary: {
     sumwithoutTax: 0,
     service_cost: 12,
@@ -27,7 +27,8 @@ const initialState = {
     expenses_cost: 0,
     paid_sum: 0
   },
-  salaryTaxPercentage: []
+  salaryTaxPercentage: [],
+  isSalaryInfo: false
 }
 
 const salaryReducer = (state = initialState, action) => {
@@ -47,7 +48,8 @@ const salaryReducer = (state = initialState, action) => {
         {},
         { ...state },
         {
-          selectedRows: action.selected
+          selectedRows: action.selected,
+          isSalaryInfo: false
         }
       )
 
@@ -57,7 +59,8 @@ const salaryReducer = (state = initialState, action) => {
         {},
         { ...state },
         {
-          salaryInfo: action.result
+          newSalaryInfo: action.result,
+          isSalaryInfo: true
         }
       )
 

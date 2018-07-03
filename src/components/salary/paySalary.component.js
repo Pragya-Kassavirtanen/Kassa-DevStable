@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import NewSalarySummaryComponent from './newSalarySummary.component'
 import NewSalarySelectComponent from './newSalarySelect.component'
+import NewSalaryInfoComponent from './newSalaryInfo.component'
 
 export default class PaySalaryComponent extends React.Component {
 
@@ -19,7 +20,9 @@ const PaySalary = ({
   selectedRows,
   newSalary, 
   postSalary,
-  salaries
+  salaries,
+  isSalaryInfo,
+  newSalaryInfo
 }) =>
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -56,6 +59,13 @@ const PaySalary = ({
             salaries={salaries}
           />
           : <div/>}
+          {isSalaryInfo && selectedRows.length <= 0 ? 
+          <NewSalaryInfoComponent
+          newSalaryInfo={newSalaryInfo}
+          />        
+           : 
+           <div/>
+          }
       </div>
     </div>
   </MuiThemeProvider>

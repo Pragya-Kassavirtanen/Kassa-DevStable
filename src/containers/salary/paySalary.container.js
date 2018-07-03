@@ -17,7 +17,9 @@ const mapStateToProps = state => {
     taxPercent: state.salary.taxPercent,
     newSalarySummary: state.salary.newSalarySummary,
     selectedRows: state.salary.selectedRows,
-    salaries: selectedIds
+    salaries: selectedIds,
+    isSalaryInfo: state.salary.isSalaryInfo,
+    newSalaryInfo: state.salary.newSalaryInfo
   }
 }
 

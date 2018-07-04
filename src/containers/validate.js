@@ -239,8 +239,8 @@ export const allowanceValidate = values => {
 
 export const yelValidate = values => {
 
-  const errors = { }
-  const requiredFields = [ 'income', 'ageGroup' ]
+  const errors = { }  
+  const requiredFields = [ 'firsttime_enterprenuer', 'yel_income', 'age_group' ]
 
   requiredFields.forEach(field => {
     if ( !values[ field ] ) {
@@ -248,7 +248,7 @@ export const yelValidate = values => {
     }
   })
 
-  if (!/^[0-9]*$/i.test(values['income'] && values['income'])) {
+/*   if (!/^[0-9]*$/i.test(values['income'] && values['income'])) {
     errors['income'] = 'Syöte ei ole kelvollinen'
   }
 
@@ -258,7 +258,7 @@ export const yelValidate = values => {
 
   if(values['income'] > 173625 && values['income']) {
     errors['income'] = 'YEL-vakuutusta ei tarvitse maksaa yli 173625 euron tuloista'
-  }
+  } */
 
   return errors
 }

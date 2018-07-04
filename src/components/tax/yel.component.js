@@ -24,7 +24,6 @@ const _onFormSubmit = () => {
   return false
 }
 
-//const YelComponent = ({ showYel, showFirstTimer, postYelStart, income, selectedYelGroup, showYelCounter, handleSubmit}) =>
 const YelComponent = ({ showFirstTimer, postYelStart, handleSubmit }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div>
@@ -36,51 +35,6 @@ const YelComponent = ({ showFirstTimer, postYelStart, handleSubmit }) => (
                 <div className="panel panel-default">
                   <div className="panel-heading">Määritä YEL</div>
                   <div className="panel-body">
-                    {/*  <Field name="income"
-                           style={{'verticalAlign': 'bottom'}}
-                           label="Arvioi vuotuiset työtulosi"
-                           component={renderTextField}/>
-                    <Field name="ageGroup"
-                           component={SelectField}
-                           style={{'verticalAlign': 'bottom'}}
-                           floatingLabelText="Valitse ikäsi">
-                      <MenuItem key={1} value={18} primaryText={'18-52 vuotias'}/>
-                      <MenuItem key={2} value={53} primaryText={'53-62 vuotias'}/>
-                      <MenuItem key={3} value={63} primaryText={'63-67 vuotias'}/>
-                    </Field>
-                    {showYel &&
-                      <Field name="yelSelect"
-                             defaultSelected="payByMyself"
-                             component={renderRadioButtonGroup}>
-                        <RadioButton
-                          value="payByMyself"
-                          label="Maksan YEL-vakuutuksen itse"
-                        />
-                        <RadioButton
-                          value="payByDefaults"
-                          label={'Kassavirtanen maksaa YEL-vakuutusta puolestasi ' + income + ' euron palkkasumman mukaan'}
-                        />
-                      </Field>
-
-                    }
-                    {showFirstTimer &&
-                      <Field
-                        name="firstTimeEntrepreneur"
-                        label="Olen toiminut yrittäjänä alle neljä vuotta"
-                        component={renderCheckbox}
-                      />
-                    } */}
-                    {/*  <div>
-                      { showYelCounter && !!selectedYelGroup && showFirstTimer &&
-                      <p className="dashboard-tax-yel">
-                        {'YEL-vakuutus: ' +
-                          (!!selectedYelGroup.discounted_percent ?
-                          selectedYelGroup.discounted_percent :
-                          selectedYelGroup.value) +
-                          ' prosenttia bruttopalkasta'}
-                          </p>
-                        } */}                        
-
                     <Field
                       name="yelSelect"
                       defaultSelected="yel_self"
@@ -96,7 +50,7 @@ const YelComponent = ({ showFirstTimer, postYelStart, handleSubmit }) => (
                       />
                       <RadioButton
                         value="yel_minimum"
-                        label={'Maksa minimi YEL-vakuutuksen (7656,26 Euro)'}
+                        label={'Maksa minimi YEL-vakuutuksen (7656,26 €)'}
                       />
                     </Field>
                     {showFirstTimer && (
@@ -105,6 +59,7 @@ const YelComponent = ({ showFirstTimer, postYelStart, handleSubmit }) => (
                           name="firsttime_enterprenuer"
                           label="Olen toiminut yrittäjänä alle neljä vuotta"
                           component={renderCheckbox}
+                          style={{ marginTop: '25px' }}
                         />
                         <Field
                           name="yel_income"

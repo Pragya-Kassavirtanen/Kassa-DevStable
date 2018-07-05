@@ -10,7 +10,7 @@ import {
   loadAllowanceCostSuccess,
   saveTravellingExpenseSuccess} from '../actions/index'
 import { SAVE_EXPENSE, API_SERVER, GET_EXPENSE_START, SAVE_TRAVELLING_EXPENSE, LOAD_ALLOWANCE_COST, REMOVE_EXPENSE } from '../constants/index'
-import { apiRequest, apiManualRequest, apiPost, apiManualPost, createUploadFileChannel } from '../utils/request'
+import { apiRequest, apiManualRequest, apiManualPost, createUploadFileChannel } from '../utils/request'
 import store from '../store'
 import { getFormValues, reset } from 'redux-form'
 import { formatFiDateToISO } from '../utils/DateTimeFormat'
@@ -21,10 +21,6 @@ import { formatFiDateToISO } from '../utils/DateTimeFormat'
 
 function* getExpenseStartSaga() {
   try {
-
-   // const uuid = (store.getState()).profile.uuid
-
-   // if(!!uuid) {
       const expenseUrl = `${API_SERVER}/GetExpenses`
       const expResult = yield apiManualRequest(expenseUrl)
       const expenseResult = JSON.parse(expResult.data)
@@ -32,39 +28,28 @@ function* getExpenseStartSaga() {
       console.log('expenseResult:: ',expenseResult)
       const expenses = []
 
-/*       expenseResult[Symbol.iterator] = function*() {
-        const keys = Reflect.ownKeys(this)
-        for (const key of keys) {
-          yield this[key]
-        }
-      } */
-
       for (const expense of expenseResult) {
         expenses.push(expense)
       }
 
       console.log('expenses:: ',expenses)
 
-      /* const allowanceUrl = `${API_SERVER}/users/${uuid}/allowances`
-      const allowanceResult = yield apiRequest(allowanceUrl)
+      const allowanceUrl = `${API_SERVER}/GetAllowances`
+      const allowResult = yield apiManualRequest(allowanceUrl)
+      const allowanceResult = JSON.parse(allowResult.data)
+
+      console.log('allowanceResult:: ',allowanceResult)
 
       const allowances = []
 
-      allowanceResult[Symbol.iterator] = function* () {
-        const keys = Reflect.ownKeys(this)
-        for (const key of keys) {
-          yield this[key]
-        }
-      }
-
-      for (const allowance of allowanceResult.data) {
+      for (const allowance of allowanceResult) {
         allowances.push(allowance)
-      } */
+      }
+      
+      console.log('allowances:: ',allowances)
 
-      //yield put(getExpenseSuccess(expenses, allowances))
+     // yield put(getExpenseSuccess(expenses, allowances))
       yield put(getExpenseSuccess(expenses))
-   // }
-
   } catch (e) {
     yield put(getExpenseFailed(e))
   }
@@ -124,16 +109,19 @@ function* saveExpenseSaga() {
 
 function* saveTravellingExpense() {
 
-  const url = `${API_SERVER}/allowances`
+  const url = `${API_SERVER}/AddAllowances`
 
   const formValues = getFormValues('newallowance')(store.getState())
 
+  const uuid = store.getState().client.user.data[2]
+
   const allowanceCost = (store.getState()).expense.allowanceCost
   const refinedForm = Object.assign({}, {...formValues}, {
+    invoice_id:                 formValues.invoice.invoice_id,
+    uuid:                       uuid,
     routes:                     formValues.allowanceInputRow.filter(el => el),
     start_date:                 formatFiDateToISO(formValues.start_date),
-    end_date:                   formatFiDateToISO(formValues.end_date),
-    invoice_id:                 formValues.invoice.id,
+    end_date:                   formatFiDateToISO(formValues.end_date),    
     vehicle_type_id:            !!formValues.vehicle_type ? allowanceCost[formValues.vehicle_type]['id'] : '1',
     additional_vehicle_cost_id: !!formValues.additional_vehicle_cost ? allowanceCost[formValues.additional_vehicle_cost]['id'] : '2',
     passengers:                 !!formValues.allowancePassenger ? formValues.allowancePassenger.filter(el => el) : [],
@@ -146,7 +134,7 @@ function* saveTravellingExpense() {
   delete refinedForm.allowancePassenger
 
 
-  const result = yield call(apiPost, url, JSON.stringify({ ...refinedForm }))
+  const result = yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
   yield put(saveTravellingExpenseSuccess(result))
 }
 

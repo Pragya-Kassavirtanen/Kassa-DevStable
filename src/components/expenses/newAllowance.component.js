@@ -133,7 +133,7 @@ const NewAllowance = ({
                            component={renderTimePicker}
                            floatingLabelText="Alkuaika"
                            textFieldStyle={{float: 'left', width: '50%'}}
-                           //onChangeCallback={()=> undefined}
+                           onChangeCallback={()=> undefined}
                            >
                     </Field>
                   </div>
@@ -149,7 +149,7 @@ const NewAllowance = ({
                            component={renderTimePicker}
                            floatingLabelText="Loppuaika"
                            textFieldStyle={{float: 'left', width: '50%'}}
-                           //onChangeCallback={()=> undefined}
+                           onChangeCallback={()=> undefined}
                            >
                     </Field>
                   </div>

@@ -24,7 +24,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 export default class NewExpensesComponent extends React.Component {
 
   componentWillMount() {
-    //this.props.loadAllowanceCost()
+    this.props.loadAllowanceCost()
     this.props.getInvoicesStart()
     this.props.getExpenseStart()
   }

@@ -10,7 +10,7 @@ import {
   loadAllowanceCostSuccess,
   saveTravellingExpenseSuccess} from '../actions/index'
 import { SAVE_EXPENSE, API_SERVER, GET_EXPENSE_START, SAVE_TRAVELLING_EXPENSE, LOAD_ALLOWANCE_COST, REMOVE_EXPENSE } from '../constants/index'
-import { apiRequest, apiManualRequest, apiManualPost, createUploadFileChannel } from '../utils/request'
+import { apiManualRequest, apiManualPost, createUploadFileChannel } from '../utils/request'
 import store from '../store'
 import { getFormValues, reset } from 'redux-form'
 import { formatFiDateToISO } from '../utils/DateTimeFormat'
@@ -133,18 +133,17 @@ function* saveTravellingExpense() {
   delete refinedForm.allowanceInputRow
   delete refinedForm.allowancePassenger
 
-
   const result = yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
   yield put(saveTravellingExpenseSuccess(result))
 }
 
 function* loadAllowanceCost() {
-
-  const thisYear = (new Date()).getFullYear()
-  const url = `${API_SERVER}/allowances/costs/${thisYear}`
-
-  const result = yield call(apiRequest, url)
-  yield put(loadAllowanceCostSuccess(result.data))
+  const thisYear = (new Date()).getFullYear()   
+  const url = `${API_SERVER}/GetAllowanceCostbyYear?year=${thisYear}`
+  const result = yield call(apiManualRequest, url)
+  const allowanceCostResult = JSON.parse(result.data)
+  console.log('Inside loadAllowanceCost:: ',allowanceCostResult)
+  yield put(loadAllowanceCostSuccess(allowanceCostResult))
 }
 
 function* removeExpenseSaga({invoice_expense_id}) {

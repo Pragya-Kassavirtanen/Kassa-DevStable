@@ -13,7 +13,7 @@ import { SAVE_EXPENSE, API_SERVER, GET_EXPENSE_START, SAVE_TRAVELLING_EXPENSE, L
 import { apiManualRequest, apiManualPost, createUploadFileChannel } from '../utils/request'
 import store from '../store'
 import { getFormValues, reset } from 'redux-form'
-import { formatFiDateToISO } from '../utils/DateTimeFormat'
+import { formatFiDateToISO, formatFiTimeToISO } from '../utils/DateTimeFormat'
 
 /**
  * @author Skylar Kong
@@ -121,7 +121,9 @@ function* saveTravellingExpense() {
     uuid:                       uuid,
     routes:                     formValues.allowanceInputRow.filter(el => el),
     start_date:                 formatFiDateToISO(formValues.start_date),
-    end_date:                   formatFiDateToISO(formValues.end_date),    
+    end_date:                   formatFiDateToISO(formValues.end_date),
+    start_time:                 formatFiTimeToISO(formValues.start_time),
+    end_time:                   formatFiTimeToISO(formValues.end_time),
     vehicle_type_id:            !!formValues.vehicle_type ? allowanceCost[formValues.vehicle_type]['id'] : '1',
     additional_vehicle_cost_id: !!formValues.additional_vehicle_cost ? allowanceCost[formValues.additional_vehicle_cost]['id'] : '2',
     passengers:                 !!formValues.allowancePassenger ? formValues.allowancePassenger.filter(el => el) : [],

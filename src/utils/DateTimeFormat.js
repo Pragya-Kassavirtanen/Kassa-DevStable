@@ -28,3 +28,12 @@ export const formatFiToISO = (dateArray) => {
 export const formatFiDateToISO = (date) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 
 export default DateTimeFormat
+
+export const formatFiTimeToISO = (pickerDate) => {
+  let pickerOffset = pickerDate.getTimezoneOffset()  
+  let utcDate = new Date()
+  utcDate.setTime(pickerDate.getTime() - pickerOffset * 60000)  
+  let utcTime = utcDate.toString()
+  let found = utcTime.match(/\d\d:\d\d:\d\d/)
+  return found[0]
+}

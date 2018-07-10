@@ -89,6 +89,11 @@ export const LOAD_ALLOWANCE_COST_SUCCESS = '@@traveling-expense/LOAD_ALLOWANCE_C
 export const LOAD_ALLOWANCE_COST_FAILED = '@@travelling-expense/LOAD_ALLOWANCE_COST_FAILED'
 export const ALLOWANCE_CHANGE_PAGE = '@@expense/ALLOWANCE_CHANGE_PAGE'
 export const REMOVE_EXPENSE = '@@expense/REMOVE_EXPENSE'
+export const REMOVE_ALLOWANCE = '@@expense/REMOVE_ALLOWANCE'
+export const EDIT_EXPENSE = '@@expense/EDIT_EXPENSE'
+export const EDIT_ALLOWANCE = '@@expense/EDIT_ALLOWANCE'
+export const GET_EXPENSE_BY_ID_SUCCESS = '@@expense/GET_EXPENSE_BY_ID_SUCCESS'
+export const GET_ALLOWANCE_BY_ID_SUCCESS = '@@expense/GET_ALLOWANCE_BY_ID_SUCCESS'
 
 export const ON_PROFILE_UPDATE = '@@profile/ON_PROFILE_UPDATE'
 export const LOAD_PROFILE_SUCCESS = '@@profile/LOAD_PROFILE_SUCCESS'

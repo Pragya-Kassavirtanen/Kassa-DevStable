@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
     expenseRow: state.expense.expenseRow,
     expensePages: Math.ceil(state.expense.expenses.length / 10),
     allowanceRow: state.expense.allowanceRow,
-    allowancePages: Math.ceil(state.expense.allowances.length / 10)   
+    allowancePages: Math.ceil(state.expense.allowances.length / 10)
   }
 }
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch) => {
     getInvoicesStart: () => dispatch(getInvoicesStart()),
     getExpenseStart: () => dispatch(getExpenseStart()),
     expensePageChange: selected => dispatch(expensePageChange(selected)),
-    allowancePageChange: selected => dispatch(allowancePageChange(selected))    
+    allowancePageChange: selected => dispatch(allowancePageChange(selected))
   }
 }
 

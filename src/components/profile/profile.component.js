@@ -4,8 +4,7 @@ import {Field} from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import {
-  renderTextField,
-  renderCheckbox
+  renderTextField
 } from '../../utils/wrappers'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -46,9 +45,7 @@ const Profile = ({handleSubmit, onProfileUpdate, invalid}) =>
                     <Field name="first_name" label="Etunimi*" disabled={true} component={renderTextField}/>
                     <Field name="phone" label="Puhelinnumero*" component={renderTextField}/>
                     <Field name="account_number" label="Tilinumero IBAN-muodossa*" component={renderTextField}/>
-                    <div className="divider">
-                      <Field name="show_phone" label="Näytä puhelinnumero laskulla" component={renderCheckbox}/>
-                    </div>
+                    <Field name="ssn" label="Henkilötunnus*" component={renderTextField}/>
                   </div>
                   <div className="formSplit">
                     <Field name="address" label="Osoite*" component={renderTextField}/>

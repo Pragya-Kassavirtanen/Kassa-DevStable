@@ -15,7 +15,7 @@ import {
 } from './admin.saga'
 import { watchRehydrateSaga } from './rehydrate.saga'
 import { watchGetNewSalarySaga, watchSelectRowSalarySaga, watchGetSalariesSaga, watchPostSalarySaga, watchGetSalaryByIdSaga } from './salary.saga'
-import { watchSaveExpenseSaga, watchSaveTravellingExpenseSaga, watchGetExpenseStartSaga, watchLoadAllowanceCostSaga, watchRemoveExpenseSaga } from './expense.saga'
+import { watchSaveExpenseSaga, watchSaveTravellingExpenseSaga, watchGetExpenseStartSaga, watchLoadAllowanceCostSaga, watchRemoveExpenseSaga, watchEditExpenseSaga, watchRemoveAllowanceSaga, watchEditAllowanceSaga } from './expense.saga'
 import { watchLoginSaga } from './login.saga'
 
 // Single entry point to start all sagas at once
@@ -64,6 +64,9 @@ export default function* rootSaga() {
     watchGetSalaryByIdSaga(),  
     watchSendRegisterInfoSaga(),
     watchLoginSaga(),
-    watchRemoveExpenseSaga()   
+    watchRemoveExpenseSaga(),
+    watchEditExpenseSaga(),
+    watchRemoveAllowanceSaga(),
+    watchEditAllowanceSaga()
   ]
 }

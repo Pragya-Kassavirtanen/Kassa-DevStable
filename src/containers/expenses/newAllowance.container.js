@@ -92,6 +92,8 @@ const mapStateToProps = (state) => {
   }
 
   return {
+    isEdit: state.expense.isEdit,   
+    id: state.expense.allowanceEdit.id,
     user: state.oidc.user,
     invoices: invoiceNames,
     allowanceCost: state.expense.allowanceCost,

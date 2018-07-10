@@ -125,7 +125,12 @@ import {
   GET_PROFESSION_FAILED,
   SHOW_TOOLTIP,
   HIDE_TOOLTIP,
-  REMOVE_EXPENSE
+  REMOVE_EXPENSE,
+  REMOVE_ALLOWANCE,
+  EDIT_EXPENSE,
+  EDIT_ALLOWANCE,
+  GET_EXPENSE_BY_ID_SUCCESS,
+  GET_ALLOWANCE_BY_ID_SUCCESS
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -202,6 +207,11 @@ export const loadAllowanceCostSuccess = (result) => ({ type: LOAD_ALLOWANCE_COST
 export const loadAllowanceCostFailed = (error) => ({ type: LOAD_ALLOWANCE_COST_FAILED, error })
 export const allowancePageChange = selected => ({ type: ALLOWANCE_CHANGE_PAGE, selected })
 export const removeExpense = invoice_expense_id => ({type: REMOVE_EXPENSE, invoice_expense_id})
+export const removeAllowance = id => ({type: REMOVE_ALLOWANCE, id})
+export const editExpense = invoice_expense_id => ({type: EDIT_EXPENSE, invoice_expense_id})
+export const editAllowance = id => ({type: EDIT_ALLOWANCE, id})
+export const getExpenseByIdSuccess = (result) => ({type: GET_EXPENSE_BY_ID_SUCCESS, result})
+export const getAllowanceByIdSuccess = (result) => ({type: GET_ALLOWANCE_BY_ID_SUCCESS, result})
 
 export const newCustomer = () => ({type: NEW_CUSTOMER})
 export const addCustomersSuccess = (result) => ({type: ADD_CUSTOMER_SUCCESS, result})

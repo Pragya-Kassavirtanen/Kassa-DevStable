@@ -2,7 +2,7 @@ import React from 'react'
 import { TableRow, TableRowColumn } from 'material-ui'
 import { Link } from 'react-router'
 import store from '../../store'
-import { getSalaryInfo } from '../../actions/index'
+import { getSalaryInfo, saveSalarySlip } from '../../actions/index'
 import FontAwesome from 'react-fontawesome'
 
 const SalaryRow = ({
@@ -37,7 +37,7 @@ const SalaryRow = ({
           <p
             style={{ marginLeft: '10px' }}
             onClick={() => {
-              store.dispatch(getSalaryInfo(id))
+              store.dispatch(saveSalarySlip(id))
             }}
           >
             <FontAwesome name="file-pdf-o" />

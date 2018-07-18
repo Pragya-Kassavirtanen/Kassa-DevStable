@@ -4,7 +4,8 @@ import {
   GET_NEW_SALARY_START,
   SELECT_ROW_SALARY,
   POST_SALARY,
-  GET_SALARY_INFO 
+  GET_SALARY_INFO,
+  SAVE_SALARY_SLIP
 } from '../constants/index'
 import {
   getNewSalarySuccess,
@@ -13,7 +14,7 @@ import {
   getSalaryByIdSuccess  
 } from '../actions/index'
 import store from '../store'
-import { apiManualRequest, apiManualPost } from '../utils/request'
+import { apiManualRequest, apiManualPost, apiBlobPost } from '../utils/request'
 
 function* getNewSalarySaga() {
   try {
@@ -104,6 +105,20 @@ function* getSalaryByIdSaga({ id }) {
   }
 }
 
+function* saveSalarySlip({ id }) {  
+  try {
+    const url = `${API_SERVER}/GenerateSalaryPDF`
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({
+      id: id,
+      uuid: uuid
+    })
+    yield call(apiBlobPost, url, body)
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 export function* watchGetNewSalarySaga() {
   yield takeEvery(GET_NEW_SALARY_START, getNewSalarySaga)
 }
@@ -122,4 +137,8 @@ export function* watchGetSalariesSaga() {
 
 export function* watchGetSalaryByIdSaga() {
   yield takeEvery(GET_SALARY_INFO, getSalaryByIdSaga)
+}
+
+export function* watchSaveSalarySlipSaga() {
+  yield takeEvery(SAVE_SALARY_SLIP, saveSalarySlip)
 }

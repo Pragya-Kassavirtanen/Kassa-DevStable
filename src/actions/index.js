@@ -130,7 +130,13 @@ import {
   EDIT_EXPENSE,
   EDIT_ALLOWANCE,
   GET_EXPENSE_BY_ID_SUCCESS,
-  GET_ALLOWANCE_BY_ID_SUCCESS
+  GET_ALLOWANCE_BY_ID_SUCCESS,
+  SAVE_EXPENSE_UPDATE,
+  CANCEL_EXPENSE_UPDATE,
+  SAVE_ALLOWANCE_UPDATE,
+  CANCEL_ALLOWANCE_UPDATE,
+  CHANGE_PURCHASE_DATE,
+  SAVE_SALARY_SLIP
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -212,6 +218,11 @@ export const editExpense = invoice_expense_id => ({type: EDIT_EXPENSE, invoice_e
 export const editAllowance = id => ({type: EDIT_ALLOWANCE, id})
 export const getExpenseByIdSuccess = (result) => ({type: GET_EXPENSE_BY_ID_SUCCESS, result})
 export const getAllowanceByIdSuccess = (result) => ({type: GET_ALLOWANCE_BY_ID_SUCCESS, result})
+export const saveExpenseUpdate = invoice_expense_id => ({type: SAVE_EXPENSE_UPDATE, invoice_expense_id})
+export const cancelExpenseUpdate = () => ({type: CANCEL_EXPENSE_UPDATE})
+export const saveAllowanceUpdate = id => ({type: SAVE_ALLOWANCE_UPDATE, id})
+export const cancelAllowanceUpdate = () => ({type: CANCEL_ALLOWANCE_UPDATE})
+export const changeExpensePurchaseDate = date => ({type: CHANGE_PURCHASE_DATE, date})
 
 export const newCustomer = () => ({type: NEW_CUSTOMER})
 export const addCustomersSuccess = (result) => ({type: ADD_CUSTOMER_SUCCESS, result})
@@ -278,3 +289,4 @@ export const postSalary = selected => ({type: POST_SALARY, selected})
 export const getSalaryInfo = id => ({type: GET_SALARY_INFO, id})
 export const getSalaryByIdSuccess = result => ({type: GET_SALARY_BY_ID_SUCCESS, result})
 export const salaryPageChange = selected => ({type: SALARY_PAGE_CHANGE, selected})
+export const saveSalarySlip = id => ({type: SAVE_SALARY_SLIP, id})

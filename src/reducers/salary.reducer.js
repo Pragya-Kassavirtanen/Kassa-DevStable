@@ -102,7 +102,7 @@ const salaryReducer = (state = initialState, action) => {
         el =>
           state.newSalary[el].sumwithoutTax -
           state.newSalary[el].expenses -
-          state.newSalary[el].expenses -
+          state.newSalary[el].allowances -
           state.newSalary[el].sumwithoutTax * service_percentage * 0.01
       )
       // console.log('palkka:: ',palkka)
@@ -166,7 +166,7 @@ const salaryReducer = (state = initialState, action) => {
       const expenses_cost_sum = expense.reduce((a, b) => a + b, 0)
 
       const allowance = state.selectedRows.map(
-        el => state.newSalary[el].expenses
+        el => state.newSalary[el].allowances
       )
       const allowances_cost_sum = allowance.reduce((a, b) => a + b, 0)
 

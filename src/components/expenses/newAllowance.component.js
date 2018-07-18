@@ -190,12 +190,12 @@ const NewAllowance = ({
                   <Field
                     name="pay_mileage"
                     label="Kilometrikorvaukset"
-                    component={renderCheckbox}
+                    component={renderCheckbox}                    
                   />
                   <Field
                     name="pay_allowance"
                     label="Päivä- ja ruokarahat"
-                    component={renderCheckbox}
+                    component={renderCheckbox}                    
                   />
                 </div>
               </div>

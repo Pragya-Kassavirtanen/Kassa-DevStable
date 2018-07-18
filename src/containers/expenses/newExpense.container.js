@@ -13,29 +13,28 @@ import { expenseValidate as validate } from '../validate'
 import {
   addExpenseRow,
   saveExpense,
-  closeExpenseSnackBar
+  closeExpenseSnackBar,
+  saveExpenseUpdate,
+  cancelExpenseUpdate,
+  changeExpensePurchaseDate
 } from '../../actions/index'
 
-const date = new Date()
+//const date = new Date()
 let newExpenseContainer = reduxForm({
   form: 'newfee',
   destroyOnUnmount: false,
   initialValues: {
     invoice: '',
-    place_of_purchase: '',
-    date_of_purchase: new DateTimeFormat('fi', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric'
-    }).format(date),
+    place_of_purchase: '',   
+    //date_of_purchase: date,
     expenseInputRow: [{
-      description0: '',
-      sum0: '',
-      vat0: 24
+      description: '',
+      sum: '',
+      vat: 24
     }],
     receipt_picture: ''
   },
-  validate
+  validate  
 }
 )(NewExpenseComponent)
 
@@ -47,7 +46,7 @@ const mapStateToProps = (state) => {
   expenseInputRow.forEach(el => {
     if (!formValues['expenseInputRow'][el.key]) {
       formValues['expenseInputRow'][el.key] = {}
-      formValues['expenseInputRow'][el.key][`vat${el.key}`] = 24
+      formValues['expenseInputRow'][el.key]['vat'] = 24
     }
   })
 
@@ -76,7 +75,10 @@ const mapDispatchToProps = (dispatch) => {
     addExpenseRow: () => dispatch(addExpenseRow()),
     saveExpense: () => dispatch(saveExpense()),
     expensePictureUpload: fileName => dispatch(change('newfee', 'receipt_picture', fileName)),
-    closeSnackbar: () => dispatch(closeExpenseSnackBar())
+    closeSnackbar: () => dispatch(closeExpenseSnackBar()),
+    saveExpenseUpdate: invoice_expense_id => dispatch(saveExpenseUpdate(invoice_expense_id)),
+    cancelExpenseUpdate: () => dispatch(cancelExpenseUpdate()),
+    changeExpensePurchaseDate: date => dispatch(changeExpensePurchaseDate(date))    
   }
 }
 

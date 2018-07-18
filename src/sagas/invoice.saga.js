@@ -93,9 +93,12 @@ function* saveAndSendInvoiceSaga() {
       }
     }
 
+    const uuid = store.getState().client.user.data[2]
+
     const body = JSON.parse(
       JSON.stringify({
-        ...formValues
+        ...formValues,
+        uuid: uuid
       })
     )
 
@@ -225,7 +228,7 @@ function* editInvoiceSaga({ invoice_id }) {
     const result = yield call(apiManualPost, url, body)
     if (result.data) yield put(getInvoiceByIdSuccess(result.data))
 
-    const invoiceResult = JSON.parse(result.data)
+    const invoiceResult = JSON.parse(result.data)    
 
     const customerInfoKeys = Object.keys(invoiceResult[0]).filter(
       key => key !== 'Invoice'

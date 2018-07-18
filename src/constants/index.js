@@ -94,6 +94,11 @@ export const EDIT_EXPENSE = '@@expense/EDIT_EXPENSE'
 export const EDIT_ALLOWANCE = '@@expense/EDIT_ALLOWANCE'
 export const GET_EXPENSE_BY_ID_SUCCESS = '@@expense/GET_EXPENSE_BY_ID_SUCCESS'
 export const GET_ALLOWANCE_BY_ID_SUCCESS = '@@expense/GET_ALLOWANCE_BY_ID_SUCCESS'
+export const SAVE_EXPENSE_UPDATE = '@@expense/SAVE_EXPENSE_UPDATE'
+export const CANCEL_EXPENSE_UPDATE = '@@expense/CANCEL_EXPENSE_UPDATE'
+export const SAVE_ALLOWANCE_UPDATE = '@@expense/SAVE_ALLOWANCE_UPDATE'
+export const CANCEL_ALLOWANCE_UPDATE = '@@expense/CANCEL_ALLOWANCE_UPDATE'
+export const CHANGE_PURCHASE_DATE = '@@expense/CHANGE_PURCHASE_DATE'
 
 export const ON_PROFILE_UPDATE = '@@profile/ON_PROFILE_UPDATE'
 export const LOAD_PROFILE_SUCCESS = '@@profile/LOAD_PROFILE_SUCCESS'
@@ -147,6 +152,8 @@ export const POST_SALARY = '@@salary/POST_SALARY'
 export const GET_SALARY_INFO = '@@salary/GET_SALARY_INFO'
 export const GET_SALARY_BY_ID_SUCCESS = '@@salary/GET_SALARY_BY_ID_SUCCESS'
 export const SALARY_PAGE_CHANGE = '@@salary/SALARY_PAGE_CHANGE'
+export const SAVE_SALARY_SLIP = '@@salary/SAVE_SALARY_SLIP'
+
 
 export const OPENID_SERVER = process.env.OPENID_SERVER
 

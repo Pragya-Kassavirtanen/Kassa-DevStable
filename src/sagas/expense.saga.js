@@ -8,7 +8,8 @@ import {
   loadAllowanceCostSuccess,
   saveTravellingExpenseSuccess,
   getExpenseByIdSuccess,
-  getAllowanceByIdSuccess
+  getAllowanceByIdSuccess,
+  addExpenseRow
 } from '../actions/index'
 import {
   SAVE_EXPENSE,
@@ -19,7 +20,11 @@ import {
   REMOVE_EXPENSE,
   REMOVE_ALLOWANCE,
   EDIT_EXPENSE,
-  EDIT_ALLOWANCE
+  EDIT_ALLOWANCE,
+  SAVE_EXPENSE_UPDATE,
+  CANCEL_EXPENSE_UPDATE,
+  SAVE_ALLOWANCE_UPDATE,
+  CANCEL_ALLOWANCE_UPDATE
 } from '../constants/index'
 import {
   apiManualRequest,
@@ -29,6 +34,7 @@ import {
 import store from '../store'
 import { getFormValues, reset, change } from 'redux-form'
 import { formatFiDateToISO, formatFiTimeToISO } from '../utils/DateTimeFormat'
+import DateTimeFormat from '../utils/DateTimeFormat'
 
 /**
  * @author Skylar Kong
@@ -63,7 +69,7 @@ function* getExpenseStartSaga() {
 
     console.log('allowances:: ', allowances)
 
-    yield put(getExpenseSuccess(expenses, allowances))   
+    yield put(getExpenseSuccess(expenses, allowances))
   } catch (e) {
     yield put(getExpenseFailed(e))
   }
@@ -135,7 +141,7 @@ function* saveTravellingExpense() {
     {
       invoice_id: formValues.invoice.invoice_id,
       uuid: uuid,
-      routes: formValues.allowanceInputRow.filter(el => el),
+      allowanceInputRow: formValues.allowanceInputRow.filter(el => el),
       start_date: formatFiDateToISO(formValues.start_date),
       end_date: formatFiDateToISO(formValues.end_date),
       start_time: formatFiTimeToISO(formValues.start_time),
@@ -146,7 +152,7 @@ function* saveTravellingExpense() {
       additional_vehicle_cost_id: !!formValues.additional_vehicle_cost
         ? allowanceCost[formValues.additional_vehicle_cost]['id']
         : '2',
-      passengers: !!formValues.allowancePassenger
+      allowancePassenger: !!formValues.allowancePassenger
         ? formValues.allowancePassenger.filter(el => el)
         : [],
       pay_mileage: !!formValues.pay_mileage,
@@ -155,8 +161,8 @@ function* saveTravellingExpense() {
   )
 
   delete refinedForm.invoice
-  delete refinedForm.allowanceInputRow
-  delete refinedForm.allowancePassenger
+  //delete refinedForm.allowanceInputRow
+  //delete refinedForm.allowancePassenger
 
   const result = yield call(
     apiManualPost,
@@ -205,13 +211,62 @@ function* editExpenseSaga({ invoice_expense_id }) {
 
     if (expenseResult) yield put(getExpenseByIdSuccess(expenseResult))
 
-    console.log('expenseResult:: ',expenseResult[0])
-   
-    const expenseKeys = Object.keys(expenseResult[0])
+    let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
+    let purDate = new Date(purchaseDate)
 
-    //dispatch expense data to redux form
+    /*  let purPopDate = purDate.toISOString()
+     console.log('================purPopDate::', purPopDate)
+     yield put(change('newfee', 'date_of_purchase', purPopDate)) */
+
+    let purPopDate = new DateTimeFormat('fi', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    }).format(purDate)
+    console.log('================purPopDate::', purPopDate)
+    yield put(change('newfee', 'date_of_purchase', purPopDate))
+
+    let invoicePopId = store.getState().expense.expenseEdit[0].invoice_id
+    let invoicePop = store
+      .getState()
+      .invoice.invoices.filter(el => el.invoice_id === invoicePopId)
+    yield put(change('newfee', 'invoice', invoicePop[0]))
+
+    const expenseKeys = Object.keys(expenseResult[0]).filter(
+      key => key !== 'expenseInputRow'
+    )
     for (let key of expenseKeys) {
       yield put(change('newfee', key, expenseResult[0][key]))
+    }
+
+    const occurences = expenseResult[0].expenseInputRow.filter(
+      el => el.invoice_expense_item_id
+    ).length
+
+    const l = expenseResult[0].expenseInputRow.slice(0, occurences).length
+    for (let i = 0; i < l; i++) {
+      yield put(addExpenseRow(true))
+      yield put(
+        change(
+          'newfee',
+          `expenseInputRow.${i}.description`,
+          expenseResult[0].expenseInputRow.slice(0, occurences)[i].description
+        )
+      )
+      yield put(
+        change(
+          'newfee',
+          `expenseInputRow.${i}.sum`,
+          expenseResult[0].expenseInputRow.slice(0, occurences)[i].sum
+        )
+      )
+      yield put(
+        change(
+          'newfee',
+          `expenseInputRow.${i}.vat`,
+          expenseResult[0].expenseInputRow.slice(0, occurences)[i].vat
+        )
+      )
     }
   } catch (e) {
     console.warn(e)
@@ -222,21 +277,175 @@ function* editAllowanceSaga({ id }) {
   try {
     const url = `${API_SERVER}/GetAllowancesByAllowanceID`
     const body = JSON.stringify({ id: id })
-
     const result = yield call(apiManualPost, url, body)
-
     const allowanceResult = JSON.parse(result.data)
 
     if (allowanceResult) yield put(getAllowanceByIdSuccess(allowanceResult))
 
-    console.log('Inside editAllowanceSaga allowanceResult:: ',allowanceResult[0])
-   
-    const allowanceKeys = Object.keys(allowanceResult[0])
+    let vehicleType = allowanceResult[0].vehicle_Info[0].vehicle_type
+    yield put(change('newallowance', 'vehicle_type', vehicleType))
 
-    //dispatch allowance data to redux form
-    for (let key of allowanceKeys) {
+    let additionalVehicleType =
+      allowanceResult[0].additional_vehicle_Info[0].additional_vehicle_type
+    yield put(
+      change('newallowance', 'additional_vehicle_cost', additionalVehicleType)
+    )
+
+    let invoicePopId = store.getState().expense.allowanceEdit[0].invoice_id
+    let invoicePop = store
+      .getState()
+      .invoice.invoices.filter(el => el.invoice_id === invoicePopId)
+    yield put(change('newallowance', 'invoice', invoicePop[0]))
+
+    const occurencesRoute = allowanceResult[0].allowanceInputRow.filter(
+      el => el.route
+    ).length
+    const l = allowanceResult[0].allowanceInputRow.slice(0, occurencesRoute)
+      .length
+    for (let i = 0; i < l; i++) {
+      yield put(
+        change(
+          'newallowance',
+          `allowanceInputRow.${i}.route`,
+          allowanceResult[0].allowanceInputRow.slice(0, occurencesRoute)[i]
+            .route
+        )
+      )
+    }
+
+    const occurencesPassenger = allowanceResult[0].allowancePassenger.filter(
+      el => el.passenger
+    ).length
+    const k = allowanceResult[0].allowancePassenger.slice(
+      0,
+      occurencesPassenger
+    ).length
+    for (let i = 0; i < k; i++) {
+      yield put(
+        change(
+          'newallowance',
+          `allowancePassenger.${i}.passenger`,
+          allowanceResult[0].allowancePassenger.slice(0, occurencesPassenger)[i]
+            .passenger
+        )
+      )
+    }
+
+    const allowanceInfoKeys = Object.keys(allowanceResult[0]).filter(
+      key =>
+        key !== 'allowanceInputRow' &&
+        'allowancePassenger' &&
+        'vehicle_Info' &&
+        'additional_vehicle_Info' &&
+        'invoice_id'
+    )
+    for (let key of allowanceInfoKeys) {
       yield put(change('newallowance', key, allowanceResult[0][key]))
-    }   
+    }
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* saveExpenseUpdateSaga() {
+  const url = `${API_SERVER}/UpdateExpenses`
+  const formValues = getFormValues('newfee')(store.getState())
+
+  formValues.date_of_purchase = formatFiDateToISO(formValues.date_of_purchase)
+  const file = formValues.inputFile[0]
+
+  const rows = formValues.expenseInputRow
+
+  rows[Symbol.iterator] = function*() {
+    const keys = Reflect.ownKeys(this)
+    for (const key of keys) {
+      yield this[key]
+    }
+  }
+
+  const body = {
+    invoice_id: formValues.invoice.invoice_id,
+    place_of_purchase: formValues.place_of_purchase,
+    date_of_purchase: formValues.date_of_purchase
+  }
+
+  body.rows = rows.map((el, ind) => {
+    el.description = el['description' + ind]
+    el.sum = el['sum' + ind]
+    el.vat = el['vat' + ind] / 100
+
+    delete el['vat' + ind]
+    delete el['description' + ind]
+    delete el['sum' + ind]
+    return el
+  })
+
+  try {
+    const channel = yield call(createUploadFileChannel, url, file, body)
+    while (true) {
+      const { progress = 0, err, success } = yield take(channel)
+      if (err) {
+        yield put(saveExpenseFailure(err))
+      }
+      if (success) {
+        yield put(saveExpenseSuccess(success))
+        yield put(emptyExpenseRows())
+        yield put(reset('newfee'))
+      }
+      console.log(progress)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* cancelExpenseUpdateSaga() {
+  try {
+    yield put(reset('newfee'))
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* saveAllowanceUpdateSaga() {
+  try {
+    const url = `${API_SERVER}/UpdateAllowances`
+    const formValues = getFormValues('newallowance')(store.getState())
+    const uuid = store.getState().client.user.data[2]
+    const allowanceCost = store.getState().expense.allowanceCost
+    const refinedForm = Object.assign(
+      {},
+      { ...formValues },
+      {
+        invoice_id: formValues.invoice.invoice_id,
+        uuid: uuid,
+        allowanceInputRow: formValues.allowanceInputRow.filter(el => el),
+        start_date: formatFiDateToISO(formValues.start_date),
+        end_date: formatFiDateToISO(formValues.end_date),
+        start_time: formatFiTimeToISO(formValues.start_time),
+        end_time: formatFiTimeToISO(formValues.end_time),
+        vehicle_type_id: !!formValues.vehicle_type
+          ? allowanceCost[formValues.vehicle_type]['id']
+          : '1',
+        additional_vehicle_cost_id: !!formValues.additional_vehicle_cost
+          ? allowanceCost[formValues.additional_vehicle_cost]['id']
+          : '2',
+        allowancePassenger: !!formValues.allowancePassenger
+          ? formValues.allowancePassenger.filter(el => el)
+          : [],
+        pay_mileage: !!formValues.pay_mileage,
+        pay_allowance: !!formValues.pay_allowance
+      }
+    )
+    yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* cancelAllowanceUpdateSaga() {
+  try {
+    yield put(reset('newallowance'))
   } catch (e) {
     console.warn(e)
   }
@@ -272,4 +481,20 @@ export function* watchRemoveAllowanceSaga() {
 
 export function* watchEditAllowanceSaga() {
   yield takeEvery(EDIT_ALLOWANCE, editAllowanceSaga)
+}
+
+export function* watchSaveExpenseUpdateSaga() {
+  yield takeEvery(SAVE_EXPENSE_UPDATE, saveExpenseUpdateSaga)
+}
+
+export function* watchCancelExpenseUpdateSaga() {
+  yield takeEvery(CANCEL_EXPENSE_UPDATE, cancelExpenseUpdateSaga)
+}
+
+export function* watchSaveAllowanceUpdateSaga() {
+  yield takeEvery(SAVE_ALLOWANCE_UPDATE, saveAllowanceUpdateSaga)
+}
+
+export function* watchCancelAllowanceUpdateSaga() {
+  yield takeEvery(CANCEL_ALLOWANCE_UPDATE, cancelAllowanceUpdateSaga)
 }

@@ -33,15 +33,20 @@ import {
   SAVE_TRAVELLING_EXPENSE,
   SAVE_TRAVELLING_EXPENSE_SUCCESS,
   GET_EXPENSE_BY_ID_SUCCESS,
-  GET_ALLOWANCE_BY_ID_SUCCESS
+  GET_ALLOWANCE_BY_ID_SUCCESS,
+  SAVE_EXPENSE_UPDATE,
+  CANCEL_EXPENSE_UPDATE,
+  SAVE_ALLOWANCE_UPDATE,
+  CANCEL_ALLOWANCE_UPDATE,
+  CHANGE_PURCHASE_DATE
 } from '../constants/index'
 const initialState = {
   expenseInputRow: [
     <ExpenseInputRow
       key={0}
-      description={`expenseInputRow[${0}][description${0}]`}
-      sum={`expenseInputRow[${0}][sum${0}]`}
-      vat={`expenseInputRow[${0}][vat${0}]`}
+      description={`expenseInputRow[${0}][description]`}
+      sum={`expenseInputRow[${0}][sum]`}
+      vat={`expenseInputRow[${0}][vat]`}
     />
   ],
   allowanceInputRow: [
@@ -78,7 +83,11 @@ const expenseReducer = (state = initialState, action) => {
         {
           expenseRow: _createExpenseRow(action.expenses, state.selected),
           expenses: action.expenses,
-          allowanceRow: _createAllowanceRow(action.allowances, state.allowanceSelected, state.allowanceCost),
+          allowanceRow: _createAllowanceRow(
+            action.allowances,
+            state.allowanceSelected,
+            state.allowanceCost
+          ),
           allowances: action.allowances
         }
       )
@@ -109,9 +118,9 @@ const expenseReducer = (state = initialState, action) => {
         expenseInputRow: [
           <ExpenseInputRow
             key={0}
-            description={`expenseInputRow[${0}][description${0}]`}
-            sum={`expenseInputRow[${0}][sum${0}]`}
-            vat={`expenseInputRow[${0}][vat${0}]`}
+            description={`expenseInputRow[${0}][description]`}
+            sum={`expenseInputRow[${0}][sum]`}
+            vat={`expenseInputRow[${0}][vat]`}
           />
         ],
         expenseRowCounter: 1
@@ -137,15 +146,11 @@ const expenseReducer = (state = initialState, action) => {
         )
       })
 
-      case REMOVE_ALLOWANCE:
+    case REMOVE_ALLOWANCE:
       return Object.assign({}, state, {
-        allowances: state.allowances.filter(
-          el => el.id !== action.id
-        ),
+        allowances: state.allowances.filter(el => el.id !== action.id),
         allowanceRow: _createAllowanceRow(
-          state.allowances.filter(
-            el => el.id !== action.id
-          ),
+          state.allowances.filter(el => el.id !== action.id),
           state.selected
         )
       })
@@ -266,7 +271,7 @@ const expenseReducer = (state = initialState, action) => {
         }
       )
 
-      case GET_ALLOWANCE_BY_ID_SUCCESS:
+    case GET_ALLOWANCE_BY_ID_SUCCESS:
       console.log('result:: ', action.result)
       return Object.assign(
         {},
@@ -276,6 +281,49 @@ const expenseReducer = (state = initialState, action) => {
           isEdit: true
         }
       )
+
+    case SAVE_EXPENSE_UPDATE:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          expenseEdit: [],
+          isEdit: false
+        }
+      )
+
+    case CANCEL_EXPENSE_UPDATE:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          expenseEdit: [],
+          isEdit: false
+        }
+      )
+
+    case SAVE_ALLOWANCE_UPDATE:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          allowanceEdit: [],
+          isEdit: false
+        }
+      )
+
+    case CANCEL_ALLOWANCE_UPDATE:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          allowanceEdit: [],
+          isEdit: false
+        }
+      )
+
+      case CHANGE_PURCHASE_DATE:
+      return Object.assign({}, state, { date_of_purchase: action.date })
 
     default:
       return state
@@ -301,8 +349,6 @@ const _createExpenseRow = (expenses, selected) =>
     />
   ))
 
-  // const _createAllowanceRow = (allowances, selected, cost) =>
-
 const _createAllowanceRow = (allowances, selected) =>
   allowances.slice(selected * 10, selected * 10 + 10).map(el => (
     <AllowanceRow
@@ -319,14 +365,14 @@ const _createAllowanceRow = (allowances, selected) =>
         month: 'numeric',
         year: 'numeric'
       }).format(new Date(el.end_date))}
-      /* sum={new Intl.NumberFormat('fi-FI', {
+       /* sum={new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'
       }).format(_calculateAllowanceSum(el, cost))} */
       sum={new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'
-      }).format(el.sum)}
+      }).format(el.sum_total_allowance)}
     />
   ))
 
@@ -334,9 +380,9 @@ const _createExpenseInputRow = index => [
   <ExpenseInputRow
     key={index}
     autoFocusIndex={`${index}`}
-    description={`expenseInputRow[${index}][description${index}]`}
-    sum={`expenseInputRow[${index}][sum${index}]`}
-    vat={`expenseInputRow[${index}][vat${index}]`}
+    description={`expenseInputRow[${index}][description]`}
+    sum={`expenseInputRow[${index}][sum]`}
+    vat={`expenseInputRow[${index}][vat]`}
   />
 ]
 

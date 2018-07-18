@@ -13,7 +13,9 @@ import {
   showAdditionalVehicleInfo,
   changeAllowanceDate,
   saveTravellingExpense,
-  closeExpenseSnackBar
+  closeExpenseSnackBar,
+  saveAllowanceUpdate,
+  cancelAllowanceUpdate
 } from '../../actions/index'
 
 import {
@@ -26,53 +28,53 @@ import { allowanceValidate as validate } from '../validate'
 
 const date = new Date()
 let newAllowanceContainer = reduxForm({
-    form: 'newallowance',
-    initialValues: {
-      invoice: '',
-      destination: '',
-      country: 'Suomi',
-      vehicle_type: 'default_vehicle_type',
-      additional_vehicle_cost: 'default_additional_vehicle_cost',
-      start_date: new DateTimeFormat('fi', {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric'
-      }).format(date),
-      end_date: new DateTimeFormat('fi', {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric'
-      }).format(new Date(date.setFullYear(date.getFullYear() + 1))),
-      allowanceInputRow: [{
-        route: '',
-        key: '0'
-      },{
-        route: '',
-        key: '1'
-        }
-      ],
-      distance: 0,
-      pay_forest_road: false,
-      pay_heavy_load: false,
-      pay_working_dog: false,
-      license_plate: '',
-      pay_mileage: false,
-      pay_allowance: false,
-      full_time_allowance: 0,
-      part_time_allowance: 0,
-      meal_allowance: 0
-    },
-    validate
-  }
+  form: 'newallowance',
+  initialValues: {
+    invoice: '',
+    destination: '',
+    country: 'Suomi',
+    vehicle_type: 'default_vehicle_type',
+    additional_vehicle_cost: 'default_additional_vehicle_cost',
+    start_date: new DateTimeFormat('fi', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    }).format(date),
+    end_date: new DateTimeFormat('fi', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    }).format(new Date(date.setFullYear(date.getFullYear() + 1))),
+    allowanceInputRow: [{
+      route: '',
+      key: '0'
+    }, {
+      route: '',
+      key: '1'
+    }
+    ],
+    distance: 0,
+    pay_forest_road: false,
+    pay_heavy_load: false,
+    pay_working_dog: false,
+    license_plate: '',
+    pay_mileage: false,
+    pay_allowance: false,
+    full_time_allowance: 0,
+    part_time_allowance: 0,
+    meal_allowance: 0
+  },
+  validate
+}
 )(NewAllowanceComponent)
 
 const mapStateToProps = (state) => {
   const invoiceNames = state.invoice.invoices.map((item, index) =>
     <MenuItem key={index} value={item} primaryText={item.company_name + ' ' + new DateTimeFormat('fi', {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric'
-  }).format(new Date(item.due_date)) + ' ' + item.total_sum + '€'}/>)
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    }).format(new Date(item.due_date)) + ' ' + item.total_sum + '€'} />)
 
   const allowanceInputRows = state.expense.allowanceInputRow
   const formValues = getFormValues('newallowance')(state)
@@ -84,7 +86,7 @@ const mapStateToProps = (state) => {
 
     allowanceInputRows.forEach(el => {
       !formValues['allowanceInputRow'][el.key] &&
-      (formValues['allowanceInputRow'][el.key] = {route: '', key: el.key})
+        (formValues['allowanceInputRow'][el.key] = { route: '', key: el.key })
     })
   } else {
     state.expense.allowanceInputRow = state.expense.allowanceInputRow.slice(0, 2)
@@ -92,7 +94,7 @@ const mapStateToProps = (state) => {
   }
 
   return {
-    isEdit: state.expense.isEdit,   
+    isEdit: state.expense.isEdit,
     id: state.expense.allowanceEdit.id,
     user: state.oidc.user,
     invoices: invoiceNames,
@@ -122,9 +124,11 @@ const mapStateToProps = (state) => {
     allowanceDaysMeal: _createMenuItems(_getMealValues(state.expense.days, formValues)),
 
     distance: !!formValues && formValues.pay_mileage
-      ? (!isNaN(Number.parseFloat(formValues.distance)) ? parseFloat(formValues.distance) : false)  : false,
+      ? (!isNaN(Number.parseFloat(formValues.distance)) ? parseFloat(formValues.distance) : false) : false,
+
     kmPrice: calculateKmPrice(state, formValues)
-}}
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -134,11 +138,13 @@ const mapDispatchToProps = (dispatch) => {
     showAdditionalVehicleInfo: value => dispatch(showAdditionalVehicleInfo(value)),
     changeAllowanceDate: () => dispatch(changeAllowanceDate()),
     saveTravellingExpense: () => dispatch(saveTravellingExpense()),
-    closeSnackbar: () => dispatch(closeExpenseSnackBar())
+    closeSnackbar: () => dispatch(closeExpenseSnackBar()),
+    saveAllowanceUpdate: id => dispatch(saveAllowanceUpdate(id)),
+    cancelAllowanceUpdate: () => dispatch(cancelAllowanceUpdate())
   }
 }
 
-const _createMenuItems = (rows) => Array(!!rows?rows+1:1).fill().map((_, index) => <MenuItem key={index} value={index} primaryText={JSON.stringify(index)}/>)
+const _createMenuItems = (rows) => Array(!!rows ? rows + 1 : 1).fill().map((_, index) => <MenuItem key={index} value={index} primaryText={JSON.stringify(index)} />)
 
 const _getPartDayValues = (days, formValues) =>
   !!formValues ?
@@ -150,16 +156,14 @@ const _getFullDayValues = (days, formValues) =>
 
 const _getMealValues = (days, formValues) =>
   !!formValues ?
-    Math.max((2*(days - (formValues.part_time_allowance || 0) - (formValues.full_time_allowance || 0))), 0) : 2
+    Math.max((2 * (days - (formValues.part_time_allowance || 0) - (formValues.full_time_allowance || 0))), 0) : 2
+
 
 const calculateKmPrice = (state, formValues) => {
-
   let kmPrice = 0
   const allowanceCost = state.expense.allowanceCost
-
-  if (!!formValues && formValues.pay_mileage && !!formValues.vehicle_type) {
+    if (!!formValues && formValues.pay_mileage && !!formValues.vehicle_type) {
     kmPrice = allowanceCost[formValues.vehicle_type]['value'] + state.expense.passengerPrice
-
     if (formValues.vehicle_type === 'own_car') {
       if (!!formValues.additional_vehicle_cost) { kmPrice += allowanceCost[formValues.additional_vehicle_cost]['value'] }
       if (formValues.pay_forest_road) { kmPrice += allowanceCost.forest_road.value }
@@ -170,7 +174,8 @@ const calculateKmPrice = (state, formValues) => {
   return kmPrice
 }
 
-const mergeProps = ( stateProps, dispatchProps, ownProps ) => Object.assign({}, stateProps, dispatchProps, ownProps)
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => Object.assign({}, stateProps, dispatchProps, ownProps)
 
 newAllowanceContainer = connect(mapStateToProps, mapDispatchToProps, mergeProps)(newAllowanceContainer)
 

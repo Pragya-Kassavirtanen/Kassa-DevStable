@@ -49,7 +49,8 @@ const NewExpense = ({
   isEdit,
   saveExpenseUpdate,
   invoice_expense_id,
-  cancelExpenseUpdate
+  cancelExpenseUpdate,
+  changeExpensePurchaseDate
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -93,7 +94,8 @@ const NewExpense = ({
                       component={renderDatePicker}
                       floatingLabelText="Ostopäivämäärä"
                       textFieldStyle={{ width: '100%' }}
-                      onChangeCallback={() => undefined}
+                      //onChangeCallback={() => undefined}                      
+                      onChangeCallback={changeExpensePurchaseDate}
                     />
                   </div>
                   <div className="dashboard-expense">

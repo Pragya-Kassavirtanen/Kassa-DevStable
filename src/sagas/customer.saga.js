@@ -24,10 +24,11 @@ function* newCustomerSaga() {
   try {
 
     const url = `${API_SERVER}/CreateCustomer`
-
     const formValues = getFormValues('customer')(store.getState())
+    const uuid = store.getState().client.user.data[2]
 
     const body = JSON.stringify({
+      uuid: uuid,
       country: formValues.country,
       delivery_method: formValues.delivery_method,
       company_name: formValues.company_name,
@@ -106,8 +107,10 @@ function* saveCustomerUpdateSaga() {
   try {
     const url = `${API_SERVER}/UpdateCustomer`
     const formValues = getFormValues('customer')(store.getState())
+    const uuid = store.getState().client.user.data[2]
 
     const body = JSON.stringify({
+      uuid: uuid,
       customer_id: formValues.customer_id,
       country: formValues.country,
       delivery_method: formValues.delivery_method,

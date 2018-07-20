@@ -10,10 +10,10 @@ import {
   API_SERVER
 } from '../constants'
 
-import { apiRequest, apiPost } from '../utils/request'
+import { apiManualPost } from '../utils/request'
 import { loadProfileSuccess, loadProfileFailed } from '../actions'
 
-function* loadProfileSaga() {
+/* function* loadProfileSaga() {
 
   try {
     const uuid = (store.getState()).profile.uuid
@@ -33,9 +33,32 @@ function* loadProfileSaga() {
     yield put(loadProfileFailed(e))
   }
 
+} */
+
+function* loadProfileSaga() {
+
+  try {
+    const uuid = store.getState().client.user.data[2]
+    if(!!uuid) {
+      const url = `${API_SERVER}/GetUserContactDetails`
+      const body = JSON.stringify({ uuid: uuid })
+      const result = yield call(apiManualPost, url, body)
+
+      yield put(loadProfileSuccess(result.data))
+
+      //yield is reserved word so forEach is not possible to use
+      let keys = Object.keys(result.data)
+      for (let key of keys) {
+        yield put(change('profile', key, result.data[key]))
+      }
+    }
+  } catch (e) {
+    yield put(loadProfileFailed(e))
+  }
+
 }
 
-function* updateProfileSaga() {
+/* function* updateProfileSaga() {
   try {
     const formValues = getFormValues('profile')(store.getState())
     const uuid = (store.getState()).profile.uuid
@@ -45,6 +68,21 @@ function* updateProfileSaga() {
     const result = yield call(apiPost, url, body, 'PUT')
     yield put(loadProfileSuccess(result.data))
 
+
+  } catch (e) {
+  console.warn(e)
+}
+} */
+
+function* updateProfileSaga() {
+  try {
+    const formValues = getFormValues('profile')(store.getState())
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({...formValues, uuid: uuid})
+
+    const url = `${API_SERVER}/UpdateUserContactDetails`
+    const result = yield call(apiManualPost, url, body)
+    yield put(loadProfileSuccess(result.data))
 
   } catch (e) {
   console.warn(e)

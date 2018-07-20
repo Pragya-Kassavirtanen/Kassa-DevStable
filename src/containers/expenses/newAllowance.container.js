@@ -51,8 +51,7 @@ let newAllowanceContainer = reduxForm({
     }, {
       route: '',
       key: '1'
-    }
-    ],
+    }],   
     distance: 0,
     pay_forest_road: false,
     pay_heavy_load: false,

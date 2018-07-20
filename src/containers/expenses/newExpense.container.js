@@ -28,9 +28,9 @@ let newExpenseContainer = reduxForm({
     place_of_purchase: '',   
     //date_of_purchase: date,
     expenseInputRow: [{
-      description: '',
-      sum: '',
-      vat: 24
+      description0: '',
+      sum0: '',
+      vat0: 24
     }],
     receipt_picture: ''
   },
@@ -46,7 +46,7 @@ const mapStateToProps = (state) => {
   expenseInputRow.forEach(el => {
     if (!formValues['expenseInputRow'][el.key]) {
       formValues['expenseInputRow'][el.key] = {}
-      formValues['expenseInputRow'][el.key]['vat'] = 24
+      formValues['expenseInputRow'][el.key][`vat${el.key}`] = 24
     }
   })
 

@@ -79,17 +79,23 @@ function* saveExpenseSaga() {
   const url = `${API_SERVER}/AddExpenses`
   const formValues = getFormValues('newfee')(store.getState())
 
+  //console.log('formValues:: ',formValues)
+
   formValues.date_of_purchase = formatFiDateToISO(formValues.date_of_purchase)
   const file = formValues.inputFile[0]
 
-  const rows = formValues.expenseInputRow
+  const expenseInputRow = formValues.expenseInputRow
 
-  rows[Symbol.iterator] = function*() {
+  //console.log('expenseInputRow:: ',expenseInputRow)
+
+  expenseInputRow[Symbol.iterator] = function*() {
     const keys = Reflect.ownKeys(this)
     for (const key of keys) {
       yield this[key]
     }
   }
+
+  //console.log('expenseInputRow:: ',expenseInputRow)
 
   const body = {
     invoice_id: formValues.invoice.invoice_id,
@@ -97,7 +103,7 @@ function* saveExpenseSaga() {
     date_of_purchase: formValues.date_of_purchase
   }
 
-  body.rows = rows.map((el, ind) => {
+  body.expenseInputRow = expenseInputRow.map((el, ind) => {
     el.description = el['description' + ind]
     el.sum = el['sum' + ind]
     el.vat = el['vat' + ind] / 100
@@ -107,6 +113,8 @@ function* saveExpenseSaga() {
     delete el['sum' + ind]
     return el
   })
+
+  //console.log('body.expenseInputRow:: ',body.expenseInputRow)
 
   try {
     const channel = yield call(createUploadFileChannel, url, file, body)
@@ -407,7 +415,7 @@ function* cancelExpenseUpdateSaga() {
   }
 }
 
-function* saveAllowanceUpdateSaga() {
+function* saveAllowanceUpdateSaga({ id }) {
   try {
     const url = `${API_SERVER}/UpdateAllowances`
     const formValues = getFormValues('newallowance')(store.getState())
@@ -417,13 +425,21 @@ function* saveAllowanceUpdateSaga() {
       {},
       { ...formValues },
       {
+        id: id,
         invoice_id: formValues.invoice.invoice_id,
         uuid: uuid,
         allowanceInputRow: formValues.allowanceInputRow.filter(el => el),
-        start_date: formatFiDateToISO(formValues.start_date),
+
+        /* start_date: formatFiDateToISO(formValues.start_date),
         end_date: formatFiDateToISO(formValues.end_date),
         start_time: formatFiTimeToISO(formValues.start_time),
-        end_time: formatFiTimeToISO(formValues.end_time),
+        end_time: formatFiTimeToISO(formValues.end_time), */
+
+        start_date: formValues.start_date,
+        end_date: formValues.end_date,
+        start_time: formValues.start_time,
+        end_time: formValues.end_time,
+
         vehicle_type_id: !!formValues.vehicle_type
           ? allowanceCost[formValues.vehicle_type]['id']
           : '1',
@@ -437,7 +453,9 @@ function* saveAllowanceUpdateSaga() {
         pay_allowance: !!formValues.pay_allowance
       }
     )
+    
     yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
+    yield put(reset('newallowance'))
   } catch (e) {
     console.warn(e)
   }

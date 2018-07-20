@@ -158,9 +158,9 @@ export const SAVE_SALARY_SLIP = '@@salary/SAVE_SALARY_SLIP'
 export const OPENID_SERVER = process.env.OPENID_SERVER
 
 //Development Server
-/* export const API_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
+export const API_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'
 
 //Staging Server
-export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
+/* export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api' */

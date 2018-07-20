@@ -149,7 +149,7 @@ export const customerValidate = values => {
 
 export const profileValidate = values => {
   const errors = {}
-  const requiredFields = [ 'last_name', 'first_name', 'address', 'phone', 'city', 'account_number' ]
+  const requiredFields = [ 'lastname', 'firstname', 'address', 'phone', 'city', 'account_number' ]
 
   requiredFields.forEach(field => {
     if ( !values [ field ] ) {

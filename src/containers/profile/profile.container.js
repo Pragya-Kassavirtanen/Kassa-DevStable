@@ -11,16 +11,16 @@ let ProfileContainer = reduxForm({
   form: 'profile',
   initialValues: {
     email:'',
-    first_name:'',
-    last_name: '',
-    show_phone: false,
+    firstname:'',
+    lastname: '',    
     phone:'',
     account_number:'',
     address:'',
     zip_code:'',
     city:'',
     market_name:'',
-    job_title: ''
+    job_title: '',
+    ssn:''
   },
   validate,
   asyncValidate

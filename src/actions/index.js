@@ -28,6 +28,7 @@ import {
   CHECK_AUTH_INFO_SUCCESS,
   CHECK_AUTH_INFO_FAILED,
   ON_PROFILE_UPDATE,
+  ON_PASSWORD_UPDATE,
   LOAD_PROFILE_SUCCESS,
   LOAD_PROFILE_FAILED,
   LOAD_PROFILE_START,
@@ -244,6 +245,7 @@ export const checkAuthInfoSuccess = result => ({ type: CHECK_AUTH_INFO_SUCCESS, 
 export const checkAuthInfoFailed = error => ({ type: CHECK_AUTH_INFO_FAILED, error })
 
 export const profileUpdate = () => ({ type: ON_PROFILE_UPDATE })
+export const passwordUpdate = () => ({ type: ON_PASSWORD_UPDATE })
 export const loadProfileStart = () => ({ type: LOAD_PROFILE_START })
 export const loadProfileSuccess = result => ({ type: LOAD_PROFILE_SUCCESS, result })
 export const loadProfileFailed = error => ({ type: LOAD_PROFILE_FAILED, error })

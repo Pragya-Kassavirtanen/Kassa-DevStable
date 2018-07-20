@@ -41,8 +41,8 @@ const Profile = ({handleSubmit, onProfileUpdate, invalid}) =>
               <form onSubmit={handleSubmit(() => onProfileUpdate())}>
                 <div className="panel-body">
                   <div className="formSplit">
-                    <Field name="last_name" label="Sukunimi*" disabled={true} component={renderTextField}/>
-                    <Field name="first_name" label="Etunimi*" disabled={true} component={renderTextField}/>
+                    <Field name="lastname" label="Sukunimi*" disabled={true} component={renderTextField}/>
+                    <Field name="firstname" label="Etunimi*" disabled={true} component={renderTextField}/>
                     <Field name="phone" label="Puhelinnumero*" component={renderTextField}/>
                     <Field name="account_number" label="Tilinumero IBAN-muodossa*" component={renderTextField}/>
                     <Field name="ssn" label="Henkilötunnus*" component={renderTextField}/>

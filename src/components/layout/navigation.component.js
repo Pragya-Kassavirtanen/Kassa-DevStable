@@ -23,7 +23,7 @@ const Navigation = () =>
       <div className="nav navbar-nav pull-right">
         <ul className="nav nav-tabs">
           <li>
-            <a className="dashboard-nav-linklist" href="http://kassavirtanen.fi/">
+            <a className="dashboard-nav-linklist" href="/home">
               <NavIcon name="sign-out" size="2x" content="Etusivulle"/>
             </a>
           </li>

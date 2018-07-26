@@ -137,7 +137,8 @@ import {
   SAVE_ALLOWANCE_UPDATE,
   CANCEL_ALLOWANCE_UPDATE,
   CHANGE_PURCHASE_DATE,
-  SAVE_SALARY_SLIP
+  SAVE_SALARY_SLIP,
+  FRONT_PAGE_FORM_SUBMIT
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -261,6 +262,8 @@ export const registerFormSubmit = (email, firstname, lastname, password) => ({ t
 export const registerFormSubmitSuccess = (result) => ({ type: SIGNUP_FORM_SUBMIT_SUCCESS, result })
 export const registerFormSubmitFailed = error => ({ type: SIGNUP_FORM_SUBMIT_FAILED, error })
 export const closeRegisterSnackbar = () => ({ type: CLOSE_SIGNUP_SNACKBAR })
+
+export const signupFormSubmit = (firstname, lastname, email) => ({ type: FRONT_PAGE_FORM_SUBMIT, firstname, lastname, email })
 
 export const changeAdminMenu = (value, email) => ({ type: CHANGE_ADMIN_MENU, value, email })
 export const searchAdminUsers = () => ({ type: SEARCH_ADMIN_USERS })

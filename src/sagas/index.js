@@ -4,6 +4,7 @@ import { watchCheckAuthInfoSaga } from './dashboard.saga'
 import { watchLoadProfileSaga, watchUpdateProfileSaga, watchUpdatePasswordSaga } from './profile.saga'
 import { watchNewCustomerSaga, watchGetCustomersSaga, watchGetCustomerByIdSaga, watchRemoveCustomerSaga, watchSaveCustomerSaga, watchCancelCustomerSaga, watchGetCustomerToAddInvoiceSaga } from './customer.saga'
 import { watchSendRegisterInfoSaga } from './register.saga'
+import { watchLoadRegisterReviewSaga } from './signup.saga'
 import {
   watchAdminInvoiceSearchSaga,
   watchAdminInvoiceExpandSaga,
@@ -76,6 +77,7 @@ export default function* rootSaga() {
     watchCancelAllowanceUpdateSaga(),
     watchSaveExpenseUpdateSaga(),
     watchCancelExpenseUpdateSaga(),
-    watchUpdatePasswordSaga()
+    watchUpdatePasswordSaga(),
+    watchLoadRegisterReviewSaga()
   ]
 }

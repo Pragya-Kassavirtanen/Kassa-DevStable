@@ -129,7 +129,7 @@ input[type=text]::-ms-clear {
       border-color: $main-color;
       padding: 5px;
       float: left;
-      border-right: 2px solid white;
+      //border-right: 2px solid white;
 
       &:after {
         content: '.';
@@ -584,4 +584,395 @@ input[type=text]::-ms-clear {
       font-family: $font-family-open-sans;
     }
   }
+}
+
+//Website image cover style
+.cover {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: auto;
+}
+
+/* .cover img {
+  //border: none;
+} */
+
+/*Frontpage -->*/
+
+.frontpage-cover-heading { 
+  color: white;
+  text-transform: uppercase;
+  font-size: 25px;
+  position: absolute;
+  top: 35%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
+
+.frontpage-intro {  
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.frontpage-intro > h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+  color: #FF3297; 
+}
+
+.frontpage-intro p {
+  font-size: 17px;
+}
+
+.frontpage-signup {
+  background-color: #44c0cc;  
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+  text-align: center;
+}
+
+.frontpage-signup > h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.frontpage-input {
+  border-radius: 30px;
+  border-width: 2px;
+  padding: 10px 15px;
+  box-shadow: 3px 8px 18px #585757;
+  border-color: #FF3297;
+}
+
+.signupButton {
+  background-color: #FF3297;
+  color: white;
+  text-transform: uppercase;
+  width: 200px;
+  border-radius: 30px;
+  font-weight: bold;
+  box-shadow: 5px 8px 18px #585757;
+  border: 1px solid transparent;
+}
+
+.signupButton:hover {
+  background-color: rgb(223, 63, 143);
+}
+
+.laskutus {  
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
+  text-align: center;
+}
+
+.laskutus h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding-top: 20px;
+  color: #FF3297;
+}
+
+.frontpage-halvempi {
+  background-color: #44c0cc;
+  padding: 50px 20px;
+  color: white;
+  text-align: center;
+}
+
+.frontpage-halvempi h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.frontpage-halvempi p {
+  font-size: 17px;
+}
+
+.frontpage-jouheva {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.frontpage-jouheva h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+  color: #FF3297
+}
+
+.frontpage-jouheva p {
+  font-size: 17px;
+}
+
+/*Hinnasto -->*/
+
+.hinnasto-intro {
+  padding: 90px 20px;
+  text-align: center;
+}
+
+.hinnasto-intro h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+  color: #FF3297;
+}
+
+.percentage {
+  padding: 10px;
+}
+
+.hinnasto-palkka {
+  text-align: center;
+}
+
+.hinnasto-palkka h1 {
+  font-weight: bold;
+  color: #FF3297;
+}
+
+.hinnasto-palkka ul {
+  list-style-type: none;
+  font-weight: bold;
+}
+
+.hinnasto-palkka li {
+  padding: 5px;
+  padding-right: 20px;
+}
+
+.list1 {
+  margin-left: 5px;
+}
+
+.list2 {
+  margin-right: 5px;
+}
+
+.hinnasto-pikapalkka {
+  text-align: center;
+}
+
+.hinnasto-palkka-heading {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 25px;
+}
+
+.hinnasto-palkka-content {
+  background-color: #44c0cc;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 46px;
+  padding-bottom: 30px;
+  margin-top: 48px;
+}
+
+.hinnasto-pikapalkka-heading {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 25px;
+}
+
+.hinnasto-pikapalkka h1 {
+  font-weight: bold;
+  color: #FF3297;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.hinnasto-pikapalkka-content {
+  //background-color: #44c0cc;
+  color: white;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+.hinnasto-sivukulut {
+  padding: 90px 20px;
+  text-align: center;
+}
+
+.hinnasto-sivukulut h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.hinnasto-ehdot {
+  padding: 0px 20px;
+  text-align: center;
+}
+
+.hinnasto-ehdot h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+/*FAQ -->*/
+
+.faq-questions {
+  padding: 100px 0px;
+  text-align: left;
+}
+
+.faq-questions h5 {
+  background-color:#44c0cc;
+  color: white;
+  padding: 15px;
+  text-align: left;
+  text-indent: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 2px;
+}
+
+.faq-questions h6 {
+  padding: 5px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: darkblue;
+}
+
+.plus-icon {
+  position: absolute;
+  right: 13px;
+}
+
+#aloitus, #laskut, #palkat, #vakuutukset {
+  display: none;
+  margin: 13px;
+}
+
+#q1, #q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10, #q11 {
+  display: none;
+  margin: 4px;
+}
+
+/*Companies and entrepreneurs -->*/
+
+.bluebackground {
+  background-color: #44c0cc;
+  padding: 90px 20px;
+  color: white;
+  text-align: center;
+}
+
+.bluebackground h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+  color: white;
+}
+
+.bluebackground p {
+  font-size: 17px;
+}
+
+.bluebackground a {
+  color: white;
+  text-decoration: underline;
+}
+
+.whitebackground {
+  padding: 90px 20px;
+  text-align: center;
+}
+
+.whitebackground h6 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+  color: #FF3297;
+}
+
+.whitebackground p {
+  font-size: 17px;
+}
+
+/*Contact page -->*/
+
+.yhteystiedot-cover h1 {
+  color: white;
+  text-transform: uppercase;
+  font-size: 25px;
+  text-align: center;
+}
+
+.content {
+  padding: 90px 20px;
+}
+
+.red {
+  color: #FF3297;
+}
+
+h1 {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.firstBox {
+  background-color: #44c0cc;
+  padding: 50px 50px;
+  color: white;
+  text-align: center;
+}
+
+.secondBox {
+  padding: 50px 50px;
+  text-align: center;
+}
+
+.thirdBox {
+  background-color: #44c0cc;
+  padding: 50px 50px;
+  color: white;
+  text-align: center;
+}
+
+.fourthBox {
+  padding: 50px 50px;
+  text-align: center;
+}
+
+.yhteystiedot-input {
+  border-width: 1px;
+  padding: 10px 15px;
+  border-color: darkblue;
+}
+
+.button {
+  background-color: #FF3297;
+  color: white;
+  width: 150px;
+  border-radius: 30px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: rgb(223, 63, 143);
 }

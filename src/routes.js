@@ -24,7 +24,12 @@ import InvoiceEdit from './containers/invoice/invoiceEdit.container'
 import NewAllowance from './containers/expenses/newAllowance.container'
 import Admin from './containers/admin/admin.container'
 
-
+import FrontMain from './containers/frontMain.container'
+import FrontPage from './components/website/frontpage.component'
+//import FAQ from './components/website/faq.component'
+import Hinnasto from './components/website/hinnasto.component'
+import Yhteystiedot from './components/website/yhteystiedot.component'
+import Yrityksille from './components/website/yrityksille.component'
 
 /**
  * TODO: Describe me
@@ -35,37 +40,75 @@ import Admin from './containers/admin/admin.container'
 
 const history = syncHistoryWithStore(browserHistory, store)
 
-
 const isUserAuthenticated = UserAuthWrapper({
-  authSelector: state => state.oidc.user ? state.oidc.user : (store.getState()).client.user,
+  authSelector: state =>
+    state.oidc.user ? state.oidc.user : store.getState().client.user,
   redirectAction: routerActions.replace,
   wrapperDisplayName: 'isUserAuthenticated'
 })
 
 export default class RouteComponent extends React.Component {
-
-  render () {
-
+  render() {
     return (
       <Router history={history}>
         <Route path="/dashboard" component={Main}>
-          <Route path="/dashboard/login" component={Login}/>
-          <Route path="/dashboard/register" component={Register}/>
-          <Route path="/dashboard/callback" component={Callback}/>
-          <Route path="/dashboard/main" component={isUserAuthenticated(Dashboard)} />
-          <Route path="/dashboard/invoice" component={isUserAuthenticated(Invoice)}/>          
-          <Route path="/dashboard/invoice/review" components={isUserAuthenticated(ReviewInvoice)}/>
-          <Route path="/dashboard/salary" component={isUserAuthenticated(Salary)}/>
-          <Route path="/dashboard/customer" components={isUserAuthenticated(Customer)}/>
-          <Route path="/dashboard/tax" component={isUserAuthenticated(Tax)}/>
-          <Route path="/dashboard/profile" component={isUserAuthenticated(Profile)}/>
-          <Route path="/dashboard/fee" component={isUserAuthenticated(Expenses)}/>
-          <Route path="/dashboard/fee/newfee" component={isUserAuthenticated(NewExpense)}/>
-          <Route path="/dashboard/fee/newallowance" component={isUserAuthenticated(NewAllowance)}/>
-          <Route path="/dashboard/invoice/edit" component={isUserAuthenticated(InvoiceEdit)}/>
-          <Route path="/dashboard/admin" component={isUserAuthenticated(Admin)}/>
+          <Route path="/dashboard/login" component={Login} />
+          <Route path="/dashboard/register" component={Register} />
+          <Route path="/dashboard/callback" component={Callback} />
+          <Route
+            path="/dashboard/main"
+            component={isUserAuthenticated(Dashboard)}
+          />
+          <Route
+            path="/dashboard/invoice"
+            component={isUserAuthenticated(Invoice)}
+          />
+          <Route
+            path="/dashboard/invoice/review"
+            components={isUserAuthenticated(ReviewInvoice)}
+          />
+          <Route
+            path="/dashboard/salary"
+            component={isUserAuthenticated(Salary)}
+          />
+          <Route
+            path="/dashboard/customer"
+            components={isUserAuthenticated(Customer)}
+          />
+          <Route path="/dashboard/tax" component={isUserAuthenticated(Tax)} />
+          <Route
+            path="/dashboard/profile"
+            component={isUserAuthenticated(Profile)}
+          />
+          <Route
+            path="/dashboard/fee"
+            component={isUserAuthenticated(Expenses)}
+          />
+          <Route
+            path="/dashboard/fee/newfee"
+            component={isUserAuthenticated(NewExpense)}
+          />
+          <Route
+            path="/dashboard/fee/newallowance"
+            component={isUserAuthenticated(NewAllowance)}
+          />
+          <Route
+            path="/dashboard/invoice/edit"
+            component={isUserAuthenticated(InvoiceEdit)}
+          />
+          <Route
+            path="/dashboard/admin"
+            component={isUserAuthenticated(Admin)}
+          />
         </Route>
-        <Route path="/dashboard/*" component={Main}/>
+        <Route path="/dashboard/*" component={Main} />
+        <Route path="/home" component={FrontMain}>          
+          <Route path="/home/hinnasto" component={Hinnasto} />
+          <Route path="/home/faq" component={FrontPage} />
+          <Route path="/home/yrityksille" component={Yrityksille} />
+          <Route path="/home/yhteystiedot" component={Yhteystiedot} />
+        </Route>
+        <Route path="/home/*" component={FrontMain} />
       </Router>
     )
   }

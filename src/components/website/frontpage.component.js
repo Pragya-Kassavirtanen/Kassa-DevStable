@@ -1,4 +1,5 @@
 import React from 'react'
+import SignUp from './signup.component'
 
 /**
  * Bootstrap styled Front Page
@@ -11,15 +12,15 @@ const woman_etusivu = require('../../images/woman_etusivu.png')
 const man_etusivu = require('../../images/man_etusivu.png')
 
 const FrontPage = () => (
-  <div>
-    <div class="container-fluid frontpage-cover">
-      <img src={herravirtanen_etusivu} style="width:100%; height:300px" />
-      <div class="frontpage-cover-heading">
+  <div className="container-fluid cover">
+    <div className="cover">
+      <img src={herravirtanen_etusivu} style={{width:'100%', height:'300px'}} />
+      <div className="frontpage-cover-heading">
         Laskuta ilman yritystä.
         <br />Kevytyrittäjän uusi, entistä helpompi arki.
       </div>
     </div>
-    <div class="container-fluid frontpage-intro col-md-8 col-md-offset-8">
+    <div className="frontpage-intro col-xs-12 col-sm-12 col-lg-12">
       <h6>Helppoa kuin heinän teko</h6>
       <br />
       <p>
@@ -29,53 +30,18 @@ const FrontPage = () => (
         <br /> Laskutus on helppoa, säästää aikaasi eikä sido sinua mihinkään.
       </p>
     </div>
-    <div class="container frontpage-signup">
+    <div className="frontpage-signup col-xs-12 col-sm-12 col-lg-12">
       <h6>Rekisteröityminen</h6>
       <p>Rekisteröidy käyttäjäksi. Se on maksutonta.</p>
       <br />
-      <div class="row justify-content-center">
-        <form class="form form-inline" action="">
-          <div class="form-group mb-2 mr-sm-3">
-            <label class="sr-only" for="etunimi">
-              Etunimi:
-            </label>
-            <input
-              type="text"
-              class="form-input-field form-control"
-              placeholder="Etunimi"
-            />
-          </div>
-          <div class="form-group mb-2 mr-sm-3">
-            <label class="sr-only" for="sukunimi">
-              Sukunimi:
-            </label>
-            <input
-              type="text"
-              class="form-input-field form-control"
-              placeholder="Sukunimi"
-            />
-          </div>
-          <div class="form-group mb-2 mr-sm-3">
-            <label class="sr-only" for="email">
-              Sähköposti:
-            </label>
-            <input
-              type="email"
-              class="form-input-field form-control"
-              id="email"
-              placeholder="Sähköposti"
-            />
-          </div>
-          <button type="submit" class="btn btn mb-2 mr-sm-3 button-background">
-            Liity nyt
-          </button>
-        </form>
+      <div className="row justify-content-center">
+       <SignUp />
       </div>
     </div>
-    <div class="container-fluid laskutus">
-      <div class="row">
-        <div class="col-lg">
-          <img src={woman_etusivu} style="width:360px" />
+    <div className="laskutus">
+      <div className="row">
+        <div className="col-xs-12 col-sm-6 col-lg-6">
+          <img src={woman_etusivu} style={{width:'360px'}} />
           <h6>Laskutus</h6>
           <br />
           <p>
@@ -83,17 +49,17 @@ const FrontPage = () => (
             asiakkaillesi.
           </p>
         </div>
-        <div class="col-lg">
-          <img src={man_etusivu} style="width:360px" />
+        <div className="col-xs-12 col-sm-6 col-lg-6">
+          <img src={man_etusivu} style={{width:'360px'}} />
           <h6>Palkan nostaminen</h6>
           <br />
           <p>Nosta itsellesi palkkaa ilman huolta byrokratian kiemuroista.</p>
         </div>
       </div>
     </div>
-    <div class="container frontpage-halvempi">
-      <div class="row justify-content-center">
-        <div class="col-9">
+    <div className="frontpage-halvempi">
+      <div className="row justify-content-center">
+        <div className="col-xs-12 col-sm-12 col-lg-12">
           <h6>Eli ei kallis, vaan halvempi</h6>
           <br />
           <p>
@@ -104,7 +70,7 @@ const FrontPage = () => (
         </div>
       </div>
     </div>
-    <div class="container-fluid frontpage-jouheva col-md-8 col-md-offset-8">
+    <div className="frontpage-jouheva col-xs-12 col-sm-12 col-lg-12">
       <h6>Paitsi jouheva, kassavirtanen on myös edullinen</h6>
       <br />
       <p>

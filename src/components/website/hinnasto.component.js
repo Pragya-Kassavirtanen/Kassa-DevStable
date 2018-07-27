@@ -3,12 +3,12 @@ import React from 'react'
 const hinnasto_banner = require('../../images/hinnasto-banner.png')
 
 const Hinnasto = () => (
-  <div>
-    <div className="container-fluid cover">
+  <div className="container-fluid cover">
+    <div className="cover">
       <img src={hinnasto_banner} style={{ width: '100%', height: '300px' }} />
     </div>
-    <div className="container-fluid hinnasto-content col-md-8 col-md-offset-8">
-      <div className="hinnasto-intro col-lg">
+    <div className="hinnasto-content col-xs-12 col-sm-12 col-lg-12">
+      <div className="hinnasto-intro">
         <h6>Ei kallis vaan edullisempi</h6>
         <br />
         <p>Kassavirtasen käyttöönottaminen ja rekisteröinti on maksutonta. Kassavirtasen laskutuspalvelua käyttäessäsi maksat
@@ -18,7 +18,7 @@ const Hinnasto = () => (
     </div>
     <div className="container">
       <div className="row justify-content-around">
-        <div className="hinnasto-palkka col-lg-4">
+        <div className="hinnasto-palkka col-xs-12 col-sm-6 col-lg-6">
           <p className="hinnasto-palkka-heading">Palkka</p>
           <h1 className="percentage">2 - 4,5%</h1>
           <div className="hinnasto-palkka-content">
@@ -31,7 +31,7 @@ const Hinnasto = () => (
             </ul>
           </div>
         </div>
-        <div className="hinnasto-pikapalkka col-lg-4">
+        <div className="hinnasto-pikapalkka col-xs-12 col-sm-6 col-lg-6">
           <p className="hinnasto-pikapalkka-heading">Pikapalkka</p>
           <div className="percentage">
             <h1>2,5%</h1>
@@ -43,14 +43,14 @@ const Hinnasto = () => (
         </div>
       </div>
     </div>
-    <div className="container hinnasto-sivukulut col-md-8 col-md-offset-8">
+    <div className="container hinnasto-sivukulut col-xs-12 col-sm-12 col-lg-12">
       <h6>Sivukulut</h6>
       <br />
       <p>Arvonlisävero: kulutusvero, joka maksetaan myynnistä. Yleisesti käytössä oleva arvonlisäverokanta on 24%. Työntekijän
         pidätyksiä ovat ennakonpidätys sekä sosiaaliturvamaksu. Huomioithan, että Kassavirtasen kautta laskuttaessa YEL-maksuista
       huolehtimisesta sinulla on mahdollisuus päättää itse! </p>
     </div>
-    <div className="container hinnasto-ehdot col-md-8 col-md-offset-8">
+    <div className="container hinnasto-ehdot col-xs-12 col-sm-12 col-lg-12">
       <h6>Pikapalkan ehdot</h6>
       <br />
       <p>Pikapalkka-palvelun käyttö on mahdollista, kun laskutetaan yrityksiä, yhteisöjä, kuntia ja valtioita. Yksityishenkilöiden

@@ -41,7 +41,7 @@ const FrontPage = () => (
     <div className="laskutus">
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-lg-6">
-          <img src={woman_etusivu} style={{width:'360px'}} />
+          <img src={woman_etusivu} style={{width:'360px', marginTop: '70px'}} />
           <h6>Laskutus</h6>
           <br />
           <p>
@@ -50,7 +50,7 @@ const FrontPage = () => (
           </p>
         </div>
         <div className="col-xs-12 col-sm-6 col-lg-6">
-          <img src={man_etusivu} style={{width:'360px'}} />
+          <img src={man_etusivu} style={{width:'360px', marginTop: '70px'}} />
           <h6>Palkan nostaminen</h6>
           <br />
           <p>Nosta itsellesi palkkaa ilman huolta byrokratian kiemuroista.</p>

@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import { TextField, RaisedButton } from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { signupFormSubmit } from '../../actions'
+import { contactFormSubmit } from '../../actions'
 import store from '../../store'
 
 /**
- * The Website sign-up view
+ * The Website contact view
  *
  * @author  Pragya Gupta
  */
@@ -33,9 +32,9 @@ const renderTextField = ({
   />
 )
 
-class SignUpComponent extends Component {
+class ContactComponent extends Component {
   onFormSubmit = values => {
-    this.props.signupFormSubmit(values)
+    this.props.contactFormSubmit(values)
   }
 
   render() {
@@ -43,50 +42,58 @@ class SignUpComponent extends Component {
 
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <form
-          className="form-inline"
+        <form className="form"        
           onSubmit={handleSubmit(this.onFormSubmit)}
         >
           <div>
             <div className="form-group">
               <Field
-                className="form-control frontpage-input"
-                name="FirstName"
+                className="yhteystiedot-input form-input-field form-control"
+                name="name"
                 component={renderTextField}
-                label="Etunimi"
+                label="Nimi:"
                 type="text"
               />
             </div>
             <div className="form-group">
               <Field
-                className="form-control frontpage-input"
-                name="Lastname"
+                className="yhteystiedot-input form-input-field form-control"
+                name="phone"
                 component={renderTextField}
-                label="Sukunimi"
+                label="Puhelin:"
                 type="text"
               />
             </div>
             <div className="form-group">
               <Field
-                className="form-control frontpage-input"
+                className="yhteystiedot-input form-input-field form-control"
                 name="email"
                 component={renderTextField}
-                label="Sähköposti"
+                label="Sähköposti:"
                 type="text"
               />
             </div>
             <div className="form-group">
-              <Link to="/dashboard/register">
+              <Field
+                className="yhteystiedot-input form-input-field form-control"
+                name="message"
+                component={renderTextField}
+                label="Viesti:"
+                type="text"
+                multiLine={true} 
+                rows={10}
+              />
+            </div>
+            <div className="form-group">              
                 <RaisedButton
-                  className="signupButton"
-                  label="Liity nyt"
+                  className="contactButton"
+                  label="Lähetä"
                   primary={true}
                   type="submit"
                   onClick={() => {
-                    store.dispatch(signupFormSubmit())
+                    store.dispatch(contactFormSubmit())
                   }}
-                />
-              </Link>
+                />             
             </div>
           </div>
         </form>
@@ -97,16 +104,16 @@ class SignUpComponent extends Component {
 
 const mapStateToProps = state => {
   return {
-    signupForm: state.signupForm,
+    contactForm: state.contactForm,
     state
   }
 }
 
-const signup = connect(
+const contact = connect(
   mapStateToProps,
-  { signupFormSubmit }
-)(SignUpComponent)
+  { contactFormSubmit }
+)(ContactComponent)
 
 export default reduxForm({
-  form: 'signup'
-})(signup)
+  form: 'contact'
+})(contact)

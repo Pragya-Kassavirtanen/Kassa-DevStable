@@ -37,7 +37,7 @@ const navItems = [
     url: '/home/hinnasto'
   },
   {  
-    name: 'question', 
+    name: 'info-circle', 
     content: 'USEIN KYSYTTYÄ',
     url: '/home/faq'
   },

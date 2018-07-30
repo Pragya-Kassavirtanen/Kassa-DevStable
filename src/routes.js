@@ -25,8 +25,7 @@ import NewAllowance from './containers/expenses/newAllowance.container'
 import Admin from './containers/admin/admin.container'
 
 import FrontMain from './containers/frontMain.container'
-import FrontPage from './components/website/frontpage.component'
-//import FAQ from './components/website/faq.component'
+import FAQ from './components/website/faq.component'
 import Hinnasto from './components/website/hinnasto.component'
 import Yhteystiedot from './components/website/yhteystiedot.component'
 import Yrityksille from './components/website/yrityksille.component'
@@ -104,7 +103,7 @@ export default class RouteComponent extends React.Component {
         <Route path="/dashboard/*" component={Main} />
         <Route path="/home" component={FrontMain}>          
           <Route path="/home/hinnasto" component={Hinnasto} />
-          <Route path="/home/faq" component={FrontPage} />
+          <Route path="/home/faq" component={FAQ} />
           <Route path="/home/yrityksille" component={Yrityksille} />
           <Route path="/home/yhteystiedot" component={Yhteystiedot} />
         </Route>

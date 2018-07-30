@@ -1,18 +1,17 @@
-@import 'bootstrap';
-@import 'font-awesome';
-@import 'variables';
+@import "bootstrap";
+@import "font-awesome";
+@import "variables";
 
 body {
   background: #fff;
 }
 
 // Disable IE input 'X'
-input[type=text]::-ms-clear {
+input[type="text"]::-ms-clear {
   display: none;
 }
 
 .dashboard {
-
   &-expense {
     width: 100% !important;
   }
@@ -26,7 +25,6 @@ input[type=text]::-ms-clear {
   }
 
   &-content {
-
     &-mainpanel {
       margin-left: 0;
     }
@@ -36,7 +34,6 @@ input[type=text]::-ms-clear {
     }
 
     &-header {
-
       margin: 0 85px;
       height: 100%;
 
@@ -63,7 +60,6 @@ input[type=text]::-ms-clear {
       &-select-customer {
         margin-top: 25px;
         margin-right: 20px;
-
       }
     }
 
@@ -103,7 +99,6 @@ input[type=text]::-ms-clear {
   }
 
   &-header {
-
     &-brand {
       width: 50%;
     }
@@ -132,7 +127,7 @@ input[type=text]::-ms-clear {
       //border-right: 2px solid white;
 
       &:after {
-        content: '.';
+        content: ".";
         color: $main-color;
       }
     }
@@ -161,7 +156,6 @@ input[type=text]::-ms-clear {
   }
 
   &-nav {
-
     &-top {
       float: left;
     }
@@ -218,7 +212,6 @@ input[type=text]::-ms-clear {
   }
 
   &-invoice {
-
     margin: 0 85px;
     height: 100%;
 
@@ -247,18 +240,15 @@ input[type=text]::-ms-clear {
       font-size: medium;
       padding: 0;
     }
-
   }
 
   &-footer {
-
     background-color: $main-color;
     margin-top: 50px;
     padding-top: 50px;
     padding-bottom: 25px;
 
     &-info {
-
       margin-top: -25px;
       margin-left: 100px;
       margin-right: 100px;
@@ -301,7 +291,6 @@ input[type=text]::-ms-clear {
     }
 
     &-some {
-
       margin: 25px 0;
 
       ul {
@@ -322,7 +311,7 @@ input[type=text]::-ms-clear {
     }
   }
 
-  &-input-wrapper>input {
+  &-input-wrapper > input {
     -webkit-box-shadow: 0 0 0 1000px white inset;
   }
 }
@@ -331,7 +320,6 @@ input[type=text]::-ms-clear {
 .nav {
   > li {
     > a {
-
       font-family: $font-family-open-sans;
       font-weight: 600;
       text-align: center;
@@ -415,7 +403,6 @@ input[type=text]::-ms-clear {
       border-radius: 3px;
       background-color: $main-color;
     }
-
   }
 
   .divider {
@@ -460,7 +447,6 @@ input[type=text]::-ms-clear {
 }
 
 .header {
-
   &-container {
     margin: 10px 0;
     overflow: hidden;
@@ -484,9 +470,7 @@ input[type=text]::-ms-clear {
 }
 
 .form {
-
   &-login {
-
     &-container {
       margin-top: 50px;
       margin-bottom: -125px;
@@ -513,7 +497,6 @@ input[type=text]::-ms-clear {
     }
 
     &-register {
-
       display: block;
       text-align: center;
       width: 400px;
@@ -524,7 +507,6 @@ input[type=text]::-ms-clear {
   }
 
   &-register {
-
     &-container {
       margin-top: 100px;
     }
@@ -573,7 +555,7 @@ input[type=text]::-ms-clear {
     }
 
     &:after {
-      content: 'tai';
+      content: "tai";
       display: inline-block;
       position: relative;
       top: -15px;
@@ -587,6 +569,7 @@ input[type=text]::-ms-clear {
 }
 
 //Website image cover style
+
 .cover {
   margin: 0;
   padding: 0;
@@ -596,7 +579,7 @@ input[type=text]::-ms-clear {
 
 /*Frontpage -->*/
 
-.frontpage-cover-heading { 
+.frontpage-cover-heading {
   color: white;
   text-transform: uppercase;
   font-size: 25px;
@@ -606,7 +589,7 @@ input[type=text]::-ms-clear {
   transform: translate(-50%, -50%);
 }
 
-.frontpage-intro {  
+.frontpage-intro {
   padding-top: 50px;
   padding-bottom: 50px;
   padding-left: 20px;
@@ -619,7 +602,7 @@ input[type=text]::-ms-clear {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 25px;
-  color: #FF3297; 
+  color: #ff3297;
 }
 
 .frontpage-intro p {
@@ -627,7 +610,7 @@ input[type=text]::-ms-clear {
 }
 
 .frontpage-signup {
-  background-color: #44c0cc;  
+  background-color: #44c0cc;
   padding-top: 50px;
   padding-bottom: 50px;
   padding-left: 20px;
@@ -644,27 +627,27 @@ input[type=text]::-ms-clear {
 
 .frontpage-input {
   border-radius: 15px;
-  border-width: 1px;  
-  box-shadow: 3px 8px 18px;  
+  border-width: 1px;
+  box-shadow: 3px 8px 18px;
   background-color: rgb(250, 255, 189) !important;
   height: 70px !important;
-  margin-right: 15px; 
+  margin-right: 15px;
   margin-left: 15px;
   border-color: darkblue;
 }
 
 .signupButton {
-  background-color: rgb(0, 188, 212) !important;  
+  background-color: rgb(0, 188, 212) !important;
   text-transform: uppercase;
-  width: 145px;  
+  width: 145px;
   font-weight: bold;
-  box-shadow: 3px 8px 18px; 
-  margin-right: 15px; 
+  box-shadow: 3px 8px 18px;
+  margin-right: 15px;
   margin-left: 15px;
   margin-top: 10px;
 }
 
-.laskutus {  
+.laskutus {
   padding-top: 50px;
   padding-bottom: 50px;
   padding-left: 30px;
@@ -676,7 +659,7 @@ input[type=text]::-ms-clear {
   text-transform: uppercase;
   font-weight: bold;
   padding-top: 20px;
-  color: #FF3297;
+  color: #ff3297;
 }
 
 .frontpage-halvempi {
@@ -705,7 +688,7 @@ input[type=text]::-ms-clear {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 25px;
-  color: #FF3297
+  color: #ff3297;
 }
 
 .frontpage-jouheva p {
@@ -723,7 +706,7 @@ input[type=text]::-ms-clear {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 25px;
-  color: #FF3297;
+  color: #ff3297;
 }
 
 .percentage {
@@ -736,7 +719,7 @@ input[type=text]::-ms-clear {
 
 .hinnasto-palkka h1 {
   font-weight: bold;
-  color: #FF3297;
+  color: #ff3297;
 }
 
 .hinnasto-palkka ul {
@@ -785,7 +768,7 @@ input[type=text]::-ms-clear {
 
 .hinnasto-pikapalkka h1 {
   font-weight: bold;
-  color: #FF3297;
+  color: #ff3297;
 }
 
 .italic {
@@ -825,43 +808,65 @@ input[type=text]::-ms-clear {
 
 /*FAQ -->*/
 
-.faq-questions {
-  padding: 100px 0px;
-  text-align: left;
+.largetitle {
+  color: #ff3297;
+  border-bottom: 1px solid #44c0cc;
+  padding: 50px 0 15px 0;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.faq-questions h5 {
-  background-color:#44c0cc;
-  color: white;
-  padding: 15px;
-  text-align: left;
-  text-indent: 10px;
+.faqpanels {
+  margin: 15px 0 0 0;
+}
+
+.faqpanels .collapsepanel { 
+  margin-bottom: 20px;  
+}
+
+.faqpanels .collapsepanel:last-child {
+  margin-bottom: 0px;
+}
+
+.faqpanels .collapsepanel.is-open .title > .icon > i::before {
+  content: "\F068";
+}
+
+.faqpanels .collapsepanel.is-open .content {
+  display: block;
+}
+
+.faqpanels .collapsepanel .title {
+  background-color: #44c0cc;
+  cursor: pointer;
+  color: white;  
+  padding: 20px 25px 20px 25px;
   font-size: 16px;
-  cursor: pointer;
   border-radius: 5px;
-  margin-bottom: 2px;
 }
 
-.faq-questions h6 {
-  padding: 5px;
-  cursor: pointer;
-  text-decoration: underline;
+.faqpanels .collapsepanel .title .icon {
+  float: right;
+}
+
+.faqpanels .collapsepanel .title .icon i::before {
+  content: "\F067";
+}
+
+.faqpanels .collapsepanel .content {
+  padding: 20px 25px 20px 25px;
+  padding-right: 50px;
+  display: none;
+}
+
+.faqpanels .collapsepanel .content h6 {
+  font-size: 16px;
   color: darkblue;
+  text-decoration: underline;
 }
 
-.plus-icon {
-  position: absolute;
-  right: 13px;
-}
-
-#aloitus, #laskut, #palkat, #vakuutukset {
-  display: none;
-  margin: 13px;
-}
-
-#q1, #q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10, #q11 {
-  display: none;
-  margin: 4px;
+.faqpanels .collapsepanel .content p {
+  font-size: 16px;  
 }
 
 /*Companies and entrepreneurs -->*/
@@ -898,7 +903,7 @@ input[type=text]::-ms-clear {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 25px;
-  color: #FF3297;
+  color: #ff3297;
 }
 
 .whitebackground p {
@@ -919,7 +924,7 @@ input[type=text]::-ms-clear {
 }
 
 .red {
-  color: #FF3297;
+  color: #ff3297;
 }
 
 h1 {
@@ -959,20 +964,20 @@ h1 {
   border-color: darkblue;
   background-color: rgb(250, 255, 189) !important;
   width: 600px !important;
-  margin-right: 15px; 
+  margin-right: 15px;
   margin-left: 15px;
   box-shadow: 3px 8px 18px;
   border-radius: 15px;
 }
 
 .contactButton {
-  background-color: rgb(0, 188, 212) !important; 
+  background-color: rgb(0, 188, 212) !important;
   color: white;
   width: 150px;
   border-radius: 30px;
   font-weight: bold;
   margin-top: 10px;
-  margin-right: 15px; 
+  margin-right: 15px;
   margin-left: 240px;
   box-shadow: 3px 8px 18px;
 }

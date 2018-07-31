@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router'
-
 import NavIcon from './navicon.component'
 
 /**
@@ -23,9 +22,9 @@ const Navigation = () =>
       <div className="nav navbar-nav pull-right">
         <ul className="nav nav-tabs">
           <li>
-            <a className="dashboard-nav-linklist" href="/home">
+            <Link className="dashboard-nav-linklist" to="/home/etusivu">
               <NavIcon name="sign-out" size="2x" content="Etusivulle"/>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

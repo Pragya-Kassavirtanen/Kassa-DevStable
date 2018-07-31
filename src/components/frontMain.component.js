@@ -19,7 +19,7 @@ const FrontMain = ({ children, navItems, path }) => {
     <div>
       <Header navItems={navItems} />
       { children }
-      { ((path === '/home') || (path === '/home/*')) && <Home/> }
+      { ((path === '/') || (path === '/*')) && <Home/> }
       <Footer/>
     </div>
   )

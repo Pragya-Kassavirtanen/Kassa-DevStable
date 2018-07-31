@@ -65,7 +65,7 @@ export default class Navigation extends React.Component {
               }
 
               <li onClick={this._handleManualLogout}>
-                <Link to="/dashboard/main">
+                <Link to="/dashboard/login">
                   <FontAwesome name="unlock-alt" /> KIRJAUDU ULOS
                     </Link>
               </li>

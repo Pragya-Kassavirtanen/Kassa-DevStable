@@ -29,7 +29,7 @@ const navItems = [
   {  
     name: 'home',  
     content: 'ETUSIVU',
-    url: '/home'
+    url: '/home/etusivu'
   },
   { 
     name: 'list-alt',   

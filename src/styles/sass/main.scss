@@ -160,6 +160,17 @@ input[type="text"]::-ms-clear {
       float: left;
     }
 
+    &-list {
+      padding-right: 30px !important;
+    }
+
+    &-select {
+      color: #3382bb;
+      background-color: #44c0cc;
+      border-color: transparent !important;
+      margin-top: 4px;
+    }
+
     &-links {
       width: 100%;
       text-align: center;
@@ -820,8 +831,8 @@ input[type="text"]::-ms-clear {
   margin: 15px 0 0 0;
 }
 
-.faqpanels .collapsepanel { 
-  margin-bottom: 20px;  
+.faqpanels .collapsepanel {
+  margin-bottom: 20px;
 }
 
 .faqpanels .collapsepanel:last-child {
@@ -839,7 +850,7 @@ input[type="text"]::-ms-clear {
 .faqpanels .collapsepanel .title {
   background-color: #44c0cc;
   cursor: pointer;
-  color: white;  
+  color: white;
   padding: 20px 25px 20px 25px;
   font-size: 16px;
   border-radius: 5px;
@@ -866,7 +877,7 @@ input[type="text"]::-ms-clear {
 }
 
 .faqpanels .collapsepanel .content p {
-  font-size: 16px;  
+  font-size: 16px;
 }
 
 /*Companies and entrepreneurs -->*/

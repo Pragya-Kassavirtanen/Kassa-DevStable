@@ -22,6 +22,7 @@ import { watchSaveExpenseSaga, watchSaveTravellingExpenseSaga, watchGetExpenseSt
   watchSaveExpenseUpdateSaga,
   watchCancelExpenseUpdateSaga } from './expense.saga'
 import { watchLoginSaga } from './login.saga'
+import { watchChangeLanguageSaga } from './lang.saga'
 
 // Single entry point to start all sagas at once
 export default function* rootSaga() {
@@ -80,6 +81,7 @@ export default function* rootSaga() {
     watchCancelExpenseUpdateSaga(),
     watchUpdatePasswordSaga(),
     watchLoadRegisterReviewSaga(),
-    watchSendContactInfoSaga()
+    watchSendContactInfoSaga(),
+    watchChangeLanguageSaga()
   ]
 }

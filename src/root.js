@@ -2,11 +2,11 @@ import React from 'react'
 import 'core-js/fn/object/assign'
 import { Provider } from 'react-redux'
 import { OidcProvider } from 'redux-oidc'
+import { I18nextProvider } from 'react-i18next'
 import store from './store'
-
 import Routes from './routes'
+import i18n from './utils/i18n'
 import userManager from './utils/PHZUserManager'
-
 
 // for older browsers
 require('es6-promise').polyfill()
@@ -16,16 +16,15 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
 export default class RootComponent extends React.Component {
-
-  render () {
+  render() {
     return (
       <Provider store={store}>
         <OidcProvider store={store} userManager={userManager}>
-          <Routes/>
+          <I18nextProvider i18n={ i18n }>
+            <Routes />
+          </I18nextProvider>
         </OidcProvider>
       </Provider>
     )
   }
 }
-
-

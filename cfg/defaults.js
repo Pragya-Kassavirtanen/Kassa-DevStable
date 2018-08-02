@@ -68,6 +68,10 @@ function getDefaultModules() {
       {
         test: /\.(mp4|ogg)$/,
         loader: 'file-loader'
+      },
+      { 
+        test: /\.json$/, 
+        loader: 'json-loader' 
       }
     ],
     noParse: [new RegExp('node_modules/localforage/dist/localforage.js')]

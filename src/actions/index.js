@@ -139,7 +139,8 @@ import {
   CHANGE_PURCHASE_DATE,
   SAVE_SALARY_SLIP,
   FRONT_PAGE_FORM_SUBMIT,
-  CONTACT_FORM_SUBMIT
+  CONTACT_FORM_SUBMIT,
+  LANGUAGE_CHANGE
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -297,3 +298,5 @@ export const getSalaryInfo = id => ({type: GET_SALARY_INFO, id})
 export const getSalaryByIdSuccess = result => ({type: GET_SALARY_BY_ID_SUCCESS, result})
 export const salaryPageChange = selected => ({type: SALARY_PAGE_CHANGE, selected})
 export const saveSalarySlip = id => ({type: SAVE_SALARY_SLIP, id})
+
+export const handleChangeLang = (lang) => ({ type: LANGUAGE_CHANGE, lang })

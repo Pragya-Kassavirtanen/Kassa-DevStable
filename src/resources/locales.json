@@ -1,0 +1,14 @@
+{
+    "fi": {
+        "translation": {            
+            "logInside": { "label": "KIRJAUDU SISÄÄN" },
+            "logout": { "label": "KIRJAUDU ULOS" }                      
+        }
+    },   
+    "en": {
+        "translation": {
+            "logInside": { "label": "LOGIN" },
+            "logout": { "label": "LOGOUT" }    
+        }
+    }   
+}

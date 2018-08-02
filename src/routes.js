@@ -102,7 +102,7 @@ export default class RouteComponent extends React.Component {
           />
         </Route>
         <Route path="/dashboard/*" component={Main} />
-        <Route exact path="/" component={FrontMain}>
+        <Route exact path="/" component={FrontMain}>          
           <Route path="/home/etusivu" component={FrontPage} />
           <Route path="/home/hinnasto" component={Hinnasto} />
           <Route path="/home/faq" component={FAQ} />

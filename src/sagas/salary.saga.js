@@ -14,9 +14,9 @@ import {
   getSalaryByIdSuccess  
 } from '../actions/index'
 import store from '../store'
-import { apiManualRequest, apiManualPost, apiBlobPost } from '../utils/request'
+import { apiManualPost, apiBlobPost } from '../utils/request'
 
-function* getNewSalarySaga() {
+/* function* getNewSalarySaga() {
   try {
     const url = `${API_SERVER}/GetInvoiceInfoForWages`
     const result = yield call(apiManualRequest, url)
@@ -28,6 +28,33 @@ function* getNewSalarySaga() {
       }
     }
     yield put(getNewSalarySuccess(resultParsed))
+  } catch (e) {
+    console.warn(e)
+  }
+} */
+
+function* getNewSalarySaga() {
+  try {
+    const url = `${API_SERVER}/GetInvoiceInfoForWages`
+
+    const uuid = store.getState().client.user.data[2]    
+    const body = JSON.stringify({     
+      uuid: uuid
+    })
+    
+    const result = yield call(apiManualPost, url, body)
+    
+    const resultParsed = JSON.parse(result.data)
+
+    resultParsed[Symbol.iterator] = function* () {
+      const keys = Reflect.ownKeys(this)
+      for (const key of keys) {
+        yield this[key]
+      }
+    }
+
+    yield put(getNewSalarySuccess(resultParsed))
+
   } catch (e) {
     console.warn(e)
   }
@@ -66,10 +93,18 @@ function* postSalarySaga({ selected }) {
 function* getSalariesSaga() {
   try {
     const url = `${API_SERVER}/GetSalaries`
-    const result = yield call(apiManualRequest, url)
+
+    const uuid = store.getState().client.user.data[2]    
+    const body = JSON.stringify({     
+      uuid: uuid
+    })    
+
+    const result = yield call(apiManualPost, url, body)
     const resultParsed = JSON.parse(result.data)
     console.log('getSalariesSaga:: ', resultParsed)
+
     yield put(getSalariesSuccess(resultParsed))
+
   } catch (e) {
     console.warn(e)
   }

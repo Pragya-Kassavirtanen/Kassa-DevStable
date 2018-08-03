@@ -36,7 +36,7 @@ import store from '../store'
  * @author Skylar Kong
  */
 
-function* getInvoiceSaga() {
+/* function* getInvoiceSaga() {
   try {
     const invoiceUrl = `${API_SERVER}/GetInvoices`
     const customerUrl = `${API_SERVER}/GetCustomers`
@@ -45,6 +45,26 @@ function* getInvoiceSaga() {
 
     if (invoiceResult.data && customerResult.data)
       yield put(getInvoicesSuccess(invoiceResult.data, customerResult.data))
+  } catch (e) {
+    yield put(getInvoicesFailed(e))
+  }
+} */
+
+function* getInvoiceSaga() {
+  try {
+    const invoiceUrl = `${API_SERVER}/GetInvoices`
+    const customerUrl = `${API_SERVER}/GetCustomers`
+   
+    const uuid = store.getState().client.user.data[2]    
+    const body = JSON.stringify({     
+      uuid: uuid
+    })
+
+    const invoiceResult = yield call(apiManualPost, invoiceUrl, body)
+    const customerResult = yield call(apiManualPost, customerUrl, body)
+   
+    if (invoiceResult.data && customerResult.data)
+    yield put(getInvoicesSuccess(invoiceResult.data, customerResult.data))
   } catch (e) {
     yield put(getInvoicesFailed(e))
   }
@@ -198,7 +218,7 @@ function* saveAndSendInvoiceSaga() {
 } */
 
  function* saveInvoiceDraft({ invoice_id }) {  
-  try {
+  try {    
     const url = `${API_SERVER}/GenerateInvoicePDF`
     const body = JSON.stringify({
       invoice_id: invoice_id

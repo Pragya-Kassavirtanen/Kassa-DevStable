@@ -53,7 +53,7 @@ function* newCustomerSaga() {
 }
 
 
-function* getCustomersSaga() {
+/* function* getCustomersSaga() {
   try {
     const url = `${API_SERVER}/GetCustomers`
     const result = yield apiManualRequest(url)
@@ -61,8 +61,21 @@ function* getCustomersSaga() {
   } catch (e) {
     console.warn(e)
   }
-}
+} */
 
+function* getCustomersSaga() {
+  try {
+    const url = `${API_SERVER}/GetCustomers`
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({     
+      uuid: uuid
+    })
+    const result = yield call(apiManualPost, url, body)   
+   if (result.data) yield put(getCustomersSuccess(result.data))   
+  } catch (e) {
+    console.warn(e)
+  }
+}
 
 function* getCustomerByIdSaga(customer_id) {
   try {

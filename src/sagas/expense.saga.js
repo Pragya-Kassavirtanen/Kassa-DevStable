@@ -40,7 +40,7 @@ import DateTimeFormat from '../utils/DateTimeFormat'
  * @author Skylar Kong
  */
 
-function* getExpenseStartSaga() {
+/* function* getExpenseStartSaga() {
   try {
     const expenseUrl = `${API_SERVER}/GetExpenses`
     const expResult = yield apiManualRequest(expenseUrl)
@@ -68,6 +68,48 @@ function* getExpenseStartSaga() {
     }
 
     console.log('allowances:: ', allowances)
+
+    yield put(getExpenseSuccess(expenses, allowances))
+  } catch (e) {
+    yield put(getExpenseFailed(e))
+  }
+} */
+
+function* getExpenseStartSaga() {
+  try {
+    const expenseUrl = `${API_SERVER}/GetExpenses`
+ 
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({     
+      uuid: uuid
+    })
+
+    const expResult = yield call(apiManualPost, expenseUrl, body)   
+    const expenseResult = JSON.parse(expResult.data)
+
+    //console.log('expenseResult:: ', expenseResult)
+    const expenses = []
+
+    for (const expense of expenseResult) {
+      expenses.push(expense)
+    }
+
+    //console.log('expenses:: ', expenses)
+
+    const allowanceUrl = `${API_SERVER}/GetAllowances`
+
+    const allowResult = yield call(apiManualPost, allowanceUrl, body)    
+    const allowanceResult = JSON.parse(allowResult.data)
+
+    //console.log('allowanceResult:: ', allowanceResult)
+
+    const allowances = []
+
+    for (const allowance of allowanceResult) {
+      allowances.push(allowance)
+    }
+
+    //console.log('allowances:: ', allowances)
 
     yield put(getExpenseSuccess(expenses, allowances))
   } catch (e) {

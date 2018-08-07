@@ -11,16 +11,26 @@ import store from '../store'
  *
  */
 
-
 function* postTaxCardSaga(action) {
   try {
-    const url =`${API_SERVER}/documents`
-    const file = action.e.target.files[0]
-    const user_uuid = { user_info_uuid: (store.getState()).profile.uuid }
+    const url = `${API_SERVER}/AddTaxCard`
 
-    const channel = yield call(createUploadFileChannel, url, file, user_uuid)
+    const file = action.e.target.files[0]
+
+    if (file) {
+      yield put(change('tax', 'taxCard', file.name))
+    }
+
+    const formValues = getFormValues('tax')(store.getState())
+    const uuid = store.getState().client.user.data[2]
+    const body = {
+      uuid: uuid,
+      tax_percentage: formValues.tax_percentage
+    }
+
+    const channel = yield call(createUploadFileChannel, url, file, body)
     while (true) {
-      const {progress = 0, err, success} = yield take(channel)
+      const { progress = 0, err, success } = yield take(channel)
       if (err) {
         yield put(postTaxCardSuccess())
       }
@@ -29,7 +39,7 @@ function* postTaxCardSaga(action) {
       }
       console.log(progress)
     }
-  } catch(e) {
+  } catch (e) {
     console.warn(e)
   }
 }
@@ -43,7 +53,7 @@ function* getTaxCardSaga() {
       const result = yield apiRequest(url)
       yield put(change('tax', 'taxCard', result.data.slice(-1)[0].filename))
     }
-  } catch(e) {
+  } catch (e) {
     console.warn('no tax card')
   }
 
@@ -63,7 +73,7 @@ function* postYelSaga() {
     // const result = yield call(apiPost, url, JSON.stringify(body))
     // console.log(result)
 
-    const url =`${API_SERVER}/UpdateuserYelInfo`
+    const url = `${API_SERVER}/UpdateuserYelInfo`
     const uuid = store.getState().client.user.data[2]
     const formValues = getFormValues('yel')(store.getState())
 
@@ -71,10 +81,10 @@ function* postYelSaga() {
     const body = JSON.parse(JSON.stringify({
       ...formValues,
       uuid: uuid
-    }))    
-     const result = yield call(apiManualPost, url, JSON.stringify(body))
-     console.log(result)
-  } catch(e) {
+    }))
+    const result = yield call(apiManualPost, url, JSON.stringify(body))
+    console.log(result)
+  } catch (e) {
     console.warn(e)
   }
 }
@@ -85,7 +95,7 @@ function* getYelSaga() {
     const url = `${API_SERVER}/yels/${year}`
     const result = yield apiRequest(url)
     yield put(getYelSuccess(result))
-  } catch(e) {
+  } catch (e) {
     yield put(getYelFailed())
   }
 }

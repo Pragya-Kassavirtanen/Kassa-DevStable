@@ -142,7 +142,7 @@ const Profile = ({handleSubmit, onProfileUpdate, invalid}) =>
               </div>
               <div className="panel-footer is-plain clearfix">
                 <div className="button-pull">
-                  <RaisedButton type="submit" disabled={true} label="Palauta salasana" primary={true}/>
+                  <RaisedButton type="submit" label="Palauta salasana" disabled={true} primary={true}/>
                 </div>
               </div>
             </div>

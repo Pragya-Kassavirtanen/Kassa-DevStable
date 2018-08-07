@@ -108,6 +108,7 @@ export const LOAD_PROFILE_SUCCESS = '@@profile/LOAD_PROFILE_SUCCESS'
 export const LOAD_PROFILE_FAILED = '@@profile/LOAD_PROFILE_FAILED'
 export const LOAD_PROFILE_START = '@@profile/LOAD_PROFILE_START'
 export const ON_PASSWORD_UPDATE = '@@profile/ON_PASSWORD_UPDATE'
+export const ON_RESET_PASSWORD = '@@profile/ON_RESET_PASSWORD'
 
 export const NEW_CUSTOMER = '@@customer/NEW_CUSTOMER'
 export const ADD_CUSTOMER_SUCCESS = 'ADD_CUSTOMER_SUCCESS'

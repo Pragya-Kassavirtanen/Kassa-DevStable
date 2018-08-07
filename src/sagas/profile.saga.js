@@ -6,6 +6,7 @@ import {
   LOAD_PROFILE_START, 
   ON_PROFILE_UPDATE,
   ON_PASSWORD_UPDATE,
+  ON_RESET_PASSWORD,
   API_SERVER
 } from '../constants'
 
@@ -85,6 +86,21 @@ function* updatePasswordSaga() {
 }
 }
 
+function* resetPasswordSaga() {
+  try {
+    const email = store.getState().profile.email
+    console.log('Inside resetPasswordSaga:: ',email)
+    
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({email: email, uuid: uuid})
+
+    const url = `${API_SERVER}/UserResetPassword`
+    yield call(apiManualPost, url, body)    
+  } catch (e) {
+  console.warn(e)
+}
+}
+
 export function* watchLoadProfileSaga() {
   yield takeEvery(LOAD_PROFILE_START, loadProfileSaga)
 }
@@ -95,4 +111,8 @@ export function* watchUpdateProfileSaga() {
 
 export function* watchUpdatePasswordSaga() {
   yield takeEvery(ON_PASSWORD_UPDATE, updatePasswordSaga)
+}
+
+export function* watchResetPasswordSaga() {
+  yield takeEvery(ON_RESET_PASSWORD, resetPasswordSaga)
 }

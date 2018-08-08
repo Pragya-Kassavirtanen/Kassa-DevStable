@@ -9,7 +9,8 @@ import {
   SAVE_INVOICE_DRAFT,
   EDIT_INVOICE,
   CANCEL_EDIT_INVOICE,
-  GET_PROFESSION
+  GET_PROFESSION,
+  CLEAR_INVOICE_OPTIONS
 } from '../constants'
 import {
   getInvoicesSuccess,
@@ -25,7 +26,8 @@ import {
   copyInvoiceSuccess
   //downloadPDFSuccess
 } from '../actions/index'
-import { apiManualPost, apiManualRequest, apiBlobPost 
+import {
+  apiManualPost, apiManualRequest, apiBlobPost
 } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -54,17 +56,17 @@ function* getInvoiceSaga() {
   try {
     const invoiceUrl = `${API_SERVER}/GetInvoices`
     const customerUrl = `${API_SERVER}/GetCustomers`
-   
-    const uuid = store.getState().client.user.data[2]    
-    const body = JSON.stringify({     
+
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({
       uuid: uuid
     })
 
     const invoiceResult = yield call(apiManualPost, invoiceUrl, body)
     const customerResult = yield call(apiManualPost, customerUrl, body)
-   
+
     if (invoiceResult.data && customerResult.data)
-    yield put(getInvoicesSuccess(invoiceResult.data, customerResult.data))
+      yield put(getInvoicesSuccess(invoiceResult.data, customerResult.data))
   } catch (e) {
     yield put(getInvoicesFailed(e))
   }
@@ -72,7 +74,7 @@ function* getInvoiceSaga() {
 
 function* getProfessionSaga() {
   try {
-    const professionUrl = `${API_SERVER}/GetProffession`  
+    const professionUrl = `${API_SERVER}/GetProffession`
     const professionResult = yield apiManualRequest(professionUrl)
     const parRes = JSON.parse(professionResult.data)
     const parsedResult = propertyArray(parRes, 'profession')
@@ -83,30 +85,38 @@ function* getProfessionSaga() {
   }
 }
 
+function* clearInvoiceOptionSaga() {
+  try {
+    yield put(change('invoice', 'instant_payment', ''))
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 function* saveAndSendInvoiceSaga() {
   try {
-    const invoiceEdit = (store.getState()).invoice.invoiceEdit   
+    const invoiceEdit = (store.getState()).invoice.invoiceEdit
 
     let url
     let invoice_id
 
-    if (invoiceEdit.length > 0){      
-      invoice_id = invoiceEdit[0].Invoice[0].invoice_id      
-      if(!!invoice_id){
+    if (invoiceEdit.length > 0) {
+      invoice_id = invoiceEdit[0].Invoice[0].invoice_id
+      if (!!invoice_id) {
         url = `${API_SERVER}/UpdateInvoice`
-      }     
-    }else {
+      }
+    } else {
       url = `${API_SERVER}/AddInvoice`
-    } 
+    }
 
-    const formValues = getFormValues('invoiceReview')(store.getState()) 
+    const formValues = getFormValues('invoiceReview')(store.getState())
 
     formValues.due_date = formatFiToISO(formValues.due_date.split('.'))
     formValues.billing_date = formatFiToISO(formValues.billing_date.split('.'))
 
     const rows = formValues.rows
 
-    rows[Symbol.iterator] = function*() {
+    rows[Symbol.iterator] = function* () {
       const keys = Reflect.ownKeys(this)
       for (const key of keys) {
         yield this[key]
@@ -122,7 +132,7 @@ function* saveAndSendInvoiceSaga() {
       })
     )
 
-    body.instant_payment = formValues.instant_payment   
+    body.instant_payment = formValues.instant_payment
 
     let bodyRows = []
     const l = Array.isArray(body.rows)
@@ -167,26 +177,13 @@ function* saveAndSendInvoiceSaga() {
       bodyRows[i] = body.rows[i]
     }
 
-    body.rows = bodyRows   
+    body.rows = bodyRows
 
-    let nestedBody       
-      if(!!invoice_id){       
-        nestedBody = nestProperties(body, 'Invoice', [
-          'description',
-          'invoice_id',
-          'job_title',
-          'invoice_reference',
-          'billing_date',
-          'due_date',
-          'overdue',
-          'total_sum',
-          'instant_payment',
-          'status',
-          'rows'
-        ])    
-      } else {     
+    let nestedBody
+    if (!!invoice_id) {
       nestedBody = nestProperties(body, 'Invoice', [
-        'description',        
+        'description',
+        'invoice_id',
         'job_title',
         'invoice_reference',
         'billing_date',
@@ -197,7 +194,20 @@ function* saveAndSendInvoiceSaga() {
         'status',
         'rows'
       ])
-    }    
+    } else {
+      nestedBody = nestProperties(body, 'Invoice', [
+        'description',
+        'job_title',
+        'invoice_reference',
+        'billing_date',
+        'due_date',
+        'overdue',
+        'total_sum',
+        'instant_payment',
+        'status',
+        'rows'
+      ])
+    }
 
     // FIXME: prevent success happening when error occures
     const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
@@ -217,8 +227,8 @@ function* saveAndSendInvoiceSaga() {
   yield put(saveAndSendInvoice())
 } */
 
- function* saveInvoiceDraft({ invoice_id }) {  
-  try {    
+function* saveInvoiceDraft({ invoice_id }) {
+  try {
     const url = `${API_SERVER}/GenerateInvoicePDF`
     const body = JSON.stringify({
       invoice_id: invoice_id
@@ -236,7 +246,7 @@ function* removeInvoiceSaga({ invoice_id }) {
       invoice_id: invoice_id
     })
     yield call(apiManualPost, url, body)
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function* editInvoiceSaga({ invoice_id }) {
@@ -248,7 +258,7 @@ function* editInvoiceSaga({ invoice_id }) {
     const result = yield call(apiManualPost, url, body)
     if (result.data) yield put(getInvoiceByIdSuccess(result.data))
 
-    const invoiceResult = JSON.parse(result.data)    
+    const invoiceResult = JSON.parse(result.data)
 
     const customerInfoKeys = Object.keys(invoiceResult[0]).filter(
       key => key !== 'Invoice'
@@ -455,11 +465,11 @@ function* copyInvoiceSaga({ invoice_id }) {
 }
 
 function* cancelEditInvoiceSaga() {
-  try {    
-     yield put(reset('invoice'))
+  try {
+    yield put(reset('invoice'))
   } catch (e) {
-   console.warn(e)
-  }    
+    console.warn(e)
+  }
 }
 
 // Spawn a new getInvoiceSaga task on each GET_INVOICES_START
@@ -493,4 +503,8 @@ export function* watchCancelEditInvoice() {
 
 export function* watchGetProfession() {
   yield takeEvery(GET_PROFESSION, getProfessionSaga)
+}
+
+export function* watchClearInvoiceOption() {
+  yield takeEvery(CLEAR_INVOICE_OPTIONS, clearInvoiceOptionSaga)
 }

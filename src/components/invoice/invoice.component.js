@@ -35,7 +35,6 @@ import { RadioButton } from 'material-ui/RadioButton'
  */
 
 export default class NewInvoiceComponent extends React.Component {
-
   componentWillMount() {
     this.props.getInvoicesStart()
     this.props.getProfessions()
@@ -69,8 +68,9 @@ const NewInvoice = ({
   isEdit,
   noMenu,
   cancelEditInvoice,
+  clearInvoiceOptions,
   dispatch
-}) =>
+}) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
       <div className="row">
@@ -89,7 +89,11 @@ const NewInvoice = ({
                 <h3 className="panel-title">Luomasi laskut</h3>
               </div>
               <div className="panel-body">
-                {createdInvoiceRows(invoiceRows, invoicePages, invoicePageChange)}
+                {createdInvoiceRows(
+                  invoiceRows,
+                  invoicePages,
+                  invoicePageChange
+                )}
               </div>
             </div>
           </div>
@@ -97,18 +101,23 @@ const NewInvoice = ({
       </div>
       <div className="row">
         <div className="dashboard-content-header">
-          {isEdit ? (
-            <h1>MUOKKAA LASKUA</h1>) : (
-              <h1>LUO UUSI LASKU</h1>
-            )}
-          <Field name="select-invoice-customer"
+          {isEdit ? <h1>MUOKKAA LASKUA</h1> : <h1>LUO UUSI LASKU</h1>}
+          <Field
+            name="select-invoice-customer"
             className="pull-right dashboard-content-select-customer"
             component={SelectField}
             floatingLabelText="Asiakas"
             disabled={isEdit || noMenu}
-            style={{ 'marginTop': '25px', 'marginRight': '20px' }}
+            style={{ marginTop: '25px', marginRight: '20px' }}
             maxHeight={200}
-            onChange={(e, i) => i >= 0 ? selectInvoiceCustomer(customers.filter(el => (i === el.customer_id)).pop()) : dispatch(reset('invoice'))}>
+            onChange={(e, i) =>
+              i >= 0
+                ? selectInvoiceCustomer(
+                    customers.filter(el => i === el.customer_id).pop()
+                  )
+                : dispatch(reset('invoice'))
+            }
+          >
             {_createCustomerMenuItems(customers)}
           </Field>
         </div>
@@ -133,7 +142,7 @@ const NewInvoice = ({
         <div className="row">
           <div className="dashboard-content-header">
             <div className="col-xs-12 col-sm-12 col-lg-12">
-              {invoiceAdditionalInformation()}
+              {invoiceAdditionalInformation(clearInvoiceOptions)}
             </div>
           </div>
         </div>
@@ -142,9 +151,14 @@ const NewInvoice = ({
             <div className="col-xs-12 col-sm-12 col-lg-12">
               <div className="panel panel-default">
                 <div className="panel-heading">
-                  <h3 className="panel-title">Laskutettavat tuotteet/palvelut</h3>
+                  <h3 className="panel-title">
+                    Laskutettavat tuotteet/palvelut
+                  </h3>
                 </div>
-                <InvoiceInputTable rows={invoiceInputRows} addInvoiceRow={addInvoiceRow} />
+                <InvoiceInputTable
+                  rows={invoiceInputRows}
+                  addInvoiceRow={addInvoiceRow}
+                />
               </div>
             </div>
           </div>
@@ -157,23 +171,35 @@ const NewInvoice = ({
                   {isEdit ? (
                     <ul className="nav nav-pills pull-right">
                       <li>
-                        <RaisedButton label="Peruuttaa"
+                        <RaisedButton
+                          label="Peruuttaa"
                           primary={true}
-                          onClick={cancelEditInvoice} />
+                          onClick={cancelEditInvoice}
+                        />
                       </li>
                       <li>
-                        <RaisedButton label="Esikatsele ja hyväksy lasku"
+                        <RaisedButton
+                          label="Esikatsele ja hyväksy lasku"
                           primary={true}
                           type="submit"
-                          containerElement={<Link to="/dashboard/invoice/review" />} />
+                          containerElement={
+                            <Link to="/dashboard/invoice/review" />
+                          }
+                        />
                       </li>
-                    </ul>)
-                    : (<div className="pull-right">
-                      <RaisedButton label="Esikatsele ja hyväksy lasku"
+                    </ul>
+                  ) : (
+                    <div className="pull-right">
+                      <RaisedButton
+                        label="Esikatsele ja hyväksy lasku"
                         primary={true}
                         type="submit"
-                        containerElement={<Link to="/dashboard/invoice/review" />} />
-                    </div>)}
+                        containerElement={
+                          <Link to="/dashboard/invoice/review" />
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -182,75 +208,104 @@ const NewInvoice = ({
       </form>
     </div>
   </MuiThemeProvider>
+)
 
-const customerInfo = (countryItems) =>
+const customerInfo = countryItems => (
   <div className="panel panel-default">
     <div className="panel-heading">
       <h3 className="panel-title">Asiakkaan yhteystiedot</h3>
     </div>
     <div className="panel-body" style={{ marginBottom: '25px' }}>
       <div>
-        <Field name="country"
+        <Field
+          name="country"
           component={SelectField}
           floatingLabelText="Maa *"
-          maxHeight={200}>
+          maxHeight={200}
+        >
           {countryItems}
         </Field>
       </div>
       <div>
-        <Field name="company_name" component={renderTextField}
-          label="Yrityksen nimi *" />
+        <Field
+          name="company_name"
+          component={renderTextField}
+          label="Yrityksen nimi *"
+        />
       </div>
       <div>
-        <Field name="business_id" component={renderTextField}
-          label="Y-Tunnus *" />
-
+        <Field
+          name="business_id"
+          component={renderTextField}
+          label="Y-Tunnus *"
+        />
       </div>
       <div>
-        <Field name="person_to_contact" component={renderTextField}
-          label="Yhteyshenkilön nimi *" />
+        <Field
+          name="person_to_contact"
+          component={renderTextField}
+          label="Yhteyshenkilön nimi *"
+        />
       </div>
       <div>
-        <Field name="person_to_contact_email" component={renderTextField}
-          label="Yhteyshenkilön sähköposti *" />
+        <Field
+          name="person_to_contact_email"
+          component={renderTextField}
+          label="Yhteyshenkilön sähköposti *"
+        />
       </div>
     </div>
   </div>
+)
 
-const invoiceDeliveryMethod = (invoiceItems) =>
+const invoiceDeliveryMethod = invoiceItems => (
   <div className="panel panel-default">
     <div className="panel-heading">
       <h3 className="panel-title">Laskun toimitustapa</h3>
     </div>
     <div className="panel-body" style={{ marginBottom: '25px' }}>
       <div>
-        <Field name="delivery_method"
+        <Field
+          name="delivery_method"
           component={SelectField}
-          floatingLabelText="Laskun toimitustapa *">
+          floatingLabelText="Laskun toimitustapa *"
+        >
           {invoiceItems}
         </Field>
       </div>
       <div>
-        <Field name="delivery_address"
+        <Field
+          name="delivery_address"
           component={renderTextField}
-          label="Laskutusosoite" />
+          label="Laskutusosoite"
+        />
       </div>
       <div>
-        <Field name="zip_code" component={renderTextField}
-          label="Postinumero" />
+        <Field
+          name="zip_code"
+          component={renderTextField}
+          label="Postinumero"
+        />
       </div>
       <div>
-        <Field name="city" component={renderTextField}
-          label="Postitoimipaikka" />
+        <Field
+          name="city"
+          component={renderTextField}
+          label="Postitoimipaikka"
+        />
       </div>
       <div>
-        <Field name="web_invoice" component={renderTextField}
-          label="Verkkolaskuosoite" />
+        <Field
+          name="web_invoice"
+          component={renderTextField}
+          label="Verkkolaskuosoite"
+        />
       </div>
     </div>
   </div>
+)
 
-const invoiceInfo = (overdueItems, titleItems, changeInvoiceBillingDate) =>
+const invoiceInfo = (overdueItems, titleItems, changeInvoiceBillingDate) => (
   <div className="panel panel-default">
     <div className="panel-heading">
       <h3 className="panel-title">Laskun tiedot</h3>
@@ -258,50 +313,64 @@ const invoiceInfo = (overdueItems, titleItems, changeInvoiceBillingDate) =>
     <div className="panel-body">
       <div>
         <div className="dashboard-invoice-info-half">
-          <Field name="billing_date"
+          <Field
+            name="billing_date"
             onChangeCallback={changeInvoiceBillingDate}
             component={renderDatePicker}
             style={{ width: '50%' }}
-            floatingLabelText="Laskutuspäivä" />
+            floatingLabelText="Laskutuspäivä"
+          />
         </div>
         <div className="dashboard-invoice-info-half">
-          <Field name="overdue"
+          <Field
+            name="overdue"
             component={SelectField}
             style={{ width: '70%' }}
-            floatingLabelText="Maksuehto">
+            floatingLabelText="Maksuehto"
+          >
             {overdueItems}
           </Field>
         </div>
       </div>
       <div>
-        <Field name="due_date"
+        <Field
+          name="due_date"
           component={renderTextField}
           disabled={true}
-          label="Eräpäivä" />
+          label="Eräpäivä"
+        />
       </div>
       <div>
-        <Field name="invoice_reference"
+        <Field
+          name="invoice_reference"
           component={renderTextField}
-          label="Yrityksen toivoma viite" />
+          label="Yrityksen toivoma viite"
+        />
       </div>
       <div>
-        <Field name="description"
+        <Field
+          name="description"
           component={renderTextField}
-          label="Vapaamuotoinen teksti *"
-          multiLine={true} rows={2} />
+          label="Vapaamuotoinen teksti"
+          multiLine={true}
+          rows={2}
+        />
       </div>
       <div>
-        <Field name="job_title"
+        <Field
+          name="job_title"
           component={SelectField}
           maxHeight={200}
-          floatingLabelText="Valitse ammattinimike">
+          floatingLabelText="Valitse ammattinimike *"
+        >
           {titleItems}
         </Field>
       </div>
     </div>
   </div>
+)
 
-const invoiceAdditionalInformation = () =>
+const invoiceAdditionalInformation = (clearInvoiceOptions) => (
   <div className="panel panel-default">
     <div className="panel-heading">
       <h3 className="panel-title">Laskun lisätiedot</h3>
@@ -309,14 +378,21 @@ const invoiceAdditionalInformation = () =>
     <div className="panel-body">
       <Field name="instant_payment" component={renderRadioGroup}>
         <RadioButton value="quick_pay" label="Pikapalkka" />
-        <RadioButton value="invoice_reminder" label="En halua, että Kassavirtanen.fi tarjoaa maksuvalvonnan, maksun muistutukset ja tarvittaessa palautuksen" />
+        <RadioButton
+          value="invoice_reminder"
+          label="En halua, että Kassavirtanen.fi tarjoaa maksuvalvonnan, maksun muistutukset ja tarvittaessa palautuksen"
+        />
       </Field>
+      <div className="pull-right">
+        <RaisedButton label="Poista Valinnat" primary={true} onClick={clearInvoiceOptions} />
+      </div>
     </div>
   </div>
+)
 
-const createdInvoiceRows = (invoiceRows, invoicePages, invoicePageChange) =>
+const createdInvoiceRows = (invoiceRows, invoicePages, invoicePageChange) => (
   <div>
-    <Table selectable={false} >
+    <Table selectable={false}>
       <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
         <TableRow>
           <TableHeaderColumn>Asiakas</TableHeaderColumn>
@@ -329,14 +405,12 @@ const createdInvoiceRows = (invoiceRows, invoicePages, invoicePageChange) =>
           <TableHeaderColumn>Toiminnot</TableHeaderColumn>
         </TableRow>
       </TableHeader>
-      <TableBody displayRowCheckbox={false}>
-        {invoiceRows}
-      </TableBody>
+      <TableBody displayRowCheckbox={false}>{invoiceRows}</TableBody>
     </Table>
     <Divider />
     <ReactPaginate
-      previousLabel={<i className='fa fa-chevron-left' />}
-      nextLabel={<i className='fa fa-chevron-right' />}
+      previousLabel={<i className="fa fa-chevron-left" />}
+      nextLabel={<i className="fa fa-chevron-right" />}
       breakLabel={'...'}
       breakClassName={'break-me'}
       pageCount={invoicePages}
@@ -345,13 +419,16 @@ const createdInvoiceRows = (invoiceRows, invoicePages, invoicePageChange) =>
       onPageChange={invoicePageChange}
       containerClassName={'pagination'}
       subContainerClassName={'pages pagination'}
-      activeClassName={'active'} />
+      activeClassName={'active'}
+    />
   </div>
+)
 
-const _createCustomerMenuItems = (customers) =>
-  customers.map(c =>
-    <MenuItem key={c.customer_id}
+const _createCustomerMenuItems = customers =>
+  customers.map(c => (
+    <MenuItem
+      key={c.customer_id}
       value={c.customer_id}
-      primaryText={c.company_name} />
-  )
-
+      primaryText={c.company_name}
+    />
+  ))

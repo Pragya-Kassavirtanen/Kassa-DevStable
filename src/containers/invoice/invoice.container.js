@@ -16,6 +16,7 @@ import {
   editInvoice,
   getInvoiceByIdSuccess,
   cancelEditInvoice,
+  clearInvoiceOptions,
   showTooltip,
   hideTooltip
 } from '../../actions'
@@ -174,7 +175,8 @@ const mapDispatchToProps = (dispatch) => {
     selectInvoiceCustomer: customer => Object.keys(customer).forEach(key => dispatch(change('invoice', key, customer[key]))),
     editInvoice: invoice_id => dispatch(editInvoice(invoice_id)),
     cancelEditInvoice: () => dispatch(cancelEditInvoice()),
-    getInvoiceByIdSuccess: result => dispatch(getInvoiceByIdSuccess(result)),    
+    getInvoiceByIdSuccess: result => dispatch(getInvoiceByIdSuccess(result)),
+    clearInvoiceOptions: () => dispatch(clearInvoiceOptions()),   
     showTooltip: () => dispatch(showTooltip()),
     hideTooltip: () => dispatch(hideTooltip())
   }

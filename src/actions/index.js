@@ -141,6 +141,7 @@ import {
   FRONT_PAGE_FORM_SUBMIT,
   CONTACT_FORM_SUBMIT,
   CLOSE_CUSTOMER_SNACKBAR,
+  CLEAR_INVOICE_OPTIONS,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -192,6 +193,7 @@ export const downloadPDFSuccess = () => ({ type: DOWNLOAD_PDF_SUCCESS })
 export const downloadPDFFailed = () => ({ type: DOWNLOAD_PDF_FAILED })
 export const showTooltip = () => ({ type: SHOW_TOOLTIP })
 export const hideTooltip = () => ({ type: HIDE_TOOLTIP })
+export const clearInvoiceOptions = () => ({ type: CLEAR_INVOICE_OPTIONS })
 
 export const getExpenseStart = () => ({type: GET_EXPENSE_START})
 export const getExpenseSuccess = (expenses, allowances) => ({type: GET_EXPENSE_SUCCESS, expenses, allowances})

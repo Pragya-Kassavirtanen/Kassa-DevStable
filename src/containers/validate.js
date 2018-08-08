@@ -45,13 +45,21 @@ export const invoiceValidate = values => {
 
   // Customer Info
   const requiredCustomerInfoFields = [
-    'company_name', 'business_id', 'person_to_contact', 'person_to_contact_email'
+    'company_name', 'business_id', 'person_to_contact'
   ]
 
-  // Delivery Info
+  let requiredDeliveryMethodFields = []
+
+  if (values[ 'delivery_method' ] === 'Sähköposti') {
+    requiredDeliveryMethodFields = ['person_to_contact_email']
+  }else if (values[ 'delivery_method' ] === 'Kirjeposti') {
+    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address','finvoice_address']
+  }
+
+  /* // Delivery Info
   const requiredDeliveryMethodFields = [
-    'delivery_method', 'zip_code', 'city', 'delivery_address', 'invoice_reference', 'finvoice_address'
-  ]
+    'delivery_method', 'zip_code', 'city', 'delivery_address','finvoice_address'
+  ] */
 
   if(!/^\d{5}$/i.test(values['zip_code']) && values['zip_code']){
     errors['zip_code'] = 'Postinumero ei ole kelvollinen'
@@ -66,8 +74,12 @@ export const invoiceValidate = values => {
   }
 
   // Invoice Info
-  const requiredInvoiceInfoFields = [
+/*   const requiredInvoiceInfoFields = [
     'overdue', 'due_date', 'description', 'job_title'
+  ] */
+
+  const requiredInvoiceInfoFields = [
+    'overdue', 'due_date', 'job_title'
   ]
 
   const requiredFields = [...requiredCustomerInfoFields, ...requiredDeliveryMethodFields, ...requiredInvoiceInfoFields]
@@ -81,7 +93,8 @@ export const invoiceValidate = values => {
 
   // Invoice rows
   errors['rows'] = {}
-  invoices.forEach((item) => {
+  
+  /* invoices.forEach((item) => {
     errors['rows'][parseInt(item)] = {}
     if (!values['rows'][parseInt(item)][`description${item}`]) {
       errors['rows'][parseInt(item)][`description${item}`] = 'Pakollinen'
@@ -89,7 +102,7 @@ export const invoiceValidate = values => {
     if (!values['rows'][parseInt(item)][`start_date${item}`]) {
       errors['rows'][parseInt(item)][`start_date${item}`] = 'Pakollinen'
     }
-    if (!values['rows'][parseInt(item)][`end_date${item}`]) {
+     if (!values['rows'][parseInt(item)][`end_date${item}`]) {
       errors['rows'][parseInt(item)][`end_date${item}`] = 'Pakollinen'
     }
     if (!values['rows'][parseInt(item)][`quantity${item}`]) {
@@ -103,6 +116,28 @@ export const invoiceValidate = values => {
     }
     if (!values['rows'][parseInt(item)][`vat_percent${item}`]) {
       errors['rows'][parseInt(item)][`vat_percent${item}`] = 'Pakollinen'
+    }
+  }) */
+
+  invoices.forEach((item) => {
+    errors['rows'][parseInt(item)] = {}
+    if (!values['rows'][parseInt(item)]['description']) {
+      errors['rows'][parseInt(item)]['description'] = 'Pakollinen'
+    }
+    if (!values['rows'][parseInt(item)]['start_date']) {
+      errors['rows'][parseInt(item)]['start_date'] = 'Pakollinen'
+    }
+    if (!values['rows'][parseInt(item)]['quantity']) {
+      errors['rows'][parseInt(item)]['quantity'] = 'Pakollinen'
+    }
+    if (!values['rows'][parseInt(item)]['unit']) {
+      errors['rows'][parseInt(item)]['unit'] = 'Pakollinen'
+    }
+    if (!values['rows'][parseInt(item)]['quantity_price']) {
+      errors['rows'][parseInt(item)]['quantity_price'] = 'Pakollinen'
+    }
+    if (!values['rows'][parseInt(item)]['vat_percent']) {
+      errors['rows'][parseInt(item)]['vat_percent'] = 'Pakollinen'
     }
   })
 

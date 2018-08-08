@@ -66,6 +66,7 @@ export const EMPTY_INVOICE_ROWS = '@@invoice/EMPTY_INVOICE_ROWS'
 export const SAVE_INVOICE_DRAFT = '@@invoice/SAVE_INVOICE_DRAFT'
 export const DOWNLOAD_PDF_SUCCESS = '@@invoice/DOWNLOAD_PDF_SUCCESS'
 export const DOWNLOAD_PDF_FAILED = '@@invoice/DOWNLOAD_PDF_FAILED'
+export const CLEAR_INVOICE_OPTIONS = '@@invoice/CLEAR_INVOICE_OPTIONS'
 
 export const GET_EXPENSE_START = '@@expense/GET_EXPENSE_START'
 export const GET_EXPENSE_SUCCESS = '@@expense/GET_EXPENSE_SUCCESS'

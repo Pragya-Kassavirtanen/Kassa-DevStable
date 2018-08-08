@@ -2,6 +2,8 @@ import React from 'react'
 import CustomerRow from '../components/customer/customerRow.component'
 import {
   GET_CUSTOMERS_SUCCESS,
+  ADD_CUSTOMER_SUCCESS,
+  CLOSE_CUSTOMER_SNACKBAR,
   CUSTOMER_PAGE_CHANGE,
   REMOVE_CUSTOMER,
   GET_CUSTOMER_BY_ID_SUCCESS,
@@ -16,6 +18,7 @@ const customerReducer = (
     customers: [],
     selected: 0,
     customerEdit: [],
+    showSnackbar: false,
     isEdit: false,
     noMenu: false
   },
@@ -35,6 +38,13 @@ const customerReducer = (
         }
       )
 
+      case ADD_CUSTOMER_SUCCESS:
+      return Object.assign({}, state, {        
+        showSnackbar: true
+      })
+
+      case CLOSE_CUSTOMER_SNACKBAR:
+      return Object.assign({}, state, { showSnackbar: false })
 
       case GET_CUSTOMER_BY_ID_SUCCESS:
       console.log('result:: ', action.result)

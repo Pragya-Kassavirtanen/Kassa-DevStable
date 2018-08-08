@@ -140,6 +140,7 @@ import {
   SAVE_SALARY_SLIP,
   FRONT_PAGE_FORM_SUBMIT,
   CONTACT_FORM_SUBMIT,
+  CLOSE_CUSTOMER_SNACKBAR,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -229,8 +230,8 @@ export const cancelAllowanceUpdate = () => ({type: CANCEL_ALLOWANCE_UPDATE})
 export const changeExpensePurchaseDate = date => ({type: CHANGE_PURCHASE_DATE, date})
 
 export const newCustomer = () => ({type: NEW_CUSTOMER})
-export const addCustomersSuccess = (result) => ({type: ADD_CUSTOMER_SUCCESS, result})
-export const addCustomersFailed = (error) => ({type: ADD_CUSTOMER_FAILED, error})
+export const addCustomerSuccess = (result) => ({type: ADD_CUSTOMER_SUCCESS, result})
+export const addCustomerFailed = (error) => ({type: ADD_CUSTOMER_FAILED, error})
 export const removeCustomer = id => ({type: REMOVE_CUSTOMER, id})
 export const updateCustomer = id => ({type: UPDATE_CUSTOMER, id})
 export const getCustomerByIdSuccess = (result) => ({type: GET_CUSTOMER_BY_ID_SUCCESS, result})
@@ -238,6 +239,7 @@ export const saveCustomerUpdate = id => ({type: SAVE_CUSTOMER_UPDATE, id})
 export const cancelCustomerUpdate = () => ({type: CANCEL_CUSTOMER_UPDATE})
 export const addNewCustomerInvoice = id => ({type: ADD_NEW_CUSTOMER_INVOICE, id})
 export const addNewCustomerInvoiceSuccess = result => ({type: ADD_NEW_CUSTOMER_INVOICE_SUCCESS, result})
+export const closeCustomerSnackBar = () => ({ type: CLOSE_CUSTOMER_SNACKBAR })
 
 export const getCustomersStart = () => ({type: GET_CUSTOMERS_START})
 export const getCustomersSuccess = (result) => ({type: GET_CUSTOMERS_SUCCESS, result})

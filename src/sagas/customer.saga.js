@@ -41,14 +41,24 @@ function* newCustomerSaga() {
       web_invoice: formValues.web_invoice
     })
 
-    yield call(apiManualPost, url, body)
+    const resultAddCustomer = yield call(apiManualPost, url, body)
+    
+    if (resultAddCustomer.data) {
+      yield put({ type: ADD_CUSTOMER_SUCCESS })
+    }
+    
+    yield put(reset('customer'))
 
-    yield put({ type: ADD_CUSTOMER_SUCCESS })
+    //Update Customer Grid after Add Customer
+    const getCustomerUrl = `${API_SERVER}/GetCustomers`    
+    const getCustomerBody = JSON.stringify({ uuid: uuid })
+    const result = yield call(apiManualPost, getCustomerUrl, getCustomerBody)
+
+   if (result.data) yield put(getCustomersSuccess(result.data))  
 
   } catch (e) {
-
     yield put({ type: ADD_CUSTOMER_FAILED, e })
-
+    console.warn(e)
   }
 }
 

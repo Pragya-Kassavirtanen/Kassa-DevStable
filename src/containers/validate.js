@@ -114,16 +114,27 @@ export const customerValidate = values => {
   const errors = { }
 
   // Customer Info
-  const requiredCustomerInfoFields = [
+/*   const requiredCustomerInfoFields = [
     'company_name', 'business_id', 'person_to_contact', 'person_to_contact_email'
+  ] */
+
+  const requiredCustomerInfoFields = [
+    'company_name', 'business_id', 'person_to_contact'
   ]
 
   // Delivery Info
-  const requiredDeliveryMethodFields = [
+ /*  const requiredDeliveryMethodFields = [
     'delivery_method'
-  ]
+  ] */
 
-  const requiredFields = [...requiredCustomerInfoFields, ...requiredDeliveryMethodFields]
+/*   const requiredFields = [...requiredCustomerInfoFields, ...requiredDeliveryMethodFields]
+  requiredFields.forEach(field => {
+    if ( !values[ field ] ) {
+      errors[ field ] = 'Kenttä on pakollinen'
+    }
+  }) */
+
+  const requiredFields = [...requiredCustomerInfoFields]
   requiredFields.forEach(field => {
     if ( !values[ field ] ) {
       errors[ field ] = 'Kenttä on pakollinen'
@@ -141,9 +152,7 @@ export const customerValidate = values => {
   if (values.person_to_contact_email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.person_to_contact_email)) {
     errors.person_to_contact_email = 'Antamasi sähköpostiosoite  on virheellinen'
   }
-
-
-
+  
   return errors
 }
 

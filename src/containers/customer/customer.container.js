@@ -9,7 +9,8 @@ import {
   getCustomerByIdSuccess,
   saveCustomerUpdate,
   cancelCustomerUpdate,
-  addNewCustomerInvoice
+  addNewCustomerInvoice,
+  closeCustomerSnackBar
 } from '../../actions/index'
 
 import { customerValidate as validate } from '../validate'
@@ -36,7 +37,8 @@ const mapStateToProps = state => {
       ? Math.ceil(state.customer.customers.length / 10)
       : 0,
     isEdit: state.customer.isEdit,  
-    customer_id: state.customer.customerEdit.customer_id,   
+    customer_id: state.customer.customerEdit.customer_id,
+    showSnackbar: state.customer.showSnackbar,   
     state
   }
 }
@@ -52,7 +54,8 @@ const mapDispatchToProps = dispatch => {
     getCustomerByIdSuccess: result => dispatch(getCustomerByIdSuccess(result)),
     saveCustomerUpdate: customer_id => dispatch(saveCustomerUpdate(customer_id)),
     cancelCustomerUpdate: () => dispatch(cancelCustomerUpdate()),
-    addNewCustomerInvoice: customer_id => dispatch(addNewCustomerInvoice(customer_id))
+    addNewCustomerInvoice: customer_id => dispatch(addNewCustomerInvoice(customer_id)),
+    closeSnackbar: () => dispatch(closeCustomerSnackBar())
   }
 }
 

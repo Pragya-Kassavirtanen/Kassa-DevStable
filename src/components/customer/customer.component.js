@@ -7,7 +7,8 @@ import {
   TableRow,
   TableHeaderColumn,
   RaisedButton,
-  Divider
+  Divider,
+  Snackbar
 } from 'material-ui'
 import ReactPaginate from 'react-paginate'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -46,7 +47,9 @@ const Customer = ({
   newCustomer,
   customerPageChange,
   saveCustomerUpdate,
-  cancelCustomerUpdate  
+  cancelCustomerUpdate,  
+  showSnackbar,
+  closeSnackbar  
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -136,6 +139,15 @@ const Customer = ({
           </div>
         </div>
       </form>
+      <Snackbar
+        open={showSnackbar}
+        message="Asiakas lisäsi onnistuneesti!"
+        autoHideDuration={2000}
+        bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
+        onRequestClose={() => {
+          closeSnackbar()          
+        }}
+      />      
     </div>
   </MuiThemeProvider>
 )
@@ -181,7 +193,7 @@ const customerInfo = countryItems => (
         <Field
           name="person_to_contact_email"
           component={renderTextField}
-          label="Yhteyshenkilön sähköposti *"
+          label="Yhteyshenkilön sähköposti"
         />
       </div>
     </div>
@@ -198,7 +210,7 @@ const invoiceInfo = invoiceItems => (
         <Field
           name="delivery_method"
           component={SelectField}
-          floatingLabelText="Laskun toimitustapa *"
+          floatingLabelText="Laskun toimitustapa"
         >
           {invoiceItems}
         </Field>

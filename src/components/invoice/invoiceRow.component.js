@@ -4,9 +4,8 @@ import { Link } from 'react-router'
 import store from '../../store'
 import {
   removeInvoice,
-  copyInvoice,
-  //saveAndSendInvoice,
-  saveInvoiceDraft,
+  copyInvoice, 
+  generateInvoicePDF,
   editInvoice
  // showTooltip,
  // hideTooltip
@@ -43,7 +42,7 @@ const InvoiceRow = ({
           <p
             style={{ marginLeft: '10px' }}
             onClick={() => {
-              store.dispatch(saveInvoiceDraft(invoice_id))
+              store.dispatch(generateInvoicePDF(invoice_id))
             }}
            // onMouseEnter={()=>{store.dispatch({showTooltip})}}
            // onMouseLeave={()=>{store.dispatch({hideTooltip})}}

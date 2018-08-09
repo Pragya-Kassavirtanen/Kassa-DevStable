@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { reduxForm, getFormValues } from 'redux-form'
-import { loadInvoiceReview, saveAndSendInvoice, closeInvoiceReviewSnackBar, saveInvoiceDraft } from '../../actions'
+import { loadInvoiceReview, saveAndSendInvoicePDF, closeInvoiceReviewSnackBar, saveInvoiceDraft, generateInvoicePDF } from '../../actions'
 import { formatFiToISO } from '../../utils/DateTimeFormat'
 
 import ReviewInvoice from '../../components/invoice/reviewInvoice.component'
@@ -64,10 +64,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    loadInvoiceReview: () => dispatch(loadInvoiceReview()),
-    saveAndSendInvoice: () => dispatch(saveAndSendInvoice()),
-    // saveInvoiceDraft: () => dispatch(saveInvoiceDraft()),
-    saveInvoiceDraft: (invoice_id) => dispatch(saveInvoiceDraft(invoice_id)),
+    loadInvoiceReview: () => dispatch(loadInvoiceReview()),    
+    saveAndSendInvoicePDF: () => dispatch(saveAndSendInvoicePDF()),
+    saveInvoiceDraft: () => dispatch(saveInvoiceDraft()),    
+    generateInvoicePDF: (invoice_id) => dispatch(generateInvoicePDF(invoice_id)),
     closeSnackbar: () => dispatch(closeInvoiceReviewSnackBar())
   }
 }

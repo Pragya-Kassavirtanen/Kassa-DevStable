@@ -49,7 +49,7 @@ let NewInvoiceContainer = reduxForm({
     }).format(date.setDate(date.getDate() + 14)),
     overdue: 14,
     instant_payment: '',    
-    status: 1,
+    status: 0,
     country: 'Suomi',
     company_name: '',
     business_id: '',

@@ -67,6 +67,7 @@ export const SAVE_INVOICE_DRAFT = '@@invoice/SAVE_INVOICE_DRAFT'
 export const DOWNLOAD_PDF_SUCCESS = '@@invoice/DOWNLOAD_PDF_SUCCESS'
 export const DOWNLOAD_PDF_FAILED = '@@invoice/DOWNLOAD_PDF_FAILED'
 export const CLEAR_INVOICE_OPTIONS = '@@invoice/CLEAR_INVOICE_OPTIONS'
+export const GENERATE_INVOICE_PDF = '@@invoice/GENERATE_INVOICE_PDF'
 
 export const GET_EXPENSE_START = '@@expense/GET_EXPENSE_START'
 export const GET_EXPENSE_SUCCESS = '@@expense/GET_EXPENSE_SUCCESS'
@@ -162,6 +163,7 @@ export const SALARY_PAGE_CHANGE = '@@salary/SALARY_PAGE_CHANGE'
 export const SAVE_SALARY_SLIP = '@@salary/SAVE_SALARY_SLIP'
 
 export const LANGUAGE_CHANGE = '@@lang/LANGUAGE_CHANGE'
+export const SAVE_AND_SEND_INVOICE_PDF = '@invoice/SAVE_AND_SEND_INVOICE_PDF'
 
 
 export const OPENID_SERVER = process.env.OPENID_SERVER

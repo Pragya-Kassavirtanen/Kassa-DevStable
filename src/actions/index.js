@@ -142,6 +142,8 @@ import {
   CONTACT_FORM_SUBMIT,
   CLOSE_CUSTOMER_SNACKBAR,
   CLEAR_INVOICE_OPTIONS,
+  GENERATE_INVOICE_PDF,
+  SAVE_AND_SEND_INVOICE_PDF,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -149,6 +151,7 @@ export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
 export const removeInvoiceRow = rowNumber => ({ type: REMOVE_INVOICE_ROW, rowNumber })
 export const loadInvoiceReview = () => ({ type: LOAD_INVOICE_REVIEW })
 export const saveAndSendInvoice = () => ({ type: SAVE_AND_SEND_INVOICE })
+export const saveAndSendInvoicePDF = () => ({ type: SAVE_AND_SEND_INVOICE_PDF })
 export const minDateChange = (value, rowNumber) => ({ type: MIN_DATE_CHANGE, value, rowNumber })
 export const maxDateChange = (value, rowNumber) => ({ type: MAX_DATE_CHANGE, value, rowNumber })
 export const quantityChange = (val, rowNumber) => ({ type: QUANTITY_CHANGE, val, rowNumber})
@@ -186,14 +189,15 @@ export const getInvoiceByIdSuccess = result => ({type: GET_INVOICE_BY_ID_SUCCESS
 export const copyInvoiceSuccess = result => ({type: COPY_INVOICE_SUCCESS, result})
 export const invoicePageChange = selected => ({type: INVOICE_PAGE_CHANGE, selected})
 export const emptyInvoiceRows = () => ({type: EMPTY_INVOICE_ROWS})
-// export const saveInvoiceDraft = () => ({type: SAVE_INVOICE_DRAFT})
-export const saveInvoiceDraft = invoice_id => ({type: SAVE_INVOICE_DRAFT, invoice_id})
+export const saveInvoiceDraft = () => ({type: SAVE_INVOICE_DRAFT})
+
 export const changeInvoiceBillingDate = date => ({type: CHANGE_INVOICE_BILLING_DATE, date})
 export const downloadPDFSuccess = () => ({ type: DOWNLOAD_PDF_SUCCESS })
 export const downloadPDFFailed = () => ({ type: DOWNLOAD_PDF_FAILED })
 export const showTooltip = () => ({ type: SHOW_TOOLTIP })
 export const hideTooltip = () => ({ type: HIDE_TOOLTIP })
 export const clearInvoiceOptions = () => ({ type: CLEAR_INVOICE_OPTIONS })
+export const generateInvoicePDF = (invoice_id) => ({ type: GENERATE_INVOICE_PDF, invoice_id })
 
 export const getExpenseStart = () => ({type: GET_EXPENSE_START})
 export const getExpenseSuccess = (expenses, allowances) => ({type: GET_EXPENSE_SUCCESS, expenses, allowances})

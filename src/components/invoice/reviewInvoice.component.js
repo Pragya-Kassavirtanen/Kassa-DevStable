@@ -25,7 +25,7 @@ export default class InvoiceRetro extends React.Component {
   }
 }
 
-const ReviewInvoiceComponent = ({invoiceRows, saveAndSendInvoice, apiSuccess, closeSnackbar, saveInvoiceDraft, showSpinner}) =>
+const ReviewInvoiceComponent = ({invoiceRows, saveAndSendInvoicePDF, apiSuccess, closeSnackbar, saveInvoiceDraft, showSpinner}) =>
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
       <div className="row">
@@ -80,7 +80,7 @@ const ReviewInvoiceComponent = ({invoiceRows, saveAndSendInvoice, apiSuccess, cl
                   </div>
                   <div className="pull-right">
                     <RaisedButton label="Tallenna ja lähetä"
-                                  onClick={saveAndSendInvoice}
+                                  onClick={saveAndSendInvoicePDF}
                                   primary={true}/>
                   </div>
                   <div className="pull-right">
@@ -227,14 +227,14 @@ const ReviewInvoiceInfo = () =>
       <div>
         <Field name="description"
                component={renderTextField}
-               label="Vapaamuotoinen teksti *"
+               label="Vapaamuotoinen teksti"
                multiLine={true} rows={2}
                disabled={true}/>
       </div>
       <div>
         <Field name="job_title"
                component={renderTextField}
-               label="Valitse ammattinimike"
+               label="Valitse ammattinimike *"
                disabled={true}/>
       </div>
     </div>

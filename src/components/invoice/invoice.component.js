@@ -66,6 +66,7 @@ const NewInvoice = ({
   customers,
   selectInvoiceCustomer,
   isEdit,
+  invalid,
   noMenu,
   cancelEditInvoice,
   clearInvoiceOptions,
@@ -190,14 +191,22 @@ const NewInvoice = ({
                     </ul>
                   ) : (
                     <div className="pull-right">
-                      <RaisedButton
-                        label="Esikatsele ja hyväksy lasku"
-                        primary={true}
-                        type="submit"
-                        containerElement={
-                          <Link to="/dashboard/invoice/review" />
-                        }
-                      />
+                      {invalid ? (
+                        <RaisedButton
+                          label="Esikatsele ja hyväksy lasku"
+                          primary={true}
+                          type="submit"
+                        />
+                      ) : (
+                        <RaisedButton
+                          label="Esikatsele ja hyväksy lasku"
+                          primary={true}
+                          type="submit"
+                          containerElement={
+                            <Link to="/dashboard/invoice/review" />
+                          }
+                        />
+                      )}
                     </div>
                   )}
                 </div>
@@ -370,7 +379,7 @@ const invoiceInfo = (overdueItems, titleItems, changeInvoiceBillingDate) => (
   </div>
 )
 
-const invoiceAdditionalInformation = (clearInvoiceOptions) => (
+const invoiceAdditionalInformation = clearInvoiceOptions => (
   <div className="panel panel-default">
     <div className="panel-heading">
       <h3 className="panel-title">Laskun lisätiedot</h3>
@@ -384,7 +393,11 @@ const invoiceAdditionalInformation = (clearInvoiceOptions) => (
         />
       </Field>
       <div className="pull-right">
-        <RaisedButton label="Poista Valinnat" primary={true} onClick={clearInvoiceOptions} />
+        <RaisedButton
+          label="Poista Valinnat"
+          primary={true}
+          onClick={clearInvoiceOptions}
+        />
       </div>
     </div>
   </div>

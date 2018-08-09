@@ -2,8 +2,6 @@ import { takeEvery, put, call } from 'redux-saga/effects'
 import {
   NEW_CUSTOMER,
   GET_CUSTOMERS_START,
-  ADD_CUSTOMER_SUCCESS,
-  ADD_CUSTOMER_FAILED,
   API_SERVER,
   REMOVE_CUSTOMER,
   UPDATE_CUSTOMER,
@@ -12,7 +10,7 @@ import {
   ADD_NEW_CUSTOMER_INVOICE
 } from '../constants'
 
-import { getCustomersSuccess, getCustomerByIdSuccess, addNewCustomerInvoiceSuccess } from '../actions/index'
+import { getCustomersSuccess, getCustomerByIdSuccess, addNewCustomerInvoiceSuccess, addCustomerSuccess, addCustomerFailed } from '../actions/index'
 
 import { getFormValues, change, reset } from 'redux-form'
 import store from '../store'
@@ -41,10 +39,12 @@ function* newCustomerSaga() {
       web_invoice: formValues.web_invoice
     })
 
-    const resultAddCustomer = yield call(apiManualPost, url, body)
+    const resultAddCustomer = yield call(apiManualPost, url, body)    
     
-    if (resultAddCustomer.data) {
-      yield put({ type: ADD_CUSTOMER_SUCCESS })
+    if (resultAddCustomer.data === 'Customer Data saved successfully!') {
+      yield put(addCustomerSuccess(resultAddCustomer.data))
+    } else {
+      yield put(addCustomerFailed(resultAddCustomer.data))
     }
     
     yield put(reset('customer'))
@@ -56,9 +56,8 @@ function* newCustomerSaga() {
 
    if (result.data) yield put(getCustomersSuccess(result.data))  
 
-  } catch (e) {
-    yield put({ type: ADD_CUSTOMER_FAILED, e })
-    console.warn(e)
+  } catch (e) {    
+    yield put(addCustomerFailed(e))
   }
 }
 

@@ -21,7 +21,7 @@ const alvList = [
 ]
 const titleList = ['KONSULTTI', 'OHJELMISTOSUUNNITTELIJA', 'ART DIRECTOR', 'AGRONOMI']
 const countryList = ['Norja', 'Venäjä', 'Viro', 'Saksa', 'Islanti', 'Suomi', 'Ruotsi', 'Tanska']
-const invoiceList = ['Sähköposti', 'Kirjeposti']
+const invoiceList = ['Sähköposti', 'Kirjeposti', 'Verkkolasku']
 const invoiceStateList = ['Luonnos', 'Lähetetty', 'Maksettu', 'Erääntynyt', 'Alimaksettu', 'Ylimaksettu']
 
 const vehicleTypeList = [

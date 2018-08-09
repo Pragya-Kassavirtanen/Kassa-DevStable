@@ -52,8 +52,10 @@ export const invoiceValidate = values => {
 
   if (values[ 'delivery_method' ] === 'Sähköposti') {
     requiredDeliveryMethodFields = ['person_to_contact_email']
-  }else if (values[ 'delivery_method' ] === 'Kirjeposti') {
-    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address','finvoice_address']
+  } else if (values[ 'delivery_method' ] === 'Kirjeposti') {
+    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address']
+  } else {
+    requiredDeliveryMethodFields = ['web_invoice']
   }
 
   /* // Delivery Info
@@ -74,12 +76,8 @@ export const invoiceValidate = values => {
   }
 
   // Invoice Info
-/*   const requiredInvoiceInfoFields = [
-    'overdue', 'due_date', 'description', 'job_title'
-  ] */
-
   const requiredInvoiceInfoFields = [
-    'overdue', 'due_date', 'job_title'
+    'billing_date', 'overdue', 'job_title'
   ]
 
   const requiredFields = [...requiredCustomerInfoFields, ...requiredDeliveryMethodFields, ...requiredInvoiceInfoFields]
@@ -127,6 +125,9 @@ export const invoiceValidate = values => {
     if (!values['rows'][parseInt(item)]['start_date']) {
       errors['rows'][parseInt(item)]['start_date'] = 'Pakollinen'
     }
+    if (!values['rows'][parseInt(item)]['end_date']) {
+      errors['rows'][parseInt(item)]['end_date'] = 'Pakollinen'
+    }
     if (!values['rows'][parseInt(item)]['quantity']) {
       errors['rows'][parseInt(item)]['quantity'] = 'Pakollinen'
     }
@@ -146,37 +147,35 @@ export const invoiceValidate = values => {
 
 export const customerValidate = values => {
 
-  const errors = { }
+  const errors = {}
 
   // Customer Info
 /*   const requiredCustomerInfoFields = [
     'company_name', 'business_id', 'person_to_contact', 'person_to_contact_email'
   ] */
 
-  const requiredCustomerInfoFields = [
-    'company_name', 'business_id', 'person_to_contact'
-  ]
+  //const requiredCustomerInfoFields = ['company_name', 'business_id', 'person_to_contact']
 
   // Delivery Info
- /*  const requiredDeliveryMethodFields = [
+/*   const requiredDeliveryMethodFields = [
     'delivery_method'
   ] */
 
-/*   const requiredFields = [...requiredCustomerInfoFields, ...requiredDeliveryMethodFields]
+  /* const requiredFields = [...requiredCustomerInfoFields, ...requiredDeliveryMethodFields]
   requiredFields.forEach(field => {
     if ( !values[ field ] ) {
       errors[ field ] = 'Kenttä on pakollinen'
     }
   }) */
-
-  const requiredFields = [...requiredCustomerInfoFields]
+  
+  const requiredFields = ['company_name', 'business_id', 'person_to_contact']
   requiredFields.forEach(field => {
     if ( !values[ field ] ) {
       errors[ field ] = 'Kenttä on pakollinen'
     }
   })
 
-  if(!/^\d{5}$/i.test(values['zip_code'])){
+  if (!/^\d{5}$/i.test(values['zip_code']) && values['zip_code']) {
     errors['zip_code'] = 'Postinumero ei ole kelvollinen'
   }
 
@@ -186,7 +185,7 @@ export const customerValidate = values => {
 
   if (values.person_to_contact_email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.person_to_contact_email)) {
     errors.person_to_contact_email = 'Antamasi sähköpostiosoite  on virheellinen'
-  }
+  } 
   
   return errors
 }
@@ -240,7 +239,7 @@ export const expenseValidate = values => {
       }
     }
   })
-  console.log(errors)
+  console.log('Inside expenseValidate:: ',errors)
 
   return errors
 }

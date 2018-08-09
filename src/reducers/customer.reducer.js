@@ -9,7 +9,8 @@ import {
   GET_CUSTOMER_BY_ID_SUCCESS,
   SAVE_CUSTOMER_UPDATE,
   CANCEL_CUSTOMER_UPDATE,
-  ADD_NEW_CUSTOMER_INVOICE_SUCCESS
+  ADD_NEW_CUSTOMER_INVOICE_SUCCESS,
+  ADD_CUSTOMER_FAILED
 } from '../constants'
 
 const customerReducer = (
@@ -19,6 +20,7 @@ const customerReducer = (
     selected: 0,
     customerEdit: [],
     showSnackbar: false,
+    showFailSnackbar: false,
     isEdit: false,
     noMenu: false
   },
@@ -43,8 +45,13 @@ const customerReducer = (
         showSnackbar: true
       })
 
+      case ADD_CUSTOMER_FAILED:
+      return Object.assign({}, state, {        
+        showFailSnackbar: true
+      })
+
       case CLOSE_CUSTOMER_SNACKBAR:
-      return Object.assign({}, state, { showSnackbar: false })
+      return Object.assign({}, state, { showSnackbar: false, showFailSnackbar: false })
 
       case GET_CUSTOMER_BY_ID_SUCCESS:
       console.log('result:: ', action.result)

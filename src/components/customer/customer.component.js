@@ -8,7 +8,7 @@ import {
   TableHeaderColumn,
   RaisedButton,
   Divider,
-  Snackbar
+  Snackbar  
 } from 'material-ui'
 import ReactPaginate from 'react-paginate'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -22,7 +22,7 @@ import { SelectField } from 'redux-form-material-ui'
  */
 
 export default class CustomerComponent extends React.Component {
-  componentDidMount() {   
+  componentDidMount() {
     this.props.getCustomersStart()
   }
 
@@ -37,7 +37,7 @@ const _onFormSubmit = (values, e) => {
 }
 
 const Customer = ({
-  customerRows,  
+  customerRows,
   countryItems,
   invoiceItems,
   handleSubmit,
@@ -47,9 +47,11 @@ const Customer = ({
   newCustomer,
   customerPageChange,
   saveCustomerUpdate,
-  cancelCustomerUpdate,  
+  cancelCustomerUpdate,
   showSnackbar,
-  closeSnackbar  
+  showFailSnackbar,
+  closeCustomerSnackBar,
+  invalid
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -93,14 +95,14 @@ const Customer = ({
       </div>
       <form onSubmit={handleSubmit(_onFormSubmit)}>
         <div className="row">
-            <div className="dashboard-content-header">
-              <div className="col-xs-12 col-sm-6 col-lg-6">
-                {customerInfo(countryItems)}
-              </div>
-              <div className="col-xs-12 col-sm-6 col-lg-6">
-                {invoiceInfo(invoiceItems)}
-              </div>
-            </div>         
+          <div className="dashboard-content-header">
+            <div className="col-xs-12 col-sm-6 col-lg-6">
+              {customerInfo(countryItems)}
+            </div>
+            <div className="col-xs-12 col-sm-6 col-lg-6">
+              {invoiceInfo(invoiceItems)}
+            </div>
+          </div>
         </div>
         <div className="row">
           <div className="dashboard-content-header">
@@ -119,18 +121,29 @@ const Customer = ({
                       <li>
                         <RaisedButton
                           label="Tallentaa"
-                          primary={true}                          
-                          onClick={() => { store.dispatch(saveCustomerUpdate( customer_id )) }}
+                          primary={true}
+                          onClick={() => {
+                            store.dispatch(saveCustomerUpdate(customer_id))
+                          }}
                         />
                       </li>
                     </ul>
                   ) : (
                     <div className="pull-right">
-                      <RaisedButton
-                        label="Lisää Asiakas"
-                        primary={true}
-                        onClick={newCustomer}
-                      />
+                      {invalid ? (
+                        <RaisedButton
+                          label="Lisää asiakas"
+                          primary={true}
+                          type="submit"
+                        />
+                      ) : (
+                        <RaisedButton
+                          label="Lisää Asiakas"
+                          primary={true}
+                          type="submit"
+                          onClick={newCustomer}
+                        />
+                      )}
                     </div>
                   )}
                 </div>
@@ -145,9 +158,18 @@ const Customer = ({
         autoHideDuration={2000}
         bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
         onRequestClose={() => {
-          closeSnackbar()          
+          closeCustomerSnackBar()
         }}
-      />      
+      />
+      <Snackbar
+        open={showFailSnackbar}
+        message="Lisää asiakas epäonnistui, tarkista kentät"
+        autoHideDuration={4000}
+        bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
+        onRequestClose={() => {
+          closeCustomerSnackBar()
+        }}
+      />
     </div>
   </MuiThemeProvider>
 )
@@ -246,7 +268,6 @@ const invoiceInfo = invoiceItems => (
     </div>
   </div>
 )
-
 
 const createCustomerRows = (
   customerRows,

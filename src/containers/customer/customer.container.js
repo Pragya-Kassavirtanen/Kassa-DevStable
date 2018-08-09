@@ -25,7 +25,7 @@ let CustomerContainer = reduxForm({
     country: 'Suomi',
     delivery_method: ''
   }, 
-  validate
+  validate  
 })(CustomerComponent)
 
 const mapStateToProps = state => {
@@ -38,7 +38,8 @@ const mapStateToProps = state => {
       : 0,
     isEdit: state.customer.isEdit,  
     customer_id: state.customer.customerEdit.customer_id,
-    showSnackbar: state.customer.showSnackbar,   
+    showSnackbar: state.customer.showSnackbar,
+    showFailSnackbar: state.customer.showFailSnackbar,
     state
   }
 }
@@ -46,7 +47,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    newCustomer: () => dispatch(newCustomer()),
+    newCustomer: () => dispatch(newCustomer()),    
     getCustomersStart: () => dispatch(getCustomersStart()),
     customerPageChange: selected => dispatch(customerPageChange(selected)),
     removeCustomer: customer_id => dispatch(removeCustomer(customer_id)),
@@ -55,7 +56,7 @@ const mapDispatchToProps = dispatch => {
     saveCustomerUpdate: customer_id => dispatch(saveCustomerUpdate(customer_id)),
     cancelCustomerUpdate: () => dispatch(cancelCustomerUpdate()),
     addNewCustomerInvoice: customer_id => dispatch(addNewCustomerInvoice(customer_id)),
-    closeSnackbar: () => dispatch(closeCustomerSnackBar())
+    closeCustomerSnackBar: () => dispatch(closeCustomerSnackBar())
   }
 }
 

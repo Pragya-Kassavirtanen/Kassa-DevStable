@@ -10,7 +10,9 @@ import {
   EDIT_INVOICE,
   CANCEL_EDIT_INVOICE,
   GET_PROFESSION,
-  CLEAR_INVOICE_OPTIONS
+  CLEAR_INVOICE_OPTIONS,
+  GENERATE_INVOICE_PDF,
+  SAVE_AND_SEND_INVOICE_PDF
 } from '../constants'
 import {
   getInvoicesSuccess,
@@ -21,7 +23,7 @@ import {
   addInvoiceRow,
   getProfessionSuccess,
   getProfessionFailed,
-  //saveAndSendInvoice,
+  saveAndSendInvoice,
   getInvoiceByIdSuccess,
   copyInvoiceSuccess
   //downloadPDFSuccess
@@ -97,16 +99,22 @@ function* saveAndSendInvoiceSaga() {
   try {
     const invoiceEdit = (store.getState()).invoice.invoiceEdit
 
+    console.log('Inside saveAndSendInvoiceSaga:: ', invoiceEdit.length)
+
     let url
     let invoice_id
 
     if (invoiceEdit.length > 0) {
       invoice_id = invoiceEdit[0].Invoice[0].invoice_id
+
+      console.log('invoice_id:: ',invoice_id)
+
       if (!!invoice_id) {
         url = `${API_SERVER}/UpdateInvoice`
       }
-    } else {
+    } else if (invoiceEdit.length <= 0) {      
       url = `${API_SERVER}/AddInvoice`
+      console.log('url:: ',url)
     }
 
     const formValues = getFormValues('invoiceReview')(store.getState())
@@ -211,6 +219,7 @@ function* saveAndSendInvoiceSaga() {
 
     // FIXME: prevent success happening when error occures
     const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
+    console.log('result:: ',result)
 
     yield put(reset('invoice'))
     yield put(change('invoice', 'rows', {}))
@@ -221,13 +230,19 @@ function* saveAndSendInvoiceSaga() {
   }
 }
 
-/* function* saveInvoiceDraft() {
-  yield put(change('invoiceReview', 'status', 0))
-  yield put(change('invoice', 'status', 0))
+function* saveInvoiceDraft() {
+  //yield put(change('invoiceReview', 'status', 0))
+  //yield put(change('invoice', 'status', 0))
   yield put(saveAndSendInvoice())
-} */
+}
 
-function* saveInvoiceDraft({ invoice_id }) {
+function* saveAndSendInvoicePDF() { 
+  yield put(saveAndSendInvoice())
+  //How to get the invoice_id
+  //yield put(generateInvoicePDF())
+}
+
+function* generateInvoicePDF({ invoice_id }) {
   try {
     const url = `${API_SERVER}/GenerateInvoicePDF`
     const body = JSON.stringify({
@@ -507,4 +522,12 @@ export function* watchGetProfession() {
 
 export function* watchClearInvoiceOption() {
   yield takeEvery(CLEAR_INVOICE_OPTIONS, clearInvoiceOptionSaga)
+}
+
+export function* watchGenerateInvoicePDF() {
+  yield takeEvery(GENERATE_INVOICE_PDF, generateInvoicePDF)
+}
+
+export function* watchSaveAndSendInvoicePDF() {
+  yield takeEvery(SAVE_AND_SEND_INVOICE_PDF, saveAndSendInvoicePDF)
 }

@@ -25,7 +25,7 @@ const _onFormSubmit = () => {
   return false
 }
 
-const RegisterComponent = ({handleSubmit, registerFormSubmit, showSnackbar, showSpinner, closeRegisterSnackbar, showFailSnackbar}) =>
+const RegisterComponent = ({handleSubmit, registerFormSubmit, showSnackbar, showSpinner, closeRegisterSnackbar, showFailSnackbar, invalid}) =>
 
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div>
@@ -53,11 +53,21 @@ const RegisterComponent = ({handleSubmit, registerFormSubmit, showSnackbar, show
                      type="password"/>
             </div>
             <div className="form-register-btn">
-              <RaisedButton label="Rekisteröidy palveluun"
+              {
+                invalid ? (
+                  <RaisedButton label="Rekisteröidy palveluun"
+                            primary={true}
+                            className="form-register-button"
+                            type="submit"
+                            />
+                ) : (
+                  <RaisedButton label="Rekisteröidy palveluun"
                             primary={true}
                             className="form-register-button"
                             type="submit"
                             onClick={registerFormSubmit}/>
+                )
+              }              
             </div>
               </div>
             </div>

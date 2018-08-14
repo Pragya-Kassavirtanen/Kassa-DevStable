@@ -3,7 +3,14 @@ import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Panel } from 'react-bootstrap'
-import { TextField, RaisedButton, Checkbox, FlatButton, Dialog, Snackbar } from 'material-ui'
+import {
+  TextField,
+  RaisedButton,
+  Checkbox,
+  FlatButton,
+  Dialog,
+  Snackbar
+} from 'material-ui'
 import FontAwesome from 'react-fontawesome'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -15,6 +22,8 @@ import Spinner from 'react-spinner-material'
 
 import userManager from '../../utils/PHZUserManager'
 import { loginFormSubmit } from '../../actions'
+import { faqFunction } from '../../utils/website.utils'
+import ResetPassword from './resetPassword.component'
 
 /**
  * The login view component
@@ -52,8 +61,7 @@ const renderCheckbox = ({ input, label }) => (
 )
 
 class LoginComponent extends Component {
-  onFormSubmit = values => {
-    console.log('login values:: ', values)
+  onFormSubmit = values => {    
     this.props.loginFormSubmit(values)
   }
 
@@ -124,8 +132,7 @@ class LoginComponent extends Component {
                   <RaisedButton label="Kirjaudu" primary={true} type="submit" />
                 </div>
               </Panel>
-
-              <div className="form-login-content">
+              <div className="form-login-registerLink">
                 <Panel className="form-login-register">
                   <p>
                     Eikö sinulla ole tunnusta?{' '}
@@ -135,23 +142,44 @@ class LoginComponent extends Component {
               </div>
             </div>
           </form>
+
+          <div className="form-login-resetPassword">
+            <Panel className="faqpanels">
+              <div className="collapsepanel">
+                <div className="title" onClick={faqFunction}>
+                  Salasana hukassa? Resetoi se tästä »
+                </div>
+                <div className="content">
+                  <ResetPassword />
+                </div>
+              </div>
+            </Panel>
+          </div>
+
           <Snackbar
-          open={showFailSnackbar}
-          message="Kirjautuminen epäonnistui, tarkista kentät"
-          autoHideDuration={4000}
-          bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}          
-        />
-        <Dialog
-          title="Kirjaudutaan"
-          contentStyle={{ width: '350px', height: '150px', textAlign: 'center' }}
-          modal={true}
-          open={showSpinner}>
-          <Spinner width={100}
-            height={120}
-            spinnerColor={'#44C0CC'}
-            spinnerWidth={2}
-            show={showSpinner} />
-        </Dialog>
+            open={showFailSnackbar}
+            message="Kirjautuminen epäonnistui, tarkista kentät"
+            autoHideDuration={4000}
+            bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
+          />
+          <Dialog
+            title="Kirjaudutaan"
+            contentStyle={{
+              width: '350px',
+              height: '150px',
+              textAlign: 'center'
+            }}
+            modal={true}
+            open={showSpinner}
+          >
+            <Spinner
+              width={100}
+              height={120}
+              spinnerColor={'#44C0CC'}
+              spinnerWidth={2}
+              show={showSpinner}
+            />
+          </Dialog>
         </div>
       </MuiThemeProvider>
     )
@@ -167,7 +195,10 @@ const mapStateToProps = state => {
   }
 }
 
-const attached = connect(mapStateToProps, { loginFormSubmit })(LoginComponent)
+const attached = connect(
+  mapStateToProps,
+  { loginFormSubmit }
+)(LoginComponent)
 
 export default reduxForm({
   form: 'login',

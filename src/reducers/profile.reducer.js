@@ -1,6 +1,6 @@
 import {
   LOAD_PROFILE_SUCCESS,
-  CHECK_AUTH_INFO_SUCCESS
+  CHECK_AUTH_INFO_SUCCESS 
 } from '../constants'
 
 const profileReducer = (state = {}, action) => {

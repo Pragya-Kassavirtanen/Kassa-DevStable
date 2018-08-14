@@ -4,6 +4,7 @@ export const LOGIN_FORM_SUBMIT_FAILED = 'LOGIN_FORM_SUBMIT_FAILED'
 export const CLOSE_LOGIN_SNACKBAR = 'CLOSE_LOGIN_SNACKBAR'
 export const CLIENT_SET = 'CLIENT_SET'
 export const CLIENT_UNSET = 'CLIENT_UNSET'
+export const RESET_PASSWORD_FORM_SUBMIT = 'RESET_PASSWORD_FORM_SUBMIT'
 
 export const SIGNUP_FORM_SUBMIT = 'SIGNUP_FORM_SUBMIT'
 export const SIGNUP_FORM_SUBMIT_SUCCESS = 'SIGNUP_FORM_SUBMIT_SUCCESS'
@@ -28,6 +29,7 @@ export const POST_YEL_START = '@@tax/POST_YEL_START'
 export const GET_YEL_START = '@@tax/GET_YEL_START'
 export const GET_YEL_SUCCESS = '@@tax/GET_YEL_SUCCESS'
 export const GET_YEL_FAILED = '@@tax/GET_YEL_FAILED'
+export const CLOSE_PASSWORD_SNACKBAR = '@@tax/CLOSE_PASSWORD_SNACKBAR'
 
 export const GET_INVOICES_START = '@@invoice-saga/GET_INVOICES_START'
 export const GET_INVOICES_SUCCESS = '@@invoice-saga/GET_INVOICES_SUCCESS'
@@ -110,7 +112,8 @@ export const LOAD_PROFILE_SUCCESS = '@@profile/LOAD_PROFILE_SUCCESS'
 export const LOAD_PROFILE_FAILED = '@@profile/LOAD_PROFILE_FAILED'
 export const LOAD_PROFILE_START = '@@profile/LOAD_PROFILE_START'
 export const ON_PASSWORD_UPDATE = '@@profile/ON_PASSWORD_UPDATE'
-export const ON_RESET_PASSWORD = '@@profile/ON_RESET_PASSWORD'
+export const PASSWORD_UPDATE_SUCCESS = '@@profile/PASSWORD_UPDATE_SUCCESS'
+export const PASSWORD_UPDATE_FAILED = '@@profile/PASSWORD_UPDATE_FAILED'
 
 export const NEW_CUSTOMER = '@@customer/NEW_CUSTOMER'
 export const ADD_CUSTOMER_SUCCESS = '@@customer/ADD_CUSTOMER_SUCCESS'
@@ -169,9 +172,9 @@ export const SAVE_AND_SEND_INVOICE_PDF = '@invoice/SAVE_AND_SEND_INVOICE_PDF'
 export const OPENID_SERVER = process.env.OPENID_SERVER
 
 //Development Server
-/* export const API_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
+export const API_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'
 
 //Staging Server
-export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
+/* export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api' */

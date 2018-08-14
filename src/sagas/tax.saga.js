@@ -1,8 +1,25 @@
 import { takeEvery, call, take, put } from 'redux-saga/effects'
-import { POST_TAX_CARD, API_SERVER, GET_TAX_CARD_START, POST_YEL_START, GET_YEL_START } from '../constants'
-import { createUploadFileChannel, apiRequest, apiManualPost } from '../utils/request'
-import { postTaxCardSuccess, getYelSuccess, getYelFailed } from '../actions/index'
-import { getFormValues, change } from 'redux-form'
+import {
+  POST_TAX_CARD,
+  API_SERVER,
+  GET_TAX_CARD_START,
+  POST_YEL_START,
+  GET_YEL_START,
+  ON_PASSWORD_UPDATE
+} from '../constants'
+import {
+  createUploadFileChannel,
+  apiRequest,
+  apiManualPost
+} from '../utils/request'
+import {
+  postTaxCardSuccess,
+  getYelSuccess,
+  getYelFailed,
+  passwordUpdateSuccess,
+  passwordUpdateFailed
+} from '../actions/index'
+import { getFormValues, change, reset } from 'redux-form'
 
 import store from '../store'
 
@@ -46,7 +63,7 @@ function* postTaxCardSaga(action) {
 
 function* getTaxCardSaga() {
   try {
-    const uuid = (store.getState()).profile.uuid
+    const uuid = store.getState().profile.uuid
     if (!!uuid) {
       const url = `${API_SERVER}/users/${uuid}/documents`
 
@@ -56,12 +73,10 @@ function* getTaxCardSaga() {
   } catch (e) {
     console.warn('no tax card')
   }
-
 }
 
 function* postYelSaga() {
   try {
-
     //const uuid = (store.getState()).profile.uuid
     //const url =`${API_SERVER}/yel`
     //const formValues = getFormValues('yel')(store.getState())
@@ -78,10 +93,12 @@ function* postYelSaga() {
     const formValues = getFormValues('yel')(store.getState())
 
     //Update for firsttime_enterprenuer == false
-    const body = JSON.parse(JSON.stringify({
-      ...formValues,
-      uuid: uuid
-    }))
+    const body = JSON.parse(
+      JSON.stringify({
+        ...formValues,
+        uuid: uuid
+      })
+    )
     const result = yield call(apiManualPost, url, JSON.stringify(body))
     console.log(result)
   } catch (e) {
@@ -91,12 +108,36 @@ function* postYelSaga() {
 
 function* getYelSaga() {
   try {
-    const year = (new Date().getFullYear())
+    const year = new Date().getFullYear()
     const url = `${API_SERVER}/yels/${year}`
     const result = yield apiRequest(url)
     yield put(getYelSuccess(result))
   } catch (e) {
     yield put(getYelFailed())
+  }
+}
+
+function* updatePasswordSaga() {
+  try {
+    const formValues = getFormValues('password')(store.getState())
+    const password = formValues.new_pw    
+
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({ password: password, uuid: uuid })
+
+    const url = `${API_SERVER}/UpdateUserCredentials`
+
+    const result = yield call(apiManualPost, url, body)  
+    
+    yield put(reset('password'))
+
+    if (result.data === 'user password updated successfully!') {      
+      yield put(passwordUpdateSuccess(result.data))
+    } else {
+      yield put(passwordUpdateFailed(result.data))
+    }
+  } catch (e) {
+    passwordUpdateFailed(e)
   }
 }
 
@@ -114,4 +155,8 @@ export function* watchPostYelSaga() {
 
 export function* watchGetYelSaga() {
   yield takeEvery(GET_YEL_START, getYelSaga)
+}
+
+export function* watchUpdatePasswordSaga() {
+  yield takeEvery(ON_PASSWORD_UPDATE, updatePasswordSaga)
 }

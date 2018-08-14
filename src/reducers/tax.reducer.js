@@ -3,38 +3,63 @@ import {
   POST_TAX_CARD_SUCCESS,
   POST_TAX_CARD_FAILED,
   GET_YEL_SUCCESS,
-  GET_YEL_FAILED
+  GET_YEL_FAILED,
+  PASSWORD_UPDATE_SUCCESS,
+  PASSWORD_UPDATE_FAILED,
+  CLOSE_PASSWORD_SNACKBAR
 } from '../constants'
 
 const initialState = {
   showTaxCardSpinner: false,
-  yel: []
+  yel: [],
+  showSnackbar: false,
+  showFailSnackbar: false
 }
 
 const taxReducer = (state = initialState, action) => {
-
   switch (action.type) {
-
     case POST_TAX_CARD:
-      return Object.assign({}, {...state}, {showTaxCardSpinner: true})
+      return Object.assign({}, { ...state }, { showTaxCardSpinner: true })
 
     case POST_TAX_CARD_SUCCESS:
-      return Object.assign({}, {...state}, {showTaxCardSpinner: false})
+      return Object.assign({}, { ...state }, { showTaxCardSpinner: false })
 
     case POST_TAX_CARD_FAILED:
-      return Object.assign({}, {...state}, {showTaxCardSpinner: false})
+      return Object.assign({}, { ...state }, { showTaxCardSpinner: false })
 
     case GET_YEL_SUCCESS:
-      return Object.assign({}, {...state}, {yel: action.yels.data})
+      return Object.assign({}, { ...state }, { yel: action.yels.data })
 
     case GET_YEL_FAILED:
-      return Object.assign({}, {...state}, {})
+      return Object.assign({}, { ...state }, {})
+
+    case PASSWORD_UPDATE_SUCCESS:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          showSnackbar: true
+        }
+      )
+
+    case PASSWORD_UPDATE_FAILED:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          showFailSnackbar: true
+        }
+      )
+
+    case CLOSE_PASSWORD_SNACKBAR:
+      return Object.assign({}, state, {
+        showSnackbar: false,
+        showFailSnackbar: false
+      })
 
     default:
       return state
   }
 }
 
-
 export default taxReducer
-

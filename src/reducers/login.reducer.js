@@ -7,7 +7,7 @@ import { LOGIN_FORM_SUBMIT, LOGIN_FORM_SUBMIT_SUCCESS, LOGIN_FORM_SUBMIT_FAILED,
 
 const initialState = {
   showFailSnackbar: false,
-  showSpinner: false
+  showSpinner: false  
 }
 
 const loginForm = (state = initialState, action) => {

@@ -4,7 +4,7 @@ import store from '../store'
 export const registerValidate = values => {
 
   const errors = { }
-  const requiredFields = [ 'email' ]
+  const requiredFields = [ 'email', 'FirstName', 'Lastname', 'password', 'passwordConfirmation' ]
 
   requiredFields.forEach(field => {
     if ( !values[ field ] ) {
@@ -28,11 +28,11 @@ export const registerValidate = values => {
     errors.email = 'Antamasi sähköpostiosoite  on virheellinen'
   }
 
-  if (!values[ 'givenName' ]) {
+  if (!values[ 'FirstName' ]) {
     errors.givenName = 'Etunimi on pakollinen'
   }
 
-  if (!values[ 'familyName' ]) {
+  if (!values[ 'Lastname' ]) {
     errors.familyName = 'Sukunimi on pakollinen'
   }
 
@@ -304,4 +304,26 @@ export const yelValidate = values => {
   } */
 
   return errors
+}
+
+export const passwordValidate = values => {
+
+  const errors = { }  
+  const requiredFields = [ 'current_pw', 'new_pw', 'check_pw' ]
+
+  requiredFields.forEach(field => {
+    if ( !values[ field ] ) {
+      errors[ field ] = 'Kenttä on pakollinen'
+    }
+  })
+
+  if (values.new_pw && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i.test(values.new_pw)) {
+    errors.new_pw = 'Virheellinen salasana, noudata ohjeita!'
+  }
+
+  if (values[ 'new_pw' ] !== values[ 'check_pw' ]) {
+    errors.check_pw = 'Antamasi salasanat eivät täsmää'
+  }
+
+  return errors  
 }

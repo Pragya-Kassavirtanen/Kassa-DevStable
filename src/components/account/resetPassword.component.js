@@ -1,36 +1,19 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
-import { TextField, RaisedButton } from 'material-ui'
+import { RaisedButton } from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { resetPasswordFormSubmit } from '../../actions'
 import store from '../../store'
+import { resetPasswordValidate as validate } from '../../containers/validate'
+import { renderTextField } from '../../utils/wrappers'
 
 /**
- * The Website sign-up view
+ * The Website Reset Password View
  *
  * @author  Pragya Gupta
  */
-
-const renderTextField = ({
-  input,
-  label,
-  hintText,
-  meta: { touched, error },
-  ...custom
-}) => (
-  <TextField
-    inputStyle={{ height: '40px', marginTop: '15px' }}
-    hintText={hintText}
-    underlineStyle={{ display: 'none' }}
-    style={{ textAlign: 'left' }}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
 
 class ResetPasswordComponent extends Component {
   onFormSubmit = values => {
@@ -38,24 +21,29 @@ class ResetPasswordComponent extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit, invalid } = this.props
 
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <form
-          className="form-inline"
-          onSubmit={handleSubmit(this.onFormSubmit)}
-        >
-          <div>
-            <div className="content">
-              <div>
-                <Field
-                  name="email"
-                  label="Sähköpostiosoite"
-                  component={renderTextField}
+        <form onSubmit={handleSubmit(this.onFormSubmit)}>
+          <div className="panel-body">
+            <div className="formSplit">
+              <Field
+                name="email"
+                label="Sähköpostiosoite"
+                component={renderTextField}
+              />
+            </div>
+          </div>
+          <div className="clearfix">
+            <div className="button-pull">
+              {invalid ? (
+                <RaisedButton
+                  type="submit"
+                  label="Palauta salasana"
+                  primary={true}
                 />
-              </div>
-              <div className="form-login-button">
+              ) : (
                 <RaisedButton
                   type="submit"
                   label="Palauta salasana"
@@ -64,7 +52,7 @@ class ResetPasswordComponent extends Component {
                     store.dispatch(resetPasswordFormSubmit())
                   }}
                 />
-              </div>
+              )}
             </div>
           </div>
         </form>
@@ -86,5 +74,6 @@ const resetPassword = connect(
 )(ResetPasswordComponent)
 
 export default reduxForm({
-  form: 'resetPassword'
+  form: 'resetPassword',
+  validate
 })(resetPassword)

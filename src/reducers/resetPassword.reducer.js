@@ -5,18 +5,23 @@ import { RESET_PASSWORD_FORM_SUBMIT } from '../constants'
  *
  */
 
-const initialState = {  
-  email:''
+const initialState = {
+  email: ''
 }
 
 const resetPassword = (state = initialState, action) => {
   switch (action.type) {
     case RESET_PASSWORD_FORM_SUBMIT:
-      return Object.assign({}, { ...state }, {
-        email: action.email
-      })
-      
-  default: return state
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          email: action.email
+        }
+      )
+
+    default:
+      return state
   }
 }
 

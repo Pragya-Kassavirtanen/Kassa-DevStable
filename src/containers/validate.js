@@ -16,6 +16,10 @@ export const registerValidate = values => {
     errors.password = 'Salasanakenttä on pakollinen'
   }
 
+  if (values[ 'password' ] && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i.test(values[ 'password' ])) {
+    errors.password = 'Virheellinen salasana, Salasanan tulee sisältää vähintään: 8 merkkiä, pieniä ja isoja kirjaimia, numeroita !'
+  }
+
   if (values[ 'password' ] !== values[ 'passwordConfirmation' ]) {
     errors.passwordConfirmation = 'Antamasi salasanat eivät täsmää'
   }
@@ -323,6 +327,24 @@ export const passwordValidate = values => {
 
   if (values[ 'new_pw' ] !== values[ 'check_pw' ]) {
     errors.check_pw = 'Antamasi salasanat eivät täsmää'
+  }
+
+  return errors  
+}
+
+export const resetPasswordValidate = values => {
+
+  const errors = { }  
+  const requiredFields = [ 'email' ]
+
+  requiredFields.forEach(field => {
+    if ( !values[ field ] ) {
+      errors[ field ] = 'Kenttä on pakollinen'
+    }
+  })
+
+  if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Antamasi sähköpostiosoite  on virheellinen'
   }
 
   return errors  

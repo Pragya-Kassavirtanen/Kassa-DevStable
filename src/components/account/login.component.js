@@ -61,7 +61,7 @@ const renderCheckbox = ({ input, label }) => (
 )
 
 class LoginComponent extends Component {
-  onFormSubmit = values => {    
+  onFormSubmit = values => {
     this.props.loginFormSubmit(values)
   }
 
@@ -142,7 +142,6 @@ class LoginComponent extends Component {
               </div>
             </div>
           </form>
-
           <div className="form-login-resetPassword">
             <Panel className="faqpanels">
               <div className="collapsepanel">
@@ -150,12 +149,15 @@ class LoginComponent extends Component {
                   Salasana hukassa? Resetoi se tästä »
                 </div>
                 <div className="content">
+                  <p>
+                    Oletko unohtanut salasanasi? Tilaa uusi salasana antamalla
+                    sähköpostiosoitteesi.
+                  </p>
                   <ResetPassword />
                 </div>
               </div>
             </Panel>
           </div>
-
           <Snackbar
             open={showFailSnackbar}
             message="Kirjautuminen epäonnistui, tarkista kentät"

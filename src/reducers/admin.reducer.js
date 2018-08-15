@@ -43,9 +43,17 @@ const adminReducer = (state = initialState, action) => {
     case SEARCH_ADMIN_INVOICE_FAILED:
       return Object.assign({}, {...state}, {})
 
-    case SEARCH_ADMIN_USERS_SUCCESS:
+    /* case SEARCH_ADMIN_USERS_SUCCESS:
       const newUserRows = []
       for (let row of action.result.data) {
+        newUserRows.push({...row, expanded: false})
+      }
+      return Object.assign({}, {...state}, {userSearchRows: newUserRows}) */
+    
+      case SEARCH_ADMIN_USERS_SUCCESS:
+      const newUserRows = []
+      console.log('Inside SEARCH_ADMIN_USERS_SUCCESS:: ',action.result)
+      for (let row of action.result) {
         newUserRows.push({...row, expanded: false})
       }
       return Object.assign({}, {...state}, {userSearchRows: newUserRows})

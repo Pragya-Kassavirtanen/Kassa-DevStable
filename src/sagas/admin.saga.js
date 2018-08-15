@@ -18,7 +18,7 @@ import {
 
 import { convertStateToInt } from '../utils/invoice.utils'
 
-import { apiPost, apiRequest } from '../utils/request'
+import { apiPost, apiRequest, apiManualPost } from '../utils/request'
 
 import {
   searchAdminInvoiceSuccess,
@@ -62,15 +62,32 @@ function* adminInvoiceSearchSaga() {
 
 }
 
-
 //TODO: admin users route
-function* adminUsersSearchSaga() {
+/* function* adminUsersSearchSaga() {
   try {
     const url = `${API_SERVER}/admin/users`
     const result = yield call(apiRequest, url)
     console.log(result)
     yield put(searchAdminUsersSuccess(result))
 
+  } catch (e) {
+    yield put(searchAdminUsersFailed)
+  }
+} */
+
+function* adminUsersSearchSaga() {
+  try {
+    const url = `${API_SERVER}/SearchCustomers`
+    const formValues = getFormValues('admin')(store.getState())
+    const body = JSON.stringify({ 
+      company_name: formValues.company_name,     
+      person_to_contact: formValues.person_to_contact,
+      person_to_contact_email: formValues.person_to_contact_email
+    })
+    const result = yield call(apiManualPost, url, body)    
+    const parsedResult = JSON.parse(result.data)
+    console.log('parsedResult:: ',parsedResult)
+    yield put(searchAdminUsersSuccess(parsedResult))
   } catch (e) {
     yield put(searchAdminUsersFailed)
   }

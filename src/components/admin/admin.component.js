@@ -140,8 +140,8 @@ const customerPanel = (userSearchRows, changeAdminMenu, expandAdminUser) =>
         <Table>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow hoverable={true}>
-              <TableHeaderColumn>Etunimi</TableHeaderColumn>
-              <TableHeaderColumn>Sukunimi</TableHeaderColumn>
+              <TableHeaderColumn>Asiakas</TableHeaderColumn>
+              <TableHeaderColumn>Yhteyshenkilö</TableHeaderColumn>
               <TableHeaderColumn>Sähköposti</TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -203,7 +203,7 @@ const createInvoiceRow = (invoices, expandAdminInvoice) => invoices.map(el => <C
   <Divider/>
 </Card>)
 
-const createUserRow = (users, changeAdminMenu, expandAdminUser) => users.map(el =>
+/* const createUserRow = (users, changeAdminMenu, expandAdminUser) => users.map(el =>
   <Card
     expandable={true}
     expanded={el.expanded}
@@ -214,13 +214,41 @@ const createUserRow = (users, changeAdminMenu, expandAdminUser) => users.map(el 
         <TableBody displayRowCheckbox={false}>
           <TableRow className='dashboard-admin-hover-row'>
             <TableRowColumn>
-              {el.first_name}
+              {el.company_name}
             </TableRowColumn>
             <TableRowColumn>
-              {el.last_name}
+              {el.person_to_contact}
             </TableRowColumn>
             <TableRowColumn>
-              {el.email}
+              {el.person_to_contact_email}
+            </TableRowColumn>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </CardHeader>
+    <CardText expandable> {el.expanded && expandedUserFormData(el.expandData, el.uuid)} </CardText>
+  <Divider/>
+</Card>) */
+
+const createUserRow = (users, changeAdminMenu) => users.map(el =>
+  <Card
+    expandable={true}
+    expanded={el.expanded}
+    key={el.customer_id}
+    //onExpandChange={(e) => expandAdminUser(e, el.uuid)}
+    >
+    <CardHeader showExpandableButton actAsExpander={true}>
+      <Table onCellClick={() => changeAdminMenu(0, el.email)}>
+        <TableBody displayRowCheckbox={false}>
+          <TableRow className='dashboard-admin-hover-row'>
+            <TableRowColumn>
+              {el.company_name}
+            </TableRowColumn>
+            <TableRowColumn>
+              {el.person_to_contact}
+            </TableRowColumn>
+            <TableRowColumn>
+              {el.person_to_contact_email}
             </TableRowColumn>
           </TableRow>
         </TableBody>

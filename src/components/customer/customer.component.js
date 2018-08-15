@@ -113,14 +113,14 @@ const Customer = ({
                     <ul className="nav nav-pills pull-right">
                       <li>
                         <RaisedButton
-                          label="Peruuttaa"
+                          label="Peruuta"
                           primary={true}
                           onClick={cancelCustomerUpdate}
                         />
                       </li>
                       <li>
                         <RaisedButton
-                          label="Tallentaa"
+                          label="Tallenna"
                           primary={true}
                           onClick={() => {
                             store.dispatch(saveCustomerUpdate(customer_id))

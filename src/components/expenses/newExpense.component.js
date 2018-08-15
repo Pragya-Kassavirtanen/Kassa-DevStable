@@ -144,14 +144,14 @@ const NewExpense = ({
                     <ul className="nav nav-pills pull-right">
                       <li>
                         <RaisedButton
-                          label="Peruuttaa"
+                          label="Peruuta"
                           primary={true}
                           onClick={cancelExpenseUpdate}
                         />
                       </li>
                       <li>
                         <RaisedButton
-                          label="Tallentaa"
+                          label="Tallenna"
                           primary={true}
                           onClick={() => {
                             store.dispatch(

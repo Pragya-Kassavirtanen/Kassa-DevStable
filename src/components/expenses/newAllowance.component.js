@@ -508,14 +508,14 @@ const submitButton = (
               <ul className="nav nav-pills pull-right">
                 <li>
                   <RaisedButton
-                    label="Peruuttaa"
+                    label="Peruuta"
                     primary={true}
                     onClick={cancelAllowanceUpdate}
                   />
                 </li>
                 <li>
                   <RaisedButton
-                    label="Tallentaa"
+                    label="Tallenna"
                     primary={true}
                     onClick={() => {
                       store.dispatch(saveAllowanceUpdate(id))

@@ -173,7 +173,7 @@ const NewInvoice = ({
                     <ul className="nav nav-pills pull-right">
                       <li>
                         <RaisedButton
-                          label="Peruuttaa"
+                          label="Peruuta"
                           primary={true}
                           onClick={cancelEditInvoice}
                         />

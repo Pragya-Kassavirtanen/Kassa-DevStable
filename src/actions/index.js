@@ -148,6 +148,8 @@ import {
   PASSWORD_UPDATE_SUCCESS,
   PASSWORD_UPDATE_FAILED,
   CLOSE_PASSWORD_SNACKBAR,
+  GENERATE_INVOICE_PDF_SUCCESS,
+  GENERATE_INVOICE_PDF_FAILED,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -194,6 +196,8 @@ export const copyInvoiceSuccess = result => ({type: COPY_INVOICE_SUCCESS, result
 export const invoicePageChange = selected => ({type: INVOICE_PAGE_CHANGE, selected})
 export const emptyInvoiceRows = () => ({type: EMPTY_INVOICE_ROWS})
 export const saveInvoiceDraft = () => ({type: SAVE_INVOICE_DRAFT})
+export const generateInvoicePDFSuccess = result => ({ type: GENERATE_INVOICE_PDF_SUCCESS, result})
+export const generateInvoicePDFFailed = error => ({ type: GENERATE_INVOICE_PDF_FAILED, error})
 
 export const changeInvoiceBillingDate = date => ({type: CHANGE_INVOICE_BILLING_DATE, date})
 export const downloadPDFSuccess = () => ({ type: DOWNLOAD_PDF_SUCCESS })

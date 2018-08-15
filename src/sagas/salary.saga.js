@@ -85,6 +85,13 @@ function* postSalarySaga({ selected }) {
     })
     const url = `${API_SERVER}/AddSalary`   
     yield call(apiManualPost, url, body)
+
+    //Update Salary Grid after Add Salary
+    const getSalaryUrl = `${API_SERVER}/GetSalaries`    
+    const getSalaryBody = JSON.stringify({ uuid: uuid })
+    const resultGetSalaries = yield call(apiManualPost, getSalaryUrl, getSalaryBody)  
+    const resultParsed = JSON.parse(resultGetSalaries.data)
+    yield put(getSalariesSuccess(resultParsed))
   } catch (e) {
     console.warn(e)
   }

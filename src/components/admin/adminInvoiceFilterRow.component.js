@@ -10,57 +10,74 @@ import {
 
 import { Field } from 'redux-form'
 
-import {
-  renderCheckbox,
-  renderTextField,
-  renderDatePicker
-} from '../../utils/wrappers'
+import { renderCheckbox, renderTextField } from '../../utils/wrappers'
 
 export default class AdminInvoiceFilterRow extends Component {
-
   render() {
-    return <AdminInvoiceFilterRowComponent {...this.props}/>
+    return <AdminInvoiceFilterRowComponent {...this.props} />
   }
 }
 
-const AdminInvoiceFilterRowComponent = ({
-  searchAdminInvoice
-}) =>
-    <form>
-      <Table>
-        <TableBody displayRowCheckbox={false}>
-          <TableRow displayBorder={false} selectable={false}>
-            <TableRowColumn>
-              <Field name="adminField"
-                     label="Hakukenttä"
-                     style={{width: '100%'}}
-                     component={renderTextField}/>
-            </TableRowColumn>
-            <TableRowColumn>
-              <Field name="start_date_of_search"
-                     component={renderDatePicker}
-                     floatingLabelText="Alkupvm"
-                     textFieldStyle={{width: '100%'}}
-                     onChangeCallback={()=>undefined}>
-              </Field>
-            </TableRowColumn>
-            <TableRowColumn>
-              <Field name="end_date_of_search"
-                     component={renderDatePicker}
-                     floatingLabelText="Loppupvm"
-                     textFieldStyle={{width: '100%'}}
-                     onChangeCallback={()=>undefined}>
-              </Field>
-            </TableRowColumn>
-            <TableRowColumn>
-              <Field name="fast_payment" label="Pikapalkka" component={renderCheckbox}/>
-              <Field name="payment_state" label="Maksettu" component={renderCheckbox}/>
-            </TableRowColumn>
-          </TableRow>
-        </TableBody>
-      </Table>
-      <RaisedButton label="Hae"
-                    className="pull-right"
-                    primary={true}
-                    onClick={searchAdminInvoice}/>
-    </form>
+const AdminInvoiceFilterRowComponent = ({ searchAdminInvoice }) => (
+  <form>
+    <Table>
+      <TableBody displayRowCheckbox={false}>
+        <TableRow displayBorder={false} selectable={false}>
+          <TableRowColumn>
+            <Field
+              name="company_name"
+              label="Yrityksen nimi"
+              style={{ width: '100%' }}
+              component={renderTextField}
+            />
+          </TableRowColumn>
+          <TableRowColumn>
+            <Field
+              name="invoice_id"
+              label="Laskunro."
+              style={{ width: '100%' }}
+              component={renderTextField}
+            />
+          </TableRowColumn>
+          <TableRowColumn>
+            <Field
+              name="invoice_reference"
+              label="Laskuviite"
+              style={{ width: '100%' }}
+              component={renderTextField}
+            />
+          </TableRowColumn>
+          <TableRowColumn>
+            <Field
+              name="minSum"
+              label="Vähimmäissumma"
+              style={{ width: '100%' }}
+              component={renderTextField}
+            />
+          </TableRowColumn>
+          <TableRowColumn>
+            <Field
+              name="maxsum"
+              label="Enimmäismäärä"
+              style={{ width: '100%' }}
+              component={renderTextField}
+            />
+          </TableRowColumn>
+          <TableRowColumn>
+            <Field
+              name="instant_payment"
+              label="Pikapalkka"
+              component={renderCheckbox}
+            />
+          </TableRowColumn>
+        </TableRow>
+      </TableBody>
+    </Table>
+    <RaisedButton
+      label="Hae"
+      className="pull-right"
+      primary={true}
+      onClick={searchAdminInvoice}
+    />
+  </form>
+)

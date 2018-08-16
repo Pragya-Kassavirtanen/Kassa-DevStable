@@ -12,7 +12,9 @@ import {
   UPDATE_ADMIN_INVOICE_RESULT,
   HIDE_ADMIN_SNACKBAR,
   UPDATE_ADMIN_USER,
-  UPDATE_ADMIN_USER_RESULT
+  UPDATE_ADMIN_USER_RESULT,
+  SEARCH_ADMIN_WAGES_SUCCESS,
+  SEARCH_ADMIN_WAGES_FAILED
 } from '../constants'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -24,7 +26,8 @@ const initialState = {
   showSpinner: false,
   showAdminSnackbar: false,
   invoiceSearchRows: [],
-  userSearchRows: []
+  userSearchRows: [],
+  salarySearchRows: []
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -59,6 +62,17 @@ const adminReducer = (state = initialState, action) => {
       return Object.assign({}, {...state}, {userSearchRows: newUserRows})
 
     case SEARCH_ADMIN_USERS_FAILED:
+      return Object.assign({}, {...state}, {})
+
+      case SEARCH_ADMIN_WAGES_SUCCESS:
+      const newSalaryRows = []
+      console.log('Inside SEARCH_ADMIN_WAGES_SUCCESS:: ',action.result)
+      for (let row of action.result) {
+        newSalaryRows.push({...row, expanded: false})
+      }
+      return Object.assign({}, {...state}, {salarySearchRows: newSalaryRows})
+
+    case SEARCH_ADMIN_WAGES_FAILED:
       return Object.assign({}, {...state}, {})
 
     case EXPAND_ADMIN_INVOICE_TRUE:

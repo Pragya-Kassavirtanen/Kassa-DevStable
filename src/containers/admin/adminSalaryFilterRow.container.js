@@ -1,6 +1,7 @@
 import{ connect } from 'react-redux'
 import AdminSalaryFilterRow from '../../components/admin/adminSalaryFilterRow.component'
 import { reduxForm } from 'redux-form'
+import { searchAdminWages } from '../../actions/index'
 
 let AdminSalaryFilterRowContainer = reduxForm({
   form: 'admin'
@@ -15,7 +16,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    dispatch
+    dispatch,
+    searchAdminWages: () => dispatch(searchAdminWages())
   }
 }
 

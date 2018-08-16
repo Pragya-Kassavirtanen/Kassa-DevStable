@@ -9,6 +9,7 @@ const mapStateToProps = state => {
     selectedMenuItem: state.admin.selectedMenuItem,
     invoiceSearchRows: state.admin.invoiceSearchRows,
     userSearchRows: state.admin.userSearchRows,
+    salarySearchRows: state.admin.salarySearchRows,
     showSpinner: state.admin.showSpinner,
     showAdminSnackbar: state.admin.showAdminSnackbar
   }

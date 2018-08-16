@@ -74,6 +74,8 @@ import {
   SEARCH_ADMIN_USERS,
   SEARCH_ADMIN_USERS_SUCCESS,
   SEARCH_ADMIN_USERS_FAILED,
+  SEARCH_ADMIN_WAGES_SUCCESS,
+  SEARCH_ADMIN_WAGES_FAILED,
   GET_NEW_SALARY_START,
   GET_NEW_SALARY_SUCCESS,
   SELECT_ROW_SALARY,
@@ -150,6 +152,7 @@ import {
   CLOSE_PASSWORD_SNACKBAR,
   GENERATE_INVOICE_PDF_SUCCESS,
   GENERATE_INVOICE_PDF_FAILED,
+  SEARCH_ADMIN_WAGES,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -292,6 +295,8 @@ export const changeAdminMenu = (value, email) => ({ type: CHANGE_ADMIN_MENU, val
 export const searchAdminUsers = () => ({ type: SEARCH_ADMIN_USERS })
 export const searchAdminUsersSuccess = result => ({ type: SEARCH_ADMIN_USERS_SUCCESS, result })
 export const searchAdminUsersFailed = () => ({ type: SEARCH_ADMIN_USERS_FAILED })
+export const searchAdminWagesSuccess = result => ({ type: SEARCH_ADMIN_WAGES_SUCCESS, result })
+export const searchAdminWagesFailed = () => ({ type: SEARCH_ADMIN_WAGES_FAILED })
 export const expandAdminUser = (expanded, uuid) => ({ type: EXPAND_ADMIN_USER, expanded, uuid})
 export const expandAdminUserTrue = result => ({ type: EXPAND_ADMIN_USER_TRUE, result})
 export const expandAdminUserFalse = uuid => ({ type: EXPAND_ADMIN_USER_FALSE, uuid})
@@ -306,6 +311,7 @@ export const expandAdminInvoiceFalse = id => ({ type: EXPAND_ADMIN_INVOICE_FALSE
 export const updateAdminInvoice = id => ({type: UPDATE_ADMIN_INVOICE, id})
 export const updateAdminInvoiceResult = result => ({type: UPDATE_ADMIN_INVOICE_RESULT, result})
 export const hideAdminSnackbar = () => ({type: HIDE_ADMIN_SNACKBAR})
+export const searchAdminWages = () => ({ type: SEARCH_ADMIN_WAGES })
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

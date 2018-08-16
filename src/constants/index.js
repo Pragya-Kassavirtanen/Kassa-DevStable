@@ -151,7 +151,9 @@ export const EXPAND_ADMIN_INVOICE_FALSE = '@@admin/EXPAND_ADMIN_INVOICE_FALSE'
 export const UPDATE_ADMIN_INVOICE = '@@admin/UPDATE_ADMIN_INVOICE'
 export const UPDATE_ADMIN_INVOICE_RESULT = '@@admin/UPDATE_ADMIN_INVOICE_RESULT'
 export const HIDE_ADMIN_SNACKBAR = '@@admin/HIDE_ADMIN_SNACKBAR'
-
+export const SEARCH_ADMIN_WAGES = '@@admin/SEARCH_ADMIN_WAGES'
+export const SEARCH_ADMIN_WAGES_SUCCESS = '@@admin/SEARCH_ADMIN_WAGES_SUCCESS'
+export const SEARCH_ADMIN_WAGES_FAILED = '@@admin/SEARCH_ADMIN_WAGES_FAILED'
 
 export const GET_NEW_SALARY_START = '@@salary/GET_NEW_SALARY_START'
 export const GET_NEW_SALARY_SUCCESS = '@@salary/GET_NEW_SALARY_SUCCESS'
@@ -173,9 +175,9 @@ export const GENERATE_INVOICE_PDF_FAILED = '@invoice/GENERATE_INVOICE_PDF_FAILED
 export const OPENID_SERVER = process.env.OPENID_SERVER
 
 //Development Server
-/* export const API_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
+export const API_SERVER = 'https://kvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'
 
 //Staging Server
-export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
+/* export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api' */

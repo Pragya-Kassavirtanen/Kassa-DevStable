@@ -7,8 +7,8 @@ let AdminUserFormContainer = reduxForm({
   fields: [
     'account_number',
     'address',
-    'first_name',
-    'last_name',
+    'firstname',
+    'lastname',
     'phone',
     'address',
     'city',

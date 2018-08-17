@@ -37,27 +37,27 @@ const AdminUserFormComponent = ({
                    component={renderTextField}
                    className="dashboard-admin-textfield"
                    floatingLabelText="Tilinumero"
-                   disabled={true}/>
+                  />
             <Field name="city"
                    className="dashboard-admin-textfield"
                    component={renderTextField}
                    floatingLabelText="Postitoimipaikka"
-                   disabled={true}/>
+                   />
           </TableRowColumn>
         </TableRow>
 
         <TableRow displayBorder={false} selectable={false}>
           <TableRowColumn>
-            <Field name="first_name"
+            <Field name="firstname"
                    className="dashboard-admin-textfield"
                    floatingLabelText="Etunimi"
                    component={renderTextField}
-                   disabled={true}/>
-            <Field name="last_name"
+                   />
+            <Field name="lastname"
                    className="dashboard-admin-textfield"
                    component={renderTextField}
                    floatingLabelText="Sukunimi"
-                   disabled={true}/>
+                   />
           </TableRowColumn>
         </TableRow>
 
@@ -67,12 +67,12 @@ const AdminUserFormComponent = ({
                    className="dashboard-admin-textfield"
                    component={renderTextField}
                    floatingLabelText="Ammattinimike"
-                   disabled={true}/>
+                   />
             <Field name="market_name"
                    className="dashboard-admin-textfield"
                    component={renderTextField}
                    floatingLabelText="Markkinointinimi"
-                   disabled={true}/>
+                   />
           </TableRowColumn>
         </TableRow>
 

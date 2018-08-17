@@ -135,9 +135,9 @@ function* adminUsersSearchSaga() {
     const url = `${API_SERVER}/SearchCustomers`
     const formValues = getFormValues('admin')(store.getState())
     const body = JSON.stringify({
-      company_name: formValues.company_name,
-      person_to_contact: formValues.person_to_contact,
-      person_to_contact_email: formValues.person_to_contact_email
+      firstname: formValues.firstname,
+      lastname: formValues.lastname,
+      email: formValues.email
     })
     const result = yield call(apiManualPost, url, body)
     const parsedResult = JSON.parse(result.data)    
@@ -209,7 +209,7 @@ function* adminWagesSearchSaga() {
   }
 }
 
-function* adminUserExpandSaga({ expanded, uuid }) {
+/* function* adminUserExpandSaga({ expanded, uuid }) {
   try {
     if (!expanded) {
       yield put(expandAdminUserFalse(uuid))
@@ -217,6 +217,21 @@ function* adminUserExpandSaga({ expanded, uuid }) {
       const invoiceUrl = `${API_SERVER}/users/${uuid}`
       const invoiceResult = yield call(apiRequest, invoiceUrl)
       yield put(expandAdminUserTrue(invoiceResult))
+    }
+  } catch (e) {
+    console.warn(e)
+  }
+} */
+
+function* adminUserExpandSaga({ expanded, uuid }) {
+  try {    
+    if (!expanded) {
+      yield put(expandAdminUserFalse(uuid))
+    } else {
+      const invoiceUrl = `${API_SERVER}/GetUserContactDetails`
+      const invoiceBody = JSON.stringify({ uuid: uuid })
+      const invoiceResult = yield call(apiManualPost, invoiceUrl, invoiceBody)      
+      yield put(expandAdminUserTrue(JSON.parse(invoiceResult.data)))
     }
   } catch (e) {
     console.warn(e)

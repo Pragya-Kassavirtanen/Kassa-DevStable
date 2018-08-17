@@ -29,20 +29,20 @@ const AdminUserFilterRowComponent = ({
       <TableBody displayRowCheckbox={false}>
         <TableRow displayBorder={false} selectable={false}>
           <TableRowColumn>
-            <Field name="company_name"
-                   label="Yrityksen nimi"
+            <Field name="firstname"
+                   label="Etunimi"
                    style={{width: '100%'}}
                    component={renderTextField}/>
           </TableRowColumn>
           <TableRowColumn>
-            <Field name="person_to_contact"
-                   label="Yhteyshenkilön nimi"
+            <Field name="lastname"
+                   label="Sukunimi"
                    style={{width: '100%'}}
                    component={renderTextField}/>
           </TableRowColumn>
           <TableRowColumn>
-            <Field name="person_to_contact_email"
-                   label="Yhteyshenkilön sähköposti"
+            <Field name="email"
+                   label="Sähköposti"
                    style={{width: '100%'}}
                    component={renderTextField}/>
           </TableRowColumn>

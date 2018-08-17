@@ -169,8 +169,8 @@ const customerPanel = (userSearchRows, changeAdminMenu, expandAdminUser) => (
       <Table>
         <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
           <TableRow hoverable={true}>
-            <TableHeaderColumn>Asiakas</TableHeaderColumn>
-            <TableHeaderColumn>Yhteyshenkilö</TableHeaderColumn>
+            <TableHeaderColumn>Etunimi</TableHeaderColumn>
+            <TableHeaderColumn>Sukunimi</TableHeaderColumn>
             <TableHeaderColumn>Sähköposti</TableHeaderColumn>
           </TableRow>
         </TableHeader>
@@ -190,10 +190,11 @@ const salaryPanel = salarySearchRows => (
       <Table>
         <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
           <TableRow hoverable={true}>
-            <TableHeaderColumn>Päivämäärä</TableHeaderColumn>
-            <TableHeaderColumn>Bruttopalkka</TableHeaderColumn>
+            <TableHeaderColumn>Käyttäjänimi</TableHeaderColumn>
+            <TableHeaderColumn>Päivämäärä</TableHeaderColumn>            
             <TableHeaderColumn>Nettopalkka</TableHeaderColumn>
             <TableHeaderColumn>Tila</TableHeaderColumn>
+            <TableHeaderColumn>Tehty</TableHeaderColumn>
           </TableRow>
         </TableHeader>
       </Table>
@@ -241,7 +242,7 @@ const createInvoiceRow = invoices =>
     <Card
       expandable={true}
       expanded={el.expanded}
-      key={el.customer_id}
+      key={el.invoice_id}
       //onExpandChange={(e) => expandAdminInvoice(e, el.id)}
     >
       <CardHeader showExpandableButton actAsExpander={true}>
@@ -316,21 +317,21 @@ const createInvoiceRow = invoices =>
   <Divider/>
 </Card>) */
 
-const createUserRow = (users, changeAdminMenu) =>
+const createUserRow = (users, changeAdminMenu, expandAdminUser) =>
   users.map(el => (
     <Card
       expandable={true}
       expanded={el.expanded}
-      key={el.customer_id}
-      //onExpandChange={(e) => expandAdminUser(e, el.uuid)}
+      key={el.uuid}
+      onExpandChange={(e) => expandAdminUser(e, el.uuid)}
     >
       <CardHeader showExpandableButton actAsExpander={true}>
-        <Table onCellClick={() => changeAdminMenu(0, el.email)}>
+        <Table onCellClick={() => changeAdminMenu(0, el.person_to_contact_email)}>
           <TableBody displayRowCheckbox={false}>
             <TableRow className="dashboard-admin-hover-row">
-              <TableRowColumn>{el.company_name}</TableRowColumn>
-              <TableRowColumn>{el.person_to_contact}</TableRowColumn>
-              <TableRowColumn>{el.person_to_contact_email}</TableRowColumn>
+              <TableRowColumn>{el.firstname}</TableRowColumn>
+              <TableRowColumn>{el.lastname}</TableRowColumn>
+              <TableRowColumn>{el.email}</TableRowColumn>
             </TableRow>
           </TableBody>
         </Table>
@@ -351,23 +352,19 @@ const createSalaryRow = (wages, changeAdminMenu) =>
       key={el.id}
       //onExpandChange={(e) => expandAdminUser(e, el.uuid)}
     >
-      <CardHeader showExpandableButton actAsExpander={true}>
+      {/* <CardHeader showExpandableButton actAsExpander={true}> */}
+      <CardHeader>
         <Table onCellClick={() => changeAdminMenu(0, el.email)}>
           <TableBody displayRowCheckbox={false}>
-            <TableRow className="dashboard-admin-hover-row">
+            <TableRow className="dashboard-admin-hover-row">            
+              <TableRowColumn>{el.firstname}</TableRowColumn>
               <TableRowColumn>
                 {new DateTimeFormat('fi', {
                   day: 'numeric',
                   month: 'numeric',
                   year: 'numeric'
                 }).format(new Date(el.created))}
-              </TableRowColumn>
-              <TableRowColumn>
-                {new Intl.NumberFormat('fi-FI', {
-                  style: 'currency',
-                  currency: 'EUR'
-                }).format(el.gross_salary)}
-              </TableRowColumn>
+              </TableRowColumn>              
               <TableRowColumn>
                 {new Intl.NumberFormat('fi-FI', {
                   style: 'currency',
@@ -375,6 +372,11 @@ const createSalaryRow = (wages, changeAdminMenu) =>
                 }).format(el.net_salary)}
               </TableRowColumn>
               <TableRowColumn>{el.Status}</TableRowColumn>
+              <TableRowColumn>
+                <Checkbox
+                  checked={el.Status === 'paid' ? true : false}                  
+                />
+              </TableRowColumn>
             </TableRow>
           </TableBody>
         </Table>

@@ -117,11 +117,11 @@ const adminReducer = (state = initialState, action) => {
       return Object.assign({}, {...state}, {invoiceSearchRows: closeUpdateRows})
 
     case EXPAND_ADMIN_USER_TRUE:
-      let userResult = action.result.data
+      let userResult = action.result      
       const updateUserRows = []
       for (let row of state.userSearchRows) {
         if(row.email == userResult.email) {
-          updateUserRows.push({...row, expanded: true, expandData: userResult})
+          updateUserRows.push({...row, expanded: true, expandData: userResult})          
         } else updateUserRows.push({...row})
       }
       return Object.assign({}, {...state}, {userSearchRows: updateUserRows})

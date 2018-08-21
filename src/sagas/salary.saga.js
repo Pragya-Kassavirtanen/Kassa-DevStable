@@ -91,7 +91,7 @@ function* postSalarySaga({ selected }) {
     const getSalaryBody = JSON.stringify({ uuid: uuid })
     const resultGetSalaries = yield call(apiManualPost, getSalaryUrl, getSalaryBody)  
     const resultParsed = JSON.parse(resultGetSalaries.data)
-    yield put(getSalariesSuccess(resultParsed))
+    yield put(getSalariesSuccess(resultParsed))    
   } catch (e) {
     console.warn(e)
   }

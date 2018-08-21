@@ -14,7 +14,8 @@ import {
   UPDATE_ADMIN_USER,
   UPDATE_ADMIN_USER_RESULT,
   SEARCH_ADMIN_WAGES_SUCCESS,
-  SEARCH_ADMIN_WAGES_FAILED
+  SEARCH_ADMIN_WAGES_FAILED,
+  INVOICE_SEARCH_PAGE_CHANGE
 } from '../constants'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -27,7 +28,8 @@ const initialState = {
   showAdminSnackbar: false,
   invoiceSearchRows: [],
   userSearchRows: [],
-  salarySearchRows: []
+  salarySearchRows: [],
+  selected: 0
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -149,6 +151,9 @@ const adminReducer = (state = initialState, action) => {
 
     case HIDE_ADMIN_SNACKBAR:
       return Object.assign({}, {...state}, {showAdminSnackbar: false})
+
+    case INVOICE_SEARCH_PAGE_CHANGE:
+      return Object.assign({}, {...state}, {selected: action.selected.selected})
 
     default:
       return state

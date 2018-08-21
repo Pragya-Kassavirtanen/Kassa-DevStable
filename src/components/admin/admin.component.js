@@ -7,6 +7,7 @@ import AdminInvoiceFilterRowContainer from '../../containers/admin/adminInvoiceF
 import AdminUserFilterRowContainer from '../../containers/admin/adminUserFilterRow.container'
 import AdminSalaryFilterRowContainer from '../../containers/admin/adminSalaryFilterRow.container'
 import Spinner from 'react-spinner-material'
+import ReactPaginate from 'react-paginate'
 import {
   ListItem,
   List,
@@ -26,7 +27,7 @@ import {
   Dialog,
   Snackbar
 } from 'material-ui'
-import { convertIntToState } from '../../utils/invoice.utils'
+import { convertIntToState, convertNameToState } from '../../utils/invoice.utils'
 import DateTimeFormat from '../../utils/DateTimeFormat'
 
 export default class Admin extends Component {
@@ -41,6 +42,9 @@ const AdminComponent = ({
   invoiceSearchRows,
   expandAdminInvoice,
   userSearchRows,
+  invoiceSearchPages,
+  invoiceSearchPageChange,
+  selected,
   salarySearchRows,
   showSpinner,
   showAdminSnackbar,
@@ -64,6 +68,9 @@ const AdminComponent = ({
             {selectPanel(
               selectedMenuItem,
               invoiceSearchRows,
+              invoiceSearchPages, 
+              invoiceSearchPageChange,
+              selected,
               expandAdminInvoice,
               userSearchRows,
               changeAdminMenu,
@@ -101,7 +108,10 @@ const AdminComponent = ({
 
 const selectPanel = (
   selectedMenuItem,
-  invoiceSearchRows,
+  invoiceSearchRows, 
+  invoiceSearchPages, 
+  invoiceSearchPageChange,
+  selected,
   expandAdminInvoice,
   userSearchRows,
   changeAdminMenu,
@@ -110,7 +120,7 @@ const selectPanel = (
 ) => {
   switch (selectedMenuItem) {
     case 0:
-      return invoicePanel(invoiceSearchRows, expandAdminInvoice)
+      return invoicePanel(invoiceSearchRows, invoiceSearchPages, invoiceSearchPageChange, selected, expandAdminInvoice)
     case 1:
       return customerPanel(userSearchRows, changeAdminMenu, expandAdminUser)
     case 2:
@@ -134,14 +144,15 @@ const sideMenu = (changeAdminMenu, selectedMenuItem) => (
   </div>
 )
 
-const invoicePanel = (invoiceSearchRows, expandAdminInvoice) => (
+const invoicePanel = (invoiceSearchRows, invoiceSearchPages, invoiceSearchPageChange, selected, expandAdminInvoice) => (
   <div className="col-xs-9 col-sm-9 col-lg-9">
     <div className="panel panel-default">
       <div className="panel-body">
         <AdminInvoiceFilterRowContainer />
       </div>
       <hr style={{ marginTop: '0px' }} />
-      <Table>
+      <div className="panel-body">
+      <Table selectable={false} >
         <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
           <TableRow>
             <TableHeaderColumn>Yrityksen nimi</TableHeaderColumn>
@@ -153,8 +164,23 @@ const invoicePanel = (invoiceSearchRows, expandAdminInvoice) => (
             <TableHeaderColumn>Tehty</TableHeaderColumn>
           </TableRow>
         </TableHeader>
-      </Table>
-      {createInvoiceRow(invoiceSearchRows, expandAdminInvoice)}
+      </Table>      
+      {createInvoiceRow(invoiceSearchRows, selected, expandAdminInvoice)}
+      <Divider />
+      <ReactPaginate
+      previousLabel={<i className="fa fa-chevron-left" />}
+      nextLabel={<i className="fa fa-chevron-right" />}
+      breakLabel={'...'}
+      breakClassName={'break-me'}
+      pageCount={invoiceSearchPages}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={5}
+      onPageChange={invoiceSearchPageChange}
+      containerClassName={'pagination'}
+      subContainerClassName={'pages pagination'}
+      activeClassName={'active'}
+    />
+    </div>      
     </div>
   </div>
 )
@@ -237,15 +263,15 @@ const salaryPanel = salarySearchRows => (
   <Divider/>
 </Card>) */
 
-const createInvoiceRow = invoices =>
-  invoices.map(el => (
+const createInvoiceRow = ( invoices, selected ) =>
+  invoices.slice(selected * 10, selected * 10 + 10).map(el => (    
     <Card
       expandable={true}
       expanded={el.expanded}
       key={el.invoice_id}
       //onExpandChange={(e) => expandAdminInvoice(e, el.id)}
     >
-      <CardHeader showExpandableButton actAsExpander={true}>
+      <CardHeader>
         <Table>
           <TableBody displayRowCheckbox={false}>
             <TableRow selectable={false}>
@@ -286,8 +312,8 @@ const createInvoiceRow = invoices =>
         {' '}
         {el.expanded && expandedInvoiceFormData(el.expandData)}{' '}
       </CardText>
-      <Divider />
-    </Card>
+      <Divider />      
+    </Card>   
   ))
 
 /* const createUserRow = (users, changeAdminMenu, expandAdminUser) => users.map(el =>
@@ -344,7 +370,7 @@ const createUserRow = (users, changeAdminMenu, expandAdminUser) =>
     </Card>
   ))
 
-const createSalaryRow = (wages, changeAdminMenu) =>
+const createSalaryRow = (wages) =>
   wages.map(el => (
     <Card
       expandable={true}
@@ -354,9 +380,9 @@ const createSalaryRow = (wages, changeAdminMenu) =>
     >
       {/* <CardHeader showExpandableButton actAsExpander={true}> */}
       <CardHeader>
-        <Table onCellClick={() => changeAdminMenu(0, el.email)}>
+        <Table >
           <TableBody displayRowCheckbox={false}>
-            <TableRow className="dashboard-admin-hover-row">            
+            <TableRow selectable={false}>            
               <TableRowColumn>{el.firstname}</TableRowColumn>
               <TableRowColumn>
                 {new DateTimeFormat('fi', {
@@ -371,11 +397,9 @@ const createSalaryRow = (wages, changeAdminMenu) =>
                   currency: 'EUR'
                 }).format(el.net_salary)}
               </TableRowColumn>
-              <TableRowColumn>{el.Status}</TableRowColumn>
+              <TableRowColumn>{convertNameToState(el.status)}</TableRowColumn>
               <TableRowColumn>
-                <Checkbox
-                  checked={el.Status === 'paid' ? true : false}                  
-                />
+                <Checkbox/>
               </TableRowColumn>
             </TableRow>
           </TableBody>

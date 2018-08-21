@@ -42,7 +42,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 const isUserAuthenticated = UserAuthWrapper({
   authSelector: state =>
-    state.oidc.user ? state.oidc.user : store.getState().client.user,
+    state.oidc.user ? state.oidc.user : store.getState().client.user.data[2],
   redirectAction: routerActions.replace,
   wrapperDisplayName: 'isUserAuthenticated'
 })

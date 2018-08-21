@@ -59,6 +59,7 @@ const Salary = ({ salaryRows, salaryPages, salaryPageChange }) => (
                       <TableHeaderColumn>Palvelumaksu</TableHeaderColumn>
                       <TableHeaderColumn>Matkakorvaus</TableHeaderColumn>
                       <TableHeaderColumn>Kulukorvaus</TableHeaderColumn>
+                      <TableHeaderColumn>Tila</TableHeaderColumn>
                       <TableHeaderColumn>Toiminnot</TableHeaderColumn>
                     </TableRow>
                   </TableHeader>

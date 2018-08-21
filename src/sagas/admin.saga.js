@@ -14,7 +14,9 @@ import {
   UPDATE_ADMIN_INVOICE,
   EXPAND_ADMIN_USER,
   UPDATE_ADMIN_USER,
-  SEARCH_ADMIN_WAGES
+  SEARCH_ADMIN_WAGES,
+  UPDATE_ADMIN_INVOICE_STATUS,
+  UPDATE_ADMIN_SALARY_STATUS
 } from '../constants'
 
 import { convertStateToInt, nestProperties } from '../utils/invoice.utils'
@@ -34,7 +36,7 @@ import {
   searchAdminUsersFailed,
   expandAdminUserFalse,
   expandAdminUserTrue,
-  updateAdminUserResult
+  updateAdminUserResult 
 } from '../actions/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -134,6 +136,7 @@ function* adminUsersSearchSaga() {
   try {
     const url = `${API_SERVER}/SearchCustomers`
     const formValues = getFormValues('admin')(store.getState())
+    //console.log('Inside adminUsersSearchSaga::',formValues)
     const body = JSON.stringify({
       firstname: formValues.firstname,
       lastname: formValues.lastname,
@@ -325,6 +328,42 @@ function* adminChangeMenuSaga({ value, email }) {
   }
 }
 
+function* adminUpdateInvoiceStatusSaga(invoice_id) {
+  try {
+    const url = `${API_SERVER}/UpdateInvoiceStatus`
+    const formValues = getFormValues('admin')(store.getState())
+    const body = JSON.stringify({
+      invoice_id: invoice_id,
+      invoicepaid: formValues.invoicepaid      
+    })
+    const result = yield call(apiManualPost, url, body)
+    const parsedResult = JSON.parse(result.data)
+    console.log('Inside adminUpdateInvoiceStatusSaga:: ', parsedResult)
+    //yield put(searchAdminUsersSuccess(parsedResult))
+  } catch (e) {
+    //yield put(searchAdminUsersFailed)
+    console.warn(e)
+  }
+}
+
+function* adminUpdateSalaryStatusSaga(id) {
+  try {
+    const url = `${API_SERVER}/UpdateSalaryStatus`
+    const formValues = getFormValues('admin')(store.getState())
+    const body = JSON.stringify({
+      id: id,
+      Status: formValues.Status
+    })
+    const result = yield call(apiManualPost, url, body)
+    const parsedResult = JSON.parse(result.data)
+    console.log('Inside adminUpdateSalaryStatusSaga:: ', parsedResult)
+    //yield put(searchAdminUsersSuccess(parsedResult))
+  } catch (e) {
+    //yield put(searchAdminUsersFailed)
+    console.warn(e)
+  }
+}
+
 export function* watchAdminChangeMenuSaga() {
   yield takeEvery(CHANGE_ADMIN_MENU, adminChangeMenuSaga)
 }
@@ -355,4 +394,12 @@ export function* watchAdminUserUpdateSaga() {
 
 export function* watchAdminWagesSearchSaga() {
   yield takeEvery(SEARCH_ADMIN_WAGES, adminWagesSearchSaga)
+}
+
+export function* watchAdminUpdateInvoiceStatusSaga() {
+  yield takeEvery(UPDATE_ADMIN_INVOICE_STATUS, adminUpdateInvoiceStatusSaga)
+}
+
+export function* watchAdminUpdateSalaryStatusSaga() {
+  yield takeEvery(UPDATE_ADMIN_SALARY_STATUS, adminUpdateSalaryStatusSaga)
 }

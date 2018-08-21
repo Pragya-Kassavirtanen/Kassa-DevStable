@@ -107,6 +107,13 @@ export const convertIntToState = (state) => {
   }
 }
 
+export const convertNameToState = (state) => {
+  switch (state) {
+    case 'processing': return 'Käsittely'
+    case 'paid': return 'Maksettu'
+  }
+}
+
 export const nestProperties = (obj, property, nestedProperties) => {
   var newObj = {}
   var nestedObj = {}

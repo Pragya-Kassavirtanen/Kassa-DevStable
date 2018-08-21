@@ -10,6 +10,7 @@ import {
 } from '../constants/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
+import { convertNameToState } from '../utils/invoice.utils'
 
 const initialState = {
   newSalary: [],
@@ -229,7 +230,8 @@ const _createSalaryRows = salaries =>
       expense_cost={new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'
-      }).format(el.reimbursment_cost)}
+      }).format(el.reimbursment_cost)}      
+      status={convertNameToState(el.status)}
       id={el.id}
     />
   ))

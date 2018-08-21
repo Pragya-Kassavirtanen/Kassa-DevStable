@@ -14,7 +14,9 @@ import {
   watchAdminInvoiceUpdateSaga,
   watchAdminUserExpandSaga,
   watchAdminUserUpdateSaga,
-  watchAdminWagesSearchSaga
+  watchAdminWagesSearchSaga,
+  watchAdminUpdateInvoiceStatusSaga,
+  watchAdminUpdateSalaryStatusSaga
 } from './admin.saga'
 import { watchRehydrateSaga } from './rehydrate.saga'
 import { watchGetNewSalarySaga, watchSelectRowSalarySaga, watchGetSalariesSaga, watchPostSalarySaga, watchGetSalaryByIdSaga, watchSaveSalarySlipSaga } from './salary.saga'
@@ -89,6 +91,8 @@ export default function* rootSaga() {
     watchClearInvoiceOption(),
     watchGenerateInvoicePDF(),
     watchSaveAndSendInvoicePDF(),
-    watchAdminWagesSearchSaga()
+    watchAdminWagesSearchSaga(),
+    watchAdminUpdateInvoiceStatusSaga(),
+    watchAdminUpdateSalaryStatusSaga()
   ]
 }

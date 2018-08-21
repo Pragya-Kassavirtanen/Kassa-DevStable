@@ -153,6 +153,9 @@ import {
   GENERATE_INVOICE_PDF_SUCCESS,
   GENERATE_INVOICE_PDF_FAILED,
   SEARCH_ADMIN_WAGES,
+  UPDATE_ADMIN_INVOICE_STATUS,
+  UPDATE_ADMIN_SALARY_STATUS,
+  INVOICE_SEARCH_PAGE_CHANGE,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -312,6 +315,9 @@ export const updateAdminInvoice = id => ({type: UPDATE_ADMIN_INVOICE, id})
 export const updateAdminInvoiceResult = result => ({type: UPDATE_ADMIN_INVOICE_RESULT, result})
 export const hideAdminSnackbar = () => ({type: HIDE_ADMIN_SNACKBAR})
 export const searchAdminWages = () => ({ type: SEARCH_ADMIN_WAGES })
+export const updateAdminInvoiceStatus = (invoice_id) => ({type: UPDATE_ADMIN_INVOICE_STATUS, invoice_id})
+export const updateAdminSalaryStatus = (id) => ({type: UPDATE_ADMIN_SALARY_STATUS, id})
+export const invoiceSearchPageChange = selected => ({type: INVOICE_SEARCH_PAGE_CHANGE, selected})
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

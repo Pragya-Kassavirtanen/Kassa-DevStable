@@ -12,7 +12,8 @@ const SalaryRow = ({
   net_sum,
   service_cost,
   allowance_cost,
-  expense_cost
+  expense_cost,
+  status
 }) => (
   <TableRow key={id}>
     <TableRowColumn>{date}</TableRowColumn>
@@ -21,6 +22,7 @@ const SalaryRow = ({
     <TableRowColumn>{service_cost}</TableRowColumn>
     <TableRowColumn>{allowance_cost}</TableRowColumn>
     <TableRowColumn>{expense_cost}</TableRowColumn>
+    <TableRowColumn>{status}</TableRowColumn>
     <TableRowColumn>
       <div style={{ display: 'flex' }}>
         <Link>

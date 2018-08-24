@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import AdminInvoiceFormContainer from '../../containers/admin/adminInvoiceForm.container'
 import AdminUserFormContainer from '../../containers/admin/adminUserForm.container'
 import AdminInvoiceFilterRowContainer from '../../containers/admin/adminInvoiceFilterRow.container'
 import AdminUserFilterRowContainer from '../../containers/admin/adminUserFilterRow.container'
@@ -25,10 +24,15 @@ import {
   Checkbox,
   Divider,
   Dialog,
-  Snackbar
+  Snackbar,
+  RaisedButton
 } from 'material-ui'
-import { convertIntToState, convertNameToState } from '../../utils/invoice.utils'
+import {
+  convertIntToState,
+  convertNameToState
+} from '../../utils/invoice.utils'
 import DateTimeFormat from '../../utils/DateTimeFormat'
+import store from '../../store'
 
 export default class Admin extends Component {
   render() {
@@ -44,7 +48,21 @@ const AdminComponent = ({
   userSearchRows,
   invoiceSearchPages,
   invoiceSearchPageChange,
+  salarySearchPages,
+  salarySearchPageChange,
+  userSearchPages,
+  userSearchPageChange,
+  warnSalaryToPay,
+  isToPaySalaryId,
+  isToLiftSalary,
+  cancelUpdateAdminSalaryStatus,
+  updateAdminSalaryStatus,
   selected,
+  isToPay,
+  isToPayInvoiceId,
+  warnInvoiceToPay,
+  updateAdminInvoiceStatus,
+  cancelUpdateAdminInvoiceStatus,
   salarySearchRows,
   showSpinner,
   showAdminSnackbar,
@@ -68,9 +86,23 @@ const AdminComponent = ({
             {selectPanel(
               selectedMenuItem,
               invoiceSearchRows,
-              invoiceSearchPages, 
+              invoiceSearchPages,
               invoiceSearchPageChange,
+              salarySearchPages,
+              salarySearchPageChange,
+              userSearchPages,
+              userSearchPageChange,
+              warnSalaryToPay,
+              isToPaySalaryId,
+              isToLiftSalary,
+              cancelUpdateAdminSalaryStatus,
+              updateAdminSalaryStatus,
               selected,
+              isToPay,
+              isToPayInvoiceId,
+              warnInvoiceToPay,
+              updateAdminInvoiceStatus,
+              cancelUpdateAdminInvoiceStatus,
               expandAdminInvoice,
               userSearchRows,
               changeAdminMenu,
@@ -108,10 +140,24 @@ const AdminComponent = ({
 
 const selectPanel = (
   selectedMenuItem,
-  invoiceSearchRows, 
-  invoiceSearchPages, 
+  invoiceSearchRows,
+  invoiceSearchPages,
   invoiceSearchPageChange,
+  salarySearchPages,
+  salarySearchPageChange,
+  warnSalaryToPay,
+  isToPaySalaryId,
+  isToLiftSalary,
+  cancelUpdateAdminSalaryStatus,
+  updateAdminSalaryStatus,
+  userSearchPages,
+  userSearchPageChange,
   selected,
+  isToPay,
+  isToPayInvoiceId,
+  warnInvoiceToPay,
+  updateAdminInvoiceStatus,
+  cancelUpdateAdminInvoiceStatus,
   expandAdminInvoice,
   userSearchRows,
   changeAdminMenu,
@@ -120,11 +166,39 @@ const selectPanel = (
 ) => {
   switch (selectedMenuItem) {
     case 0:
-      return invoicePanel(invoiceSearchRows, invoiceSearchPages, invoiceSearchPageChange, selected, expandAdminInvoice)
+      return invoicePanel(
+        invoiceSearchRows,
+        invoiceSearchPages,
+        invoiceSearchPageChange,
+        selected,
+        isToPay,
+        isToPayInvoiceId,
+        warnInvoiceToPay,
+        updateAdminInvoiceStatus,
+        cancelUpdateAdminInvoiceStatus,
+        expandAdminInvoice
+      )
     case 1:
-      return customerPanel(userSearchRows, changeAdminMenu, expandAdminUser)
+      return customerPanel(
+        userSearchRows,
+        selected,
+        changeAdminMenu,
+        expandAdminUser,
+        userSearchPages,
+        userSearchPageChange
+      )
     case 2:
-      return salaryPanel(salarySearchRows)
+      return salaryPanel(
+        salarySearchRows,
+        selected,
+        warnSalaryToPay,
+        isToPaySalaryId,
+        isToLiftSalary,
+        cancelUpdateAdminSalaryStatus,
+        updateAdminSalaryStatus,
+        salarySearchPages,
+        salarySearchPageChange
+      )
   }
 }
 
@@ -144,7 +218,17 @@ const sideMenu = (changeAdminMenu, selectedMenuItem) => (
   </div>
 )
 
-const invoicePanel = (invoiceSearchRows, invoiceSearchPages, invoiceSearchPageChange, selected, expandAdminInvoice) => (
+const invoicePanel = (
+  invoiceSearchRows,
+  invoiceSearchPages,
+  invoiceSearchPageChange,
+  selected,
+  isToPay,
+  isToPayInvoiceId,
+  warnInvoiceToPay,
+  updateAdminInvoiceStatus,
+  cancelUpdateAdminInvoiceStatus
+) => (
   <div className="col-xs-9 col-sm-9 col-lg-9">
     <div className="panel panel-default">
       <div className="panel-body">
@@ -152,40 +236,57 @@ const invoicePanel = (invoiceSearchRows, invoiceSearchPages, invoiceSearchPageCh
       </div>
       <hr style={{ marginTop: '0px' }} />
       <div className="panel-body">
-      <Table selectable={false} >
-        <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-          <TableRow>
-            <TableHeaderColumn>Yrityksen nimi</TableHeaderColumn>
-            <TableHeaderColumn>Laskunro.</TableHeaderColumn>
-            <TableHeaderColumn>Laskuviite</TableHeaderColumn>
-            <TableHeaderColumn>Summa</TableHeaderColumn>
-            <TableHeaderColumn>Pikapalkka</TableHeaderColumn>
-            <TableHeaderColumn>Tila</TableHeaderColumn>
-            <TableHeaderColumn>Tehty</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-      </Table>      
-      {createInvoiceRow(invoiceSearchRows, selected, expandAdminInvoice)}
-      <Divider />
-      <ReactPaginate
-      previousLabel={<i className="fa fa-chevron-left" />}
-      nextLabel={<i className="fa fa-chevron-right" />}
-      breakLabel={'...'}
-      breakClassName={'break-me'}
-      pageCount={invoiceSearchPages}
-      marginPagesDisplayed={2}
-      pageRangeDisplayed={5}
-      onPageChange={invoiceSearchPageChange}
-      containerClassName={'pagination'}
-      subContainerClassName={'pages pagination'}
-      activeClassName={'active'}
-    />
-    </div>      
+        <Table selectable={false}>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn>Yrityksen nimi</TableHeaderColumn>
+              <TableHeaderColumn>Laskunro.</TableHeaderColumn>
+              <TableHeaderColumn>Laskuviite</TableHeaderColumn>
+              <TableHeaderColumn>Summa</TableHeaderColumn>
+              <TableHeaderColumn>Pikapalkka</TableHeaderColumn>
+              <TableHeaderColumn>Tila</TableHeaderColumn>
+              <TableHeaderColumn>Tehty</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {createInvoiceRow(
+              invoiceSearchRows,
+              selected,
+              isToPay,
+              isToPayInvoiceId,
+              warnInvoiceToPay,
+              updateAdminInvoiceStatus,
+              cancelUpdateAdminInvoiceStatus
+            )}
+          </TableBody>
+        </Table>
+        <Divider />
+        <ReactPaginate
+          previousLabel={<i className="fa fa-chevron-left" />}
+          nextLabel={<i className="fa fa-chevron-right" />}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={invoiceSearchPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={invoiceSearchPageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      </div>
     </div>
   </div>
 )
 
-const customerPanel = (userSearchRows, changeAdminMenu, expandAdminUser) => (
+const customerPanel = (
+  userSearchRows,
+  selected,
+  changeAdminMenu,
+  expandAdminUser,
+  userSearchPages,
+  userSearchPageChange
+) => (
   <div className="col-xs-9 col-sm-9 col-lg-9">
     <div className="panel panel-default">
       <div className="panel-body">
@@ -201,12 +302,43 @@ const customerPanel = (userSearchRows, changeAdminMenu, expandAdminUser) => (
           </TableRow>
         </TableHeader>
       </Table>
-      {createUserRow(userSearchRows, changeAdminMenu, expandAdminUser)}
+      {createUserRow(
+        userSearchRows,
+        selected,
+        changeAdminMenu,
+        expandAdminUser
+      )}
+      <Divider />
+      <div className="panel-body">
+        <ReactPaginate
+          previousLabel={<i className="fa fa-chevron-left" />}
+          nextLabel={<i className="fa fa-chevron-right" />}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={userSearchPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={userSearchPageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      </div>
     </div>
   </div>
 )
 
-const salaryPanel = salarySearchRows => (
+const salaryPanel = (
+  salarySearchRows,
+  selected,
+  warnSalaryToPay,
+  isToPaySalaryId,
+  isToLiftSalary,
+  cancelUpdateAdminSalaryStatus,
+  updateAdminSalaryStatus,
+  salarySearchPages,
+  salarySearchPageChange
+) => (
   <div className="col-xs-9 col-sm-9 col-lg-9">
     <div className="panel panel-default">
       <div className="panel-body">
@@ -217,142 +349,142 @@ const salaryPanel = salarySearchRows => (
         <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
           <TableRow hoverable={true}>
             <TableHeaderColumn>Käyttäjänimi</TableHeaderColumn>
-            <TableHeaderColumn>Päivämäärä</TableHeaderColumn>            
+            <TableHeaderColumn>Päivämäärä</TableHeaderColumn>
             <TableHeaderColumn>Nettopalkka</TableHeaderColumn>
             <TableHeaderColumn>Tila</TableHeaderColumn>
             <TableHeaderColumn>Tehty</TableHeaderColumn>
           </TableRow>
         </TableHeader>
       </Table>
-      {createSalaryRow(salarySearchRows)}
+      {createSalaryRow(
+        salarySearchRows,
+        selected,
+        warnSalaryToPay,
+        isToPaySalaryId,
+        isToLiftSalary,
+        cancelUpdateAdminSalaryStatus,
+        updateAdminSalaryStatus
+      )}
+      <Divider />
+      <div className="panel-body">
+        <ReactPaginate
+          previousLabel={<i className="fa fa-chevron-left" />}
+          nextLabel={<i className="fa fa-chevron-right" />}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={salarySearchPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={salarySearchPageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      </div>
     </div>
   </div>
 )
 
-/* const createInvoiceRow = (invoices, expandAdminInvoice) => invoices.map(el => <Card
-  expandable={true}
-  expanded={el.expanded}
-  key={el.id}
-  onExpandChange={(e) => expandAdminInvoice(e, el.id)}>
-  <CardHeader showExpandableButton actAsExpander={true}>
-    <Table>
-      <TableBody displayRowCheckbox={false}>
-        <TableRow selectable={false}>
-          <TableRowColumn>
-            <b>
-              {el.company_name}
-            </b>
-          </TableRowColumn>
-          <TableRowColumn>
-            <b>
-              {new DateTimeFormat('fi', {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric'
-              }).format(new Date(el.due_date))}
-            </b>
-          </TableRowColumn>
-          <TableRowColumn>
-            <Checkbox label="Pikapalkka" checked={el.instant_payment} disabled={true}/>
-          </TableRowColumn>
-        </TableRow>
-      </TableBody>
-    </Table>
-  </CardHeader>
-  <CardText expandable> {el.expanded && expandedInvoiceFormData(el.expandData)} </CardText>
-  <Divider/>
-</Card>) */
-
-const createInvoiceRow = ( invoices, selected ) =>
-  invoices.slice(selected * 10, selected * 10 + 10).map(el => (    
-    <Card
-      expandable={true}
-      expanded={el.expanded}
-      key={el.invoice_id}
-      //onExpandChange={(e) => expandAdminInvoice(e, el.id)}
-    >
-      <CardHeader>
-        <Table>
-          <TableBody displayRowCheckbox={false}>
-            <TableRow selectable={false}>
-              <TableRowColumn>
-                <b>{el.company_name}</b>
-              </TableRowColumn>
-              <TableRowColumn>
-                <b>{el.invoice_id}</b>
-              </TableRowColumn>
-              <TableRowColumn>
-                <b>{el.invoice_reference}</b>
-              </TableRowColumn>
-              <TableRowColumn>
-                <b>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(el.sum)}
-                </b>
-              </TableRowColumn>
-              <TableRowColumn>
-                <Checkbox
-                  checked={el.instant_payment === 'quick_pay' ? true : false}
-                  disabled={true}
-                />
-              </TableRowColumn>
-              <TableRowColumn>
-                <b>{convertIntToState(el.status)}</b>
-              </TableRowColumn>
-              <TableRowColumn>
-                <Checkbox />
-              </TableRowColumn>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </CardHeader>
-      <CardText expandable>
-        {' '}
-        {el.expanded && expandedInvoiceFormData(el.expandData)}{' '}
-      </CardText>
-      <Divider />      
-    </Card>   
+const createInvoiceRow = (
+  invoices,
+  selected,
+  isToPay,
+  isToPayInvoiceId,
+  warnInvoiceToPay,
+  updateAdminInvoiceStatus,
+  cancelUpdateAdminInvoiceStatus
+) =>
+  invoices.slice(selected * 10, selected * 10 + 10).map(el => (
+    <TableRow selectable={false} key={el.invoice_id}>
+      <TableRowColumn>
+        <b>{el.company_name}</b>
+      </TableRowColumn>
+      <TableRowColumn>
+        <b>{el.invoice_id}</b>
+      </TableRowColumn>
+      <TableRowColumn>
+        <b>{el.invoice_reference}</b>
+      </TableRowColumn>
+      <TableRowColumn>
+        <b>
+          {new Intl.NumberFormat('fi-FI', {
+            style: 'currency',
+            currency: 'EUR'
+          }).format(el.sum)}
+        </b>
+      </TableRowColumn>
+      <TableRowColumn>
+        <Checkbox
+          checked={el.instant_payment === 'quick_pay' ? true : false}
+          disabled={true}
+        />
+      </TableRowColumn>
+      <TableRowColumn>
+        <b>{convertIntToState(el.status)}</b>
+      </TableRowColumn>
+      <TableRowColumn>
+        <Checkbox
+          onCheck={() => {
+            store.dispatch(warnInvoiceToPay(el.invoice_id))
+          }}
+          disabled={el.invoicepaid === 1 ? true : false}
+        />
+        <Dialog
+          title={`Haluatko Laskun numero = ${isToPayInvoiceId} maksetaan !`}
+          contentStyle={{
+            width: '450px',
+            height: '200px',
+            textAlign: 'center'
+          }}
+          modal={true}
+          open={isToPay}
+          overlayStyle={{ backgroundColor: 'transparent' }}
+          titleStyle={{
+            paddingTop: '30px',
+            paddingLeft: '30px',
+            fontSize: '20px',
+            lineHeight: '40px'
+          }}
+        >
+          <ul className="nav nav-pills pull-right">
+            <li>
+              <RaisedButton
+                style={{ margin: '20px' }}
+                label="Peruuta"
+                primary={true}
+                onClick={() => {
+                  store.dispatch(cancelUpdateAdminInvoiceStatus())
+                }}
+              />
+            </li>
+            <li>
+              <RaisedButton
+                style={{ margin: '20px' }}
+                label="Tallenna"
+                primary={true}
+                onClick={() => {
+                  store.dispatch(updateAdminInvoiceStatus(isToPayInvoiceId))
+                }}
+              />
+            </li>
+          </ul>
+        </Dialog>
+      </TableRowColumn>
+    </TableRow>
   ))
 
-/* const createUserRow = (users, changeAdminMenu, expandAdminUser) => users.map(el =>
-  <Card
-    expandable={true}
-    expanded={el.expanded}
-    key={el.email}
-    onExpandChange={(e) => expandAdminUser(e, el.uuid)}>
-    <CardHeader showExpandableButton actAsExpander={true}>
-      <Table onCellClick={() => changeAdminMenu(0, el.email)}>
-        <TableBody displayRowCheckbox={false}>
-          <TableRow className='dashboard-admin-hover-row'>
-            <TableRowColumn>
-              {el.company_name}
-            </TableRowColumn>
-            <TableRowColumn>
-              {el.person_to_contact}
-            </TableRowColumn>
-            <TableRowColumn>
-              {el.person_to_contact_email}
-            </TableRowColumn>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </CardHeader>
-    <CardText expandable> {el.expanded && expandedUserFormData(el.expandData, el.uuid)} </CardText>
-  <Divider/>
-</Card>) */
-
-const createUserRow = (users, changeAdminMenu, expandAdminUser) =>
-  users.map(el => (
+const createUserRow = (users, selected, changeAdminMenu, expandAdminUser) =>
+  users.slice(selected * 10, selected * 10 + 10).map(el => (
     <Card
       expandable={true}
       expanded={el.expanded}
       key={el.uuid}
-      onExpandChange={(e) => expandAdminUser(e, el.uuid)}
+      onExpandChange={e => expandAdminUser(e, el.uuid)}
     >
       <CardHeader showExpandableButton actAsExpander={true}>
-        <Table onCellClick={() => changeAdminMenu(0, el.person_to_contact_email)}>
+        <Table
+          onCellClick={() => changeAdminMenu(0, el.person_to_contact_email)}
+        >
           <TableBody displayRowCheckbox={false}>
             <TableRow className="dashboard-admin-hover-row">
               <TableRowColumn>{el.firstname}</TableRowColumn>
@@ -370,8 +502,16 @@ const createUserRow = (users, changeAdminMenu, expandAdminUser) =>
     </Card>
   ))
 
-const createSalaryRow = (wages) =>
-  wages.map(el => (
+const createSalaryRow = (
+  wages,
+  selected,
+  warnSalaryToPay,
+  isToPaySalaryId,
+  isToLiftSalary,
+  cancelUpdateAdminSalaryStatus,
+  updateAdminSalaryStatus
+) =>
+  wages.slice(selected * 10, selected * 10 + 10).map(el => (
     <Card
       expandable={true}
       expanded={el.expanded}
@@ -380,9 +520,9 @@ const createSalaryRow = (wages) =>
     >
       {/* <CardHeader showExpandableButton actAsExpander={true}> */}
       <CardHeader>
-        <Table >
+        <Table>
           <TableBody displayRowCheckbox={false}>
-            <TableRow selectable={false}>            
+            <TableRow selectable={false}>
               <TableRowColumn>{el.firstname}</TableRowColumn>
               <TableRowColumn>
                 {new DateTimeFormat('fi', {
@@ -390,7 +530,7 @@ const createSalaryRow = (wages) =>
                   month: 'numeric',
                   year: 'numeric'
                 }).format(new Date(el.created))}
-              </TableRowColumn>              
+              </TableRowColumn>
               <TableRowColumn>
                 {new Intl.NumberFormat('fi-FI', {
                   style: 'currency',
@@ -399,7 +539,54 @@ const createSalaryRow = (wages) =>
               </TableRowColumn>
               <TableRowColumn>{convertNameToState(el.status)}</TableRowColumn>
               <TableRowColumn>
-                <Checkbox/>
+                <Checkbox
+                  onCheck={() => {
+                    store.dispatch(warnSalaryToPay(el.id))
+                  }}
+                  disabled={el.status === 'paid' ? true : false}
+                />
+                <Dialog
+                  title={`Haluatko Palkan numero = ${isToPaySalaryId} maksetaan !`}
+                  contentStyle={{
+                    width: '450px',
+                    height: '200px',
+                    textAlign: 'center'
+                  }}
+                  modal={true}
+                  open={isToLiftSalary}
+                  overlayStyle={{ backgroundColor: 'transparent' }}
+                  titleStyle={{
+                    paddingTop: '30px',
+                    paddingLeft: '30px',
+                    fontSize: '20px',
+                    lineHeight: '40px'
+                  }}
+                >
+                  <ul className="nav nav-pills pull-right">
+                    <li>
+                      <RaisedButton
+                        style={{ margin: '20px' }}
+                        label="Peruuta"
+                        primary={true}
+                        onClick={() => {
+                          store.dispatch(cancelUpdateAdminSalaryStatus())
+                        }}
+                      />
+                    </li>
+                    <li>
+                      <RaisedButton
+                        style={{ margin: '20px' }}
+                        label="Tallenna"
+                        primary={true}
+                        onClick={() => {
+                          store.dispatch(
+                            updateAdminSalaryStatus(isToPaySalaryId)
+                          )
+                        }}
+                      />
+                    </li>
+                  </ul>
+                </Dialog>
               </TableRowColumn>
             </TableRow>
           </TableBody>
@@ -413,13 +600,13 @@ const createSalaryRow = (wages) =>
     </Card>
   ))
 
-const expandedInvoiceFormData = expandData => (
+/* const expandedInvoiceFormData = expandData => (
   <AdminInvoiceFormContainer
     form={`AdminInvoiceForm_${expandData.id}`}
     initialValues={expandData}
     id={expandData.id}
   />
-)
+) */
 
 const expandedUserFormData = (expandData, uuid) => (
   <AdminUserFormContainer

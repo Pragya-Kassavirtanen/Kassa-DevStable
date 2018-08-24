@@ -36,68 +36,45 @@ import {
   searchAdminUsersFailed,
   expandAdminUserFalse,
   expandAdminUserTrue,
-  updateAdminUserResult 
+  updateAdminUserResult
 } from '../actions/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
 
-/* function* adminInvoiceSearchSaga() {
-  try {
-
-    const url = `${API_SERVER}/user-invoices`
-    const body = JSON.stringify({ user_info_uuid: (store.getState()).profile.uuid })
-    const result = yield call(apiPost, url, body)
-    const invoices = []
-
-
-    result[Symbol.iterator] = function* () {
-      const keys = Reflect.ownKeys(this)
-      for (const key of keys) {
-        yield this[key]
-      }
-    }
-
-    for (const invoice of result.data) {
-      invoices.push(invoice)
-    }
-
-    yield put(searchAdminInvoiceSuccess(invoices))
-
-  } catch (e) {
-    yield put(searchAdminInvoiceFailed())
-  }
-
-} */
-
 function* adminInvoiceSearchSaga() {
   try {
     const url = `${API_SERVER}/SearchInvoices`
+    let nestedBody, instant_payment
     const formValues = getFormValues('admin')(store.getState())
 
-    let instant_payment = formValues.instant_payment
-    
-    if (instant_payment===true){
-      instant_payment = 'quick_pay'
-    }    
+    if (formValues === undefined) {
+      nestedBody = {}
+    } else {
+      instant_payment = formValues.instant_payment
 
-    const body = {
-      company_name: formValues.company_name,
-      invoice_id: formValues.invoice_id,
-      invoice_reference: formValues.invoice_reference,
-      minSum: formValues.minSum,
-      maxsum: formValues.maxsum,
-      instant_payment: instant_payment
+      if (instant_payment === true) {
+        instant_payment = 'quick_pay'
+      }
+
+      const body = {
+        company_name: formValues.company_name,
+        invoice_id: formValues.invoice_id,
+        invoice_reference: formValues.invoice_reference,
+        minSum: formValues.minSum,
+        maxsum: formValues.maxsum,
+        instant_payment: instant_payment
+      }
+
+      nestedBody = nestProperties(body, 'Invoice', [
+        'invoice_id',
+        'invoice_reference',
+        'minSum',
+        'maxsum',
+        'instant_payment'
+      ])
     }
 
-    const nestedBody = nestProperties(body, 'Invoice', [
-      'invoice_id',
-      'invoice_reference',
-      'minSum',
-      'maxsum',     
-      'instant_payment'
-    ])    
-
-    const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))    
+    const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
 
     const invoices = []
 
@@ -110,43 +87,37 @@ function* adminInvoiceSearchSaga() {
 
     for (const invoice of JSON.parse(result.data)) {
       invoices.push(invoice)
-    }    
+    }
 
     yield put(searchAdminInvoiceSuccess(invoices))
   } catch (e) {
-    yield put(searchAdminInvoiceFailed())   
+    yield put(searchAdminInvoiceFailed(e))
   }
 }
-
-
-//TODO: admin users route
-/* function* adminUsersSearchSaga() {
-  try {
-    const url = `${API_SERVER}/admin/users`
-    const result = yield call(apiRequest, url)
-    console.log(result)
-    yield put(searchAdminUsersSuccess(result))
-
-  } catch (e) {
-    yield put(searchAdminUsersFailed)
-  }
-} */
 
 function* adminUsersSearchSaga() {
   try {
     const url = `${API_SERVER}/SearchCustomers`
     const formValues = getFormValues('admin')(store.getState())
-    //console.log('Inside adminUsersSearchSaga::',formValues)
-    const body = JSON.stringify({
-      firstname: formValues.firstname,
-      lastname: formValues.lastname,
-      email: formValues.email
-    })
-    const result = yield call(apiManualPost, url, body)
-    const parsedResult = JSON.parse(result.data)    
+
+    let body
+    if (formValues === undefined) {
+      body = {}
+    } else {
+      body = {
+        firstname: formValues.firstname,
+        lastname: formValues.lastname,
+        email: formValues.email
+      }
+    }
+
+    const result = yield call(apiManualPost, url, JSON.stringify(body))
+
+    const parsedResult = JSON.parse(result.data)
+
     yield put(searchAdminUsersSuccess(parsedResult))
   } catch (e) {
-    yield put(searchAdminUsersFailed)
+    yield put(searchAdminUsersFailed(e))
   }
 }
 
@@ -154,45 +125,53 @@ function* adminWagesSearchSaga() {
   try {
     const url = `${API_SERVER}/SearchSalaries`
     const formValues = getFormValues('admin')(store.getState())   
+   
+    let body
+    if (formValues === undefined) {
+      body = {}
+    } else {
 
-    const start_date = formatFiToISO(
-      new DateTimeFormat('fi', {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric'
-      })
-        .format(new Date(formValues.start_date))
-        .split('.')
-    )
+      const start_date = formatFiToISO(
+        new DateTimeFormat('fi', {
+          day: 'numeric',
+          month: 'numeric',
+          year: 'numeric'
+        })
+          .format(new Date(formValues.start_date))
+          .split('.')
+      )
   
-    const end_date = formatFiToISO(
-      new DateTimeFormat('fi', {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric'
-      })
-        .format(new Date(formValues.end_date))
-        .split('.')
-    )
+      const end_date = formatFiToISO(
+        new DateTimeFormat('fi', {
+          day: 'numeric',
+          month: 'numeric',
+          year: 'numeric'
+        })
+          .format(new Date(formValues.end_date))
+          .split('.')
+      )
+  
+      let statusPaid = formValues.statusPaid
+      if (statusPaid === true) {
+        statusPaid = 'Paid'
+      }
+  
+      let StatusProcessing = formValues.StatusProcessing
+      if (StatusProcessing === true) {
+        StatusProcessing = 'processing'
+      }
+  
+      body = {
+        firstname: formValues.firstname,
+        start_date: start_date,
+        end_date: end_date,
+        statusPaid: statusPaid,
+        StatusProcessing: StatusProcessing
+      }
 
-    let statusPaid = formValues.statusPaid    
-    if (statusPaid===true){
-      statusPaid = 'Paid'
-    }
+    }    
 
-    let StatusProcessing = formValues.StatusProcessing    
-    if (StatusProcessing===true){
-      StatusProcessing = 'processing'
-    }
-
-    const body = JSON.stringify({
-      firstname: formValues.firstname,      
-      start_date: start_date,     
-      end_date: end_date,
-      statusPaid: statusPaid,
-      StatusProcessing: StatusProcessing
-    })
-    const result = yield call(apiManualPost, url, body)   
+    const result = yield call(apiManualPost, url, JSON.stringify(body))
 
     const wages = []
 
@@ -205,35 +184,22 @@ function* adminWagesSearchSaga() {
 
     for (const wage of JSON.parse(result.data)) {
       wages.push(wage)
-    }    
+    }
     yield put(searchAdminWagesSuccess(wages))
   } catch (e) {
-    yield put(searchAdminWagesFailed(e))      
+    yield put(searchAdminWagesFailed(e))
   }
 }
 
-/* function* adminUserExpandSaga({ expanded, uuid }) {
-  try {
-    if (!expanded) {
-      yield put(expandAdminUserFalse(uuid))
-    } else {
-      const invoiceUrl = `${API_SERVER}/users/${uuid}`
-      const invoiceResult = yield call(apiRequest, invoiceUrl)
-      yield put(expandAdminUserTrue(invoiceResult))
-    }
-  } catch (e) {
-    console.warn(e)
-  }
-} */
-
 function* adminUserExpandSaga({ expanded, uuid }) {
-  try {    
+  try {
     if (!expanded) {
       yield put(expandAdminUserFalse(uuid))
     } else {
       const invoiceUrl = `${API_SERVER}/GetUserContactDetails`
       const invoiceBody = JSON.stringify({ uuid: uuid })
-      const invoiceResult = yield call(apiManualPost, invoiceUrl, invoiceBody)      
+      const invoiceResult = yield call(apiManualPost, invoiceUrl, invoiceBody)
+      //console.log('Inside adminUserExpandSaga:: ', invoiceResult)
       yield put(expandAdminUserTrue(JSON.parse(invoiceResult.data)))
     }
   } catch (e) {
@@ -328,31 +294,34 @@ function* adminChangeMenuSaga({ value, email }) {
   }
 }
 
-function* adminUpdateInvoiceStatusSaga(invoice_id) {
+function* adminUpdateInvoiceStatusSaga({ invoice_id }) {
   try {
     const url = `${API_SERVER}/UpdateInvoiceStatus`
-    const formValues = getFormValues('admin')(store.getState())
     const body = JSON.stringify({
       invoice_id: invoice_id,
-      invoicepaid: formValues.invoicepaid      
+      invoicepaid: store.getState().admin.invoicepaid
     })
     const result = yield call(apiManualPost, url, body)
-    const parsedResult = JSON.parse(result.data)
-    console.log('Inside adminUpdateInvoiceStatusSaga:: ', parsedResult)
-    //yield put(searchAdminUsersSuccess(parsedResult))
+
+    if (result.data === 'Invoice status updated Successfully') {
+      //yield put(updateAdminInvoiceStatusSuccess(result.data))
+      console.log('Success updating Invoice Search!!')
+    } else {
+      //yield put(updateAdminInvoiceStatusFailed())
+      console.log('Failed updating Invoice Search!!')
+    }
   } catch (e) {
-    //yield put(searchAdminUsersFailed)
+    //yield put(updateAdminInvoiceStatusFailed(e))
     console.warn(e)
   }
 }
 
-function* adminUpdateSalaryStatusSaga(id) {
+function* adminUpdateSalaryStatusSaga({ id }) {
   try {
-    const url = `${API_SERVER}/UpdateSalaryStatus`
-    const formValues = getFormValues('admin')(store.getState())
+    const url = `${API_SERVER}/UpdateSalaryStatus`    
     const body = JSON.stringify({
       id: id,
-      Status: formValues.Status
+      Status: store.getState().admin.Status
     })
     const result = yield call(apiManualPost, url, body)
     const parsedResult = JSON.parse(result.data)

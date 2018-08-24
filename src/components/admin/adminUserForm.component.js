@@ -78,11 +78,11 @@ const AdminUserFormComponent = ({
 
         <TableRow displayBorder={false} selectable={false}>
           <TableRowColumn>
-            <Field name="service_fee"
+            <Field name="service_payment"
                    className="dashboard-admin-textfield"
                    component={renderTextField}
                    floatingLabelText="Palvelumaksuprosentti"/>
-            <Field name="tax_percent"
+            <Field name="tax_percentage"
                    className="dashboard-admin-textfield"
                    component={renderTextField}
                    floatingLabelText="Veroprosentti"/>

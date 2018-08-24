@@ -15,7 +15,15 @@ import {
   UPDATE_ADMIN_USER_RESULT,
   SEARCH_ADMIN_WAGES_SUCCESS,
   SEARCH_ADMIN_WAGES_FAILED,
-  INVOICE_SEARCH_PAGE_CHANGE
+  INVOICE_SEARCH_PAGE_CHANGE,
+  SALARY_SEARCH_PAGE_CHANGE,
+  USER_SEARCH_PAGE_CHANGE,
+  WARN_INVOICE_TO_PAY,
+  WARN_SALARY_TO_PAY,
+  UPDATE_ADMIN_INVOICE_STATUS,
+  CANCEL_UPDATE_AMDIN_INVOICE_STATUS,
+  UPDATE_ADMIN_SALARY_STATUS,
+  CANCEL_UPDATE_AMDIN_SALARY_STATUS
 } from '../constants'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -29,61 +37,73 @@ const initialState = {
   invoiceSearchRows: [],
   userSearchRows: [],
   salarySearchRows: [],
-  selected: 0
+  selected: 0,
+  isToPayInvoiceId: 0,
+  isToPay: false,
+  invoicepaid: 0,
+  isToPaySalaryId: 0,
+  isToLiftSalary: false,
+  Status: ''
 }
 
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
-
     case CHANGE_ADMIN_MENU:
-      return Object.assign({}, {...state}, {selectedMenuItem: action.value})
+      return Object.assign(
+        {},
+        { ...state },
+        { selectedMenuItem: action.value },
+        {
+          invoiceSearchRows: [],
+          userSearchRows: [],
+          salarySearchRows: []
+        }
+      )
 
     case SEARCH_ADMIN_INVOICE_SUCCESS:
       const newInvoiceRows = []
       for (let row of action.result) {
-        newInvoiceRows.push({...row, expanded: false})
+        newInvoiceRows.push({ ...row, expanded: false })
       }
-      return Object.assign({}, {...state}, {invoiceSearchRows: newInvoiceRows})
+      return Object.assign(
+        {},
+        { ...state },
+        { invoiceSearchRows: newInvoiceRows }
+      )
 
     case SEARCH_ADMIN_INVOICE_FAILED:
-      return Object.assign({}, {...state}, {})
+      return Object.assign({}, { ...state }, {})
 
-    /* case SEARCH_ADMIN_USERS_SUCCESS:
+    case SEARCH_ADMIN_USERS_SUCCESS:
       const newUserRows = []
-      for (let row of action.result.data) {
-        newUserRows.push({...row, expanded: false})
-      }
-      return Object.assign({}, {...state}, {userSearchRows: newUserRows}) */
-    
-      case SEARCH_ADMIN_USERS_SUCCESS:
-      const newUserRows = []
-      console.log('Inside SEARCH_ADMIN_USERS_SUCCESS:: ',action.result)
       for (let row of action.result) {
-        newUserRows.push({...row, expanded: false})
+        newUserRows.push({ ...row, expanded: false })
       }
-      return Object.assign({}, {...state}, {userSearchRows: newUserRows})
+      return Object.assign({}, { ...state }, { userSearchRows: newUserRows })
 
     case SEARCH_ADMIN_USERS_FAILED:
-      return Object.assign({}, {...state}, {})
+      return Object.assign({}, { ...state }, {})
 
-      case SEARCH_ADMIN_WAGES_SUCCESS:
+    case SEARCH_ADMIN_WAGES_SUCCESS:
       const newSalaryRows = []
-      console.log('Inside SEARCH_ADMIN_WAGES_SUCCESS:: ',action.result)
+      console.log('Inside SEARCH_ADMIN_WAGES_SUCCESS:: ', action.result)
       for (let row of action.result) {
-        newSalaryRows.push({...row, expanded: false})
+        newSalaryRows.push({ ...row, expanded: false })
       }
-      return Object.assign({}, {...state}, {salarySearchRows: newSalaryRows})
+      return Object.assign(
+        {},
+        { ...state },
+        { salarySearchRows: newSalaryRows }
+      )
 
     case SEARCH_ADMIN_WAGES_FAILED:
-      return Object.assign({}, {...state}, {})
+      return Object.assign({}, { ...state }, {})
 
     case EXPAND_ADMIN_INVOICE_TRUE:
-
       let result = action.result.data
       const updateRows = []
       for (let row of state.invoiceSearchRows) {
-
-        if(row.id == result.id) {
+        if (row.id == result.id) {
           result.state = convertIntToState(result.state)
 
           result.due_date = new DateTimeFormat('fi', {
@@ -103,62 +123,165 @@ const adminReducer = (state = initialState, action) => {
             currency: 'EUR'
           }).format(result.total_sum)
 
-
-          updateRows.push({...row, expanded: true, expandData: result})
-        } else updateRows.push({...row})
+          updateRows.push({ ...row, expanded: true, expandData: result })
+        } else updateRows.push({ ...row })
       }
-      return Object.assign({}, {...state}, {invoiceSearchRows: updateRows})
+      return Object.assign({}, { ...state }, { invoiceSearchRows: updateRows })
 
     case EXPAND_ADMIN_INVOICE_FALSE:
       const closeUpdateRows = []
       for (let row of state.invoiceSearchRows) {
         row.id == action.id
-          ? closeUpdateRows.push({...row, expanded: false, expandData: null})
-          : closeUpdateRows.push({...row})
+          ? closeUpdateRows.push({ ...row, expanded: false, expandData: null })
+          : closeUpdateRows.push({ ...row })
       }
-      return Object.assign({}, {...state}, {invoiceSearchRows: closeUpdateRows})
+      return Object.assign(
+        {},
+        { ...state },
+        { invoiceSearchRows: closeUpdateRows }
+      )
 
     case EXPAND_ADMIN_USER_TRUE:
-      let userResult = action.result      
+      let userResult = action.result
+      //console.log('Inside EXPAND_ADMIN_USER_TRUE:: ',userResult)
       const updateUserRows = []
       for (let row of state.userSearchRows) {
-        if(row.email == userResult.email) {
-          updateUserRows.push({...row, expanded: true, expandData: userResult})          
-        } else updateUserRows.push({...row})
+        if (row.email == userResult.email) {
+          updateUserRows.push({
+            ...row,
+            expanded: true,
+            expandData: userResult
+          })
+        } else updateUserRows.push({ ...row })
       }
-      return Object.assign({}, {...state}, {userSearchRows: updateUserRows})
+      return Object.assign({}, { ...state }, { userSearchRows: updateUserRows })
 
     case EXPAND_ADMIN_USER_FALSE:
       const closeUserUpdateRows = []
       for (let row of state.userSearchRows) {
         row.uuid == action.uuid
-          ? closeUserUpdateRows.push({...row, expanded: false, expandData: null})
-          : closeUserUpdateRows.push({...row})
+          ? closeUserUpdateRows.push({
+              ...row,
+              expanded: false,
+              expandData: null
+            })
+          : closeUserUpdateRows.push({ ...row })
       }
-      return Object.assign({}, {...state}, {userSearchRows: closeUserUpdateRows})
+      return Object.assign(
+        {},
+        { ...state },
+        { userSearchRows: closeUserUpdateRows }
+      )
 
     case UPDATE_ADMIN_INVOICE:
-      return Object.assign({}, {...state}, {showSpinner: true})
+      return Object.assign({}, { ...state }, { showSpinner: true })
 
     case UPDATE_ADMIN_INVOICE_RESULT:
-      return Object.assign({}, {...state}, {showSpinner: false, showAdminSnackbar: true})
+      return Object.assign(
+        {},
+        { ...state },
+        { showSpinner: false, showAdminSnackbar: true }
+      )
 
     case UPDATE_ADMIN_USER:
-      return Object.assign({}, {...state}, {showSpinner: true})
+      return Object.assign({}, { ...state }, { showSpinner: true })
 
     case UPDATE_ADMIN_USER_RESULT:
-      return Object.assign({}, {...state}, {showSpinner: false, showAdminSnackbar: true})
+      return Object.assign(
+        {},
+        { ...state },
+        { showSpinner: false, showAdminSnackbar: true }
+      )
 
     case HIDE_ADMIN_SNACKBAR:
-      return Object.assign({}, {...state}, {showAdminSnackbar: false})
+      return Object.assign({}, { ...state }, { showAdminSnackbar: false })
 
     case INVOICE_SEARCH_PAGE_CHANGE:
-      return Object.assign({}, {...state}, {selected: action.selected.selected})
+      return Object.assign(
+        {},
+        { ...state },
+        { selected: action.selected.selected }
+      )
+
+    case SALARY_SEARCH_PAGE_CHANGE:
+      return Object.assign(
+        {},
+        { ...state },
+        { selected: action.selected.selected }
+      )
+
+    case USER_SEARCH_PAGE_CHANGE:
+      return Object.assign(
+        {},
+        { ...state },
+        { selected: action.selected.selected }
+      )
+
+    case WARN_INVOICE_TO_PAY:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          isToPayInvoiceId: action.selected,
+          isToPay: true,
+          invoicepaid: 2
+        }
+      )
+
+    case CANCEL_UPDATE_AMDIN_INVOICE_STATUS:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          isToPayInvoiceId: 0,
+          isToPay: false,
+          invoicepaid: 0
+        }
+      )
+
+    case UPDATE_ADMIN_INVOICE_STATUS:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          isToPay: false
+        }
+      )
+
+    case WARN_SALARY_TO_PAY:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          isToPaySalaryId: action.selected,
+          isToLiftSalary: true,
+          Status: 'paid'
+        }
+      )
+
+    case CANCEL_UPDATE_AMDIN_SALARY_STATUS:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          isToPaySalaryId: 0,
+          isToLiftSalary: false,
+          Status: 'processing'
+        }
+      )
+
+    case UPDATE_ADMIN_SALARY_STATUS:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          isToLiftSalary: false
+        }
+      )
 
     default:
       return state
   }
-
 }
 
 export default adminReducer

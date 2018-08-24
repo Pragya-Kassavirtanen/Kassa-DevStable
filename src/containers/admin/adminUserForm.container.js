@@ -14,8 +14,8 @@ let AdminUserFormContainer = reduxForm({
     'city',
     'market_name',
     'job_title',
-    'tax_percent',
-    'service_fee'
+    'tax_percentage',
+    'service_payment'
   ]
 })(AdminUserForm)
 

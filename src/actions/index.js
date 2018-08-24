@@ -154,8 +154,14 @@ import {
   GENERATE_INVOICE_PDF_FAILED,
   SEARCH_ADMIN_WAGES,
   UPDATE_ADMIN_INVOICE_STATUS,
+  CANCEL_UPDATE_AMDIN_INVOICE_STATUS,
+  CANCEL_UPDATE_AMDIN_SALARY_STATUS,
   UPDATE_ADMIN_SALARY_STATUS,
   INVOICE_SEARCH_PAGE_CHANGE,
+  SALARY_SEARCH_PAGE_CHANGE,
+  USER_SEARCH_PAGE_CHANGE,
+  WARN_INVOICE_TO_PAY,
+  WARN_SALARY_TO_PAY,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -318,6 +324,12 @@ export const searchAdminWages = () => ({ type: SEARCH_ADMIN_WAGES })
 export const updateAdminInvoiceStatus = (invoice_id) => ({type: UPDATE_ADMIN_INVOICE_STATUS, invoice_id})
 export const updateAdminSalaryStatus = (id) => ({type: UPDATE_ADMIN_SALARY_STATUS, id})
 export const invoiceSearchPageChange = selected => ({type: INVOICE_SEARCH_PAGE_CHANGE, selected})
+export const salarySearchPageChange = selected => ({type: SALARY_SEARCH_PAGE_CHANGE, selected})
+export const userSearchPageChange = selected => ({type: USER_SEARCH_PAGE_CHANGE, selected})
+export const warnInvoiceToPay = selected =>  ({type: WARN_INVOICE_TO_PAY, selected})
+export const warnSalaryToPay = selected =>  ({type: WARN_SALARY_TO_PAY, selected})
+export const cancelUpdateAdminInvoiceStatus = () => ({type: CANCEL_UPDATE_AMDIN_INVOICE_STATUS})
+export const cancelUpdateAdminSalaryStatus = () => ({type: CANCEL_UPDATE_AMDIN_SALARY_STATUS})
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

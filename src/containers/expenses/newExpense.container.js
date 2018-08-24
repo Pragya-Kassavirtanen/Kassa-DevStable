@@ -51,7 +51,7 @@ const mapStateToProps = (state) => {
   })
 
     //Filter invoiceNames as per invoicepaid to be False
-    const validInvoiceNames = state.invoice.invoices.filter(el => el.invoicepaid !== true)    
+    const validInvoiceNames = state.invoice.invoices.filter(el => el.invoicepaid === 0)    
     const invoiceNames = validInvoiceNames.map((item, index) =>
     <MenuItem key={index} value={item} primaryText={item.company_name + ' ' + new DateTimeFormat('fi', {
     day: 'numeric',

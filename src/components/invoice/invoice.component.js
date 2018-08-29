@@ -103,9 +103,13 @@ const NewInvoice = ({
       <div className="row">
         <div className="dashboard-content-header">
           {isEdit ? <h1>MUOKKAA LASKUA</h1> : <h1>LUO UUSI LASKU</h1>}
+        </div>
+      </div>
+      <div className="row">
+        <div className="dashboard-content-header">
           <Field
             name="select-invoice-customer"
-            className="pull-right dashboard-content-select-customer"
+            className="pull-left dashboard-content-header-select-customer"
             component={SelectField}
             floatingLabelText="Asiakas"
             disabled={isEdit || noMenu}

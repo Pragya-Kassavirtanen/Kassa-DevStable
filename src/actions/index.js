@@ -300,7 +300,7 @@ export const closeRegisterSnackbar = () => ({ type: CLOSE_SIGNUP_SNACKBAR })
 export const signupFormSubmit = (firstname, lastname, email) => ({ type: FRONT_PAGE_FORM_SUBMIT, firstname, lastname, email })
 export const contactFormSubmit = (name, phone, email, message) => ({ type: CONTACT_FORM_SUBMIT, name, phone, email, message })
 
-export const changeAdminMenu = (value, email) => ({ type: CHANGE_ADMIN_MENU, value, email })
+export const changeAdminMenu = (value) => ({ type: CHANGE_ADMIN_MENU, value })
 export const searchAdminUsers = () => ({ type: SEARCH_ADMIN_USERS })
 export const searchAdminUsersSuccess = result => ({ type: SEARCH_ADMIN_USERS_SUCCESS, result })
 export const searchAdminUsersFailed = () => ({ type: SEARCH_ADMIN_USERS_FAILED })

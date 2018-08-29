@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import AdminUserFormContainer from '../../containers/admin/adminUserForm.container'
 import AdminInvoiceFilterRowContainer from '../../containers/admin/adminInvoiceFilterRow.container'
 import AdminUserFilterRowContainer from '../../containers/admin/adminUserFilterRow.container'
+import AdminUserFormContainer from '../../containers/admin/adminUserForm.container'
 import AdminSalaryFilterRowContainer from '../../containers/admin/adminSalaryFilterRow.container'
 import Spinner from 'react-spinner-material'
 import ReactPaginate from 'react-paginate'
@@ -45,29 +45,29 @@ const AdminComponent = ({
   selectedMenuItem,
   invoiceSearchRows,
   expandAdminInvoice,
-  userSearchRows,
   invoiceSearchPages,
   invoiceSearchPageChange,
-  salarySearchPages,
-  salarySearchPageChange,
-  userSearchPages,
-  userSearchPageChange,
-  warnSalaryToPay,
-  isToPaySalaryId,
-  isToLiftSalary,
-  cancelUpdateAdminSalaryStatus,
-  updateAdminSalaryStatus,
   selected,
   isToPay,
   isToPayInvoiceId,
   warnInvoiceToPay,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus,
+  userSearchRows,
+  userSearchPages,
+  userSearchPageChange,
+  expandAdminUser,
   salarySearchRows,
+  salarySearchPages,
+  salarySearchPageChange,
+  warnSalaryToPay,
+  isToPaySalaryId,
+  isToLiftSalary,
+  cancelUpdateAdminSalaryStatus,
+  updateAdminSalaryStatus,
   showSpinner,
   showAdminSnackbar,
-  hideAdminSnackbar,
-  expandAdminUser
+  hideAdminSnackbar
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -355,16 +355,18 @@ const salaryPanel = (
             <TableHeaderColumn>Tehty</TableHeaderColumn>
           </TableRow>
         </TableHeader>
+        <TableBody displayRowCheckbox={false}>
+          {createSalaryRow(
+            salarySearchRows,
+            selected,
+            warnSalaryToPay,
+            isToPaySalaryId,
+            isToLiftSalary,
+            cancelUpdateAdminSalaryStatus,
+            updateAdminSalaryStatus
+          )}
+        </TableBody>
       </Table>
-      {createSalaryRow(
-        salarySearchRows,
-        selected,
-        warnSalaryToPay,
-        isToPaySalaryId,
-        isToLiftSalary,
-        cancelUpdateAdminSalaryStatus,
-        updateAdminSalaryStatus
-      )}
       <Divider />
       <div className="panel-body">
         <ReactPaginate
@@ -427,7 +429,7 @@ const createInvoiceRow = (
           onCheck={() => {
             store.dispatch(warnInvoiceToPay(el.invoice_id))
           }}
-          disabled={el.invoicepaid === 1 ? true : false}
+          disabled={el.invoicepaid !== 0 ? true : false}
         />
         <Dialog
           title={`Haluatko Laskun numero = ${isToPayInvoiceId} maksetaan !`}
@@ -483,10 +485,10 @@ const createUserRow = (users, selected, changeAdminMenu, expandAdminUser) =>
     >
       <CardHeader showExpandableButton actAsExpander={true}>
         <Table
-          onCellClick={() => changeAdminMenu(0, el.person_to_contact_email)}
+          onCellClick={() => changeAdminMenu(1, el.person_to_contact_email)}
         >
           <TableBody displayRowCheckbox={false}>
-            <TableRow className="dashboard-admin-hover-row">
+            <TableRow selectable={false} key={el.uuid}>
               <TableRowColumn>{el.firstname}</TableRowColumn>
               <TableRowColumn>{el.lastname}</TableRowColumn>
               <TableRowColumn>{el.email}</TableRowColumn>
@@ -512,92 +514,71 @@ const createSalaryRow = (
   updateAdminSalaryStatus
 ) =>
   wages.slice(selected * 10, selected * 10 + 10).map(el => (
-    <Card
-      expandable={true}
-      expanded={el.expanded}
-      key={el.id}
-      //onExpandChange={(e) => expandAdminUser(e, el.uuid)}
-    >
-      {/* <CardHeader showExpandableButton actAsExpander={true}> */}
-      <CardHeader>
-        <Table>
-          <TableBody displayRowCheckbox={false}>
-            <TableRow selectable={false}>
-              <TableRowColumn>{el.firstname}</TableRowColumn>
-              <TableRowColumn>
-                {new DateTimeFormat('fi', {
-                  day: 'numeric',
-                  month: 'numeric',
-                  year: 'numeric'
-                }).format(new Date(el.created))}
-              </TableRowColumn>
-              <TableRowColumn>
-                {new Intl.NumberFormat('fi-FI', {
-                  style: 'currency',
-                  currency: 'EUR'
-                }).format(el.net_salary)}
-              </TableRowColumn>
-              <TableRowColumn>{convertNameToState(el.status)}</TableRowColumn>
-              <TableRowColumn>
-                <Checkbox
-                  onCheck={() => {
-                    store.dispatch(warnSalaryToPay(el.id))
-                  }}
-                  disabled={el.status === 'paid' ? true : false}
-                />
-                <Dialog
-                  title={`Haluatko Palkan numero = ${isToPaySalaryId} maksetaan !`}
-                  contentStyle={{
-                    width: '450px',
-                    height: '200px',
-                    textAlign: 'center'
-                  }}
-                  modal={true}
-                  open={isToLiftSalary}
-                  overlayStyle={{ backgroundColor: 'transparent' }}
-                  titleStyle={{
-                    paddingTop: '30px',
-                    paddingLeft: '30px',
-                    fontSize: '20px',
-                    lineHeight: '40px'
-                  }}
-                >
-                  <ul className="nav nav-pills pull-right">
-                    <li>
-                      <RaisedButton
-                        style={{ margin: '20px' }}
-                        label="Peruuta"
-                        primary={true}
-                        onClick={() => {
-                          store.dispatch(cancelUpdateAdminSalaryStatus())
-                        }}
-                      />
-                    </li>
-                    <li>
-                      <RaisedButton
-                        style={{ margin: '20px' }}
-                        label="Tallenna"
-                        primary={true}
-                        onClick={() => {
-                          store.dispatch(
-                            updateAdminSalaryStatus(isToPaySalaryId)
-                          )
-                        }}
-                      />
-                    </li>
-                  </ul>
-                </Dialog>
-              </TableRowColumn>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </CardHeader>
-      <CardText expandable>
-        {' '}
-        {el.expanded && expandedUserFormData(el.expandData, el.uuid)}{' '}
-      </CardText>
-      <Divider />
-    </Card>
+    <TableRow selectable={false} key={el.id}>
+      <TableRowColumn>{el.firstname}</TableRowColumn>
+      <TableRowColumn>
+        {new DateTimeFormat('fi', {
+          day: 'numeric',
+          month: 'numeric',
+          year: 'numeric'
+        }).format(new Date(el.created))}
+      </TableRowColumn>
+      <TableRowColumn>
+        {new Intl.NumberFormat('fi-FI', {
+          style: 'currency',
+          currency: 'EUR'
+        }).format(el.net_salary)}
+      </TableRowColumn>
+      <TableRowColumn>{convertNameToState(el.status)}</TableRowColumn>
+      <TableRowColumn>
+        <Checkbox
+          onCheck={() => {
+            store.dispatch(warnSalaryToPay(el.id))
+          }}
+          disabled={el.status === 'paid' ? true : false}
+        />
+        <Dialog
+          open={isToLiftSalary}
+          title={`Haluatko Palkan numero = ${isToPaySalaryId} maksetaan !`}
+          contentStyle={{
+            width: '450px',
+            height: '200px',
+            textAlign: 'center'
+          }}
+          modal={true}
+          overlayStyle={{ backgroundColor: 'transparent' }}
+          titleStyle={{
+            paddingTop: '30px',
+            paddingLeft: '30px',
+            fontSize: '20px',
+            lineHeight: '40px'
+          }}
+        >
+          <ul className="nav nav-pills pull-right">
+            <li>
+              <RaisedButton
+                style={{ margin: '20px' }}
+                label="Peruuta"
+                primary={true}
+                onClick={() => {
+                  store.dispatch(cancelUpdateAdminSalaryStatus())
+                }}
+              />
+            </li>
+            <li>
+              <RaisedButton
+                style={{ margin: '20px' }}
+                label="Tallenna"
+                primary={true}
+                onClick={() => {
+                  store.dispatch(updateAdminSalaryStatus(isToPaySalaryId))
+                }}
+              />
+            </li>
+          </ul>
+        </Dialog>
+      </TableRowColumn>
+    </TableRow>
   ))
 
 /* const expandedInvoiceFormData = expandData => (

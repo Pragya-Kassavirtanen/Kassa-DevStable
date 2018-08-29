@@ -62,9 +62,9 @@ let NewInvoiceContainer = reduxForm({
     delivery_method: 'Sähköposti',
     rows: [{
       description: '',
-      quantity: 0,
+      quantity: '',
       unit: 'kpl',
-      quantity_price: '0',
+      quantity_price: '',
       vat_percent: 14,          
       sum_tax_free: new Intl.NumberFormat('fi-FI', {
         style: 'currency',

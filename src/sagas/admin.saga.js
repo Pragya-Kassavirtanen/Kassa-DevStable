@@ -10,7 +10,7 @@ import {
   API_SERVER,
   EXPAND_ADMIN_INVOICE,
   SEARCH_ADMIN_USERS,
-  CHANGE_ADMIN_MENU,
+  //CHANGE_ADMIN_MENU,
   UPDATE_ADMIN_INVOICE,
   EXPAND_ADMIN_USER,
   UPDATE_ADMIN_USER,
@@ -28,7 +28,7 @@ import {
   searchAdminInvoiceFailed,
   searchAdminWagesSuccess,
   searchAdminWagesFailed,
-  searchAdminInvoice,
+  //searchAdminInvoice,
   expandAdminInvoiceTrue,
   expandAdminInvoiceFalse,
   searchAdminUsersSuccess,
@@ -37,6 +37,7 @@ import {
   expandAdminUserFalse,
   expandAdminUserTrue,
   updateAdminUserResult
+  //searchAdminUsers
 } from '../actions/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -124,42 +125,54 @@ function* adminUsersSearchSaga() {
 function* adminWagesSearchSaga() {
   try {
     const url = `${API_SERVER}/SearchSalaries`
-    const formValues = getFormValues('admin')(store.getState())   
+    const formValues = getFormValues('admin')(store.getState())       
    
     let body
     if (formValues === undefined) {
       body = {}
-    } else {
+    } else {      
 
-      const start_date = formatFiToISO(
-        new DateTimeFormat('fi', {
-          day: 'numeric',
-          month: 'numeric',
-          year: 'numeric'
-        })
-          .format(new Date(formValues.start_date))
-          .split('.')
-      )
-  
-      const end_date = formatFiToISO(
-        new DateTimeFormat('fi', {
-          day: 'numeric',
-          month: 'numeric',
-          year: 'numeric'
-        })
-          .format(new Date(formValues.end_date))
-          .split('.')
-      )
-  
-      let statusPaid = formValues.statusPaid
-      if (statusPaid === true) {
-        statusPaid = 'Paid'
+      let start_date
+      if (formValues.start_date !== undefined){
+          start_date = formatFiToISO(
+          new DateTimeFormat('fi', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+          })
+            .format(new Date(formValues.start_date))
+            .split('.')
+        )
       }
-  
-      let StatusProcessing = formValues.StatusProcessing
-      if (StatusProcessing === true) {
-        StatusProcessing = 'processing'
+      
+      let end_date
+      if (formValues.end_date !== undefined){
+          end_date = formatFiToISO(
+          new DateTimeFormat('fi', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+          })
+            .format(new Date(formValues.end_date))
+            .split('.')
+        )
       }
+
+      let statusPaid
+      if (formValues.statusPaid !== undefined) {
+        statusPaid = formValues.statusPaid
+        if (statusPaid === true) {
+          statusPaid = 'Paid'
+        }
+      }      
+  
+      let StatusProcessing
+      if (formValues.StatusProcessing !== undefined) {
+        StatusProcessing = formValues.StatusProcessing
+        if (StatusProcessing === true) {
+          StatusProcessing = 'processing'
+        }
+      }      
   
       body = {
         firstname: formValues.firstname,
@@ -168,7 +181,6 @@ function* adminWagesSearchSaga() {
         statusPaid: statusPaid,
         StatusProcessing: StatusProcessing
       }
-
     }    
 
     const result = yield call(apiManualPost, url, JSON.stringify(body))
@@ -284,22 +296,25 @@ function* adminUserUpdateSaga({ uuid, email }) {
   }
 }
 
-function* adminChangeMenuSaga({ value, email }) {
+/* function* adminChangeMenuSaga({ value, email }) {
   try {
+    console.log('Inside adminChangeMenuSaga::',email)
     if (value === 0 && !!email) {
       yield put(searchAdminInvoice())
+    } else if (value === 1 ) {
+      yield put(searchAdminUsers())
     }
   } catch (e) {
     console.warn(e)
   }
-}
+} */
 
 function* adminUpdateInvoiceStatusSaga({ invoice_id }) {
   try {
     const url = `${API_SERVER}/UpdateInvoiceStatus`
     const body = JSON.stringify({
       invoice_id: invoice_id,
-      invoicepaid: store.getState().admin.invoicepaid
+      invoicePaid: store.getState().admin.invoicepaid
     })
     const result = yield call(apiManualPost, url, body)
 
@@ -333,9 +348,9 @@ function* adminUpdateSalaryStatusSaga({ id }) {
   }
 }
 
-export function* watchAdminChangeMenuSaga() {
+/* export function* watchAdminChangeMenuSaga() {
   yield takeEvery(CHANGE_ADMIN_MENU, adminChangeMenuSaga)
-}
+} */
 
 export function* watchAdminUsersSearchSaga() {
   yield takeEvery(SEARCH_ADMIN_USERS, adminUsersSearchSaga)

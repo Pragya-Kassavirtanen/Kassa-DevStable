@@ -57,7 +57,8 @@ const adminReducer = (state = initialState, action) => {
           invoiceSearchRows: [],
           userSearchRows: [],
           salarySearchRows: []
-        }
+        },
+        { selected: 0 }
       )
 
     case SEARCH_ADMIN_INVOICE_SUCCESS:
@@ -224,7 +225,7 @@ const adminReducer = (state = initialState, action) => {
         {
           isToPayInvoiceId: action.selected,
           isToPay: true,
-          invoicepaid: 2
+          invoicepaid: 0
         }
       )
 

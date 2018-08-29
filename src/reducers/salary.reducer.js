@@ -6,7 +6,8 @@ import {
   SELECT_ROW_SALARY,
   SELECT_ROW_SALARY_SUCCESS,
   GET_SALARIES_SUCCESS,
-  GET_SALARY_BY_ID_SUCCESS
+  GET_SALARY_BY_ID_SUCCESS,
+  SALARY_PAGE_CHANGE
 } from '../constants/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -17,6 +18,8 @@ const initialState = {
   selectedRows: [],
   salaryAllowances: [],
   salaryRows: [],
+  salaries: [],
+  selected: 0,
   newSalaryInfo: [],
   newSalarySummary: {
     sumwithoutTax: 0,
@@ -41,7 +44,23 @@ const salaryReducer = (state = initialState, action) => {
       return Object.assign(
         {},
         { ...state },
-        { salaryRows: _createSalaryRows(action.resultParsed) }
+        {
+          salaries: action.resultParsed,
+          salaryRows: _createSalaryRows(action.resultParsed, state.selected)
+        }
+      )
+
+    case SALARY_PAGE_CHANGE:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          salaryRows: _createSalaryRows(
+            state.salaries,
+            action.selected.selected
+          ),
+          selected: action.selected.selected
+        }
       )
 
     case SELECT_ROW_SALARY:
@@ -125,17 +144,17 @@ const salaryReducer = (state = initialState, action) => {
       //console.log('grossPerInvoice:: ',grossPerInvoice)
 
       const gross_sum = grossPerInvoice.reduce((a, b) => a + b, 0)
-      console.log('gross_sum:: ',gross_sum)
+      console.log('gross_sum:: ', gross_sum)
 
       const total_sum = total_gross + gross_sum
 
       let yel = gross_sum * yel_percentage
-      if(yel_option === 'yel_minimum'){         
-        if( total_sum > 7656.26 ){        
+      if (yel_option === 'yel_minimum') {
+        if (total_sum > 7656.26) {
           const difference = 7656.26 - total_gross
           yel = difference * yel_percentage
         }
-      }  
+      }
 
       const prof_tax = state.selectedRows.map(
         el => state.newSalary[el].professionaltax
@@ -159,7 +178,7 @@ const salaryReducer = (state = initialState, action) => {
       const social_contribution = social_tax.reduce((a, b) => a + b, 0)
       //console.log('social_contribution:: ', social_contribution)
 
-      const personal_tax = gross_sum * personal_tax_percentage     
+      const personal_tax = gross_sum * personal_tax_percentage
 
       const net_sum = gross_sum - personal_tax - yel
 
@@ -202,10 +221,10 @@ const salaryReducer = (state = initialState, action) => {
   }
 }
 
-const _createSalaryRows = salaries =>
-  salaries.map((el, index) => (
+const _createSalaryRows = (salaries, selected) =>
+  salaries.slice(selected * 10, selected * 10 + 10).map(el => (
     <SalaryRow
-      key={index}
+      key={el.id}
       date={new DateTimeFormat('fi', {
         day: 'numeric',
         month: 'numeric',
@@ -230,7 +249,7 @@ const _createSalaryRows = salaries =>
       expense_cost={new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'
-      }).format(el.reimbursment_cost)}      
+      }).format(el.reimbursment_cost)}
       status={convertNameToState(el.status)}
       id={el.id}
     />

@@ -7,7 +7,8 @@ import {
   SELECT_ROW_SALARY_SUCCESS,
   GET_SALARIES_SUCCESS,
   GET_SALARY_BY_ID_SUCCESS,
-  SALARY_PAGE_CHANGE
+  SALARY_PAGE_CHANGE,
+  ADD_SALARY_SUCCESS  
 } from '../constants/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -18,7 +19,7 @@ const initialState = {
   selectedRows: [],
   salaryAllowances: [],
   salaryRows: [],
-  salaries: [],
+  allSalaries: [],
   selected: 0,
   newSalaryInfo: [],
   newSalarySummary: {
@@ -45,7 +46,7 @@ const salaryReducer = (state = initialState, action) => {
         {},
         { ...state },
         {
-          salaries: action.resultParsed,
+          allSalaries: action.resultParsed,
           salaryRows: _createSalaryRows(action.resultParsed, state.selected)
         }
       )
@@ -56,7 +57,7 @@ const salaryReducer = (state = initialState, action) => {
         { ...state },
         {
           salaryRows: _createSalaryRows(
-            state.salaries,
+            state.allSalaries,
             action.selected.selected
           ),
           selected: action.selected.selected
@@ -72,6 +73,16 @@ const salaryReducer = (state = initialState, action) => {
           isSalaryInfo: false
         }
       )
+    
+    case ADD_SALARY_SUCCESS:
+    return Object.assign(
+      {},
+      { ...state },
+      {
+        selectedRows: []        
+      }
+    )  
+
 
     case GET_SALARY_BY_ID_SUCCESS:
       console.log('result:: ', action.result)
@@ -221,8 +232,8 @@ const salaryReducer = (state = initialState, action) => {
   }
 }
 
-const _createSalaryRows = (salaries, selected) =>
-  salaries.slice(selected * 10, selected * 10 + 10).map(el => (
+const _createSalaryRows = (allSalaries, selected) =>
+allSalaries.slice(selected * 10, selected * 10 + 10).map(el => (
     <SalaryRow
       key={el.id}
       date={new DateTimeFormat('fi', {

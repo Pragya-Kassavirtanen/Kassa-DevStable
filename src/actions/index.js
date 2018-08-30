@@ -162,6 +162,7 @@ import {
   USER_SEARCH_PAGE_CHANGE,
   WARN_INVOICE_TO_PAY,
   WARN_SALARY_TO_PAY,
+  ADD_SALARY_SUCCESS,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -330,6 +331,7 @@ export const warnInvoiceToPay = selected =>  ({type: WARN_INVOICE_TO_PAY, select
 export const warnSalaryToPay = selected =>  ({type: WARN_SALARY_TO_PAY, selected})
 export const cancelUpdateAdminInvoiceStatus = () => ({type: CANCEL_UPDATE_AMDIN_INVOICE_STATUS})
 export const cancelUpdateAdminSalaryStatus = () => ({type: CANCEL_UPDATE_AMDIN_SALARY_STATUS})
+export const addSalarySuccess = () => ({type: ADD_SALARY_SUCCESS})
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

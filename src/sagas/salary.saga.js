@@ -11,7 +11,8 @@ import {
   getNewSalarySuccess,
   selectRowSalarySuccess,
   getSalariesSuccess,
-  getSalaryByIdSuccess  
+  getSalaryByIdSuccess,
+  addSalarySuccess
 } from '../actions/index'
 import store from '../store'
 import { apiManualPost, apiBlobPost } from '../utils/request'
@@ -84,14 +85,30 @@ function* postSalarySaga({ selected }) {
       palkka: salarySummary.palkka
     })
     const url = `${API_SERVER}/AddSalary`   
-    yield call(apiManualPost, url, body)
+    const resultAddSalary = yield call(apiManualPost, url, body)
+
+    if (resultAddSalary.data === 'Salary saved successfully!') {
+      yield put(addSalarySuccess(resultAddSalary.data))
+    } else {
+      console.warn('Inside Failed AddSalary:: ',resultAddSalary.data)
+    }
 
     //Update Salary Grid after Add Salary
     const getSalaryUrl = `${API_SERVER}/GetSalaries`    
     const getSalaryBody = JSON.stringify({ uuid: uuid })
     const resultGetSalaries = yield call(apiManualPost, getSalaryUrl, getSalaryBody)  
     const resultParsed = JSON.parse(resultGetSalaries.data)
-    yield put(getSalariesSuccess(resultParsed))    
+    yield put(getSalariesSuccess(resultParsed))
+    
+    //Update Invoice Info Grid after Add Salary
+    const invoiceInfoUrl = `${API_SERVER}/GetInvoiceInfoForWages`     
+    const invoiceInfoBody = JSON.stringify({     
+      uuid: uuid
+    })    
+    const resultInvoiceInfo = yield call(apiManualPost, invoiceInfoUrl, invoiceInfoBody)    
+    const resultParsedInvoiceInfo = JSON.parse(resultInvoiceInfo.data)
+    console.log('Inside postSalarySaga resultParsedInvoiceInfo:: ',resultParsedInvoiceInfo)
+    yield put(getNewSalarySuccess(resultParsedInvoiceInfo))
   } catch (e) {
     console.warn(e)
   }

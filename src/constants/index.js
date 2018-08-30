@@ -175,6 +175,7 @@ export const GET_SALARY_INFO = '@@salary/GET_SALARY_INFO'
 export const GET_SALARY_BY_ID_SUCCESS = '@@salary/GET_SALARY_BY_ID_SUCCESS'
 export const SALARY_PAGE_CHANGE = '@@salary/SALARY_PAGE_CHANGE'
 export const SAVE_SALARY_SLIP = '@@salary/SAVE_SALARY_SLIP'
+export const ADD_SALARY_SUCCESS = '@@salary/ADD_SALARY_SUCCESS'
 
 export const LANGUAGE_CHANGE = '@@lang/LANGUAGE_CHANGE'
 export const SAVE_AND_SEND_INVOICE_PDF = '@invoice/SAVE_AND_SEND_INVOICE_PDF'

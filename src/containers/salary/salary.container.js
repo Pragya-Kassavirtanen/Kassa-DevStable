@@ -13,8 +13,8 @@ const mapStateToProps = state => {
   return {
     state,
     salaryRows: state.salary.salaryRows,
-    salaryPages: !!state.salary.salaries
-      ? Math.ceil(state.salary.salaries.length / 10)
+    salaryPages: !!state.salary.allSalaries
+      ? Math.ceil(state.salary.allSalaries.length / 10)
       : 0,
     id: state.salary.newSalaryInfo.id
   }

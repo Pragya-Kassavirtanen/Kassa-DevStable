@@ -38,11 +38,11 @@ function* postTaxCardSaga(action) {
       yield put(change('tax', 'taxCard', file.name))
     }
 
-    const formValues = getFormValues('tax')(store.getState())
+    //const formValues = getFormValues('tax')(store.getState())
     const uuid = store.getState().client.user.data[2]
     const body = {
-      uuid: uuid,
-      tax_percentage: formValues.tax_percentage
+      uuid: uuid
+      //tax_percentage: formValues.tax_percentage
     }
 
     const channel = yield call(createUploadFileChannel, url, file, body)

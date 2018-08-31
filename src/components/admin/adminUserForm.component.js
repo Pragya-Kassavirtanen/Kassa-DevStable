@@ -23,7 +23,7 @@ export default class AdminUserForm extends Component {
   }
 }
 
-const AdminUserFormComponent = ({
+const AdminUserFormComponent = ({  
   email,
   uuid,
   updateAdminUser
@@ -93,7 +93,8 @@ const AdminUserFormComponent = ({
             <RaisedButton label="Tallenna"
                           className="pull-right"
                           primary={true}
-                          onClick={() => updateAdminUser(uuid, email)}/>
+                          onClick={() => updateAdminUser(email, uuid)}                         
+                          />
           </TableRowColumn>
         </TableRow>
       </TableBody>

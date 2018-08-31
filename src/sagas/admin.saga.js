@@ -28,7 +28,7 @@ import {
   searchAdminInvoiceFailed,
   searchAdminWagesSuccess,
   searchAdminWagesFailed,
-  //searchAdminInvoice,
+  searchAdminInvoice,
   expandAdminInvoiceTrue,
   expandAdminInvoiceFalse,
   searchAdminUsersSuccess,
@@ -36,7 +36,8 @@ import {
   searchAdminUsersFailed,
   expandAdminUserFalse,
   expandAdminUserTrue,
-  updateAdminUserResult
+  updateAdminUserResult,
+  updateAdminInvoiceStatusSuccess
   //searchAdminUsers
 } from '../actions/index'
 
@@ -125,16 +126,15 @@ function* adminUsersSearchSaga() {
 function* adminWagesSearchSaga() {
   try {
     const url = `${API_SERVER}/SearchSalaries`
-    const formValues = getFormValues('admin')(store.getState())       
-   
+    const formValues = getFormValues('admin')(store.getState())
+
     let body
     if (formValues === undefined) {
       body = {}
-    } else {      
-
+    } else {
       let start_date
-      if (formValues.start_date !== undefined){
-          start_date = formatFiToISO(
+      if (formValues.start_date !== undefined) {
+        start_date = formatFiToISO(
           new DateTimeFormat('fi', {
             day: 'numeric',
             month: 'numeric',
@@ -144,10 +144,10 @@ function* adminWagesSearchSaga() {
             .split('.')
         )
       }
-      
+
       let end_date
-      if (formValues.end_date !== undefined){
-          end_date = formatFiToISO(
+      if (formValues.end_date !== undefined) {
+        end_date = formatFiToISO(
           new DateTimeFormat('fi', {
             day: 'numeric',
             month: 'numeric',
@@ -164,16 +164,16 @@ function* adminWagesSearchSaga() {
         if (statusPaid === true) {
           statusPaid = 'Paid'
         }
-      }      
-  
+      }
+
       let StatusProcessing
       if (formValues.StatusProcessing !== undefined) {
         StatusProcessing = formValues.StatusProcessing
         if (StatusProcessing === true) {
           StatusProcessing = 'processing'
         }
-      }      
-  
+      }
+
       body = {
         firstname: formValues.firstname,
         start_date: start_date,
@@ -181,7 +181,7 @@ function* adminWagesSearchSaga() {
         statusPaid: statusPaid,
         StatusProcessing: StatusProcessing
       }
-    }    
+    }
 
     const result = yield call(apiManualPost, url, JSON.stringify(body))
 
@@ -275,20 +275,23 @@ function* adminInvoiceUpdateSaga({ id }) {
   }
 }
 
-function* adminUserUpdateSaga({ uuid, email }) {
+function* adminUserUpdateSaga({ email, uuid }) {
   try {
     const formValues = getFormValues(`AdminUserForm_${email.replace('.', '')}`)(
       store.getState()
-    )
-    const invoiceUrl = `${API_SERVER}/admin/user-update`
-    const body = JSON.parse(
+    )    
+    const refinedForm = Object.assign({}, { ...formValues }, { uuid: uuid })
+    const invoiceUrl = `${API_SERVER}/UpdateUserContactDetails`
+    /* const body = JSON.parse(
       JSON.stringify({
-        user_info_uuid: uuid,
+        uuid: uuid,
         tax_percent: parseFloat(formValues.tax_percent),
         service_fee: parseFloat(formValues.service_fee)
       })
-    )
-    yield call(apiPost, invoiceUrl, JSON.stringify(body), 'PUT')
+    ) */
+    const body = JSON.stringify({ ...refinedForm })
+    yield call(apiManualPost, invoiceUrl, body)
+    //const resultParsed = JSON.parse(result.data)   
     yield put(updateAdminUserResult(true))
   } catch (e) {
     console.warn(e)
@@ -319,31 +322,28 @@ function* adminUpdateInvoiceStatusSaga({ invoice_id }) {
     const result = yield call(apiManualPost, url, body)
 
     if (result.data === 'Invoice status updated Successfully') {
-      //yield put(updateAdminInvoiceStatusSuccess(result.data))
-      console.log('Success updating Invoice Search!!')
+      yield put(updateAdminInvoiceStatusSuccess(result.data))
     } else {
-      //yield put(updateAdminInvoiceStatusFailed())
-      console.log('Failed updating Invoice Search!!')
+      console.warn(result.data)
     }
+    yield put(searchAdminInvoice())
   } catch (e) {
-    //yield put(updateAdminInvoiceStatusFailed(e))
     console.warn(e)
   }
 }
 
 function* adminUpdateSalaryStatusSaga({ id }) {
   try {
-    const url = `${API_SERVER}/UpdateSalaryStatus`    
+    const url = `${API_SERVER}/UpdateSalaryStatus`
     const body = JSON.stringify({
       id: id,
       Status: store.getState().admin.Status
     })
     const result = yield call(apiManualPost, url, body)
     const parsedResult = JSON.parse(result.data)
+
     console.log('Inside adminUpdateSalaryStatusSaga:: ', parsedResult)
-    //yield put(searchAdminUsersSuccess(parsedResult))
   } catch (e) {
-    //yield put(searchAdminUsersFailed)
     console.warn(e)
   }
 }

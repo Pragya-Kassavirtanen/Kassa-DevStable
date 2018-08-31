@@ -2,11 +2,7 @@ import { takeEvery, put, call } from 'redux-saga/effects'
 import store from '../store'
 import { change, getFormValues } from 'redux-form'
 
-import {
-  LOAD_PROFILE_START,
-  ON_PROFILE_UPDATE,
-  API_SERVER
-} from '../constants'
+import { LOAD_PROFILE_START, ON_PROFILE_UPDATE, API_SERVER } from '../constants'
 
 import { apiManualPost } from '../utils/request'
 import { loadProfileSuccess, loadProfileFailed } from '../actions'
@@ -26,26 +22,13 @@ function* loadProfileSaga() {
       for (let key of keys) {
         yield put(change('profile', key, resultParsed[key]))
       }
+
+      yield put(change('tax', 'tax_percentage', resultParsed['tax_percentage']))
     }
   } catch (e) {
     yield put(loadProfileFailed(e))
   }
 }
-
-/* function* updateProfileSaga() {
-  try {
-    const formValues = getFormValues('profile')(store.getState())
-    const uuid = store.getState().client.user.data[2]
-    const body = JSON.stringify({...formValues, uuid: uuid})
-
-    const url = `${API_SERVER}/UpdateUserContactDetails`
-    const result = yield call(apiManualPost, url, body)
-    const resultParsed = JSON.parse(result.data)
-    yield put(loadProfileSuccess(resultParsed))
-  } catch (e) {
-  console.warn(e)
-}
-} */
 
 function* updateProfileSaga() {
   try {

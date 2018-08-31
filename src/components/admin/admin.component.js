@@ -430,6 +430,7 @@ const createInvoiceRow = (
             store.dispatch(warnInvoiceToPay(el.invoice_id))
           }}
           disabled={el.invoicepaid !== 0 ? true : false}
+          checked={isToPayInvoiceId !== el.invoice_id ? false : true}
         />
         <Dialog
           title={`Haluatko Laskun numero = ${isToPayInvoiceId} maksetaan !`}
@@ -485,7 +486,7 @@ const createUserRow = (users, selected, changeAdminMenu, expandAdminUser) =>
     >
       <CardHeader showExpandableButton actAsExpander={true}>
         <Table
-          onCellClick={() => changeAdminMenu(1, el.person_to_contact_email)}
+          onCellClick={() => changeAdminMenu(1, el.email)}
         >
           <TableBody displayRowCheckbox={false}>
             <TableRow selectable={false} key={el.uuid}>
@@ -589,7 +590,7 @@ const createSalaryRow = (
   />
 ) */
 
-const expandedUserFormData = (expandData, uuid) => (
+const expandedUserFormData = (expandData, uuid) => (  
   <AdminUserFormContainer
     form={`AdminUserForm_${expandData.email.replace('.', '')}`}
     initialValues={expandData}

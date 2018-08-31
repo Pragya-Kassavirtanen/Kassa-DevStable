@@ -20,7 +20,6 @@ class Tax extends React.Component {
 }
 
 
-
 const TaxComponent = ({ onFileUpload, showSpinner }) =>
 
   <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -49,6 +48,7 @@ const TaxComponent = ({ onFileUpload, showSpinner }) =>
                       <div className="formSplit">
                         <Field
                           name="tax_percentage"
+                          disabled={true}
                           component={renderTextField}
                           label="Oma vero %"
                         />

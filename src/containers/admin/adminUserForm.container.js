@@ -29,7 +29,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    updateAdminUser: (uuid, email) => dispatch(updateAdminUser(uuid, email))
+    updateAdminUser: (email, uuid) => dispatch(updateAdminUser(email, uuid))    
   }
 }
 

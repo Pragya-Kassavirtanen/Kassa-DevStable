@@ -163,6 +163,7 @@ import {
   WARN_INVOICE_TO_PAY,
   WARN_SALARY_TO_PAY,
   ADD_SALARY_SUCCESS,
+  UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -310,7 +311,7 @@ export const searchAdminWagesFailed = () => ({ type: SEARCH_ADMIN_WAGES_FAILED }
 export const expandAdminUser = (expanded, uuid) => ({ type: EXPAND_ADMIN_USER, expanded, uuid})
 export const expandAdminUserTrue = result => ({ type: EXPAND_ADMIN_USER_TRUE, result})
 export const expandAdminUserFalse = uuid => ({ type: EXPAND_ADMIN_USER_FALSE, uuid})
-export const updateAdminUser = (uuid, email) => ({type: UPDATE_ADMIN_USER, uuid, email})
+export const updateAdminUser = (email, uuid) => ({type: UPDATE_ADMIN_USER, email, uuid})
 export const updateAdminUserResult = result => ({type: UPDATE_ADMIN_USER_RESULT, result})
 export const searchAdminInvoice = () => ({ type: SEARCH_ADMIN_INVOICE })
 export const searchAdminInvoiceSuccess = result => ({ type: SEARCH_ADMIN_INVOICE_SUCCESS, result})
@@ -332,6 +333,7 @@ export const warnSalaryToPay = selected =>  ({type: WARN_SALARY_TO_PAY, selected
 export const cancelUpdateAdminInvoiceStatus = () => ({type: CANCEL_UPDATE_AMDIN_INVOICE_STATUS})
 export const cancelUpdateAdminSalaryStatus = () => ({type: CANCEL_UPDATE_AMDIN_SALARY_STATUS})
 export const addSalarySuccess = () => ({type: ADD_SALARY_SUCCESS})
+export const updateAdminInvoiceStatusSuccess = () => ({type: UPDATE_ADMIN_INVOICE_STATUS_SUCCESS})
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

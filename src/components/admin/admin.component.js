@@ -44,7 +44,6 @@ const AdminComponent = ({
   changeAdminMenu,
   selectedMenuItem,
   invoiceSearchRows,
-  expandAdminInvoice,
   invoiceSearchPages,
   invoiceSearchPageChange,
   selected,
@@ -65,9 +64,9 @@ const AdminComponent = ({
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
   updateAdminSalaryStatus,
-  showSpinner,
   showAdminSnackbar,
-  hideAdminSnackbar
+  hideAdminSnackbar,
+  showSpinner
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -88,26 +87,25 @@ const AdminComponent = ({
               invoiceSearchRows,
               invoiceSearchPages,
               invoiceSearchPageChange,
-              salarySearchPages,
-              salarySearchPageChange,
-              userSearchPages,
-              userSearchPageChange,
-              warnSalaryToPay,
-              isToPaySalaryId,
-              isToLiftSalary,
-              cancelUpdateAdminSalaryStatus,
-              updateAdminSalaryStatus,
               selected,
               isToPay,
               isToPayInvoiceId,
               warnInvoiceToPay,
               updateAdminInvoiceStatus,
               cancelUpdateAdminInvoiceStatus,
-              expandAdminInvoice,
               userSearchRows,
-              changeAdminMenu,
+              userSearchPages,
+              userSearchPageChange,
               expandAdminUser,
-              salarySearchRows
+              changeAdminMenu,
+              salarySearchRows,
+              salarySearchPages,
+              salarySearchPageChange,
+              warnSalaryToPay,
+              isToPaySalaryId,
+              isToLiftSalary,
+              cancelUpdateAdminSalaryStatus,
+              updateAdminSalaryStatus
             )}
           </div>
         </div>
@@ -143,26 +141,25 @@ const selectPanel = (
   invoiceSearchRows,
   invoiceSearchPages,
   invoiceSearchPageChange,
-  salarySearchPages,
-  salarySearchPageChange,
-  warnSalaryToPay,
-  isToPaySalaryId,
-  isToLiftSalary,
-  cancelUpdateAdminSalaryStatus,
-  updateAdminSalaryStatus,
-  userSearchPages,
-  userSearchPageChange,
   selected,
   isToPay,
   isToPayInvoiceId,
   warnInvoiceToPay,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus,
-  expandAdminInvoice,
   userSearchRows,
-  changeAdminMenu,
+  userSearchPages,
+  userSearchPageChange,
   expandAdminUser,
-  salarySearchRows
+  changeAdminMenu,
+  salarySearchRows,
+  salarySearchPages,
+  salarySearchPageChange,
+  warnSalaryToPay,
+  isToPaySalaryId,
+  isToLiftSalary,
+  cancelUpdateAdminSalaryStatus,
+  updateAdminSalaryStatus
 ) => {
   switch (selectedMenuItem) {
     case 0:
@@ -175,29 +172,28 @@ const selectPanel = (
         isToPayInvoiceId,
         warnInvoiceToPay,
         updateAdminInvoiceStatus,
-        cancelUpdateAdminInvoiceStatus,
-        expandAdminInvoice
+        cancelUpdateAdminInvoiceStatus
       )
     case 1:
       return customerPanel(
         userSearchRows,
         selected,
-        changeAdminMenu,
-        expandAdminUser,
         userSearchPages,
-        userSearchPageChange
+        userSearchPageChange,
+        expandAdminUser,
+        changeAdminMenu
       )
     case 2:
       return salaryPanel(
         salarySearchRows,
         selected,
+        salarySearchPages,
+        salarySearchPageChange,
         warnSalaryToPay,
         isToPaySalaryId,
         isToLiftSalary,
         cancelUpdateAdminSalaryStatus,
-        updateAdminSalaryStatus,
-        salarySearchPages,
-        salarySearchPageChange
+        updateAdminSalaryStatus
       )
   }
 }
@@ -282,10 +278,10 @@ const invoicePanel = (
 const customerPanel = (
   userSearchRows,
   selected,
-  changeAdminMenu,
-  expandAdminUser,
   userSearchPages,
-  userSearchPageChange
+  userSearchPageChange,
+  expandAdminUser,
+  changeAdminMenu
 ) => (
   <div className="col-xs-9 col-sm-9 col-lg-9">
     <div className="panel panel-default">
@@ -305,8 +301,8 @@ const customerPanel = (
       {createUserRow(
         userSearchRows,
         selected,
-        changeAdminMenu,
-        expandAdminUser
+        expandAdminUser,
+        changeAdminMenu
       )}
       <Divider />
       <div className="panel-body">
@@ -331,13 +327,13 @@ const customerPanel = (
 const salaryPanel = (
   salarySearchRows,
   selected,
+  salarySearchPages,
+  salarySearchPageChange,
   warnSalaryToPay,
   isToPaySalaryId,
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
-  updateAdminSalaryStatus,
-  salarySearchPages,
-  salarySearchPageChange
+  updateAdminSalaryStatus
 ) => (
   <div className="col-xs-9 col-sm-9 col-lg-9">
     <div className="panel panel-default">
@@ -476,7 +472,7 @@ const createInvoiceRow = (
     </TableRow>
   ))
 
-const createUserRow = (users, selected, changeAdminMenu, expandAdminUser) =>
+const createUserRow = (users, selected, expandAdminUser, changeAdminMenu) =>
   users.slice(selected * 10, selected * 10 + 10).map(el => (
     <Card
       expandable={true}
@@ -485,9 +481,7 @@ const createUserRow = (users, selected, changeAdminMenu, expandAdminUser) =>
       onExpandChange={e => expandAdminUser(e, el.uuid)}
     >
       <CardHeader showExpandableButton actAsExpander={true}>
-        <Table
-          onCellClick={() => changeAdminMenu(1, el.email)}
-        >
+        <Table onCellClick={() => changeAdminMenu(1, el.email)}>
           <TableBody displayRowCheckbox={false}>
             <TableRow selectable={false} key={el.uuid}>
               <TableRowColumn>{el.firstname}</TableRowColumn>
@@ -582,15 +576,7 @@ const createSalaryRow = (
     </TableRow>
   ))
 
-/* const expandedInvoiceFormData = expandData => (
-  <AdminInvoiceFormContainer
-    form={`AdminInvoiceForm_${expandData.id}`}
-    initialValues={expandData}
-    id={expandData.id}
-  />
-) */
-
-const expandedUserFormData = (expandData, uuid) => (  
+const expandedUserFormData = (expandData, uuid) => (
   <AdminUserFormContainer
     form={`AdminUserForm_${expandData.email.replace('.', '')}`}
     initialValues={expandData}

@@ -531,6 +531,7 @@ const createSalaryRow = (
             store.dispatch(warnSalaryToPay(el.id))
           }}
           disabled={el.status === 'paid' ? true : false}
+          checked={isToPaySalaryId !== el.id ? false : true}
         />
         <Dialog
           open={isToLiftSalary}

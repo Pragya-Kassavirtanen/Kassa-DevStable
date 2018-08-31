@@ -164,6 +164,7 @@ import {
   WARN_SALARY_TO_PAY,
   ADD_SALARY_SUCCESS,
   UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
+  UPDATE_ADMIN_SALARY_STATUS_SUCCESS,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -334,7 +335,8 @@ export const cancelUpdateAdminInvoiceStatus = () => ({type: CANCEL_UPDATE_AMDIN_
 export const cancelUpdateAdminSalaryStatus = () => ({type: CANCEL_UPDATE_AMDIN_SALARY_STATUS})
 export const addSalarySuccess = () => ({type: ADD_SALARY_SUCCESS})
 export const updateAdminInvoiceStatusSuccess = () => ({type: UPDATE_ADMIN_INVOICE_STATUS_SUCCESS})
-
+export const updateAdminSalaryStatusSuccess = () => ({type: UPDATE_ADMIN_SALARY_STATUS_SUCCESS})
+ 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})
 export const getSalariesStart = () => ({ type: GET_SALARIES_START })

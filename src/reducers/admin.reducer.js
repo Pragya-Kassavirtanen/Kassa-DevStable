@@ -24,7 +24,8 @@ import {
   CANCEL_UPDATE_AMDIN_INVOICE_STATUS,
   UPDATE_ADMIN_SALARY_STATUS,
   CANCEL_UPDATE_AMDIN_SALARY_STATUS,
-  UPDATE_ADMIN_INVOICE_STATUS_SUCCESS
+  UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
+  UPDATE_ADMIN_SALARY_STATUS_SUCCESS
 } from '../constants'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -282,6 +283,16 @@ const adminReducer = (state = initialState, action) => {
       )
 
     case UPDATE_ADMIN_INVOICE_STATUS_SUCCESS:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          //isToPaySalaryId: 0
+          isToPayInvoiceId: 0
+        }
+      )
+
+    case UPDATE_ADMIN_SALARY_STATUS_SUCCESS:
       return Object.assign(
         {},
         { ...state },

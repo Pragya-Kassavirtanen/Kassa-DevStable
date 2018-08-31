@@ -37,8 +37,9 @@ import {
   expandAdminUserFalse,
   expandAdminUserTrue,
   updateAdminUserResult,
-  updateAdminInvoiceStatusSuccess
-  //searchAdminUsers
+  updateAdminInvoiceStatusSuccess,
+  searchAdminWages,
+  updateAdminSalaryStatusSuccess
 } from '../actions/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -339,10 +340,14 @@ function* adminUpdateSalaryStatusSaga({ id }) {
       id: id,
       Status: store.getState().admin.Status
     })
-    const result = yield call(apiManualPost, url, body)
-    const parsedResult = JSON.parse(result.data)
+    const result = yield call(apiManualPost, url, body)        
 
-    console.log('Inside adminUpdateSalaryStatusSaga:: ', parsedResult)
+    if (result.data === 'Salary status updated Successfully') {
+      yield put(updateAdminSalaryStatusSuccess(result.data))
+    } else {
+      console.warn(result.data)
+    }
+    yield put(searchAdminWages())
   } catch (e) {
     console.warn(e)
   }

@@ -258,22 +258,20 @@ function* editExpenseSaga({ invoice_expense_id }) {
     const result = yield call(apiManualPost, url, body)
 
     const expenseResult = JSON.parse(result.data)
+    console.log( 'Inside editExpenseSaga:: ', expenseResult )
 
     if (expenseResult) yield put(getExpenseByIdSuccess(expenseResult))
 
-    let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
-    let purDate = new Date(purchaseDate)
-
-    /*  let purPopDate = purDate.toISOString()
-     console.log('================purPopDate::', purPopDate)
-     yield put(change('newfee', 'date_of_purchase', purPopDate)) */
+    //let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
+    let purDate = '2018-08-09T00:00:00'   
 
     let purPopDate = new DateTimeFormat('fi', {
       day: 'numeric',
       month: 'numeric',
       year: 'numeric'
-    }).format(purDate)
-    console.log('================purPopDate::', purPopDate)
+    }).format(new Date(purDate))
+     
+    console.log('================purPopDate::', purPopDate) 
     yield put(change('newfee', 'date_of_purchase', purPopDate))
 
     let invoicePopId = store.getState().expense.expenseEdit[0].invoice_id

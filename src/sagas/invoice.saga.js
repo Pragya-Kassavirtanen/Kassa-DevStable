@@ -12,6 +12,7 @@ import {
   GET_PROFESSION,
   CLEAR_INVOICE_OPTIONS,
   GENERATE_INVOICE_PDF,
+  INVOICE_DOWNLOAD_PDF,
   SAVE_AND_SEND_INVOICE_PDF
 } from '../constants'
 import {
@@ -29,7 +30,7 @@ import {
   generateInvoicePDFSuccess,
   generateInvoicePDFFailed
 } from '../actions/index'
-import { apiManualPost, apiManualRequest } from '../utils/request'
+import { apiManualPost, apiManualRequest, apiBlobPost } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 import DateTimeFormat from '../utils/DateTimeFormat'
 import { nestProperties, propertyArray } from '../utils/invoice.utils'
@@ -248,6 +249,18 @@ function* generateInvoicePDF({ invoice_id }) {
       invoice_id: invoice_id
     })    
     yield call(apiManualPost, url, body)
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* invoiceDownloadPDF({ invoice_id }) {
+  try {
+    const url = `${API_SERVER}/InvoiceDownloadPDF`
+    const body = JSON.stringify({
+      invoice_id: invoice_id
+    })    
+    yield call(apiBlobPost, url, body)
   } catch (e) {
     console.warn(e)
   }
@@ -529,4 +542,8 @@ export function* watchGenerateInvoicePDF() {
 
 export function* watchSaveAndSendInvoicePDF() {
   yield takeEvery(SAVE_AND_SEND_INVOICE_PDF, saveAndSendInvoicePDF)
+}
+
+export function* watchInvoiceDownloadPDF() {
+  yield takeEvery(INVOICE_DOWNLOAD_PDF, invoiceDownloadPDF)
 }

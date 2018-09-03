@@ -5,7 +5,7 @@ import store from '../../store'
 import {
   removeInvoice,
   copyInvoice, 
-  generateInvoicePDF,
+  invoiceDownloadPDF,
   editInvoice
  // showTooltip,
  // hideTooltip
@@ -42,12 +42,12 @@ const InvoiceRow = ({
           <p
             style={{ marginLeft: '10px' }}
             onClick={() => {
-              store.dispatch(generateInvoicePDF(invoice_id))
+              store.dispatch(invoiceDownloadPDF(invoice_id))
             }}
            // onMouseEnter={()=>{store.dispatch({showTooltip})}}
            // onMouseLeave={()=>{store.dispatch({hideTooltip})}}
           >
-            <FontAwesome name="telegram" />
+            <FontAwesome name="file-pdf-o" />
           </p>
         </Link>
         {/* <Tooltip show={hoveredTooltip}

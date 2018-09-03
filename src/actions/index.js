@@ -145,6 +145,7 @@ import {
   CLOSE_CUSTOMER_SNACKBAR,
   CLEAR_INVOICE_OPTIONS,
   GENERATE_INVOICE_PDF,
+  INVOICE_DOWNLOAD_PDF,
   SAVE_AND_SEND_INVOICE_PDF,
   RESET_PASSWORD_FORM_SUBMIT,
   PASSWORD_UPDATE_SUCCESS,
@@ -221,6 +222,7 @@ export const showTooltip = () => ({ type: SHOW_TOOLTIP })
 export const hideTooltip = () => ({ type: HIDE_TOOLTIP })
 export const clearInvoiceOptions = () => ({ type: CLEAR_INVOICE_OPTIONS })
 export const generateInvoicePDF = (invoice_id) => ({ type: GENERATE_INVOICE_PDF, invoice_id })
+export const invoiceDownloadPDF = (invoice_id) => ({ type: INVOICE_DOWNLOAD_PDF, invoice_id })
 
 export const getExpenseStart = () => ({type: GET_EXPENSE_START})
 export const getExpenseSuccess = (expenses, allowances) => ({type: GET_EXPENSE_SUCCESS, expenses, allowances})

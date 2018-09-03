@@ -44,9 +44,9 @@ const initialState = {
   expenseInputRow: [
     <ExpenseInputRow
       key={0}
-      description={`expenseInputRow[${0}][description${0}]`}
-      sum={`expenseInputRow[${0}][sum${0}]`}
-      vat={`expenseInputRow[${0}][vat${0}]`}
+      description={`expenseInputRow[${0}][description]`}
+      sum={`expenseInputRow[${0}][sum]`}
+      vat={`expenseInputRow[${0}][vat]`}
     />
   ],
   allowanceInputRow: [
@@ -118,9 +118,9 @@ const expenseReducer = (state = initialState, action) => {
         expenseInputRow: [
           <ExpenseInputRow
             key={0}
-            description={`expenseInputRow[${0}][description${0}]`}
-            sum={`expenseInputRow[${0}][sum${0}]`}
-            vat={`expenseInputRow[${0}][vat${0}]`}
+            description={`expenseInputRow[${0}][description]`}
+            sum={`expenseInputRow[${0}][sum]`}
+            vat={`expenseInputRow[${0}][vat]`}
           />
         ],
         expenseRowCounter: 1
@@ -380,9 +380,9 @@ const _createExpenseInputRow = index => [
   <ExpenseInputRow
     key={index}
     autoFocusIndex={`${index}`}
-    description={`expenseInputRow[${index}][description${index}]`}
-    sum={`expenseInputRow[${index}][sum${index}]`}
-    vat={`expenseInputRow[${index}][vat${index}]`}
+    description={`expenseInputRow[${index}][description]`}
+    sum={`expenseInputRow[${index}][sum]`}
+    vat={`expenseInputRow[${index}][vat]`}
   />
 ]
 

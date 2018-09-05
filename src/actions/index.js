@@ -227,7 +227,7 @@ export const invoiceDownloadPDF = (invoice_id) => ({ type: INVOICE_DOWNLOAD_PDF,
 export const getExpenseStart = () => ({type: GET_EXPENSE_START})
 export const getExpenseSuccess = (expenses, allowances) => ({type: GET_EXPENSE_SUCCESS, expenses, allowances})
 export const getExpenseFailed = error => ({type: GET_EXPENSE_FAILED, error})
-export const addExpenseRow = () => ({type: ADD_EXPENSE_ROW})
+export const addExpenseRow = (copy) => ({type: ADD_EXPENSE_ROW, copy})
 export const removeExpenseRow = key => ({type: REMOVE_EXPENSE_ROW, key})
 export const addAllowanceRow = () => ({type: ADD_ALLOWANCE_ROW})
 export const removeAllowanceRow = key => ({type: REMOVE_ALLOWANCE_ROW, key})

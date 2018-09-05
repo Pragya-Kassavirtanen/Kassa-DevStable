@@ -76,7 +76,7 @@ export const invoiceValidate = values => {
     errors['zip_code'] = 'Postinumero ei ole kelvollinen'
   }
 
-  if (values.invoice_reference && !/^\d(.*)$/i.test(values.invoice_reference)) {
+  if (values.invoice_reference && !/^[a-zA-Z0-9]+$/i.test(values.invoice_reference)) {
     errors['invoice_reference'] = 'Viitenumero ei ole kelvollinen'
   }
 

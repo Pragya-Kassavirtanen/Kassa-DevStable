@@ -57,7 +57,8 @@ const mapStateToProps = (state) => {
     apiSuccess: review.apiSuccess,
     showSpinner: review.showSpinner,
     invoiceRows: review.reviewRows,
-    formValues: formInvoiceReview
+    formValues: formInvoiceReview,
+    isSaveAndSend: review.isSaveAndSend
   }
 }
 

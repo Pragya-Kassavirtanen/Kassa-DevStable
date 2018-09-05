@@ -93,10 +93,11 @@ const expenseReducer = (state = initialState, action) => {
       )
 
     case ADD_EXPENSE_ROW:
+      const copy = action.copy
       const expenseRowState = state.expenseInputRow
       return Object.assign({}, state, {
         expenseInputRow: expenseRowState.concat(
-          _createExpenseInputRow(state.expenseRowCounter)
+          _createExpenseInputRow(state.expenseRowCounter, copy)
         ),
         expenseRowCounter: state.expenseRowCounter + 1
       })
@@ -376,9 +377,10 @@ const _createAllowanceRow = (allowances, selected) =>
     />
   ))
 
-const _createExpenseInputRow = index => [
+const _createExpenseInputRow = (index, copy) => [
   <ExpenseInputRow
     key={index}
+    copy={copy}
     autoFocusIndex={`${index}`}
     description={`expenseInputRow[${index}][description]`}
     sum={`expenseInputRow[${index}][sum]`}

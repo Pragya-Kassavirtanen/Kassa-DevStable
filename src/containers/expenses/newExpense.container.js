@@ -19,14 +19,14 @@ import {
   changeExpensePurchaseDate
 } from '../../actions/index'
 
-//const date = new Date()
+const date = new Date()
 let newExpenseContainer = reduxForm({
   form: 'newfee',
   destroyOnUnmount: false,
   initialValues: {
     invoice: '',
     place_of_purchase: '',   
-    //date_of_purchase: date,
+    date_of_purchase: date,
     expenseInputRow: [{
       description: '',
       sum: '',
@@ -41,11 +41,19 @@ let newExpenseContainer = reduxForm({
 const mapStateToProps = (state) => {
 
   const formValues = getFormValues('newfee')(state)
-
   const expenseInputRow = state.expense.expenseInputRow
+
+  for (let r of Object.keys(formValues['expenseInputRow'])) {
+    !expenseInputRow.reduce((sum, value) => {
+      return value.key === r || sum
+    }, false) && delete formValues['expenseInputRow'][r]
+  }
+
   expenseInputRow.forEach(el => {
     if (!formValues['expenseInputRow'][el.key]) {
       formValues['expenseInputRow'][el.key] = {}
+      formValues['expenseInputRow'][el.key]['description'] = ''
+      formValues['expenseInputRow'][el.key]['sum'] = ''
       formValues['expenseInputRow'][el.key]['vat'] = 24
     }
   })
@@ -61,7 +69,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.oidc.user,
     invoices: invoiceNames,
-    expenseRows: state.expense.expenseInputRow,
+    expenseRows: expenseInputRow,
     showSpinner: state.expense.showSpinner,
     showSnackbar: state.expense.showSnackbar,
     isEdit: state.expense.isEdit,  
@@ -73,7 +81,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    addExpenseRow: () => dispatch(addExpenseRow()),
+    addExpenseRow: (copy) => dispatch(addExpenseRow(copy)),
     saveExpense: () => dispatch(saveExpense()),
     expensePictureUpload: fileName => dispatch(change('newfee', 'receipt_picture', fileName)),
     closeSnackbar: () => dispatch(closeExpenseSnackBar()),

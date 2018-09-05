@@ -20,6 +20,7 @@ const reviewInvoice = (
     apiFailed: false,
     showSpinner: false,
     isSaveAndSend: false,
+    isSaveInvoiceDraft: false,
     invoice_id: 0
   },
   action
@@ -42,32 +43,32 @@ const reviewInvoice = (
       })
 
     case SAVE_AND_SEND_INVOICE:
-      return Object.assign({}, state, { showSpinner: true })
+      return Object.assign({}, state)
 
     case SAVE_INVOICE_SUCCESS:
-      return Object.assign({}, state, {
-        showSpinner: false,
+      return Object.assign({}, state, {       
         apiSuccess: true,
-        invoice_id: action.result
+        invoice_id: action.result,
+        isSaveInvoiceDraft: false
       })
 
     case SAVE_INVOICE_FAILED:
-      return Object.assign({}, state, { showSpinner: false, apiSuccess: true })
+      return Object.assign({}, state, { apiSuccess: true, isSaveInvoiceDraft: false })
 
     case CLOSE_INVOICE_REVIEW_SNACKBAR:
       return Object.assign({}, state, { apiSuccess: false, apiFailed: false })
 
     case SAVE_INVOICE_DRAFT:
-      return Object.assign({}, state, { showSpinner: true })
+      return Object.assign({}, state, { isSaveInvoiceDraft: true })    
 
     case SAVE_AND_SEND_INVOICE_PDF:
-      return Object.assign({}, state, { isSaveAndSend: true })
+      return Object.assign({}, state, { showSpinner: true, isSaveAndSend: true })
 
     case GENERATE_INVOICE_PDF_SUCCESS:
-      return Object.assign({}, state, { isSaveAndSend: false })
+      return Object.assign({}, state, { isSaveAndSend: false, showSpinner: false })
 
     case GENERATE_INVOICE_PDF_FAILED:
-      return Object.assign({}, state, { isSaveAndSend: false })
+      return Object.assign({}, state, { isSaveAndSend: false, showSpinner: false })
 
     default:
       return state

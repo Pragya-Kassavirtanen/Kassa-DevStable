@@ -96,9 +96,9 @@ const mapStateToProps = (state) => {
     if (!formValues['rows'][el.key]) {
       formValues['rows'][el.key] = {}
       formValues['rows'][el.key]['description'] = ''
-      formValues['rows'][el.key]['quantity'] = '0'
+      formValues['rows'][el.key]['quantity'] = ''
       formValues['rows'][el.key]['unit'] = 'kpl'
-      formValues['rows'][el.key]['quantity_price'] = '0'
+      formValues['rows'][el.key]['quantity_price'] = ''
       formValues['rows'][el.key]['vat_percent'] = 24
     }
 
@@ -167,7 +167,7 @@ const mapDispatchToProps = (dispatch) => {
     dispatch,
     getInvoicesStart: () => dispatch(getInvoicesStart()),
     getProfessions: () => dispatch(getProfessions()),
-    addInvoiceRow: () => dispatch(addInvoiceRow()),
+    addInvoiceRow: (copy) => dispatch(addInvoiceRow(copy)),
     removeInvoiceRow: () => dispatch(removeInvoiceRow()),
     onInvoiceReview: () => dispatch(onInvoiceReview()),
     invoicePageChange: selected => dispatch(invoicePageChange(selected)),

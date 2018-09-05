@@ -241,7 +241,7 @@ const invoicePanel = (
               <TableHeaderColumn>Summa</TableHeaderColumn>
               <TableHeaderColumn>Pikapalkka</TableHeaderColumn>
               <TableHeaderColumn>Tila</TableHeaderColumn>
-              <TableHeaderColumn>Tehty</TableHeaderColumn>
+              <TableHeaderColumn>Lasku maksettu</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
@@ -348,7 +348,7 @@ const salaryPanel = (
             <TableHeaderColumn>Päivämäärä</TableHeaderColumn>
             <TableHeaderColumn>Nettopalkka</TableHeaderColumn>
             <TableHeaderColumn>Tila</TableHeaderColumn>
-            <TableHeaderColumn>Tehty</TableHeaderColumn>
+            <TableHeaderColumn>Palkka maksettu</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
@@ -429,7 +429,7 @@ const createInvoiceRow = (
           checked={isToPayInvoiceId !== el.invoice_id ? false : true}
         />
         <Dialog
-          title={`Haluatko Laskun numero = ${isToPayInvoiceId} maksetaan !`}
+          title={`Haluatko maksaa Laskun nro = ${isToPayInvoiceId} !`}
           contentStyle={{
             width: '450px',
             height: '200px',
@@ -535,7 +535,7 @@ const createSalaryRow = (
         />
         <Dialog
           open={isToLiftSalary}
-          title={`Haluatko Palkan numero = ${isToPaySalaryId} maksetaan !`}
+          title={`Haluatko maksaa Palkan nro = ${isToPaySalaryId} !`}
           contentStyle={{
             width: '450px',
             height: '200px',

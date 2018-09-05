@@ -120,8 +120,24 @@ function* saveAndSendInvoiceSaga() {
         uuid: uuid
       })
     )
+   
+    const isSaveInvoiceDraft = store.getState().invoiceReviews.isSaveInvoiceDraft
+    console.log('isSaveInvoiceDraft:: ', isSaveInvoiceDraft)
 
     body.instant_payment = formValues.instant_payment
+    console.log('body.instant_payment:: ', body.instant_payment)
+
+    //Handling SaveAsDraft & SaveAndSendInvoice Status for AddInvoice & UpdateInvoice
+    if ( isSaveInvoiceDraft === false && (body.instant_payment === 'invoice_reminder' || body.instant_payment === '')) {      
+      body.status = 1
+      console.log('body.status:: ', body.status)      
+    } else if ( isSaveInvoiceDraft === false && body.instant_payment === 'quick_pay' ) {      
+      body.status = 2
+      console.log('body.status:: ', body.status)  
+    } else {      
+      body.status = 0
+      console.log('body.status:: ', body.status)     
+    }
 
     let bodyRows = []
     const l = Array.isArray(body.rows)
@@ -206,12 +222,12 @@ function* saveAndSendInvoiceSaga() {
     yield put(reset('invoice'))
     yield put(change('invoice', 'rows', {}))
     yield put(emptyInvoiceRows())
-    yield put(saveInvoiceSuccess(resultParsed[0].invoice_id))
-
-    const isSaveAndSend = store.getState().invoiceReviews.isSaveAndSend    
+    yield put(saveInvoiceSuccess(resultParsed[0].invoice_id))      
+    
+    const isSaveAndSend = store.getState().invoiceReviews.isSaveAndSend
 
     if (isSaveAndSend === true) {
-      const invoice_id = store.getState().invoiceReviews.invoice_id      
+      const invoice_id = store.getState().invoiceReviews.invoice_id     
 
       //Calling GenerateInvoicePDF API....
       const generateInvoicePDFUrl = `${API_SERVER}/GenerateInvoicePDF`

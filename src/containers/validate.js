@@ -212,8 +212,8 @@ export const expenseValidate = values => {
       }
     }
   })
-  //console.log('Inside expenseValidate:: ',errors)
-
+  
+  console.log('Inside expenseValidate:: ',errors)
   return errors
 }
 

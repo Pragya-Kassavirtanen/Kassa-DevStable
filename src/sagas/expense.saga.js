@@ -9,7 +9,7 @@ import {
   saveTravellingExpenseSuccess,
   getExpenseByIdSuccess,
   getAllowanceByIdSuccess,
-  addExpenseRow
+  addExpenseRow  
 } from '../actions/index'
 import {
   SAVE_EXPENSE,
@@ -34,7 +34,8 @@ import {
 import store from '../store'
 import { getFormValues, reset, change } from 'redux-form'
 import { formatFiDateToISO, formatFiTimeToISO } from '../utils/DateTimeFormat'
-import DateTimeFormat from '../utils/DateTimeFormat'
+//import DateTimeFormat from '../utils/DateTimeFormat'
+//import reverseDate from '../utils/invoice.utils'
 
 /**
  * @author Skylar Kong
@@ -121,14 +122,14 @@ function* saveExpenseSaga() {
   const url = `${API_SERVER}/AddExpenses`
   const formValues = getFormValues('newfee')(store.getState())
 
-  //console.log('formValues:: ',formValues)
+  console.log('formValues:: ',formValues)
 
   formValues.date_of_purchase = formatFiDateToISO(formValues.date_of_purchase)
   const file = formValues.inputFile[0]
 
   const expenseInputRow = formValues.expenseInputRow
 
-  //console.log('expenseInputRow:: ',expenseInputRow)
+  console.log('expenseInputRow:: ',expenseInputRow)
 
   expenseInputRow[Symbol.iterator] = function*() {
     const keys = Reflect.ownKeys(this)
@@ -137,7 +138,7 @@ function* saveExpenseSaga() {
     }
   }
 
-  //console.log('expenseInputRow:: ',expenseInputRow)
+  console.log('expenseInputRow:: ',expenseInputRow)
 
   const body = {
     invoice_id: formValues.invoice.invoice_id,
@@ -156,7 +157,7 @@ function* saveExpenseSaga() {
     return el
   })
 
-  //console.log('body.expenseInputRow:: ',body.expenseInputRow)
+  console.log('body.expenseInputRow:: ',body.expenseInputRow)
 
   try {
     const channel = yield call(createUploadFileChannel, url, file, body)
@@ -256,36 +257,29 @@ function* editExpenseSaga({ invoice_expense_id }) {
     const url = `${API_SERVER}/GetExpensesByExpenseID`
     const body = JSON.stringify({ invoice_expense_id: invoice_expense_id })
     const result = yield call(apiManualPost, url, body)
-
-    const expenseResult = JSON.parse(result.data)
-    console.log( 'Inside editExpenseSaga:: ', expenseResult )
+    const expenseResult = JSON.parse(result.data)    
 
     if (expenseResult) yield put(getExpenseByIdSuccess(expenseResult))
 
-    //let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
-    let purDate = '2018-08-09T00:00:00'   
+    let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase   
 
-    let purPopDate = new DateTimeFormat('fi', {
+    /* let purPopDate = new DateTimeFormat('fi', {
       day: 'numeric',
       month: 'numeric',
       year: 'numeric'
-    }).format(new Date(purDate))
+    }).format(new Date(purchaseDate)) */     
      
-    console.log('================purPopDate::', purPopDate) 
-    yield put(change('newfee', 'date_of_purchase', purPopDate))
+    yield put(change('newfee', 'date_of_purchase', purchaseDate))    
 
     let invoicePopId = store.getState().expense.expenseEdit[0].invoice_id
+
     let invoicePop = store
       .getState()
       .invoice.invoices.filter(el => el.invoice_id === invoicePopId)
     yield put(change('newfee', 'invoice', invoicePop[0]))
 
-    const expenseKeys = Object.keys(expenseResult[0]).filter(
-      key => key !== 'expenseInputRow'
-    )
-    for (let key of expenseKeys) {
-      yield put(change('newfee', key, expenseResult[0][key]))
-    }
+    let purchasePlace = store.getState().expense.expenseEdit[0].place_of_purchase
+    yield put(change('newfee', 'place_of_purchase', purchasePlace))
 
     const occurences = expenseResult[0].expenseInputRow.filter(
       el => el.invoice_expense_item_id
@@ -297,21 +291,21 @@ function* editExpenseSaga({ invoice_expense_id }) {
       yield put(
         change(
           'newfee',
-          `expenseInputRow.${i}.description`,
+          `expenseInputRow.${i}.description${i}`,
           expenseResult[0].expenseInputRow.slice(0, occurences)[i].description
         )
       )
       yield put(
         change(
           'newfee',
-          `expenseInputRow.${i}.sum`,
+          `expenseInputRow.${i}.sum${i}`,
           expenseResult[0].expenseInputRow.slice(0, occurences)[i].sum
         )
       )
       yield put(
         change(
           'newfee',
-          `expenseInputRow.${i}.vat`,
+          `expenseInputRow.${i}.vat${i}`,
           expenseResult[0].expenseInputRow.slice(0, occurences)[i].vat
         )
       )
@@ -395,29 +389,47 @@ function* editAllowanceSaga({ id }) {
   }
 }
 
-function* saveExpenseUpdateSaga() {
+function* saveExpenseUpdateSaga() {  
+
   const url = `${API_SERVER}/UpdateExpenses`
   const formValues = getFormValues('newfee')(store.getState())
 
-  formValues.date_of_purchase = formatFiDateToISO(formValues.date_of_purchase)
+  console.log('Inside saveExpenseUpdateSaga formValues::', formValues)
+
+  //console.log('Inside saveExpenseUpdateSaga before:: ',formValues.date_of_purchase)
+  //@@ToDo :: Need to reverse the date like below....
+  //const reversedPurchaseDate = reverseDate(formValues.date_of_purchase)
+  //console.log('reversedPurchaseDate:: ',reversedPurchaseDate)
+
+  //const date_of_purchase = new Date('2018.8.31')
+  //const purchaseDate = formatFiDateToISO(date_of_purchase)
+
+  //console.log('Inside saveExpenseUpdateSaga before:: ',purchaseDate)  
+
   const file = formValues.inputFile[0]
 
-  const rows = formValues.expenseInputRow
+  const expenseInputRow = formValues.expenseInputRow
 
-  rows[Symbol.iterator] = function*() {
+  console.log('Inside saveExpenseUpdateSaga:: ', expenseInputRow)
+
+  expenseInputRow[Symbol.iterator] = function*() {
     const keys = Reflect.ownKeys(this)
     for (const key of keys) {
       yield this[key]
     }
   }
 
+  const invoice_expense_id = store.getState().expense.expenseEdit[0].invoice_expense_id
+  const invoice_id = store.getState().expense.expenseEdit[0].invoice_id
+
   const body = {
-    invoice_id: formValues.invoice.invoice_id,
+    invoice_id: invoice_id,
+    invoice_expense_id: invoice_expense_id,
     place_of_purchase: formValues.place_of_purchase,
     date_of_purchase: formValues.date_of_purchase
   }
 
-  body.rows = rows.map((el, ind) => {
+  body.expenseInputRow = expenseInputRow.map((el, ind) => {
     el.description = el['description' + ind]
     el.sum = el['sum' + ind]
     el.vat = el['vat' + ind] / 100
@@ -427,6 +439,8 @@ function* saveExpenseUpdateSaga() {
     delete el['sum' + ind]
     return el
   })
+
+  console.log('Body After:: ',body)
 
   try {
     const channel = yield call(createUploadFileChannel, url, file, body)

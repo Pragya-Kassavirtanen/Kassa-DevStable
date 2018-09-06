@@ -34,20 +34,18 @@ import {
   SAVE_TRAVELLING_EXPENSE_SUCCESS,
   GET_EXPENSE_BY_ID_SUCCESS,
   GET_ALLOWANCE_BY_ID_SUCCESS,
-  SAVE_EXPENSE_UPDATE,
+  //SAVE_EXPENSE_UPDATE,
   CANCEL_EXPENSE_UPDATE,
   SAVE_ALLOWANCE_UPDATE,
   CANCEL_ALLOWANCE_UPDATE,
-  CHANGE_PURCHASE_DATE
+  CHANGE_PURCHASE_DATE  
 } from '../constants/index'
 const initialState = {
   expenseInputRow: [
-    <ExpenseInputRow
-      key={0}
-      description={`expenseInputRow[${0}][description]`}
-      sum={`expenseInputRow[${0}][sum]`}
-      vat={`expenseInputRow[${0}][vat]`}
-    />
+    <ExpenseInputRow key={0}
+                     description={`expenseInputRow[${0}][description${0}]`}
+                     sum={`expenseInputRow[${0}][sum${0}]`}
+                     vat={`expenseInputRow[${0}][vat${0}]`}/>
   ],
   allowanceInputRow: [
     <AllowanceInputRow key={0} route={`allowanceInputRow[${0}][route]`} />,
@@ -71,7 +69,8 @@ const initialState = {
   showSnackbar: false,
   expenseEdit: [],
   allowanceEdit: [],
-  isEdit: false
+  isEdit: false,
+  isChangeComponent: false
 }
 
 const expenseReducer = (state = initialState, action) => {
@@ -283,7 +282,7 @@ const expenseReducer = (state = initialState, action) => {
         }
       )
 
-    case SAVE_EXPENSE_UPDATE:
+/*     case SAVE_EXPENSE_UPDATE:
       return Object.assign(
         {},
         { ...state },
@@ -291,7 +290,7 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false
         }
-      )
+      ) */
 
     case CANCEL_EXPENSE_UPDATE:
       return Object.assign(
@@ -324,7 +323,7 @@ const expenseReducer = (state = initialState, action) => {
       )
 
       case CHANGE_PURCHASE_DATE:
-      return Object.assign({}, state, { date_of_purchase: action.date })
+      return Object.assign({}, state, { date_of_purchase: action.date })      
 
     default:
       return state
@@ -377,16 +376,11 @@ const _createAllowanceRow = (allowances, selected) =>
     />
   ))
 
-const _createExpenseInputRow = (index, copy) => [
-  <ExpenseInputRow
-    key={index}
-    copy={copy}
-    autoFocusIndex={`${index}`}
-    description={`expenseInputRow[${index}][description]`}
-    sum={`expenseInputRow[${index}][sum]`}
-    vat={`expenseInputRow[${index}][vat]`}
-  />
-]
+const _createExpenseInputRow = (index) => [<ExpenseInputRow key={index}
+  autoFocusIndex={`${index}`}
+  description={`expenseInputRow[${index}][description${index}]`}
+  sum={`expenseInputRow[${index}][sum${index}]`}
+  vat={`expenseInputRow[${index}][vat${index}]`}/>]
 
 const _createAllowanceInputRow = index => [
   <AllowanceInputRow key={index} route={`allowanceInputRow[${index}][route]`} />

@@ -47,8 +47,7 @@ const NewExpense = ({
   showSnackbar,
   closeSnackbar,
   isEdit,
-  saveExpenseUpdate,
-  invoice_expense_id,
+  saveExpenseUpdate,  
   cancelExpenseUpdate,
   changeExpensePurchaseDate
 }) => (
@@ -89,14 +88,21 @@ const NewExpense = ({
                     />
                   </div>
                   <div>
-                    <Field
-                      name="date_of_purchase"
-                      component={renderDatePicker}
-                      floatingLabelText="Ostopäivämäärä"
-                      textFieldStyle={{ width: '100%' }}
-                      //onChangeCallback={() => undefined}                      
-                      onChangeCallback={changeExpensePurchaseDate}
-                    />
+                    {isEdit ? (
+                      <Field
+                        name="date_of_purchase"
+                        component={renderExpenseTextField}
+                        label="Ostopäivämäärä"
+                      />
+                    ) : (
+                      <Field
+                        name="date_of_purchase"
+                        component={renderDatePicker}
+                        floatingLabelText="Ostopäivämäärä"
+                        textFieldStyle={{ width: '100%' }}
+                        onChangeCallback={changeExpensePurchaseDate}
+                      />
+                    )}
                   </div>
                   <div className="dashboard-expense">
                     <Field
@@ -155,7 +161,7 @@ const NewExpense = ({
                           primary={true}
                           onClick={() => {
                             store.dispatch(
-                              saveExpenseUpdate(invoice_expense_id)
+                              saveExpenseUpdate()
                             )
                           }}
                         />

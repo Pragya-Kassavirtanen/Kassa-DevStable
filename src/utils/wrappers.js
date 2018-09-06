@@ -43,7 +43,7 @@ export const renderDatePicker = ({ input, hintText, container, mode, meta: { tou
     maxDate={maxDate}
     textFieldStyle={textFieldStyle}
     floatingLabelText={floatingLabelText}
-  //autoOk={true}
+    //autoOk={true}
   />
 )
 

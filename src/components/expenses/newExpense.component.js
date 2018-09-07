@@ -47,7 +47,7 @@ const NewExpense = ({
   showSnackbar,
   closeSnackbar,
   isEdit,
-  saveExpenseUpdate,  
+  saveExpenseUpdate,
   cancelExpenseUpdate,
   changeExpensePurchaseDate
 }) => (
@@ -105,12 +105,21 @@ const NewExpense = ({
                     )}
                   </div>
                   <div className="dashboard-expense">
-                    <Field
-                      name="receipt_picture"
-                      label="Kuitti"
-                      disabled={true}
-                      component={renderExpenseTextField}
-                    />
+                    {isEdit ? (
+                      <Field
+                        name="receipt_picture"
+                        placeholder="Lähetä kuitti uudelleen"
+                        disabled={true}
+                        component={renderExpenseTextField}
+                      />
+                    ) : (
+                      <Field
+                        name="receipt_picture"
+                        label="Kuitti"
+                        disabled={true}
+                        component={renderExpenseTextField}
+                      />
+                    )}
                     <div>
                       <RaisedButton
                         label="Lisää kuitin kuva"
@@ -156,15 +165,21 @@ const NewExpense = ({
                         />
                       </li>
                       <li>
-                        <RaisedButton
-                          label="Tallenna"
-                          primary={true}
-                          onClick={() => {
-                            store.dispatch(
-                              saveExpenseUpdate()
-                            )
-                          }}
-                        />
+                        {invalid ? (
+                          <RaisedButton
+                            label="Tallenna"
+                            primary={true}
+                            type="submit"
+                          />
+                        ) : (
+                          <RaisedButton
+                            label="Tallenna"
+                            primary={true}
+                            onClick={() => {
+                              store.dispatch(saveExpenseUpdate())
+                            }}
+                          />
+                        )}
                       </li>
                     </ul>
                   ) : (

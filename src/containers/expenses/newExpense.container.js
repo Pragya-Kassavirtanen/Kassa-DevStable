@@ -41,11 +41,13 @@ let newExpenseContainer = reduxForm({
 const mapStateToProps = (state) => {
 
   const formValues = getFormValues('newfee')(state)
-  const expenseInputRow = state.expense.expenseInputRow
+  const expenseInputRow = state.expense.expenseInputRow  
 
   expenseInputRow.forEach(el => {
     if (!formValues['expenseInputRow'][el.key]) {
-      formValues['expenseInputRow'][el.key] = {}     
+      formValues['expenseInputRow'][el.key] = {}
+      formValues['expenseInputRow'][el.key][`description${el.key}`] = ''
+      formValues['expenseInputRow'][el.key][`sum${el.key}`] = ''    
       formValues['expenseInputRow'][el.key][`vat${el.key}`] = 24
     }
   })
@@ -61,10 +63,10 @@ const mapStateToProps = (state) => {
   return {
     user: state.oidc.user,
     invoices: invoiceNames,
-    expenseRows: state.expense.expenseInputRow,
+    expenseRows: expenseInputRow,
     showSpinner: state.expense.showSpinner,
     showSnackbar: state.expense.showSnackbar,
-    isEdit: state.expense.isEdit       
+    isEdit: state.expense.isEdit    
   }
 }
 
@@ -72,7 +74,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    addExpenseRow: () => dispatch(addExpenseRow()),
+    addExpenseRow: (copy) => dispatch(addExpenseRow(copy)),
     saveExpense: () => dispatch(saveExpense()),
     expensePictureUpload: fileName => dispatch(change('newfee', 'receipt_picture', fileName)),
     closeSnackbar: () => dispatch(closeExpenseSnackBar()),

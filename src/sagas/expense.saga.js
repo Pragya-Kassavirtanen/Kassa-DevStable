@@ -9,7 +9,9 @@ import {
   saveTravellingExpenseSuccess,
   getExpenseByIdSuccess,
   getAllowanceByIdSuccess,
-  addExpenseRow  
+  expenseUpdateSuccess,
+  expenseUpdateFailed,
+  addExpenseRow
 } from '../actions/index'
 import {
   SAVE_EXPENSE,
@@ -41,51 +43,16 @@ import { formatFiDateToISO, formatFiTimeToISO } from '../utils/DateTimeFormat'
  * @author Skylar Kong
  */
 
-/* function* getExpenseStartSaga() {
-  try {
-    const expenseUrl = `${API_SERVER}/GetExpenses`
-    const expResult = yield apiManualRequest(expenseUrl)
-    const expenseResult = JSON.parse(expResult.data)
-
-    console.log('expenseResult:: ', expenseResult)
-    const expenses = []
-
-    for (const expense of expenseResult) {
-      expenses.push(expense)
-    }
-
-    console.log('expenses:: ', expenses)
-
-    const allowanceUrl = `${API_SERVER}/GetAllowances`
-    const allowResult = yield apiManualRequest(allowanceUrl)
-    const allowanceResult = JSON.parse(allowResult.data)
-
-    console.log('allowanceResult:: ', allowanceResult)
-
-    const allowances = []
-
-    for (const allowance of allowanceResult) {
-      allowances.push(allowance)
-    }
-
-    console.log('allowances:: ', allowances)
-
-    yield put(getExpenseSuccess(expenses, allowances))
-  } catch (e) {
-    yield put(getExpenseFailed(e))
-  }
-} */
-
 function* getExpenseStartSaga() {
   try {
     const expenseUrl = `${API_SERVER}/GetExpenses`
- 
+
     const uuid = store.getState().client.user.data[2]
-    const body = JSON.stringify({     
+    const body = JSON.stringify({
       uuid: uuid
     })
 
-    const expResult = yield call(apiManualPost, expenseUrl, body)   
+    const expResult = yield call(apiManualPost, expenseUrl, body)
     const expenseResult = JSON.parse(expResult.data)
 
     //console.log('expenseResult:: ', expenseResult)
@@ -99,7 +66,7 @@ function* getExpenseStartSaga() {
 
     const allowanceUrl = `${API_SERVER}/GetAllowances`
 
-    const allowResult = yield call(apiManualPost, allowanceUrl, body)    
+    const allowResult = yield call(apiManualPost, allowanceUrl, body)
     const allowanceResult = JSON.parse(allowResult.data)
 
     //console.log('allowanceResult:: ', allowanceResult)
@@ -122,14 +89,10 @@ function* saveExpenseSaga() {
   const url = `${API_SERVER}/AddExpenses`
   const formValues = getFormValues('newfee')(store.getState())
 
-  console.log('formValues:: ',formValues)
-
   formValues.date_of_purchase = formatFiDateToISO(formValues.date_of_purchase)
   const file = formValues.inputFile[0]
 
   const expenseInputRow = formValues.expenseInputRow
-
-  console.log('expenseInputRow:: ',expenseInputRow)
 
   expenseInputRow[Symbol.iterator] = function*() {
     const keys = Reflect.ownKeys(this)
@@ -137,8 +100,6 @@ function* saveExpenseSaga() {
       yield this[key]
     }
   }
-
-  console.log('expenseInputRow:: ',expenseInputRow)
 
   const body = {
     invoice_id: formValues.invoice.invoice_id,
@@ -156,8 +117,6 @@ function* saveExpenseSaga() {
     delete el['sum' + ind]
     return el
   })
-
-  console.log('body.expenseInputRow:: ',body.expenseInputRow)
 
   try {
     const channel = yield call(createUploadFileChannel, url, file, body)
@@ -257,19 +216,19 @@ function* editExpenseSaga({ invoice_expense_id }) {
     const url = `${API_SERVER}/GetExpensesByExpenseID`
     const body = JSON.stringify({ invoice_expense_id: invoice_expense_id })
     const result = yield call(apiManualPost, url, body)
-    const expenseResult = JSON.parse(result.data)    
+    const expenseResult = JSON.parse(result.data)
 
     if (expenseResult) yield put(getExpenseByIdSuccess(expenseResult))
 
-    let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase   
+    let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
 
     /* let purPopDate = new DateTimeFormat('fi', {
       day: 'numeric',
       month: 'numeric',
       year: 'numeric'
-    }).format(new Date(purchaseDate)) */     
-     
-    yield put(change('newfee', 'date_of_purchase', purchaseDate))    
+    }).format(new Date(purchaseDate)) */
+
+    yield put(change('newfee', 'date_of_purchase', purchaseDate))
 
     let invoicePopId = store.getState().expense.expenseEdit[0].invoice_id
 
@@ -278,8 +237,11 @@ function* editExpenseSaga({ invoice_expense_id }) {
       .invoice.invoices.filter(el => el.invoice_id === invoicePopId)
     yield put(change('newfee', 'invoice', invoicePop[0]))
 
-    let purchasePlace = store.getState().expense.expenseEdit[0].place_of_purchase
+    const purchasePlace = store.getState().expense.expenseEdit[0]
+      .place_of_purchase
     yield put(change('newfee', 'place_of_purchase', purchasePlace))
+
+    console.log('Inside editExpenseSaga:: ', expenseResult)
 
     const occurences = expenseResult[0].expenseInputRow.filter(
       el => el.invoice_expense_item_id
@@ -389,41 +351,31 @@ function* editAllowanceSaga({ id }) {
   }
 }
 
-function* saveExpenseUpdateSaga() {  
-
+function* saveExpenseUpdateSaga() {
   const url = `${API_SERVER}/UpdateExpenses`
   const formValues = getFormValues('newfee')(store.getState())
+  const invoice_expense_id = store.getState().expense.expenseEdit[0]
+    .invoice_expense_id
 
-  console.log('Inside saveExpenseUpdateSaga formValues::', formValues)
-
-  //console.log('Inside saveExpenseUpdateSaga before:: ',formValues.date_of_purchase)
   //@@ToDo :: Need to reverse the date like below....
   //const reversedPurchaseDate = reverseDate(formValues.date_of_purchase)
   //console.log('reversedPurchaseDate:: ',reversedPurchaseDate)
-
   //const date_of_purchase = new Date('2018.8.31')
   //const purchaseDate = formatFiDateToISO(date_of_purchase)
 
-  //console.log('Inside saveExpenseUpdateSaga before:: ',purchaseDate)  
-
-  const file = formValues.inputFile[0]
-
   const expenseInputRow = formValues.expenseInputRow
 
-  console.log('Inside saveExpenseUpdateSaga:: ', expenseInputRow)
+  console.log('Inside saveExpenseUpdateSaga BEFORE:: ',expenseInputRow)
 
-  expenseInputRow[Symbol.iterator] = function*() {
+/*   expenseInputRow[Symbol.iterator] = function*() {
     const keys = Reflect.ownKeys(this)
     for (const key of keys) {
       yield this[key]
     }
-  }
-
-  const invoice_expense_id = store.getState().expense.expenseEdit[0].invoice_expense_id
-  const invoice_id = store.getState().expense.expenseEdit[0].invoice_id
+  } */
 
   const body = {
-    invoice_id: invoice_id,
+    invoice_id: formValues.invoice.invoice_id,
     invoice_expense_id: invoice_expense_id,
     place_of_purchase: formValues.place_of_purchase,
     date_of_purchase: formValues.date_of_purchase
@@ -440,24 +392,28 @@ function* saveExpenseUpdateSaga() {
     return el
   })
 
-  console.log('Body After:: ',body)
+  console.log('Inside saveExpenseUpdateSaga AFTER:: ', body.expenseInputRow)
+
+  const file = formValues.inputFile[0]
 
   try {
     const channel = yield call(createUploadFileChannel, url, file, body)
     while (true) {
       const { progress = 0, err, success } = yield take(channel)
       if (err) {
-        yield put(saveExpenseFailure(err))
+        yield put(expenseUpdateFailed(err))
+        yield put(emptyExpenseRows())
+        yield put(reset('newfee'))     
       }
       if (success) {
-        yield put(saveExpenseSuccess(success))
+        yield put(expenseUpdateSuccess(success))
         yield put(emptyExpenseRows())
         yield put(reset('newfee'))
       }
       console.log(progress)
     }
   } catch (e) {
-    console.log(e)
+    expenseUpdateFailed(e)
   }
 }
 
@@ -507,7 +463,7 @@ function* saveAllowanceUpdateSaga({ id }) {
         pay_allowance: !!formValues.pay_allowance
       }
     )
-    
+
     yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
     yield put(reset('newallowance'))
   } catch (e) {

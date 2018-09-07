@@ -34,18 +34,19 @@ import {
   SAVE_TRAVELLING_EXPENSE_SUCCESS,
   GET_EXPENSE_BY_ID_SUCCESS,
   GET_ALLOWANCE_BY_ID_SUCCESS,
-  //SAVE_EXPENSE_UPDATE,
+  EXPENSE_UPDATE_SUCCESS,
+  EXPENSE_UPDATE_FAILED,
   CANCEL_EXPENSE_UPDATE,
   SAVE_ALLOWANCE_UPDATE,
   CANCEL_ALLOWANCE_UPDATE,
-  CHANGE_PURCHASE_DATE  
+  CHANGE_PURCHASE_DATE
 } from '../constants/index'
 const initialState = {
   expenseInputRow: [
     <ExpenseInputRow key={0}
-                     description={`expenseInputRow[${0}][description${0}]`}
-                     sum={`expenseInputRow[${0}][sum${0}]`}
-                     vat={`expenseInputRow[${0}][vat${0}]`}/>
+      description={`expenseInputRow[${0}][description${0}]`}
+      sum={`expenseInputRow[${0}][sum${0}]`}
+      vat={`expenseInputRow[${0}][vat${0}]`} />
   ],
   allowanceInputRow: [
     <AllowanceInputRow key={0} route={`allowanceInputRow[${0}][route]`} />,
@@ -118,9 +119,9 @@ const expenseReducer = (state = initialState, action) => {
         expenseInputRow: [
           <ExpenseInputRow
             key={0}
-            description={`expenseInputRow[${0}][description]`}
-            sum={`expenseInputRow[${0}][sum]`}
-            vat={`expenseInputRow[${0}][vat]`}
+            description={`expenseInputRow[${0}][description${0}]`}
+            sum={`expenseInputRow[${0}][sum${0}]`}
+            vat={`expenseInputRow[${0}][vat${0}]`}
           />
         ],
         expenseRowCounter: 1
@@ -167,10 +168,10 @@ const expenseReducer = (state = initialState, action) => {
     case REMOVE_ALLOWANCE_ROW:
       return state.allowanceInputRow.length > 2
         ? Object.assign({}, state, {
-            allowanceInputRow: state.allowanceInputRow.filter(
-              (el, index) => index !== action.key
-            )
-          })
+          allowanceInputRow: state.allowanceInputRow.filter(
+            (el, index) => index !== action.key
+          )
+        })
         : state
 
     case ADD_PASSENGER_ROW:
@@ -282,15 +283,43 @@ const expenseReducer = (state = initialState, action) => {
         }
       )
 
-/*     case SAVE_EXPENSE_UPDATE:
+    case EXPENSE_UPDATE_SUCCESS:
       return Object.assign(
         {},
         { ...state },
         {
           expenseEdit: [],
-          isEdit: false
+          isEdit: false,
+          expenseInputRow: [
+            <ExpenseInputRow
+              key={0}
+              description={`expenseInputRow[${0}][description${0}]`}
+              sum={`expenseInputRow[${0}][sum${0}]`}
+              vat={`expenseInputRow[${0}][vat${0}]`}
+            />
+          ],
+          expenseRowCounter: 1
         }
-      ) */
+      )
+
+    case EXPENSE_UPDATE_FAILED:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          expenseEdit: [],
+          isEdit: false,
+          expenseInputRow: [
+            <ExpenseInputRow
+              key={0}
+              description={`expenseInputRow[${0}][description${0}]`}
+              sum={`expenseInputRow[${0}][sum${0}]`}
+              vat={`expenseInputRow[${0}][vat${0}]`}
+            />
+          ],
+          expenseRowCounter: 1
+        }
+      )
 
     case CANCEL_EXPENSE_UPDATE:
       return Object.assign(
@@ -298,7 +327,16 @@ const expenseReducer = (state = initialState, action) => {
         { ...state },
         {
           expenseEdit: [],
-          isEdit: false
+          isEdit: false,
+          expenseInputRow: [
+            <ExpenseInputRow
+              key={0}
+              description={`expenseInputRow[${0}][description${0}]`}
+              sum={`expenseInputRow[${0}][sum${0}]`}
+              vat={`expenseInputRow[${0}][vat${0}]`}
+            />
+          ],
+          expenseRowCounter: 1
         }
       )
 
@@ -322,8 +360,8 @@ const expenseReducer = (state = initialState, action) => {
         }
       )
 
-      case CHANGE_PURCHASE_DATE:
-      return Object.assign({}, state, { date_of_purchase: action.date })      
+    case CHANGE_PURCHASE_DATE:
+      return Object.assign({}, state, { date_of_purchase: action.date })
 
     default:
       return state
@@ -365,10 +403,10 @@ const _createAllowanceRow = (allowances, selected) =>
         month: 'numeric',
         year: 'numeric'
       }).format(new Date(el.end_date))}
-       /* sum={new Intl.NumberFormat('fi-FI', {
-        style: 'currency',
-        currency: 'EUR'
-      }).format(_calculateAllowanceSum(el, cost))} */
+      /* sum={new Intl.NumberFormat('fi-FI', {
+       style: 'currency',
+       currency: 'EUR'
+     }).format(_calculateAllowanceSum(el, cost))} */
       sum={new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'
@@ -380,7 +418,7 @@ const _createExpenseInputRow = (index) => [<ExpenseInputRow key={index}
   autoFocusIndex={`${index}`}
   description={`expenseInputRow[${index}][description${index}]`}
   sum={`expenseInputRow[${index}][sum${index}]`}
-  vat={`expenseInputRow[${index}][vat${index}]`}/>]
+  vat={`expenseInputRow[${index}][vat${index}]`} />]
 
 const _createAllowanceInputRow = index => [
   <AllowanceInputRow key={index} route={`allowanceInputRow[${index}][route]`} />

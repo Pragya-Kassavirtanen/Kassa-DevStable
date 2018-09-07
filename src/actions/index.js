@@ -136,6 +136,8 @@ import {
   GET_ALLOWANCE_BY_ID_SUCCESS,
   SAVE_EXPENSE_UPDATE,
   CANCEL_EXPENSE_UPDATE,
+  EXPENSE_UPDATE_SUCCESS,
+  EXPENSE_UPDATE_FAILED,
   SAVE_ALLOWANCE_UPDATE,
   CANCEL_ALLOWANCE_UPDATE,
   CHANGE_PURCHASE_DATE,
@@ -227,7 +229,7 @@ export const invoiceDownloadPDF = (invoice_id) => ({ type: INVOICE_DOWNLOAD_PDF,
 export const getExpenseStart = () => ({type: GET_EXPENSE_START})
 export const getExpenseSuccess = (expenses, allowances) => ({type: GET_EXPENSE_SUCCESS, expenses, allowances})
 export const getExpenseFailed = error => ({type: GET_EXPENSE_FAILED, error})
-export const addExpenseRow = () => ({type: ADD_EXPENSE_ROW})
+export const addExpenseRow = copy => ({type: ADD_EXPENSE_ROW, copy})
 export const removeExpenseRow = key => ({type: REMOVE_EXPENSE_ROW, key})
 export const addAllowanceRow = () => ({type: ADD_ALLOWANCE_ROW})
 export const removeAllowanceRow = key => ({type: REMOVE_ALLOWANCE_ROW, key})
@@ -255,6 +257,8 @@ export const editAllowance = id => ({type: EDIT_ALLOWANCE, id})
 export const getExpenseByIdSuccess = (result) => ({type: GET_EXPENSE_BY_ID_SUCCESS, result})
 export const getAllowanceByIdSuccess = (result) => ({type: GET_ALLOWANCE_BY_ID_SUCCESS, result})
 export const saveExpenseUpdate = () => ({type: SAVE_EXPENSE_UPDATE})
+export const expenseUpdateSuccess = (result) => ({type: EXPENSE_UPDATE_SUCCESS, result})
+export const expenseUpdateFailed = (error) => ({ type: EXPENSE_UPDATE_FAILED, error })
 export const cancelExpenseUpdate = () => ({type: CANCEL_EXPENSE_UPDATE})
 export const saveAllowanceUpdate = id => ({type: SAVE_ALLOWANCE_UPDATE, id})
 export const cancelAllowanceUpdate = () => ({type: CANCEL_ALLOWANCE_UPDATE})

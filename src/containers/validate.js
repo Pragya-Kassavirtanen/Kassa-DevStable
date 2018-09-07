@@ -109,9 +109,9 @@ export const invoiceValidate = values => {
     if (!values['rows'][parseInt(item)]['quantity_price']) {
       errors['rows'][parseInt(item)]['quantity_price'] = 'Pakollinen'
     }
-    if (!values['rows'][parseInt(item)]['vat_percent']) {
+    /* if (!values['rows'][parseInt(item)]['vat_percent']) {
       errors['rows'][parseInt(item)]['vat_percent'] = 'Pakollinen'
-    }
+    } */
   })
 
   console.log('errors:: ',errors)
@@ -206,10 +206,9 @@ export const expenseValidate = values => {
         errors['expenseInputRow'][item][`sum${item}`] = 'Pakollinen kenttä'
       }
 
-
-      if (!values['expenseInputRow'][item][`vat${item}`]) {
+     /*  if (!values['expenseInputRow'][item][`vat${item}`]) {
         errors['expenseInputRow'][item][`vat${item}`] = 'Pakollinen kenttä'
-      }
+      } */
     }
   })
   

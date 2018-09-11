@@ -71,7 +71,7 @@ const mapStateToProps = (state) => {
 
   //Filter invoiceNames as per invoicepaid to be False
   const validInvoiceNames = state.invoice.invoices.filter(el => el.invoicepaid === 0)
-  console.log('Inside newAllowanceContainer validInvoiceNames:: ', validInvoiceNames)
+  //console.log('Inside newAllowanceContainer validInvoiceNames:: ', validInvoiceNames)
   const invoiceNames = validInvoiceNames.map((item, index) =>
     <MenuItem key={index} value={item} primaryText={item.company_name + ' ' + new DateTimeFormat('fi', {
       day: 'numeric',
@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch) => {
     changeAllowanceDate: () => dispatch(changeAllowanceDate()),
     saveTravellingExpense: () => dispatch(saveTravellingExpense()),
     closeSnackbar: () => dispatch(closeExpenseSnackBar()),
-    saveAllowanceUpdate: id => dispatch(saveAllowanceUpdate(id)),
+    saveAllowanceUpdate: () => dispatch(saveAllowanceUpdate()),
     cancelAllowanceUpdate: () => dispatch(cancelAllowanceUpdate())
   }
 }

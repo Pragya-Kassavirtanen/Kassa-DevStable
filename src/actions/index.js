@@ -168,6 +168,8 @@ import {
   ADD_SALARY_SUCCESS,
   UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
   UPDATE_ADMIN_SALARY_STATUS_SUCCESS,
+  ALLOWANCE_UPDATE_SUCCESS,
+  ALLOWANCE_UPDATE_FAILED,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -233,7 +235,7 @@ export const addExpenseRow = copy => ({type: ADD_EXPENSE_ROW, copy})
 export const removeExpenseRow = key => ({type: REMOVE_EXPENSE_ROW, key})
 export const addAllowanceRow = () => ({type: ADD_ALLOWANCE_ROW})
 export const removeAllowanceRow = key => ({type: REMOVE_ALLOWANCE_ROW, key})
-export const addPassengerRow = () => ({type: ADD_PASSENGER_ROW})
+export const addPassengerRow = (copy) => ({type: ADD_PASSENGER_ROW, copy})
 export const removePassengerRow = key => ({type: REMOVE_PASSENGER_ROW, key})
 export const showAdditionalVehicleInfo = value => ({type: SHOW_ADDITIONAL_VEHICLE_INFO, value})
 export const changeAllowanceDate = () => ({type: CHANGE_ALLOWANCE_DATE})
@@ -259,8 +261,10 @@ export const getAllowanceByIdSuccess = (result) => ({type: GET_ALLOWANCE_BY_ID_S
 export const saveExpenseUpdate = () => ({type: SAVE_EXPENSE_UPDATE})
 export const expenseUpdateSuccess = (result) => ({type: EXPENSE_UPDATE_SUCCESS, result})
 export const expenseUpdateFailed = (error) => ({ type: EXPENSE_UPDATE_FAILED, error })
+export const allowanceUpdateSuccess = (result) => ({type: ALLOWANCE_UPDATE_SUCCESS, result })
+export const allowanceUpdateFailed = (error) => ({type: ALLOWANCE_UPDATE_FAILED, error})
 export const cancelExpenseUpdate = () => ({type: CANCEL_EXPENSE_UPDATE})
-export const saveAllowanceUpdate = id => ({type: SAVE_ALLOWANCE_UPDATE, id})
+export const saveAllowanceUpdate = () => ({type: SAVE_ALLOWANCE_UPDATE})
 export const cancelAllowanceUpdate = () => ({type: CANCEL_ALLOWANCE_UPDATE})
 export const changeExpensePurchaseDate = date => ({type: CHANGE_PURCHASE_DATE, date})
 

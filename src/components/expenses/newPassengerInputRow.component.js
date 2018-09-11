@@ -18,13 +18,21 @@ import FontAwesome from 'react-fontawesome'
 
 const PassengerInputRow = ({
   passenger,
-  rowNumber
+  rowNumber,
+  check,
+  autoFocusIndex
 }) =>
   <TableRow className="dashboard-invoice-inputrow">
     <TableRowColumn>
-      <Field name={passenger}
+      {
+        (parseInt(autoFocusIndex) > 0 && !check) ?
+        <Field name={passenger}
+             component={renderTextField}
+             label="Matkustajan nimi" autoFocus/> : 
+             <Field name={passenger}
              component={renderTextField}
              label="Matkustajan nimi"/>
+      }      
     </TableRowColumn>
     <TableRowColumn>
       <FlatButton

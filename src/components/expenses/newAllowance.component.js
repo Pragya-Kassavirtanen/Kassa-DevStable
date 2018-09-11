@@ -73,8 +73,7 @@ const NewAllowance = ({
   showSnackbar,
   closeSnackbar,
   isEdit,
-  saveAllowanceUpdate,
-  id,
+  saveAllowanceUpdate,  
   cancelAllowanceUpdate
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -122,58 +121,103 @@ const NewAllowance = ({
                 <div className="panel-heading">
                   <h3 className="panel-title">Syötä matkan tiedot</h3>
                 </div>
-                <div className="panel-body" style={{ marginBottom: '25px' }}>
-                  <div>
-                    <Field
-                      name="destination"
-                      component={renderTextField}
-                      label="Matkan kohde"
-                      style={{ float: 'left', width: '50%' }}
-                    />
-                    <Field
-                      name="country"
-                      component={SelectField}
-                      style={{ float: 'left', width: '50%' }}
-                      floatingLabelText="Maa"
-                    >
-                      {countryItems}
-                    </Field>
+                {isEdit ? (
+                  <div className="panel-body" style={{ marginBottom: '25px' }}>
+                    <div>
+                      <Field
+                        name="destination"
+                        component={renderTextField}
+                        label="Matkan kohde"
+                        style={{ float: 'left', width: '50%' }}
+                      />
+                      <Field
+                        name="country"
+                        component={SelectField}
+                        style={{ float: 'left', width: '50%' }}
+                        floatingLabelText="Maa"
+                      >
+                        {countryItems}
+                      </Field>
+                    </div>
+                    <div>
+                      <Field
+                        name="start_date"
+                        component={renderTextField}
+                        label="Matkan alkamispäivä"
+                      />
+                      <Field
+                        name="start_time"
+                        component={renderTextField}
+                        label="Alkuaika"
+                      />
+                    </div>
+                    <div>
+                      <Field
+                        name="end_date"
+                        component={renderTextField}
+                        label="Matkan päättymispäivä"
+                      />
+                      <Field
+                        name="end_time"
+                        component={renderTextField}
+                        label="Loppuaika"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <Field
-                      name="start_date"
-                      component={renderDatePicker}
-                      floatingLabelText="Matkan alkamispäivä"
-                      textFieldStyle={{ float: 'left', width: '50%' }}
-                      maxDate={endDate ? new Date(endDate) : undefined}
-                      onChangeCallback={changeAllowanceDate}
-                    />
-                    <Field
-                      name="start_time"
-                      component={renderTimePicker}
-                      floatingLabelText="Alkuaika"
-                      textFieldStyle={{ float: 'left', width: '50%' }}
-                      onChangeCallback={() => undefined}
-                    />
+                ) : (
+                  <div className="panel-body" style={{ marginBottom: '25px' }}>
+                    <div>
+                      <Field
+                        name="destination"
+                        component={renderTextField}
+                        label="Matkan kohde"
+                        style={{ float: 'left', width: '50%' }}
+                      />
+                      <Field
+                        name="country"
+                        component={SelectField}
+                        style={{ float: 'left', width: '50%' }}
+                        floatingLabelText="Maa"
+                      >
+                        {countryItems}
+                      </Field>
+                    </div>
+                    <div>
+                      <Field
+                        name="start_date"
+                        component={renderDatePicker}
+                        floatingLabelText="Matkan alkamispäivä"
+                        textFieldStyle={{ float: 'left', width: '50%' }}
+                        maxDate={endDate ? new Date(endDate) : undefined}
+                        onChangeCallback={changeAllowanceDate}
+                      />
+                      <Field
+                        name="start_time"
+                        component={renderTimePicker}
+                        floatingLabelText="Alkuaika"
+                        textFieldStyle={{ float: 'left', width: '50%' }}
+                        onChangeCallback={() => undefined}
+                      />
+                    </div>
+                    <div>
+                      <Field
+                        name="end_date"
+                        component={renderDatePicker}
+                        floatingLabelText="Matkan päättymispäivä"
+                        textFieldStyle={{ float: 'left', width: '50%' }}
+                        minDate={new Date(startDate)}
+                        onChangeCallback={changeAllowanceDate}
+                      />
+                      <Field
+                        name="end_time"
+                        component={renderTimePicker}
+                        floatingLabelText="Loppuaika"
+                        textFieldStyle={{ float: 'left', width: '50%' }}
+                        onChangeCallback={() => undefined}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <Field
-                      name="end_date"
-                      component={renderDatePicker}
-                      floatingLabelText="Matkan päättymispäivä"
-                      textFieldStyle={{ float: 'left', width: '50%' }}
-                      minDate={new Date(startDate)}
-                      onChangeCallback={changeAllowanceDate}
-                    />
-                    <Field
-                      name="end_time"
-                      component={renderTimePicker}
-                      floatingLabelText="Loppuaika"
-                      textFieldStyle={{ float: 'left', width: '50%' }}
-                      onChangeCallback={() => undefined}
-                    />
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -190,12 +234,12 @@ const NewAllowance = ({
                   <Field
                     name="pay_mileage"
                     label="Kilometrikorvaukset"
-                    component={renderCheckbox}                    
+                    component={renderCheckbox}
                   />
                   <Field
                     name="pay_allowance"
                     label="Päivä- ja ruokarahat"
-                    component={renderCheckbox}                    
+                    component={renderCheckbox}
                   />
                 </div>
               </div>
@@ -232,8 +276,7 @@ const NewAllowance = ({
         )}
         {submitButton(
           invalid,
-          isEdit,
-          id,
+          isEdit,         
           cancelAllowanceUpdate,
           saveAllowanceUpdate,
           saveTravellingExpense,
@@ -251,7 +294,7 @@ const NewAllowance = ({
           browserHistory.push('/dashboard/fee')
         }}
       />
-
+      
       <Dialog
         title="Lähetetään matka- ja päivärahakorvausta"
         contentStyle={{ width: '350px', height: '150px', textAlign: 'center' }}
@@ -492,8 +535,7 @@ const payAllowance = (
 
 const submitButton = (
   invalid,
-  isEdit,
-  id,
+  isEdit,  
   cancelAllowanceUpdate,
   saveAllowanceUpdate,
   saveTravellingExpense,
@@ -518,7 +560,7 @@ const submitButton = (
                     label="Tallenna"
                     primary={true}
                     onClick={() => {
-                      store.dispatch(saveAllowanceUpdate(id))
+                      store.dispatch(saveAllowanceUpdate())
                     }}
                   />
                 </li>

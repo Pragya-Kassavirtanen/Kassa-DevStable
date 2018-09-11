@@ -37,16 +37,20 @@ import {
   EXPENSE_UPDATE_SUCCESS,
   EXPENSE_UPDATE_FAILED,
   CANCEL_EXPENSE_UPDATE,
-  SAVE_ALLOWANCE_UPDATE,
   CANCEL_ALLOWANCE_UPDATE,
-  CHANGE_PURCHASE_DATE
+  CHANGE_PURCHASE_DATE,
+  SAVE_ALLOWANCE_UPDATE,
+  ALLOWANCE_UPDATE_SUCCESS,
+  ALLOWANCE_UPDATE_FAILED
 } from '../constants/index'
 const initialState = {
   expenseInputRow: [
-    <ExpenseInputRow key={0}
+    <ExpenseInputRow
+      key={0}
       description={`expenseInputRow[${0}][description${0}]`}
       sum={`expenseInputRow[${0}][sum${0}]`}
-      vat={`expenseInputRow[${0}][vat${0}]`} />
+      vat={`expenseInputRow[${0}][vat${0}]`}
+    />
   ],
   allowanceInputRow: [
     <AllowanceInputRow key={0} route={`allowanceInputRow[${0}][route]`} />,
@@ -168,17 +172,18 @@ const expenseReducer = (state = initialState, action) => {
     case REMOVE_ALLOWANCE_ROW:
       return state.allowanceInputRow.length > 2
         ? Object.assign({}, state, {
-          allowanceInputRow: state.allowanceInputRow.filter(
-            (el, index) => index !== action.key
-          )
-        })
+            allowanceInputRow: state.allowanceInputRow.filter(
+              (el, index) => index !== action.key
+            )
+          })
         : state
 
     case ADD_PASSENGER_ROW:
+      const check = action.copy
       const allowancePassengerState = state.allowancePassenger
       return Object.assign({}, state, {
         allowancePassenger: allowancePassengerState.concat(
-          _createPassengerRow(state.passengerRowCounter)
+          _createPassengerRow(state.passengerRowCounter, check)
         ),
         passengerRowCounter: state.passengerRowCounter + 1,
         passengerPrice:
@@ -341,10 +346,27 @@ const expenseReducer = (state = initialState, action) => {
       )
 
     case SAVE_ALLOWANCE_UPDATE:
+      return Object.assign({}, state, { showSpinner: true })
+
+    case ALLOWANCE_UPDATE_SUCCESS:
       return Object.assign(
         {},
         { ...state },
         {
+          showSpinner: false,
+          showSnackbar: true,
+          allowanceEdit: [],
+          isEdit: false
+        }
+      )
+
+    case ALLOWANCE_UPDATE_FAILED:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          showSpinner: false,
+          showSnackbar: true,
           allowanceEdit: [],
           isEdit: false
         }
@@ -414,19 +436,26 @@ const _createAllowanceRow = (allowances, selected) =>
     />
   ))
 
-const _createExpenseInputRow = (index) => [<ExpenseInputRow key={index}
-  autoFocusIndex={`${index}`}
-  description={`expenseInputRow[${index}][description${index}]`}
-  sum={`expenseInputRow[${index}][sum${index}]`}
-  vat={`expenseInputRow[${index}][vat${index}]`} />]
+const _createExpenseInputRow = (index, copy) => [
+  <ExpenseInputRow
+    key={index}
+    copy={copy}
+    autoFocusIndex={`${index}`}
+    description={`expenseInputRow[${index}][description${index}]`}
+    sum={`expenseInputRow[${index}][sum${index}]`}
+    vat={`expenseInputRow[${index}][vat${index}]`}
+  />
+]
 
 const _createAllowanceInputRow = index => [
   <AllowanceInputRow key={index} route={`allowanceInputRow[${index}][route]`} />
 ]
 
-const _createPassengerRow = index => [
+const _createPassengerRow = (index, check) => [
   <PassengerInputRow
     key={index}
+    copy={check}
+    autoFocusIndex={`${index}`}
     passenger={`allowancePassenger[${index}][passenger]`}
   />
 ]

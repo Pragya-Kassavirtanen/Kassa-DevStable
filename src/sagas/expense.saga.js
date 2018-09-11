@@ -11,7 +11,10 @@ import {
   getAllowanceByIdSuccess,
   expenseUpdateSuccess,
   expenseUpdateFailed,
-  addExpenseRow
+  addExpenseRow,
+  addPassengerRow,
+  allowanceUpdateSuccess,
+  allowanceUpdateFailed
 } from '../actions/index'
 import {
   SAVE_EXPENSE,
@@ -286,6 +289,20 @@ function* editAllowanceSaga({ id }) {
 
     if (allowanceResult) yield put(getAllowanceByIdSuccess(allowanceResult))
 
+    console.log('Inside editAllowanceSaga allowanceResult:: ',allowanceResult[0])
+
+    let startDate = store.getState().expense.allowanceEdit[0].start_date
+    yield put(change('newallowance', 'start_date', startDate))
+
+    let endDate = store.getState().expense.allowanceEdit[0].end_date
+    yield put(change('newallowance', 'end_date', endDate))
+
+    let startTime = store.getState().expense.allowanceEdit[0].start_time
+    yield put(change('newallowance', 'start_time', startTime))
+
+    let endTime = store.getState().expense.allowanceEdit[0].end_time
+    yield put(change('newallowance', 'end_time', endTime))
+
     let vehicleType = allowanceResult[0].vehicle_Info[0].vehicle_type
     yield put(change('newallowance', 'vehicle_type', vehicleType))
 
@@ -320,20 +337,27 @@ function* editAllowanceSaga({ id }) {
     const occurencesPassenger = allowanceResult[0].allowancePassenger.filter(
       el => el.passenger
     ).length
+
+    console.log('Inside editAllowanceSaga occurencesPassenger:: ',occurencesPassenger)
+
     const k = allowanceResult[0].allowancePassenger.slice(
       0,
       occurencesPassenger
     ).length
-    for (let i = 0; i < k; i++) {
+
+    console.log('Inside editAllowanceSaga k:: ',k)
+
+    for (let j = 0; j < k; j++) {
+      yield put(addPassengerRow(true))
       yield put(
         change(
           'newallowance',
-          `allowancePassenger.${i}.passenger`,
-          allowanceResult[0].allowancePassenger.slice(0, occurencesPassenger)[i]
+          `allowancePassenger.${j}.passenger`,
+          allowanceResult[0].allowancePassenger.slice(0, occurencesPassenger)[j]
             .passenger
         )
       )
-    }
+    }   
 
     const allowanceInfoKeys = Object.keys(allowanceResult[0]).filter(
       key =>
@@ -425,11 +449,14 @@ function* cancelExpenseUpdateSaga() {
   }
 }
 
-function* saveAllowanceUpdateSaga({ id }) {
+function* saveAllowanceUpdateSaga() {
   try {
     const url = `${API_SERVER}/UpdateAllowances`
     const formValues = getFormValues('newallowance')(store.getState())
     const uuid = store.getState().client.user.data[2]
+
+    const id = store.getState().expense.allowanceEdit[0].id
+
     const allowanceCost = store.getState().expense.allowanceCost
     const refinedForm = Object.assign(
       {},
@@ -464,10 +491,22 @@ function* saveAllowanceUpdateSaga({ id }) {
       }
     )
 
-    yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
+    delete refinedForm.invoice
+    delete refinedForm.deleted
+    delete refinedForm.deleted_at
+    delete refinedForm.created
+    delete refinedForm.last_modified_date   
+
+   const result =  yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
+
+   if(result.data === 'Allowances updated successfully!'){
+     yield put(allowanceUpdateSuccess(result.data))
+   }else{
+    yield put(allowanceUpdateFailed(result.data))
+   }
     yield put(reset('newallowance'))
   } catch (e) {
-    console.warn(e)
+    allowanceUpdateFailed(e)
   }
 }
 

@@ -427,9 +427,9 @@ const createInvoiceRow = (
           }}
           disabled={el.invoicepaid !== 0 ? true : false}
           checked={isToPayInvoiceId !== el.invoice_id ? false : true}
-        />
+        />       
         <Dialog
-          title={`Haluatko maksaa Laskun nro = ${isToPayInvoiceId} !`}
+          title={`Vahvistako laskun nro ${isToPayInvoiceId} on maksettu?`}
           contentStyle={{
             width: '450px',
             height: '200px',
@@ -459,7 +459,7 @@ const createInvoiceRow = (
             <li>
               <RaisedButton
                 style={{ margin: '20px' }}
-                label="Tallenna"
+                label="Maksettu"
                 primary={true}
                 onClick={() => {
                   store.dispatch(updateAdminInvoiceStatus(isToPayInvoiceId))
@@ -532,10 +532,10 @@ const createSalaryRow = (
           }}
           disabled={el.status === 'paid' ? true : false}
           checked={isToPaySalaryId !== el.id ? false : true}
-        />
+        />       
         <Dialog
           open={isToLiftSalary}
-          title={`Haluatko maksaa Palkan nro = ${isToPaySalaryId} !`}
+          title={`Vahvista, että palkan nro ${isToPaySalaryId} maksetaan?`}
           contentStyle={{
             width: '450px',
             height: '200px',
@@ -564,7 +564,7 @@ const createSalaryRow = (
             <li>
               <RaisedButton
                 style={{ margin: '20px' }}
-                label="Tallenna"
+                label="Maksettu"
                 primary={true}
                 onClick={() => {
                   store.dispatch(updateAdminSalaryStatus(isToPaySalaryId))

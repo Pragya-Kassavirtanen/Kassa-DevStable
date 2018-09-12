@@ -58,7 +58,7 @@ const AdminInvoiceFilterRowComponent = ({ searchAdminInvoice }) => (
           <TableRowColumn>
             <Field
               name="maxsum"
-              label="Enimmäismäärä"
+              label="Enimmäissumma"
               style={{ width: '100%' }}
               component={renderTextField}
             />

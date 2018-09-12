@@ -8,47 +8,67 @@ import {
   TableHeaderColumn,
   TableRow,
   RaisedButton
-} from 'material-ui'
+} from  'material-ui'
+
 
 export default class NewSalarySummaryComponent extends React.Component {
   render() {
-    return <NewSalarySummary {...this.props} />
+    return <NewSalarySummary {...this.props}/>
   }
 }
 
-const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
+const NewSalarySummary = ({
+  newSalarySummary, 
+  postSalary,
+  salaries
+}) =>
   <div className="dashboard-content-header">
     <div className="col-md-6 col-sm-6">
       <div className="panel panel-default">
-        <div className="panel-heading">Laskettu palkka</div>
+        <div className="panel-heading">
+          Laskettu palkka
+        </div>
         <div className="panel-body">
           <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
-                <TableHeaderColumn>
-                  <div className="dashboard-salary-header">Laskutus</div>
-                </TableHeaderColumn>
+                <TableHeaderColumn><div className="dashboard-salary-header">Laskutus</div></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
               <TableRow>
                 <TableRowColumn>Summa</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.sumwithoutTax)}
+                <TableRowColumn>{new Intl.NumberFormat('fi-FI', {
+                                  style: 'currency',
+                                  currency: 'EUR'
+                                }).format(newSalarySummary.sumwithoutTax)}
                 </TableRowColumn>
               </TableRow>
             </TableBody>
           </Table>
-          <hr />
+          <hr/>
           <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
-                <TableHeaderColumn>
-                  <div className="dashboard-salary-header">Palkka</div>
-                </TableHeaderColumn>
+                <TableHeaderColumn><div className="dashboard-salary-header">Maksut ja kulut</div></TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow>
+                <TableRowColumn>Palvelumaksu</TableRowColumn>
+                <TableRowColumn>{new Intl.NumberFormat('fi-FI', {
+                                  style: 'currency',
+                                  currency: 'EUR'
+                                }).format(newSalarySummary.service_cost)}
+                </TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
+          <hr/>
+          <Table selectable={false}>
+            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+              <TableRow>
+                <TableHeaderColumn><div className="dashboard-salary-header">Palkka</div></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
@@ -58,7 +78,7 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
-                  }).format(newSalarySummary.sumwithoutTax)}
+                  }).format(newSalarySummary.salary_sum)}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
@@ -80,9 +100,25 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
                 </TableRowColumn>
               </TableRow>
               <TableRow>
+                <TableRowColumn>Sosiaaliturvamaksu</TableRowColumn>
                 <TableRowColumn>
-                  <b>Bruttopalkka</b>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.social_contri)}
                 </TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>Tapaturmavakuutus</TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.acc_insurance)}
+                </TableRowColumn>
+              </TableRow>              
+              <TableRow>
+                <TableRowColumn><b>Bruttopalkka</b></TableRowColumn>
                 <TableRowColumn>
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
@@ -93,7 +129,7 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
               <TableRow>
                 <TableRowColumn>Ennakonpidätys</TableRowColumn>
                 <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
+                {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
                   }).format(newSalarySummary.tax_percentage)}
@@ -102,16 +138,14 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
               <TableRow>
                 <TableRowColumn>YEL-vakuutus</TableRowColumn>
                 <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
+                {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
                   }).format(newSalarySummary.yel_insurance)}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
-                <TableRowColumn>
-                  <b>Nettopalkka</b>
-                </TableRowColumn>
+                <TableRowColumn><b>Nettopalkka</b></TableRowColumn>
                 <TableRowColumn>
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
@@ -119,63 +153,19 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
                   }).format(newSalarySummary.net_sum)}
                 </TableRowColumn>
               </TableRow>
-              <TableRow>
-                <TableRowColumn>Palvelupalkkiovähennys</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.service_cost)}
-                </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>Sosiaaliturvamaksuvähennys</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.social_contri)}
-                </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>Tapaturmavakuutusmaksuvähennys</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.acc_insurance)}
-                </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>
-                  <b>Vähennykset yhteensä</b>
-                </TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.revised_net_sum)}
-                </TableRowColumn>
-              </TableRow>
             </TableBody>
           </Table>
-          <hr />
+          <hr/>          
           <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
-                <TableHeaderColumn>
-                  <div className="dashboard-salary-header">
-                    Maksetaan tilille
-                  </div>
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <div className="dashboard-salary-header">
-                    {new Intl.NumberFormat('fi-FI', {
-                      style: 'currency',
-                      currency: 'EUR'
-                    }).format(newSalarySummary.paid_sum)}
-                  </div>
-                </TableHeaderColumn>
+                <TableHeaderColumn><div className="dashboard-salary-header">Maksetaan tilille</div></TableHeaderColumn>
+                <TableHeaderColumn><div className="dashboard-salary-header">
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.paid_sum)}
+                </div></TableHeaderColumn>
               </TableRow>
             </TableHeader>
           </Table>
@@ -183,12 +173,6 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
       </div>
     </div>
     <div className="pull-right">
-      <RaisedButton
-        type="submit"
-        label="Maksa palkka >>"
-        primary={true}
-        onClick={() => postSalary(salaries)}
-      />
+      <RaisedButton type="submit" label="Maksa palkka >>" primary={true} onClick={() => postSalary(salaries)}/>
     </div>
   </div>
-)

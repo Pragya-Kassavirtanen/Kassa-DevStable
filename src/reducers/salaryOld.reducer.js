@@ -8,7 +8,7 @@ import {
   GET_SALARIES_SUCCESS,
   GET_SALARY_BY_ID_SUCCESS,
   SALARY_PAGE_CHANGE,
-  ADD_SALARY_SUCCESS
+  ADD_SALARY_SUCCESS  
 } from '../constants/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -73,17 +73,19 @@ const salaryReducer = (state = initialState, action) => {
           isSalaryInfo: false
         }
       )
-
+    
     case ADD_SALARY_SUCCESS:
-      return Object.assign(
-        {},
-        { ...state },
-        {
-          selectedRows: []
-        }
-      )
+    return Object.assign(
+      {},
+      { ...state },
+      {
+        selectedRows: []        
+      }
+    )  
 
-    case GET_SALARY_BY_ID_SUCCESS:     
+
+    case GET_SALARY_BY_ID_SUCCESS:
+      console.log('result:: ', action.result)
       return Object.assign(
         {},
         { ...state },
@@ -123,27 +125,37 @@ const salaryReducer = (state = initialState, action) => {
         }
       }
 
-      //Changed
-      const service_cost = sum * service_percentage * 0.01 * 1.24
+      const service_cost = sum * service_percentage * 0.01
 
       const salary_sum = sum - service_cost
 
-      //changed
       const palkka = state.selectedRows.map(
         el =>
           state.newSalary[el].sumwithoutTax -
           state.newSalary[el].expenses -
-          state.newSalary[el].allowances
+          state.newSalary[el].allowances -
+          state.newSalary[el].sumwithoutTax * service_percentage * 0.01
       )
+      // console.log('palkka:: ',palkka)
 
       const palkka_sum = palkka.reduce((a, b) => a + b, 0)
 
+      const rule = state.selectedRows.map(
+        el =>
+          1.0 +
+          standard_social_tax * 0.01 +
+          state.newSalary[el].professionaltax * 0.01
+      )
+      // console.log('rule:: ',rule)
+
       const grossPerInvoice = []
       for (var i = 0; i < palkka.length; i++) {
-        grossPerInvoice.push(palkka[i])
+        grossPerInvoice.push(palkka[i] / rule[i])
       }
+      //console.log('grossPerInvoice:: ',grossPerInvoice)
 
       const gross_sum = grossPerInvoice.reduce((a, b) => a + b, 0)
+      console.log('gross_sum:: ', gross_sum)
 
       const total_sum = total_gross + gross_sum
 
@@ -158,42 +170,38 @@ const salaryReducer = (state = initialState, action) => {
       const prof_tax = state.selectedRows.map(
         el => state.newSalary[el].professionaltax
       )
+      //console.log('prof_tax:: ', prof_tax)
 
-      //changed
       const insurance = []
       for (var i = 0; i < grossPerInvoice.length; i++) {
-        insurance.push(grossPerInvoice[i] * prof_tax[i] * 0.01 * 1.24)
+        insurance.push(grossPerInvoice[i] * prof_tax[i] * 0.01)
       }
+      //console.log('insurance:: ',insurance)
 
       const accidental_insurance = insurance.reduce((a, b) => a + b, 0)
+      //console.log('accidental_insurance:: ', accidental_insurance)
 
-      //changed
       const social_tax = []
       for (var i = 0; i < grossPerInvoice.length; i++) {
-        social_tax.push(grossPerInvoice[i] * standard_social_tax * 0.01 * 1.24)
+        social_tax.push(grossPerInvoice[i] * standard_social_tax * 0.01)
       }
-
+      //console.log('social_tax:: ',social_tax)
       const social_contribution = social_tax.reduce((a, b) => a + b, 0)
+      //console.log('social_contribution:: ', social_contribution)
 
       const personal_tax = gross_sum * personal_tax_percentage
 
       const net_sum = gross_sum - personal_tax - yel
 
-      const revised_net_sum =
-        net_sum - service_cost - social_contribution - accidental_insurance
-
       const expense = state.selectedRows.map(el => state.newSalary[el].expenses)
-
       const expenses_cost_sum = expense.reduce((a, b) => a + b, 0)
 
       const allowance = state.selectedRows.map(
         el => state.newSalary[el].allowances
       )
-
       const allowances_cost_sum = allowance.reduce((a, b) => a + b, 0)
 
-      //changed
-      const paid_sum = revised_net_sum + allowances_cost_sum + expenses_cost_sum
+      const paid_sum = net_sum + allowances_cost_sum + expenses_cost_sum
 
       return Object.assign(
         {},
@@ -213,8 +221,7 @@ const salaryReducer = (state = initialState, action) => {
             yel_insurance: yel,
             tax_percentage: personal_tax,
             acc_insurance: accidental_insurance,
-            palkka: palkka_sum,
-            revised_net_sum: revised_net_sum
+            palkka: palkka_sum
           },
           salaryTaxPercentage: salaryTaxPercent
         }
@@ -226,7 +233,7 @@ const salaryReducer = (state = initialState, action) => {
 }
 
 const _createSalaryRows = (allSalaries, selected) =>
-  allSalaries.slice(selected * 10, selected * 10 + 10).map(el => (
+allSalaries.slice(selected * 10, selected * 10 + 10).map(el => (
     <SalaryRow
       key={el.id}
       date={new DateTimeFormat('fi', {

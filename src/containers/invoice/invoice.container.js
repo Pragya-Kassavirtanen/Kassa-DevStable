@@ -65,7 +65,7 @@ let NewInvoiceContainer = reduxForm({
       quantity: '',
       unit: 'kpl',
       quantity_price: '',
-      vat_percent: 14,          
+      vat_percent: 24,          
       sum_tax_free: new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'

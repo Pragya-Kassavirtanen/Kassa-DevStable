@@ -160,8 +160,11 @@ const NewExpense = ({
                       <li>
                         <RaisedButton
                           label="Peruuta"
-                          primary={true}
-                          onClick={cancelExpenseUpdate}
+                          primary={true}                         
+                          onClick={() => {
+                            cancelExpenseUpdate()
+                            browserHistory.push('/dashboard/fee')
+                          }}
                         />
                       </li>
                       <li>

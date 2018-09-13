@@ -39,8 +39,7 @@ import {
 import store from '../store'
 import { getFormValues, reset, change } from 'redux-form'
 import { formatFiDateToISO, formatFiTimeToISO } from '../utils/DateTimeFormat'
-//import DateTimeFormat from '../utils/DateTimeFormat'
-//import reverseDate from '../utils/invoice.utils'
+//import { reverseDate } from '../utils/invoice.utils'
 
 /**
  * @author Skylar Kong
@@ -225,12 +224,6 @@ function* editExpenseSaga({ invoice_expense_id }) {
 
     let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
 
-    /* let purPopDate = new DateTimeFormat('fi', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric'
-    }).format(new Date(purchaseDate)) */
-
     yield put(change('newfee', 'date_of_purchase', purchaseDate))
 
     let invoicePopId = store.getState().expense.expenseEdit[0].invoice_id
@@ -288,19 +281,21 @@ function* editAllowanceSaga({ id }) {
     const allowanceResult = JSON.parse(result.data)
 
     if (allowanceResult) yield put(getAllowanceByIdSuccess(allowanceResult))
-
-    console.log('Inside editAllowanceSaga allowanceResult:: ',allowanceResult[0])
-
+    
     let startDate = store.getState().expense.allowanceEdit[0].start_date
+    //startDate = reverseDate(startDate)    
     yield put(change('newallowance', 'start_date', startDate))
 
     let endDate = store.getState().expense.allowanceEdit[0].end_date
+    //endDate = reverseDate(endDate)    
     yield put(change('newallowance', 'end_date', endDate))
 
     let startTime = store.getState().expense.allowanceEdit[0].start_time
+    //startTime = startTime.slice(0, startTime.lastIndexOf(':'))    
     yield put(change('newallowance', 'start_time', startTime))
 
     let endTime = store.getState().expense.allowanceEdit[0].end_time
+    //endTime = endTime.slice(0, endTime.lastIndexOf(':'))    
     yield put(change('newallowance', 'end_time', endTime))
 
     let vehicleType = allowanceResult[0].vehicle_Info[0].vehicle_type

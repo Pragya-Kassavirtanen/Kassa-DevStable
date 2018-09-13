@@ -73,7 +73,7 @@ const NewAllowance = ({
   showSnackbar,
   closeSnackbar,
   isEdit,
-  saveAllowanceUpdate,  
+  saveAllowanceUpdate,
   cancelAllowanceUpdate
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -276,7 +276,7 @@ const NewAllowance = ({
         )}
         {submitButton(
           invalid,
-          isEdit,         
+          isEdit,
           cancelAllowanceUpdate,
           saveAllowanceUpdate,
           saveTravellingExpense,
@@ -294,7 +294,7 @@ const NewAllowance = ({
           browserHistory.push('/dashboard/fee')
         }}
       />
-      
+
       <Dialog
         title="Lähetetään matka- ja päivärahakorvausta"
         contentStyle={{ width: '350px', height: '150px', textAlign: 'center' }}
@@ -535,7 +535,7 @@ const payAllowance = (
 
 const submitButton = (
   invalid,
-  isEdit,  
+  isEdit,
   cancelAllowanceUpdate,
   saveAllowanceUpdate,
   saveTravellingExpense,
@@ -552,17 +552,28 @@ const submitButton = (
                   <RaisedButton
                     label="Peruuta"
                     primary={true}
-                    onClick={cancelAllowanceUpdate}
-                  />
+                    onClick={() => {
+                      cancelAllowanceUpdate()
+                      browserHistory.push('/dashboard/fee')
+                    }}
+                  />                
                 </li>
                 <li>
-                  <RaisedButton
-                    label="Tallenna"
-                    primary={true}
-                    onClick={() => {
-                      store.dispatch(saveAllowanceUpdate())
-                    }}
-                  />
+                  {invalid ? (
+                    <RaisedButton
+                      label="Tallenna"
+                      primary={true}
+                      type="submit"
+                    />
+                  ) : (
+                    <RaisedButton
+                      label="Tallenna"
+                      primary={true}
+                      onClick={() => {
+                        store.dispatch(saveAllowanceUpdate())
+                      }}
+                    />
+                  )}
                 </li>
               </ul>
             ) : (

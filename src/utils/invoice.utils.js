@@ -167,5 +167,5 @@ export const nestPropertyAsObject = (obj, property, nestedProperties) => {
 }
 
 export const reverseDate = (dateString) => {
-  return dateString.substr(6, 4)+'.'+dateString.substr(3, 2)+'.'+dateString.substr(0, 2)
+  return dateString.substr(8, 2)+'.'+dateString.substr(5, 2)+'.'+dateString.substr(0, 4)
 }

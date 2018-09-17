@@ -10,6 +10,7 @@ import DateTimeFormat from '../../utils/DateTimeFormat'
 import {
   addAllowanceRow,
   addPassengerRow,
+  removePassengerRow,
   showAdditionalVehicleInfo,
   changeAllowanceDate,
   saveTravellingExpense,
@@ -143,7 +144,8 @@ const mapDispatchToProps = (dispatch) => {
     saveTravellingExpense: () => dispatch(saveTravellingExpense()),
     closeSnackbar: () => dispatch(closeExpenseSnackBar()),
     saveAllowanceUpdate: () => dispatch(saveAllowanceUpdate()),
-    cancelAllowanceUpdate: () => dispatch(cancelAllowanceUpdate())
+    cancelAllowanceUpdate: () => dispatch(cancelAllowanceUpdate()),
+    removePassengerRow: (rowNumber) => dispatch(removePassengerRow(rowNumber))
   }
 }
 

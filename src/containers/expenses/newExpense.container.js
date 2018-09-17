@@ -74,7 +74,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    addExpenseRow: (copy) => dispatch(addExpenseRow(copy)),
+    addExpenseRow: () => dispatch(addExpenseRow()),
     saveExpense: () => dispatch(saveExpense()),
     expensePictureUpload: fileName => dispatch(change('newfee', 'receipt_picture', fileName)),
     closeSnackbar: () => dispatch(closeExpenseSnackBar()),

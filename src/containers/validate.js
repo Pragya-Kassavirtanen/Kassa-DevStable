@@ -284,7 +284,7 @@ export const expenseValidate = values => {
     }
   })
 
-  console.log('Inside expenseValidate:: ', errors)
+  //console.log('Inside expenseValidate:: ', errors)
   return errors
 }
 
@@ -425,7 +425,7 @@ export const allowanceValidate = values => {
   routeArrayErrors.filter(_ => !!_.route).length !== 0 &&
     (errors.allowanceInputRow = routeArrayErrors)
 
-  console.log('Inside allowanceValidate:: ', errors)
+  //console.log('Inside allowanceValidate:: ', errors)
   return errors
 }
 

@@ -1,14 +1,9 @@
 import React from 'react'
 import { Field } from 'redux-form'
 
-import {
-  TableRow,
-  TableRowColumn,
-  FlatButton } from  'material-ui'
+import { TableRow, TableRowColumn, FlatButton } from 'material-ui'
 
-import {
-  renderTextField
-} from '../../utils/wrappers'
+import { renderTextField } from '../../utils/wrappers'
 
 import { removePassengerRow } from '../../actions'
 
@@ -16,23 +11,13 @@ import store from '../../store'
 
 import FontAwesome from 'react-fontawesome'
 
-const PassengerInputRow = ({
-  passenger,
-  rowNumber,
-  check,
-  autoFocusIndex
-}) =>
+const PassengerInputRow = ({ passenger, rowNumber, autoFocusIndex, check }) => (
   <TableRow className="dashboard-invoice-inputrow">
     <TableRowColumn>
-      {
-        (parseInt(autoFocusIndex) > 0 && !check) ?
-        <Field name={passenger}
-             component={renderTextField}
-             label="Matkustajan nimi" autoFocus/> : 
-             <Field name={passenger}
-             component={renderTextField}
-             label="Matkustajan nimi"/>
-      }      
+      {(parseInt(autoFocusIndex) > 0 && !check) ? 
+        <Field name={passenger} component={renderTextField} label="Matkustajan nimi" autoFocus /> : 
+        <Field name={passenger} component={renderTextField} label="Matkustajan nimi" />
+      }
     </TableRowColumn>
     <TableRowColumn>
       <FlatButton
@@ -42,5 +27,6 @@ const PassengerInputRow = ({
       />
     </TableRowColumn>
   </TableRow>
+)
 
 export default PassengerInputRow

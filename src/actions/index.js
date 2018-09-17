@@ -170,6 +170,7 @@ import {
   UPDATE_ADMIN_SALARY_STATUS_SUCCESS,
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
+  EMPTY_PASSENGER_ROWS,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -231,12 +232,12 @@ export const invoiceDownloadPDF = (invoice_id) => ({ type: INVOICE_DOWNLOAD_PDF,
 export const getExpenseStart = () => ({type: GET_EXPENSE_START})
 export const getExpenseSuccess = (expenses, allowances) => ({type: GET_EXPENSE_SUCCESS, expenses, allowances})
 export const getExpenseFailed = error => ({type: GET_EXPENSE_FAILED, error})
-export const addExpenseRow = copy => ({type: ADD_EXPENSE_ROW, copy})
+export const addExpenseRow = () => ({type: ADD_EXPENSE_ROW})
 export const removeExpenseRow = key => ({type: REMOVE_EXPENSE_ROW, key})
 export const addAllowanceRow = () => ({type: ADD_ALLOWANCE_ROW})
 export const removeAllowanceRow = key => ({type: REMOVE_ALLOWANCE_ROW, key})
-export const addPassengerRow = (copy) => ({type: ADD_PASSENGER_ROW, copy})
-export const removePassengerRow = key => ({type: REMOVE_PASSENGER_ROW, key})
+export const addPassengerRow = (check) => ({type: ADD_PASSENGER_ROW, check})
+export const removePassengerRow = rowNumber => ({type: REMOVE_PASSENGER_ROW, rowNumber})
 export const showAdditionalVehicleInfo = value => ({type: SHOW_ADDITIONAL_VEHICLE_INFO, value})
 export const changeAllowanceDate = () => ({type: CHANGE_ALLOWANCE_DATE})
 export const saveExpense = () => ({ type: SAVE_EXPENSE })
@@ -267,6 +268,7 @@ export const cancelExpenseUpdate = () => ({type: CANCEL_EXPENSE_UPDATE})
 export const saveAllowanceUpdate = () => ({type: SAVE_ALLOWANCE_UPDATE})
 export const cancelAllowanceUpdate = () => ({type: CANCEL_ALLOWANCE_UPDATE})
 export const changeExpensePurchaseDate = date => ({type: CHANGE_PURCHASE_DATE, date})
+export const emptyPassengerRows = () => ({type: EMPTY_PASSENGER_ROWS})
 
 export const newCustomer = () => ({type: NEW_CUSTOMER})
 export const addCustomerSuccess = (result) => ({type: ADD_CUSTOMER_SUCCESS, result})

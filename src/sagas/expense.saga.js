@@ -14,7 +14,8 @@ import {
   addExpenseRow,
   addPassengerRow,
   allowanceUpdateSuccess,
-  allowanceUpdateFailed
+  allowanceUpdateFailed,
+  emptyPassengerRows
 } from '../actions/index'
 import {
   SAVE_EXPENSE,
@@ -281,6 +282,8 @@ function* editAllowanceSaga({ id }) {
     const allowanceResult = JSON.parse(result.data)
 
     if (allowanceResult) yield put(getAllowanceByIdSuccess(allowanceResult))
+
+    console.log('allowanceResult:: ',allowanceResult[0])
     
     let startDate = store.getState().expense.allowanceEdit[0].start_date
     //startDate = reverseDate(startDate)    
@@ -311,7 +314,7 @@ function* editAllowanceSaga({ id }) {
     let invoicePop = store
       .getState()
       .invoice.invoices.filter(el => el.invoice_id === invoicePopId)
-    yield put(change('newallowance', 'invoice', invoicePop[0]))
+    yield put(change('newallowance', 'invoice', invoicePop[0]))    
 
     const occurencesRoute = allowanceResult[0].allowanceInputRow.filter(
       el => el.route
@@ -329,8 +332,10 @@ function* editAllowanceSaga({ id }) {
       )
     }
 
-    const occurencesPassenger = allowanceResult[0].allowancePassenger.filter(
-      el => el.passenger
+    yield put(emptyPassengerRows())
+
+ const occurencesPassenger = allowanceResult[0].allowancePassenger.filter(
+      el => el.id
     ).length
 
     console.log('Inside editAllowanceSaga occurencesPassenger:: ',occurencesPassenger)
@@ -348,11 +353,10 @@ function* editAllowanceSaga({ id }) {
         change(
           'newallowance',
           `allowancePassenger.${j}.passenger`,
-          allowanceResult[0].allowancePassenger.slice(0, occurencesPassenger)[j]
-            .passenger
+          allowanceResult[0].allowancePassenger.slice(0, occurencesPassenger)[j].passenger
         )
       )
-    }   
+    }  
 
     const allowanceInfoKeys = Object.keys(allowanceResult[0]).filter(
       key =>

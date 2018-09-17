@@ -25,12 +25,11 @@ const ExpenseInputRow = ({
   sum,
   vat,
   rowNumber,
-  autoFocusIndex,
-  copy
+  autoFocusIndex  
 }) =>
   <TableRow className="dashboard-invoice-inputrow">
     <TableRowColumn>
-      {(parseInt(autoFocusIndex) > 0 && !copy) ?
+      {parseInt(autoFocusIndex) > 0 ?
         <Field name={description} component={renderTextField} autoFocus/> :
         <Field name={description} component={renderTextField}/>
       }

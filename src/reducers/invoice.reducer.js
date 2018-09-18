@@ -17,6 +17,7 @@ import {
   CHANGE_INVOICE_BILLING_DATE,
   GET_INVOICE_BY_ID_SUCCESS,
   CANCEL_EDIT_INVOICE,
+  INVOICE_EDIT_SUCCESS,
   GET_PROFESSION_SUCCESS,
   SHOW_TOOLTIP,
   HIDE_TOOLTIP
@@ -120,6 +121,15 @@ const invoiceReducer = (state = initialState, action) => {
         }
       )
 
+    case INVOICE_EDIT_SUCCESS:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          invoiceEdit: [],
+          isEdit: false
+        }
+      )
 
     case CALCULATE_INVOICE_SUM:
       return Object.assign({}, state, {
@@ -158,7 +168,7 @@ const invoiceReducer = (state = initialState, action) => {
     case EMPTY_INVOICE_ROWS:
       return Object.assign({}, state, {
         invoiceInputRows: [],
-        invoiceRowCounter: 0
+        invoiceRowCounter: 0        
       })
 
     case MIN_DATE_CHANGE:

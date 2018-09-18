@@ -2,6 +2,7 @@ import React from 'react'
 import {
   LOAD_INVOICE_REVIEW,
   SAVE_INVOICE_SUCCESS,
+  REVIEW_INVOICE_EDIT_SUCCESS,
   SAVE_INVOICE_FAILED,
   CLOSE_INVOICE_REVIEW_SNACKBAR,
   SAVE_AND_SEND_INVOICE,
@@ -50,6 +51,12 @@ const reviewInvoice = (
         apiSuccess: true,
         invoice_id: action.result,
         isSaveInvoiceDraft: false
+      })
+
+    case REVIEW_INVOICE_EDIT_SUCCESS:
+      return Object.assign({}, state,
+        {
+          apiSuccess: true
       })
 
     case SAVE_INVOICE_FAILED:

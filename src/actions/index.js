@@ -23,6 +23,7 @@ import {
   ON_INVOICE_REVIEW,
   GET_INVOICES_FAILED,
   SAVE_INVOICE_SUCCESS,
+  REVIEW_INVOICE_EDIT_SUCCESS,
   SAVE_INVOICE_FAILED,
   CHECK_AUTH_INFO,
   CHECK_AUTH_INFO_SUCCESS,
@@ -171,6 +172,7 @@ import {
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
   EMPTY_PASSENGER_ROWS,
+  INVOICE_EDIT_SUCCESS,
   LANGUAGE_CHANGE
 } from '../constants/index'
 
@@ -206,6 +208,8 @@ export const getProfessionSuccess = (professions) => ({ type: GET_PROFESSION_SUC
 export const getProfessionFailed = error => ({ type: GET_PROFESSION_FAILED, error })
 
 export const saveInvoiceSuccess = result => ({ type: SAVE_INVOICE_SUCCESS, result})
+export const reviewInvoiceEditSuccess = result => ({ type: REVIEW_INVOICE_EDIT_SUCCESS, result})
+export const invoiceEditSuccess = result => ({ type: INVOICE_EDIT_SUCCESS, result})
 export const saveInvoiceFailed = error => ({ type: SAVE_INVOICE_FAILED, error})
 export const closeInvoiceReviewSnackBar = () => ({type: CLOSE_INVOICE_REVIEW_SNACKBAR})
 export const removeInvoice = invoice_id => ({type: REMOVE_INVOICE, invoice_id})

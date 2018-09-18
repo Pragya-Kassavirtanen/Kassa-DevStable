@@ -19,8 +19,10 @@ import {
   getInvoicesSuccess,
   getInvoicesFailed,
   saveInvoiceSuccess,
+  reviewInvoiceEditSuccess,
   saveInvoiceFailed,
   emptyInvoiceRows,
+  invoiceEditSuccess,
   addInvoiceRow,
   getProfessionSuccess,
   getProfessionFailed,
@@ -215,14 +217,19 @@ function* saveAndSendInvoiceSaga() {
     }
 
     // FIXME: prevent success happening when error occures
-    const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))    
-
-    const resultParsed = JSON.parse(result.data)    
+    const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
+    
+    if(result.data === 'Customer invoice updated successfully!'){      
+      yield put(reviewInvoiceEditSuccess())
+    } else {
+      const resultParsed = JSON.parse(result.data)
+      yield put(saveInvoiceSuccess(resultParsed[0].invoice_id))
+    }
 
     yield put(reset('invoice'))
     yield put(change('invoice', 'rows', {}))
     yield put(emptyInvoiceRows())
-    yield put(saveInvoiceSuccess(resultParsed[0].invoice_id))      
+    yield put(invoiceEditSuccess())       
     
     const isSaveAndSend = store.getState().invoiceReviews.isSaveAndSend
 

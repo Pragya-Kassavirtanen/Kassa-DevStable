@@ -12,6 +12,7 @@ import { expenseValidate as validate } from '../validate'
 
 import {
   addExpenseRow,
+  removeExpenseRow,
   saveExpense,
   closeExpenseSnackBar,
   saveExpenseUpdate,
@@ -45,9 +46,7 @@ const mapStateToProps = (state) => {
 
   expenseInputRow.forEach(el => {
     if (!formValues['expenseInputRow'][el.key]) {
-      formValues['expenseInputRow'][el.key] = {}
-      formValues['expenseInputRow'][el.key][`description${el.key}`] = ''
-      formValues['expenseInputRow'][el.key][`sum${el.key}`] = ''    
+      formValues['expenseInputRow'][el.key] = {}     
       formValues['expenseInputRow'][el.key][`vat${el.key}`] = 24
     }
   })
@@ -62,8 +61,8 @@ const mapStateToProps = (state) => {
   }).format(new Date(item.due_date)) + ' ' + item.total_sum + '€'}/>)
   return {
     user: state.oidc.user,
-    invoices: invoiceNames,
-    expenseRows: expenseInputRow,
+    invoices: invoiceNames,    
+    expenseRows: state.expense.expenseInputRow,
     showSpinner: state.expense.showSpinner,
     showSnackbar: state.expense.showSnackbar,
     isEdit: state.expense.isEdit    
@@ -75,6 +74,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
     addExpenseRow: () => dispatch(addExpenseRow()),
+    removeExpenseRow: (key) => dispatch(removeExpenseRow(key)),
     saveExpense: () => dispatch(saveExpense()),
     expensePictureUpload: fileName => dispatch(change('newfee', 'receipt_picture', fileName)),
     closeSnackbar: () => dispatch(closeExpenseSnackBar()),

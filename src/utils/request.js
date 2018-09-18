@@ -157,7 +157,7 @@ export const apiManualDelete = (url, body, method = 'DELETE') => {
 }
 
 
-export const createUploadFileChannel = (url, file, opt) => {
+export const createUploadFileChannel = (url, file, opt) => {  
   return eventChannel(emitter => {
     const xhr = new XMLHttpRequest()
     let reader = new FileReader()
@@ -205,9 +205,7 @@ export const createUploadFileChannel = (url, file, opt) => {
         'filename',
         'filetype',
         'data'        
-      ])
-
-      //console.log('Inside createUploadFileChannel:: ',nestedBody)
+      ])      
 
       xhr.open('POST', url, true)
       xhr.setRequestHeader('Content-Type', 'application/json')

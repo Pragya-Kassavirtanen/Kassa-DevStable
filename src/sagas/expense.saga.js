@@ -246,7 +246,7 @@ function* editExpenseSaga({ invoice_expense_id }) {
 
     const l = expenseResult[0].expenseInputRow.slice(0, occurences).length
     for (let i = 0; i < l; i++) {
-      yield put(addExpenseRow(true))
+      yield put(addExpenseRow())
       yield put(
         change(
           'newfee',
@@ -388,14 +388,14 @@ function* saveExpenseUpdateSaga() {
 
   const expenseInputRow = formValues.expenseInputRow
 
-  console.log('Inside saveExpenseUpdateSaga BEFORE:: ',expenseInputRow)
-
 /*   expenseInputRow[Symbol.iterator] = function*() {
     const keys = Reflect.ownKeys(this)
     for (const key of keys) {
       yield this[key]
     }
   } */
+
+  console.log('Inside saveExpenseUpdateSaga BEFORE:: ',expenseInputRow)
 
   const body = {
     invoice_id: formValues.invoice.invoice_id,
@@ -425,8 +425,8 @@ function* saveExpenseUpdateSaga() {
       const { progress = 0, err, success } = yield take(channel)
       if (err) {
         yield put(expenseUpdateFailed(err))
-        yield put(emptyExpenseRows())
-        yield put(reset('newfee'))     
+        //yield put(emptyExpenseRows())
+        //yield put(reset('newfee'))     
       }
       if (success) {
         yield put(expenseUpdateSuccess(success))

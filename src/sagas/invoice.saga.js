@@ -84,13 +84,15 @@ function* clearInvoiceOptionSaga() {
 
 function* saveAndSendInvoiceSaga() {
   try {
-    const invoiceEdit = store.getState().invoice.invoiceEdit   
+    const invoiceEdit = store.getState().invoice.invoiceEdit
+    console.log('saveAndSendInvoiceSaga invoiceEdit:: ',invoiceEdit)
 
     let url
     let invoice_id
 
     if (invoiceEdit.length > 0) {
       invoice_id = invoiceEdit[0].Invoice[0].invoice_id
+      console.log('invoice_id:: ',invoice_id)
       
 
       if (!!invoice_id) {
@@ -224,23 +226,31 @@ function* saveAndSendInvoiceSaga() {
     } else {
       const resultParsed = JSON.parse(result.data)
       yield put(saveInvoiceSuccess(resultParsed[0].invoice_id))
-    }
-
-    yield put(reset('invoice'))
-    yield put(change('invoice', 'rows', {}))
-    yield put(emptyInvoiceRows())
-    yield put(invoiceEditSuccess())       
+    }     
     
-    const isSaveAndSend = store.getState().invoiceReviews.isSaveAndSend
-
+    const isSaveAndSend = store.getState().invoiceReviews.isSaveAndSend 
+    
     if (isSaveAndSend === true) {
-      const invoice_id = store.getState().invoiceReviews.invoice_id     
+
+      if(invoiceEdit.length <= 0){
+
+        invoice_id = store.getState().invoiceReviews.invoice_id
+
+      }
+
+      else if(invoiceEdit.length > 0) {
+
+        invoice_id = invoiceEdit[0].Invoice[0].invoice_id
+        console.log('invoice_id:: ',invoice_id)   
+        
+      }
 
       //Calling GenerateInvoicePDF API....
       const generateInvoicePDFUrl = `${API_SERVER}/GenerateInvoicePDF`
       const generateInvoicePDFBody = JSON.stringify({
         invoice_id: invoice_id
       })
+
       const generateInvoicePDFResult = yield call(apiManualPost, generateInvoicePDFUrl, generateInvoicePDFBody)
       console.log('generateInvoicePDFResult:: ', generateInvoicePDFResult)
 
@@ -249,9 +259,13 @@ function* saveAndSendInvoiceSaga() {
       } else {
         yield put(generateInvoicePDFFailed(generateInvoicePDFResult.data))
       }
-    } else {
-      console.log('Saved Invoice And not Sent...')
-    }
+    }          
+
+    yield put(reset('invoice'))
+    yield put(change('invoice', 'rows', {}))
+    yield put(emptyInvoiceRows())
+    yield put(invoiceEditSuccess())
+
   } catch (e) {
     yield put(saveInvoiceFailed(e))
   }
@@ -416,6 +430,8 @@ function* copyInvoiceSaga({ invoice_id }) {
     const result = yield call(apiManualPost, invoiceUrl, body)
 
     if (result.data) yield put(copyInvoiceSuccess(result.data))
+
+    console.log('Inside copyInvoiceSaga:: ',result.data)
 
     const invoiceResult = JSON.parse(result.data)
 

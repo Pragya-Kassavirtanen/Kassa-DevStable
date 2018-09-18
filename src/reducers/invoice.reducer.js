@@ -107,6 +107,7 @@ const invoiceReducer = (state = initialState, action) => {
         {},
         { ...state },
         {
+          invoiceEdit: JSON.parse(action.result),
           isEdit: true
         }
       )

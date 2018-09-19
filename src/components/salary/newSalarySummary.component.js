@@ -98,16 +98,7 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
                     currency: 'EUR'
                   }).format(newSalarySummary.tax_percentage)}
                 </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>YEL-vakuutus</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalarySummary.yel_insurance)}
-                </TableRowColumn>
-              </TableRow>
+              </TableRow>              
               <TableRow>
                 <TableRowColumn>
                   <b>Nettopalkka</b>
@@ -117,6 +108,15 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
                     style: 'currency',
                     currency: 'EUR'
                   }).format(newSalarySummary.net_sum)}
+                </TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>YEL-vakuutus</TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.yel_insurance)}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
@@ -154,7 +154,7 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
-                  }).format(newSalarySummary.revised_net_sum)}
+                  }).format(newSalarySummary.deductions_sum)}
                 </TableRowColumn>
               </TableRow>
             </TableBody>

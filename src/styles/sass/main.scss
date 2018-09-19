@@ -688,6 +688,7 @@ input[type="text"]::-ms-clear {
   font-weight: bold;
   padding-top: 20px;
   color: #ff3297;
+  font-size: 17px;
 }
 
 .frontpage-halvempi {
@@ -737,12 +738,20 @@ input[type="text"]::-ms-clear {
   color: #ff3297;
 }
 
+.hinnasto-intro p {
+  font-size: 17px;
+}
+
 .percentage {
   padding: 10px;
 }
 
 .hinnasto-palkka {
   text-align: center;
+}
+
+.hinnasto-palkka p {
+  font-size: 17px;
 }
 
 .hinnasto-palkka h1 {
@@ -799,6 +808,10 @@ input[type="text"]::-ms-clear {
   color: #ff3297;
 }
 
+.hinnasto-pikapalkka p {
+  font-size: 17px;
+}
+
 .italic {
   font-style: italic;
 }
@@ -808,8 +821,8 @@ input[type="text"]::-ms-clear {
   color: white;
   padding-left: 30px;
   padding-right: 30px;
-  padding-top: 60px;
-  padding-bottom: 40px;
+  padding-top: 35px;
+  padding-bottom: 35px;
 }
 
 .hinnasto-sivukulut {
@@ -821,10 +834,17 @@ input[type="text"]::-ms-clear {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 25px;
+  color: #ff3297;
+}
+
+.hinnasto-sivukulut p {
+  font-size: 17px;
 }
 
 .hinnasto-ehdot {
-  padding: 0px 20px;
+  background-color: #44c0cc;
+  padding: 50px 20px;
+  color: white;
   text-align: center;
 }
 
@@ -832,6 +852,10 @@ input[type="text"]::-ms-clear {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 25px;
+}
+
+.hinnasto-ehdot p {
+  font-size: 17px;
 }
 
 /*FAQ -->*/
@@ -960,6 +984,7 @@ h1 {
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .firstBox {
@@ -969,9 +994,17 @@ h1 {
   text-align: center;
 }
 
+.firstBox p {
+  font-size: 17px;
+}
+
 .secondBox {
   padding: 50px 50px;
   text-align: center;
+}
+
+.secondBox p {
+  font-size: 17px;
 }
 
 .thirdBox {
@@ -981,9 +1014,17 @@ h1 {
   text-align: center;
 }
 
+.thirdBox p {
+  font-size: 17px;
+}
+
 .fourthBox {
   padding: 50px 50px;
   text-align: center;
+}
+
+.fourthBox p {
+  font-size: 17px;
 }
 
 .yhteystiedot-input {

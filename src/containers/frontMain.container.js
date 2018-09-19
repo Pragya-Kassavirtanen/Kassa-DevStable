@@ -43,7 +43,7 @@ const navItems = [
   },
   { 
     name: 'users',
-    content: 'SOPII YRITYKSILLE JA YKSITYISHENKILÖILLE',
+    content: 'KEVYTYRITTÄJYYS',
     url: '/home/yrityksille'
   },
   {  

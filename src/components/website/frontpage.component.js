@@ -14,14 +14,13 @@ const man_etusivu = require('../../images/man_etusivu.png')
 const FrontPage = () => (
   <div className="container-fluid cover">
     <div className="cover">
-      <img src={herravirtanen_etusivu} style={{width:'100%', height:'300px'}} />
-      <div className="frontpage-cover-heading">
-        Laskuta ilman yritystä.
-        <br />Kevytyrittäjän uusi, entistä helpompi arki.
-      </div>
+      <img
+        src={herravirtanen_etusivu}
+        style={{ width: '100%', height: '300px' }}
+      />
     </div>
     <div className="frontpage-intro col-xs-12 col-sm-12 col-lg-12">
-      <h6>Helppoa kuin heinän teko</h6>
+      <h6>Laskuta ilman yritystä</h6>
       <br />
       <p>
         Kassavirtanen on palvelu, joka mahdollistaa laskuttamisen ilman omaa
@@ -35,13 +34,16 @@ const FrontPage = () => (
       <p>Rekisteröidy käyttäjäksi. Se on maksutonta.</p>
       <br />
       <div className="row justify-content-center">
-       <SignUp />
+        <SignUp />
       </div>
     </div>
     <div className="laskutus">
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-lg-6">
-          <img src={woman_etusivu} style={{width:'360px', marginTop: '70px'}} />
+          <img
+            src={woman_etusivu}
+            style={{ width: '360px', marginTop: '70px' }}
+          />
           <h6>Laskutus</h6>
           <br />
           <p>
@@ -50,7 +52,10 @@ const FrontPage = () => (
           </p>
         </div>
         <div className="col-xs-12 col-sm-6 col-lg-6">
-          <img src={man_etusivu} style={{width:'360px', marginTop: '70px'}} />
+          <img
+            src={man_etusivu}
+            style={{ width: '360px', marginTop: '70px' }}
+          />
           <h6>Palkan nostaminen</h6>
           <br />
           <p>Nosta itsellesi palkkaa ilman huolta byrokratian kiemuroista.</p>
@@ -60,7 +65,7 @@ const FrontPage = () => (
     <div className="frontpage-halvempi">
       <div className="row justify-content-center">
         <div className="col-xs-12 col-sm-12 col-lg-12">
-          <h6>Eli ei kallis, vaan halvempi</h6>
+          <h6>Palkka tilille jopa samana päivänä</h6>
           <br />
           <p>
             Palkka nopeammin kuin toimeksiantajasi ehtii maksamaan! Pikapalkan
@@ -71,10 +76,10 @@ const FrontPage = () => (
       </div>
     </div>
     <div className="frontpage-jouheva col-xs-12 col-sm-12 col-lg-12">
-      <h6>Paitsi jouheva, kassavirtanen on myös edullinen</h6>
+      <h6>Kevytyrittäjyys on helppoa</h6>
       <br />
       <p>
-        Maksat vain 2-4,5% palkan arvonlisäverottomasta summasta. Laskun
+        Maksat vain 2-4,0% palkan arvonlisäverottomasta summasta. Laskun
         lähettäminen, muistutukset ja perintä ovat ilmaisia.
       </p>
     </div>

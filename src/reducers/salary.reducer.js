@@ -83,7 +83,7 @@ const salaryReducer = (state = initialState, action) => {
         }
       )
 
-    case GET_SALARY_BY_ID_SUCCESS:     
+    case GET_SALARY_BY_ID_SUCCESS:
       return Object.assign(
         {},
         { ...state },
@@ -177,10 +177,12 @@ const salaryReducer = (state = initialState, action) => {
 
       const personal_tax = gross_sum * personal_tax_percentage
 
-      const net_sum = gross_sum - personal_tax - yel
+      //changed
+      const net_sum = gross_sum - personal_tax
 
-      const revised_net_sum =
-        net_sum - service_cost - social_contribution - accidental_insurance
+      //Total Deductions
+      const deductions_sum =
+        yel + service_cost + social_contribution + accidental_insurance
 
       const expense = state.selectedRows.map(el => state.newSalary[el].expenses)
 
@@ -193,7 +195,8 @@ const salaryReducer = (state = initialState, action) => {
       const allowances_cost_sum = allowance.reduce((a, b) => a + b, 0)
 
       //changed
-      const paid_sum = revised_net_sum + allowances_cost_sum + expenses_cost_sum
+      const paid_sum =
+        net_sum - deductions_sum + allowances_cost_sum + expenses_cost_sum
 
       return Object.assign(
         {},
@@ -214,7 +217,7 @@ const salaryReducer = (state = initialState, action) => {
             tax_percentage: personal_tax,
             acc_insurance: accidental_insurance,
             palkka: palkka_sum,
-            revised_net_sum: revised_net_sum
+            deductions_sum: deductions_sum
           },
           salaryTaxPercentage: salaryTaxPercent
         }

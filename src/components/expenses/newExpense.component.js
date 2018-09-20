@@ -75,7 +75,7 @@ const NewExpense = ({
                       name="invoice"
                       component={SelectField}
                       floatingLabelText="Lasku"
-                      style={{ width: '100%' }}
+                      style={{ width: '100%' }}                     
                     >
                       {invoices}
                     </Field>
@@ -85,6 +85,7 @@ const NewExpense = ({
                       name="place_of_purchase"
                       component={renderExpenseTextField}
                       label="Ostopaikka"
+                      autoFocus
                     />
                   </div>
                   <div>

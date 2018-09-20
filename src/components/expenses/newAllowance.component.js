@@ -104,7 +104,7 @@ const NewAllowance = ({
                       name="invoice"
                       component={SelectField}
                       floatingLabelText="Valitse lasku"
-                      style={{ width: '100%' }}
+                      style={{ width: '100%' }}                      
                     >
                       {invoices}
                     </Field>
@@ -126,9 +126,9 @@ const NewAllowance = ({
                     <div>
                       <Field
                         name="destination"
-                        component={renderTextField}
+                        component={renderTextField}                        
                         label="Matkan kohde"
-                        style={{ float: 'left', width: '50%' }}
+                        style={{ float: 'left', width: '50%' }}                        
                       />
                       <Field
                         name="country"
@@ -172,6 +172,7 @@ const NewAllowance = ({
                         component={renderTextField}
                         label="Matkan kohde"
                         style={{ float: 'left', width: '50%' }}
+                        autoFocus
                       />
                       <Field
                         name="country"
@@ -355,12 +356,12 @@ const routeSpecification = (allowanceRows, addAllowanceRow) => (
         </div>
         <div className="panel-body">
           <Table selectable={false}>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            {/* <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow className="dashboard-invoice-inputrow">
                 <TableHeaderColumn>Reitti</TableHeaderColumn>
                 <TableHeaderColumn />
               </TableRow>
-            </TableHeader>
+            </TableHeader> */}
             <TableBody displayRowCheckbox={false}>{allowanceRows}</TableBody>
           </Table>
           <div>

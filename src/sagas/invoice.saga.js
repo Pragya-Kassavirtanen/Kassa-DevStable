@@ -85,21 +85,20 @@ function* clearInvoiceOptionSaga() {
 function* saveAndSendInvoiceSaga() {
   try {
     const invoiceEdit = store.getState().invoice.invoiceEdit
-    console.log('saveAndSendInvoiceSaga invoiceEdit:: ',invoiceEdit)
+    console.log('saveAndSendInvoiceSaga invoiceEdit:: ', invoiceEdit)
 
     let url
     let invoice_id
 
     if (invoiceEdit.length > 0) {
       invoice_id = invoiceEdit[0].Invoice[0].invoice_id
-      console.log('invoice_id:: ',invoice_id)
-      
+      console.log('invoice_id:: ', invoice_id)
 
       if (!!invoice_id) {
         url = `${API_SERVER}/UpdateInvoice`
       }
     } else if (invoiceEdit.length <= 0) {
-      url = `${API_SERVER}/AddInvoice`      
+      url = `${API_SERVER}/AddInvoice`
     }
 
     const formValues = getFormValues('invoiceReview')(store.getState())
@@ -124,23 +123,31 @@ function* saveAndSendInvoiceSaga() {
         uuid: uuid
       })
     )
-   
-    const isSaveInvoiceDraft = store.getState().invoiceReviews.isSaveInvoiceDraft
+
+    const isSaveInvoiceDraft = store.getState().invoiceReviews
+      .isSaveInvoiceDraft
     console.log('isSaveInvoiceDraft:: ', isSaveInvoiceDraft)
 
     body.instant_payment = formValues.instant_payment
     console.log('body.instant_payment:: ', body.instant_payment)
 
     //Handling SaveAsDraft & SaveAndSendInvoice Status for AddInvoice & UpdateInvoice
-    if ( isSaveInvoiceDraft === false && (body.instant_payment === 'invoice_reminder' || body.instant_payment === '')) {      
+    if (
+      isSaveInvoiceDraft === false &&
+      (body.instant_payment === 'invoice_reminder' ||
+        body.instant_payment === '')
+    ) {
       body.status = 1
-      console.log('body.status:: ', body.status)      
-    } else if ( isSaveInvoiceDraft === false && body.instant_payment === 'quick_pay' ) {      
+      console.log('body.status:: ', body.status)
+    } else if (
+      isSaveInvoiceDraft === false &&
+      body.instant_payment === 'quick_pay'
+    ) {
       body.status = 2
-      console.log('body.status:: ', body.status)  
-    } else {      
+      console.log('body.status:: ', body.status)
+    } else {
       body.status = 0
-      console.log('body.status:: ', body.status)     
+      console.log('body.status:: ', body.status)
     }
 
     let bodyRows = []
@@ -220,29 +227,22 @@ function* saveAndSendInvoiceSaga() {
 
     // FIXME: prevent success happening when error occures
     const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
-    
-    if(result.data === 'Customer invoice updated successfully!'){      
+
+    if (result.data === 'Customer invoice updated successfully!') {
       yield put(reviewInvoiceEditSuccess())
     } else {
       const resultParsed = JSON.parse(result.data)
       yield put(saveInvoiceSuccess(resultParsed[0].invoice_id))
-    }     
-    
-    const isSaveAndSend = store.getState().invoiceReviews.isSaveAndSend 
-    
+    }
+
+    const isSaveAndSend = store.getState().invoiceReviews.isSaveAndSend
+
     if (isSaveAndSend === true) {
-
-      if(invoiceEdit.length <= 0){
-
+      if (invoiceEdit.length <= 0) {
         invoice_id = store.getState().invoiceReviews.invoice_id
-
-      }
-
-      else if(invoiceEdit.length > 0) {
-
+      } else if (invoiceEdit.length > 0) {
         invoice_id = invoiceEdit[0].Invoice[0].invoice_id
-        console.log('invoice_id:: ',invoice_id)   
-        
+        console.log('invoice_id:: ', invoice_id)
       }
 
       //Calling GenerateInvoicePDF API....
@@ -251,21 +251,22 @@ function* saveAndSendInvoiceSaga() {
         invoice_id: invoice_id
       })
 
-      const generateInvoicePDFResult = yield call(apiManualPost, generateInvoicePDFUrl, generateInvoicePDFBody)
+      const generateInvoicePDFResult = yield call(
+        apiManualPost,
+        generateInvoicePDFUrl,
+        generateInvoicePDFBody
+      )
       console.log('generateInvoicePDFResult:: ', generateInvoicePDFResult)
 
-      if(generateInvoicePDFResult.data === 'Invoice Pdf sent successfully') {
+      if (generateInvoicePDFResult.data === 'Invoice Pdf sent successfully') {
         yield put(generateInvoicePDFSuccess(generateInvoicePDFResult.data))
       } else {
         yield put(generateInvoicePDFFailed(generateInvoicePDFResult.data))
       }
-    }          
+    }
 
-    yield put(reset('invoice'))
-    yield put(change('invoice', 'rows', {}))
-    yield put(emptyInvoiceRows())
+    yield put(reset('invoice'))        
     yield put(invoiceEditSuccess())
-
   } catch (e) {
     yield put(saveInvoiceFailed(e))
   }
@@ -284,7 +285,7 @@ function* generateInvoicePDF({ invoice_id }) {
     const url = `${API_SERVER}/GenerateInvoicePDF`
     const body = JSON.stringify({
       invoice_id: invoice_id
-    })    
+    })
     yield call(apiManualPost, url, body)
   } catch (e) {
     console.warn(e)
@@ -296,7 +297,7 @@ function* invoiceDownloadPDF({ invoice_id }) {
     const url = `${API_SERVER}/InvoiceDownloadPDF`
     const body = JSON.stringify({
       invoice_id: invoice_id
-    })    
+    })
     yield call(apiBlobPost, url, body)
   } catch (e) {
     console.warn(e)
@@ -431,7 +432,7 @@ function* copyInvoiceSaga({ invoice_id }) {
 
     if (result.data) yield put(copyInvoiceSuccess(result.data))
 
-    console.log('Inside copyInvoiceSaga:: ',result.data)
+    console.log('Inside copyInvoiceSaga:: ', result.data)
 
     const invoiceResult = JSON.parse(result.data)
 

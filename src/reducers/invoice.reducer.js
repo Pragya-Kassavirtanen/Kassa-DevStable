@@ -166,10 +166,10 @@ const invoiceReducer = (state = initialState, action) => {
         )
       })
 
-    case EMPTY_INVOICE_ROWS:
+      case EMPTY_INVOICE_ROWS:
       return Object.assign({}, state, {
-        invoiceInputRows: [],
-        invoiceRowCounter: 0        
+        invoiceInputRows: [],       
+        invoiceRowCounter: 0
       })
 
     case MIN_DATE_CHANGE:

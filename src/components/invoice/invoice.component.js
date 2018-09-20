@@ -183,14 +183,22 @@ const NewInvoice = ({
                         />
                       </li>
                       <li>
-                        <RaisedButton
-                          label="Esikatsele ja hyväksy lasku"
-                          primary={true}
-                          type="submit"
-                          containerElement={
-                            <Link to="/dashboard/invoice/review" />
-                          }
-                        />
+                        {invalid ? (
+                          <RaisedButton
+                            label="Esikatsele ja hyväksy lasku"
+                            primary={true}
+                            type="submit"
+                          />
+                        ) : (
+                          <RaisedButton
+                            label="Esikatsele ja hyväksy lasku"
+                            primary={true}
+                            type="submit"
+                            containerElement={
+                              <Link to="/dashboard/invoice/review" />
+                            }
+                          />
+                        )}
                       </li>
                     </ul>
                   ) : (

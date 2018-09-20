@@ -17,7 +17,9 @@ import {
   getYelSuccess,
   getYelFailed,
   passwordUpdateSuccess,
-  passwordUpdateFailed
+  passwordUpdateFailed,
+  yelUpdateSuccess,
+  yelUpdateFailed
 } from '../actions/index'
 import { getFormValues, change, reset } from 'redux-form'
 
@@ -77,17 +79,6 @@ function* getTaxCardSaga() {
 
 function* postYelSaga() {
   try {
-    //const uuid = (store.getState()).profile.uuid
-    //const url =`${API_SERVER}/yel`
-    //const formValues = getFormValues('yel')(store.getState())
-    //const body = JSON.parse(JSON.stringify({
-    //  ...formValues,
-    //  user_info_uuid: uuid
-    //}))
-    // Commented until backend ready
-    // const result = yield call(apiPost, url, JSON.stringify(body))
-    // console.log(result)
-
     const url = `${API_SERVER}/UpdateuserYelInfo`
     const uuid = store.getState().client.user.data[2]
     const formValues = getFormValues('yel')(store.getState())
@@ -100,9 +91,14 @@ function* postYelSaga() {
       })
     )
     const result = yield call(apiManualPost, url, JSON.stringify(body))
-    console.log(result)
+    yield put(reset('yel'))
+    if (result.data === 'User yelinfo updated successfully!'){
+      yield put(yelUpdateSuccess(result.data))
+    }else {
+      yield put(yelUpdateFailed(result.data))
+    }
   } catch (e) {
-    console.warn(e)
+    yelUpdateFailed(e)
   }
 }
 

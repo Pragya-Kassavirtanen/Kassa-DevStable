@@ -154,6 +154,9 @@ import {
   PASSWORD_UPDATE_SUCCESS,
   PASSWORD_UPDATE_FAILED,
   CLOSE_PASSWORD_SNACKBAR,
+  YEL_UPDATE_SUCCESS,
+  YEL_UPDATE_FAILED,
+  CLOSE_YEL_SNACKBAR,
   GENERATE_INVOICE_PDF_SUCCESS,
   GENERATE_INVOICE_PDF_FAILED,
   SEARCH_ADMIN_WAGES,
@@ -298,10 +301,13 @@ export const profileUpdate = () => ({ type: ON_PROFILE_UPDATE })
 export const passwordUpdate = () => ({ type: ON_PASSWORD_UPDATE })
 export const passwordUpdateSuccess = result => ({ type: PASSWORD_UPDATE_SUCCESS, result })
 export const passwordUpdateFailed = error => ({ type: PASSWORD_UPDATE_FAILED, error })
+export const yelUpdateSuccess = result => ({ type: YEL_UPDATE_SUCCESS, result })
+export const yelUpdateFailed = error => ({ type: YEL_UPDATE_FAILED, error })
 export const loadProfileStart = () => ({ type: LOAD_PROFILE_START })
 export const loadProfileSuccess = result => ({ type: LOAD_PROFILE_SUCCESS, result })
 export const loadProfileFailed = error => ({ type: LOAD_PROFILE_FAILED, error })
 export const closePasswordSnackbar = () => ({type: CLOSE_PASSWORD_SNACKBAR})
+export const closeYelSnackbar = () => ({type: CLOSE_YEL_SNACKBAR})
 
 export const loginFormSubmit = (email, password) => ({ type: LOGIN_FORM_SUBMIT, email, password })
 export const loginFormSubmitSuccess = () => ({ type: LOGIN_FORM_SUBMIT_SUCCESS})

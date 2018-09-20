@@ -7,7 +7,7 @@ import {
   renderCheckbox
 } from '../../utils/wrappers'
 import { Field } from 'redux-form'
-import { MenuItem, RadioButton, RaisedButton } from 'material-ui'
+import { MenuItem, RadioButton, RaisedButton, Snackbar } from 'material-ui'
 import { SelectField } from 'redux-form-material-ui'
 
 class Yel extends React.Component {
@@ -24,7 +24,15 @@ const _onFormSubmit = () => {
   return false
 }
 
-const YelComponent = ({ showFirstTimer, postYelStart, handleSubmit }) => (
+const YelComponent = ({
+  showFirstTimer,
+  postYelStart,
+  handleSubmit,
+  invalid,
+  showYelSnackbar,
+  showYelFailSnackbar,
+  closeYelSnackbar
+}) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div>
       <form onSubmit={handleSubmit(_onFormSubmit)}>
@@ -92,13 +100,22 @@ const YelComponent = ({ showFirstTimer, postYelStart, handleSubmit }) => (
                       </div>
                     )}
                     <div>
-                      <RaisedButton
-                        label="Päivitä YEL-tiedot"
-                        primary={true}
-                        type="submit"
-                        onClick={postYelStart}
-                        className="pull-right"
-                      />
+                      {invalid ? (
+                        <RaisedButton
+                          label="Päivitä YEL-tiedot"
+                          primary={true}
+                          type="submit"
+                          className="pull-right"
+                        />
+                      ) : (
+                        <RaisedButton
+                          label="Päivitä YEL-tiedot"
+                          primary={true}
+                          type="submit"
+                          onClick={postYelStart}
+                          className="pull-right"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -107,6 +124,24 @@ const YelComponent = ({ showFirstTimer, postYelStart, handleSubmit }) => (
           </div>
         </div>
       </form>
+      <Snackbar
+        open={showYelSnackbar}
+        message="YEL päivitetään onnistuneesti!"
+        autoHideDuration={2000}
+        bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
+        onRequestClose={() => {
+          closeYelSnackbar()
+        }}
+      />
+      <Snackbar
+        open={showYelFailSnackbar}
+        message="YEL-päivitys epäonnistui, tarkista kentät"
+        autoHideDuration={4000}
+        bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
+        onRequestClose={() => {
+          closeYelSnackbar()
+        }}
+      />
     </div>
   </MuiThemeProvider>
 )

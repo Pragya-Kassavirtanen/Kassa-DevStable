@@ -6,14 +6,19 @@ import {
   GET_YEL_FAILED,
   PASSWORD_UPDATE_SUCCESS,
   PASSWORD_UPDATE_FAILED,
-  CLOSE_PASSWORD_SNACKBAR
+  CLOSE_PASSWORD_SNACKBAR,
+  YEL_UPDATE_SUCCESS,
+  YEL_UPDATE_FAILED,
+  CLOSE_YEL_SNACKBAR
 } from '../constants'
 
 const initialState = {
   showTaxCardSpinner: false,
   yel: [],
   showSnackbar: false,
-  showFailSnackbar: false
+  showFailSnackbar: false,
+  showYelSnackbar: false,
+  showYelFailSnackbar: false
 }
 
 const taxReducer = (state = initialState, action) => {
@@ -55,6 +60,30 @@ const taxReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         showSnackbar: false,
         showFailSnackbar: false
+      })
+
+    case YEL_UPDATE_SUCCESS:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          showYelSnackbar: true
+        }
+      )
+
+    case YEL_UPDATE_FAILED:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          showYelFailSnackbar: true
+        }
+      )
+
+    case CLOSE_YEL_SNACKBAR:
+      return Object.assign({}, state, {
+        showYelSnackbar: false,
+        showYelFailSnackbar: false
       })
 
     default:

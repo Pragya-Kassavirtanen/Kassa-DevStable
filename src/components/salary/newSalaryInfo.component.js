@@ -47,24 +47,6 @@ const NewSalaryInfo = ({
           <Table selectable={false}>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
-                <TableHeaderColumn><div className="dashboard-salary-header">Maksut ja kulut</div></TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              <TableRow>
-                <TableRowColumn>Palvelumaksu</TableRowColumn>
-                <TableRowColumn>{new Intl.NumberFormat('fi-FI', {
-                                  style: 'currency',
-                                  currency: 'EUR'
-                                }).format(newSalaryInfo.service_cost)}
-                </TableRowColumn>
-              </TableRow>
-            </TableBody>
-          </Table>
-          <hr/>
-          <Table selectable={false}>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow>
                 <TableHeaderColumn><div className="dashboard-salary-header">Palkka</div></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -75,7 +57,7 @@ const NewSalaryInfo = ({
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
-                  }).format(newSalaryInfo.Palkka)}
+                  }).format(newSalaryInfo.sumWithoutTax)}
                 </TableRowColumn>
               </TableRow>
               <TableRow>
@@ -95,25 +77,7 @@ const NewSalaryInfo = ({
                     currency: 'EUR'
                   }).format(newSalaryInfo.expenses_cost)}
                 </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>Sosiaaliturvamaksu</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalaryInfo.social_contribution)}
-                </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>Tapaturmavakuutus</TableRowColumn>
-                <TableRowColumn>
-                  {new Intl.NumberFormat('fi-FI', {
-                    style: 'currency',
-                    currency: 'EUR'
-                  }).format(newSalaryInfo.accidental_insurance)}
-                </TableRowColumn>
-              </TableRow>              
+              </TableRow>                       
               <TableRow>
                 <TableRowColumn><b>Bruttopalkka</b></TableRowColumn>
                 <TableRowColumn>
@@ -133,6 +97,15 @@ const NewSalaryInfo = ({
                 </TableRowColumn>
               </TableRow>
               <TableRow>
+                <TableRowColumn><b>Nettopalkka</b></TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalaryInfo.net_salary)}
+                </TableRowColumn>
+              </TableRow>
+              <TableRow>
                 <TableRowColumn>YEL-vakuutus</TableRowColumn>
                 <TableRowColumn>
                 {new Intl.NumberFormat('fi-FI', {
@@ -142,14 +115,43 @@ const NewSalaryInfo = ({
                 </TableRowColumn>
               </TableRow>
               <TableRow>
-                <TableRowColumn><b>Nettopalkka</b></TableRowColumn>
+                <TableRowColumn>Palvelupalkkiovähennys</TableRowColumn>
                 <TableRowColumn>
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
-                  }).format(newSalaryInfo.net_salary)}
+                  }).format(newSalaryInfo.service_cost)}
                 </TableRowColumn>
               </TableRow>
+              <TableRow>
+                <TableRowColumn>Sosiaaliturvamaksuvähennys</TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalaryInfo.social_contribution)}
+                </TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>Tapaturmavakuutusmaksuvähennys</TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalaryInfo.accidental_insurance)}
+                </TableRowColumn>
+              </TableRow>
+              <TableRow>
+                <TableRowColumn>
+                  <b>Vähennykset yhteensä</b>
+                </TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalaryInfo.deductions_sum)}
+                </TableRowColumn>
+              </TableRow>     
             </TableBody>
           </Table>
           <hr/>          

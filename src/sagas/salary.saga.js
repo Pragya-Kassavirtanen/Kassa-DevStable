@@ -82,7 +82,8 @@ function* postSalarySaga({ selected }) {
       accidental_insurance: salarySummary.acc_insurance,
       social_contribution: salarySummary.social_contri,
       sumWithoutTax: salarySummary.sumwithoutTax,
-      palkka: salarySummary.palkka
+      palkka: salarySummary.palkka,
+      deductions_sum: salarySummary.deductions_sum
     })
     const url = `${API_SERVER}/AddSalary`   
     const resultAddSalary = yield call(apiManualPost, url, body)

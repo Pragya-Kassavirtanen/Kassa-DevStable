@@ -64,7 +64,7 @@ const mapStateToProps = (state) => {
     invoices: invoiceNames,    
     expenseRows: state.expense.expenseInputRow,
     showSpinner: state.expense.showSpinner,
-    showSnackbar: state.expense.showSnackbar,
+    showSnackbar: state.expense.showSnackbar,    
     isEdit: state.expense.isEdit    
   }
 }

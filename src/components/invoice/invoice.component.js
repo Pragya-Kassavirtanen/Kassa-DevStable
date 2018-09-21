@@ -10,7 +10,8 @@ import {
   TableHeaderColumn,
   TableRow,
   Divider,
-  MenuItem
+  MenuItem,
+  Snackbar
 } from 'material-ui'
 
 import ReactPaginate from 'react-paginate'
@@ -68,6 +69,7 @@ const NewInvoice = ({
   isEdit,
   invalid,
   noMenu,
+  submitFailed,
   cancelEditInvoice,
   clearInvoiceOptions,
   dispatch
@@ -227,6 +229,12 @@ const NewInvoice = ({
           </div>
         </div>
       </form>
+      <Snackbar
+        open={submitFailed && invalid}
+        message="Laskun lähetys epäonnistui, tarkista kentät"
+        autoHideDuration={4000}
+        bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
+      />
     </div>
   </MuiThemeProvider>
 )

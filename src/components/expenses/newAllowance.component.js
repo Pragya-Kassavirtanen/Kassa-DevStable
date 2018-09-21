@@ -45,6 +45,7 @@ const NewAllowance = ({
   addAllowanceRow,
   invalid,
   submitting,
+  submitFailed,
   countryItems,
   showMileageForm,
   showAllowanceForm,
@@ -295,7 +296,12 @@ const NewAllowance = ({
           browserHistory.push('/dashboard/fee')
         }}
       />
-
+      <Snackbar
+        open={submitFailed && invalid}
+        message="Korvaus ei onnistunut tallentamaan, tarkista kentät"
+        autoHideDuration={4000}
+        bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
+      />
       <Dialog
         title="Lähetetään matka- ja päivärahakorvausta"
         contentStyle={{ width: '350px', height: '150px', textAlign: 'center' }}

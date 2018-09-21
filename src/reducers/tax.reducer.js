@@ -9,7 +9,7 @@ import {
   CLOSE_PASSWORD_SNACKBAR,
   YEL_UPDATE_SUCCESS,
   YEL_UPDATE_FAILED,
-  CLOSE_YEL_SNACKBAR
+  CLOSE_YEL_SNACKBAR 
 } from '../constants'
 
 const initialState = {
@@ -17,8 +17,7 @@ const initialState = {
   yel: [],
   showSnackbar: false,
   showFailSnackbar: false,
-  showYelSnackbar: false,
-  showYelFailSnackbar: false
+  showYelSnackbar: false  
 }
 
 const taxReducer = (state = initialState, action) => {
@@ -82,8 +81,7 @@ const taxReducer = (state = initialState, action) => {
 
     case CLOSE_YEL_SNACKBAR:
       return Object.assign({}, state, {
-        showYelSnackbar: false,
-        showYelFailSnackbar: false
+        showYelSnackbar: false       
       })
 
     default:

@@ -45,18 +45,18 @@ import {
   EMPTY_PASSENGER_ROWS
 } from '../constants/index'
 const initialState = {
- expenseInputRow: [
+  expenseInputRow: [
     <ExpenseInputRow
       key={0}
       description={`expenseInputRow[${0}][description${0}]`}
       sum={`expenseInputRow[${0}][sum${0}]`}
       vat={`expenseInputRow[${0}][vat${0}]`}
     />
-  ],  
+  ],
   allowanceInputRow: [
     <AllowanceInputRow route={`allowanceInputRow[${0}][route]`} key={0} />,
     <AllowanceInputRow route={`allowanceInputRow[${1}][route]`} key={1} />
-  ], 
+  ],
   allowancePassenger: [],
   expenses: [],
   expenseRow: [],
@@ -64,7 +64,7 @@ const initialState = {
   allowanceRowCounter: 2,
   passengerRowCounter: 0,
   allowances: [],
-  allowanceRow: [],  
+  allowanceRow: [],
   rowKeys: [],
   showAdditionalInfo: false,
   days: 0,
@@ -72,7 +72,7 @@ const initialState = {
   selected: 0,
   allowanceSelected: 0,
   showSpinner: false,
-  showSnackbar: false,
+  showSnackbar: false,  
   expenseEdit: [],
   allowanceEdit: [],
   isEdit: false,
@@ -97,7 +97,7 @@ const expenseReducer = (state = initialState, action) => {
         }
       )
 
-    case ADD_EXPENSE_ROW:     
+    case ADD_EXPENSE_ROW:
       const expenseRowState = state.expenseInputRow
       return Object.assign({}, state, {
         expenseInputRow: expenseRowState.concat(
@@ -116,15 +116,19 @@ const expenseReducer = (state = initialState, action) => {
       })
 
     case CLOSE_EXPENSE_SNACKBAR:
-      return Object.assign({}, state, { showSnackbar: false })
+      return Object.assign({}, state, {
+        showSnackbar: false
+      })
 
     case EMPTY_EXPENSE_ROWS:
       return Object.assign({}, state, {
         expenseInputRow: [
-          <ExpenseInputRow key={0}
-                           description={`expenseInputRow[${0}][description${0}]`}
-                           sum={`expenseInputRow[${0}][sum${0}]`}
-                           vat={`expenseInputRow[${0}][vat${0}]`}/>
+          <ExpenseInputRow
+            key={0}
+            description={`expenseInputRow[${0}][description${0}]`}
+            sum={`expenseInputRow[${0}][sum${0}]`}
+            vat={`expenseInputRow[${0}][vat${0}]`}
+          />
         ],
         expenseRowCounter: 1
       })
@@ -137,10 +141,12 @@ const expenseReducer = (state = initialState, action) => {
 
     case REMOVE_EXPENSE_ROW:
       return Object.assign({}, state, {
-        expenseInputRow: state.expenseInputRow.filter((el, index) => index !== action.key)
+        expenseInputRow: state.expenseInputRow.filter(
+          (el, index) => index !== action.key
+        )
       })
 
-/*     case REMOVE_EXPENSE_ROW:
+    /*     case REMOVE_EXPENSE_ROW:
       return Object.assign({}, state, {
         expenseInputRow: state.expenseInputRow.filter(
           (el) => el.key !== action.rowNumber
@@ -201,14 +207,13 @@ const expenseReducer = (state = initialState, action) => {
       })
 
     case REMOVE_PASSENGER_ROW:
-      return Object.assign(
-        {}, 
-        state, 
-        {
-        allowancePassenger: state.allowancePassenger.filter((el, index) => index !== action.rowNumber),
+      return Object.assign({}, state, {
+        allowancePassenger: state.allowancePassenger.filter(
+          (el, index) => index !== action.rowNumber
+        ),
         passengerPrice:
           state.passengerPrice -
-          store.getState().expense.allowanceCost.passenger_cost.value      
+          store.getState().expense.allowanceCost.passenger_cost.value
       })
 
     case SHOW_ADDITIONAL_VEHICLE_INFO:
@@ -306,10 +311,12 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow key={0}
-                             description={`expenseInputRow[${0}][description${0}]`}
-                             sum={`expenseInputRow[${0}][sum${0}]`}
-                             vat={`expenseInputRow[${0}][vat${0}]`}/>
+            <ExpenseInputRow
+              key={0}
+              description={`expenseInputRow[${0}][description${0}]`}
+              sum={`expenseInputRow[${0}][sum${0}]`}
+              vat={`expenseInputRow[${0}][vat${0}]`}
+            />
           ],
           expenseRowCounter: 1
         }
@@ -323,10 +330,12 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow key={0}
-                             description={`expenseInputRow[${0}][description${0}]`}
-                             sum={`expenseInputRow[${0}][sum${0}]`}
-                             vat={`expenseInputRow[${0}][vat${0}]`}/>
+            <ExpenseInputRow
+              key={0}
+              description={`expenseInputRow[${0}][description${0}]`}
+              sum={`expenseInputRow[${0}][sum${0}]`}
+              vat={`expenseInputRow[${0}][vat${0}]`}
+            />
           ],
           expenseRowCounter: 1
         }
@@ -338,12 +347,14 @@ const expenseReducer = (state = initialState, action) => {
         { ...state },
         {
           expenseEdit: [],
-          isEdit: false,        
+          isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow key={0}
-                             description={`expenseInputRow[${0}][description${0}]`}
-                             sum={`expenseInputRow[${0}][sum${0}]`}
-                             vat={`expenseInputRow[${0}][vat${0}]`}/>
+            <ExpenseInputRow
+              key={0}
+              description={`expenseInputRow[${0}][description${0}]`}
+              sum={`expenseInputRow[${0}][sum${0}]`}
+              vat={`expenseInputRow[${0}][vat${0}]`}
+            />
           ],
           expenseRowCounter: 1
         }
@@ -446,13 +457,13 @@ const _createAllowanceRow = (allowances, selected) =>
     />
   ))
 
-const _createExpenseInputRow = (index) => [
+const _createExpenseInputRow = index => [
   <ExpenseInputRow
-    key={index}   
-    autoFocusIndex={`${index}`}  
+    key={index}
+    autoFocusIndex={`${index}`}
     description={`expenseInputRow[${index}][description${index}]`}
     sum={`expenseInputRow[${index}][sum${index}]`}
-    vat={`expenseInputRow[${index}][vat${index}]`}        
+    vat={`expenseInputRow[${index}][vat${index}]`}
   />
 ]
 
@@ -460,8 +471,8 @@ const _createAllowanceInputRow = index => [
   <AllowanceInputRow route={`allowanceInputRow[${index}][route]`} key={index} />
 ]
 
- const _createPassengerRow = (index, check) => [
-  <PassengerInputRow    
+const _createPassengerRow = (index, check) => [
+  <PassengerInputRow
     passenger={`allowancePassenger[${index}][passenger]`}
     key={index}
     autoFocusIndex={`${index}`}

@@ -41,6 +41,7 @@ const NewExpense = ({
   addExpenseRow,
   expensePictureUpload,
   invalid,
+  submitFailed,
   handleSubmit,
   saveExpense,
   showSpinner,
@@ -75,7 +76,7 @@ const NewExpense = ({
                       name="invoice"
                       component={SelectField}
                       floatingLabelText="Lasku"
-                      style={{ width: '100%' }}                     
+                      style={{ width: '100%' }}
                     >
                       {invoices}
                     </Field>
@@ -161,7 +162,7 @@ const NewExpense = ({
                       <li>
                         <RaisedButton
                           label="Peruuta"
-                          primary={true}                         
+                          primary={true}
                           onClick={() => {
                             cancelExpenseUpdate()
                             browserHistory.push('/dashboard/fee')
@@ -219,6 +220,12 @@ const NewExpense = ({
           closeSnackbar()
           browserHistory.push('/dashboard/fee')
         }}
+      />
+      <Snackbar
+        open={submitFailed && invalid}
+        message="Korvaus ei onnistunut tallentamaan, tarkista kentät"
+        autoHideDuration={4000}
+        bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
       />
       <Dialog
         title="Lähetetään kulukorvausta"

@@ -29,8 +29,8 @@ const YelComponent = ({
   postYelStart,
   handleSubmit,
   invalid,
-  showYelSnackbar,
-  showYelFailSnackbar,
+  submitFailed,
+  showYelSnackbar,  
   closeYelSnackbar
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -134,13 +134,10 @@ const YelComponent = ({
         }}
       />
       <Snackbar
-        open={showYelFailSnackbar}
+        open={submitFailed && invalid}
         message="YEL-päivitys epäonnistui, tarkista kentät"
         autoHideDuration={4000}
-        bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
-        onRequestClose={() => {
-          closeYelSnackbar()
-        }}
+        bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}        
       />
     </div>
   </MuiThemeProvider>

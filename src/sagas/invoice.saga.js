@@ -194,10 +194,11 @@ function* saveAndSendInvoiceSaga() {
       bodyRows[i] = body.rows[i]
     }
 
-    body.rows = bodyRows
+    body.rows = bodyRows    
 
-    let nestedBody
+    let nestedBody    
     if (!!invoice_id) {
+      body.invoice_id = invoice_id      
       nestedBody = nestProperties(body, 'Invoice', [
         'description',
         'invoice_id',
@@ -225,7 +226,7 @@ function* saveAndSendInvoiceSaga() {
         'rows'
       ])
     }
-
+        
     // FIXME: prevent success happening when error occures
     const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
 
@@ -355,7 +356,11 @@ function* editInvoiceSaga({ invoice_id }) {
     let jobTitle = invoiceResult[0].Invoice[0].job_title    
     yield put(change('invoice','job_title', jobTitle))
 
-    yield put(change('invoice', 'status', 1))
+    let instantPayment = invoiceResult[0].Invoice[0].instant_payment
+    yield put(change('invoice','instant_payment', instantPayment))
+    
+    let invoiceStatus = invoiceResult[0].Invoice[0].status
+    yield put(change('invoice','status', invoiceStatus))
 
     yield put(emptyInvoiceRows())
 
@@ -474,8 +479,12 @@ function* copyInvoiceSaga({ invoice_id }) {
 
     let jobTitle = invoiceResult[0].Invoice[0].job_title    
     yield put(change('invoice','job_title', jobTitle))
-
-    yield put(change('invoice', 'status', 1))
+    
+    let instantPayment = invoiceResult[0].Invoice[0].instant_payment
+    yield put(change('invoice','instant_payment', instantPayment))    
+    
+    let invoiceStatus = invoiceResult[0].Invoice[0].status
+    yield put(change('invoice','status', invoiceStatus))
 
     yield put(emptyInvoiceRows())
 

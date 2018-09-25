@@ -36,7 +36,6 @@ let date = new Date()
 let NewInvoiceContainer = reduxForm({
   form: 'invoice',
   destroyOnUnmount: false,
-
   initialValues: {
     description: '',
     job_title: '',
@@ -72,7 +71,7 @@ let NewInvoiceContainer = reduxForm({
       }).format(0)
     }]
   },
-  validate
+  validate 
 })(NewInvoice)
 
 // To be called every time when the store is updated

@@ -30,7 +30,8 @@ import {
   getInvoiceByIdSuccess,
   copyInvoiceSuccess,
   generateInvoicePDFSuccess,
-  generateInvoicePDFFailed
+  generateInvoicePDFFailed,
+  changeInvoiceBillingDate
 } from '../actions/index'
 import { apiManualPost, apiManualRequest, apiBlobPost } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
@@ -85,14 +86,14 @@ function* clearInvoiceOptionSaga() {
 function* saveAndSendInvoiceSaga() {
   try {
     const invoiceEdit = store.getState().invoice.invoiceEdit
-    console.log('saveAndSendInvoiceSaga invoiceEdit:: ', invoiceEdit)
+    //console.log('saveAndSendInvoiceSaga invoiceEdit:: ', invoiceEdit)
 
     let url
     let invoice_id
 
     if (invoiceEdit.length > 0) {
       invoice_id = invoiceEdit[0].Invoice[0].invoice_id
-      console.log('invoice_id:: ', invoice_id)
+      //console.log('invoice_id:: ', invoice_id)
 
       if (!!invoice_id) {
         url = `${API_SERVER}/UpdateInvoice`
@@ -126,10 +127,10 @@ function* saveAndSendInvoiceSaga() {
 
     const isSaveInvoiceDraft = store.getState().invoiceReviews
       .isSaveInvoiceDraft
-    console.log('isSaveInvoiceDraft:: ', isSaveInvoiceDraft)
+    //console.log('isSaveInvoiceDraft:: ', isSaveInvoiceDraft)
 
     body.instant_payment = formValues.instant_payment
-    console.log('body.instant_payment:: ', body.instant_payment)
+    //console.log('body.instant_payment:: ', body.instant_payment)
 
     //Handling SaveAsDraft & SaveAndSendInvoice Status for AddInvoice & UpdateInvoice
     if (
@@ -138,16 +139,16 @@ function* saveAndSendInvoiceSaga() {
         body.instant_payment === '')
     ) {
       body.status = 1
-      console.log('body.status:: ', body.status)
+      //console.log('body.status:: ', body.status)
     } else if (
       isSaveInvoiceDraft === false &&
       body.instant_payment === 'quick_pay'
     ) {
       body.status = 2
-      console.log('body.status:: ', body.status)
+      //console.log('body.status:: ', body.status)
     } else {
       body.status = 0
-      console.log('body.status:: ', body.status)
+      //console.log('body.status:: ', body.status)
     }
 
     let bodyRows = []
@@ -242,7 +243,7 @@ function* saveAndSendInvoiceSaga() {
         invoice_id = store.getState().invoiceReviews.invoice_id
       } else if (invoiceEdit.length > 0) {
         invoice_id = invoiceEdit[0].Invoice[0].invoice_id
-        console.log('invoice_id:: ', invoice_id)
+        //console.log('invoice_id:: ', invoice_id)
       }
 
       //Calling GenerateInvoicePDF API....
@@ -256,7 +257,7 @@ function* saveAndSendInvoiceSaga() {
         generateInvoicePDFUrl,
         generateInvoicePDFBody
       )
-      console.log('generateInvoicePDFResult:: ', generateInvoicePDFResult)
+      //console.log('generateInvoicePDFResult:: ', generateInvoicePDFResult)
 
       if (generateInvoicePDFResult.data === 'Invoice Pdf sent successfully') {
         yield put(generateInvoicePDFSuccess(generateInvoicePDFResult.data))
@@ -323,7 +324,7 @@ function* editInvoiceSaga({ invoice_id }) {
     const result = yield call(apiManualPost, url, body)
     if (result.data) yield put(getInvoiceByIdSuccess(result.data))
 
-    const invoiceResult = JSON.parse(result.data)
+    const invoiceResult = JSON.parse(result.data)       
 
     const customerInfoKeys = Object.keys(invoiceResult[0]).filter(
       key => key !== 'Invoice'
@@ -334,14 +335,25 @@ function* editInvoiceSaga({ invoice_id }) {
       yield put(change('invoice', key, invoiceResult[0][key]))
     }
 
-    const invoiceInfoKeys = Object.keys(invoiceResult[0].Invoice[0]).filter(
-      key => key !== 'rows'
-    )
+    let billDate = invoiceResult[0].Invoice[0].billing_date    
+    let renewBillDate = new Date(billDate)    
+    yield put(change('invoice', 'billing_date', renewBillDate))
+    yield put(changeInvoiceBillingDate(renewBillDate))
 
-    //dispatch invoice data to redux form
-    for (let key of invoiceInfoKeys) {
-      yield put(change('invoice', key, invoiceResult[0].Invoice[0][key]))
-    }
+    let overDue = invoiceResult[0].Invoice[0].overdue
+    yield put(change('invoice', 'overdue', overDue))
+
+    let dueDate =  invoiceResult[0].Invoice[0].due_date    
+    yield put(change('invoice','due_date', dueDate))
+
+    let invoiceReference = invoiceResult[0].Invoice[0].invoice_reference
+    yield put(change('invoice','invoice_reference', invoiceReference))
+
+    let desc = invoiceResult[0].Invoice[0].description
+    yield put(change('invoice','description', desc))
+
+    let jobTitle = invoiceResult[0].Invoice[0].job_title    
+    yield put(change('invoice','job_title', jobTitle))
 
     yield put(change('invoice', 'status', 1))
 
@@ -430,9 +442,7 @@ function* copyInvoiceSaga({ invoice_id }) {
     //api calls for invoice data
     const result = yield call(apiManualPost, invoiceUrl, body)
 
-    if (result.data) yield put(copyInvoiceSuccess(result.data))
-
-    console.log('Inside copyInvoiceSaga:: ', result.data)
+    if (result.data) yield put(copyInvoiceSuccess(result.data))    
 
     const invoiceResult = JSON.parse(result.data)
 
@@ -445,14 +455,25 @@ function* copyInvoiceSaga({ invoice_id }) {
       yield put(change('invoice', key, invoiceResult[0][key]))
     }
 
-    const invoiceInfoKeys = Object.keys(invoiceResult[0].Invoice[0]).filter(
-      key => key !== 'rows'
-    )
+    let billDate = invoiceResult[0].Invoice[0].billing_date    
+    let renewBillDate = new Date(billDate)    
+    yield put(change('invoice', 'billing_date', renewBillDate))
+    yield put(changeInvoiceBillingDate(renewBillDate))
 
-    //dispatch invoice data to redux form
-    for (let key of invoiceInfoKeys) {
-      yield put(change('invoice', key, invoiceResult[0].Invoice[0][key]))
-    }
+    let overDue = invoiceResult[0].Invoice[0].overdue
+    yield put(change('invoice', 'overdue', overDue))
+
+    let dueDate =  invoiceResult[0].Invoice[0].due_date    
+    yield put(change('invoice','due_date', dueDate))
+
+    let invoiceReference = invoiceResult[0].Invoice[0].invoice_reference
+    yield put(change('invoice','invoice_reference', invoiceReference))
+
+    let desc = invoiceResult[0].Invoice[0].description
+    yield put(change('invoice','description', desc))
+
+    let jobTitle = invoiceResult[0].Invoice[0].job_title    
+    yield put(change('invoice','job_title', jobTitle))
 
     yield put(change('invoice', 'status', 1))
 

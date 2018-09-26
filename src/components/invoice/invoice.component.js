@@ -39,6 +39,7 @@ export default class NewInvoiceComponent extends React.Component {
   componentWillMount() {
     this.props.getInvoicesStart()
     this.props.getProfessions()
+    this.props.getFinvoiceOperator()
   }
 
   render() {
@@ -55,6 +56,7 @@ const _onFormSubmit = (values, e) => {
 const NewInvoice = ({
   countryItems,
   invoiceItems,
+  invoiceOperators,
   overdueItems,
   titleItems,
   invoiceInputRows,
@@ -139,7 +141,7 @@ const NewInvoice = ({
               {customerInfo(countryItems)}
             </div>
             <div className="col-xs-12 col-sm-6 col-lg-4">
-              {invoiceDeliveryMethod(invoiceItems)}
+              {invoiceDeliveryMethod(invoiceItems, invoiceOperators)}
             </div>
             <div className="col-xs-12 col-sm-12 col-lg-4">
               {invoiceInfo(overdueItems, titleItems, changeInvoiceBillingDate)}
@@ -287,7 +289,7 @@ const customerInfo = countryItems => (
   </div>
 )
 
-const invoiceDeliveryMethod = invoiceItems => (
+const invoiceDeliveryMethod = ( invoiceItems, invoiceOperators ) => (
   <div className="panel panel-default">
     <div className="panel-heading">
       <h3 className="panel-title">Laskun toimitustapa</h3>
@@ -329,6 +331,15 @@ const invoiceDeliveryMethod = invoiceItems => (
           component={renderTextField}
           label="Verkkolaskuosoite"
         />
+      </div>
+      <div>
+        <Field
+          name="finvoice_operator"
+          component={SelectField}
+          floatingLabelText="Verkkolaskuoperaattori"
+        >
+          {invoiceOperators}
+        </Field>
       </div>
     </div>
   </div>

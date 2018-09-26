@@ -50,7 +50,7 @@ const NewAllowance = ({
   showMileageForm,
   showAllowanceForm,
   allowancePassenger,
-  addPassengerRow,
+  addPassengerRow,  
   showAdditionalVehicleInfo,
   vehicleTypeItems,
   vehicleAdditionalItems,
@@ -251,7 +251,7 @@ const NewAllowance = ({
         <div className="row">
           {payMileage(
             showMileageForm,
-            addPassengerRow,
+            addPassengerRow,           
             allowancePassenger,
             vehicleTypeItems,
             vehicleAdditionalItems,
@@ -361,13 +361,7 @@ const routeSpecification = (allowanceRows, addAllowanceRow) => (
           <h3 className="panel-title">Reitin erittely</h3>
         </div>
         <div className="panel-body">
-          <Table selectable={false}>
-            {/* <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow className="dashboard-invoice-inputrow">
-                <TableHeaderColumn>Reitti</TableHeaderColumn>
-                <TableHeaderColumn />
-              </TableRow>
-            </TableHeader> */}
+          <Table selectable={false}>           
             <TableBody displayRowCheckbox={false}>{allowanceRows}</TableBody>
           </Table>
           <div>
@@ -387,7 +381,7 @@ const routeSpecification = (allowanceRows, addAllowanceRow) => (
 
 const payMileage = (
   showMileageForm,
-  addPassengerRow,
+  addPassengerRow, 
   allowancePassenger,
   vehicleTypeItems,
   vehicleAdditionalItems,

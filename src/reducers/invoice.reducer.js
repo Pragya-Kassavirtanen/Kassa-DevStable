@@ -19,6 +19,7 @@ import {
   CANCEL_EDIT_INVOICE,
   INVOICE_EDIT_SUCCESS,
   GET_PROFESSION_SUCCESS,
+  GET_OPERATOR_SUCCESS,
   SHOW_TOOLTIP,
   HIDE_TOOLTIP
 } from '../constants'
@@ -58,6 +59,7 @@ const initialState = {
   invoiceEdit: [],
   isEdit: false,
   titleItems: [],
+  invoiceOperators: [],
   hoveredTooltip: false
 }
 
@@ -88,6 +90,16 @@ const invoiceReducer = (state = initialState, action) => {
         { ...state },
         {
           titleItems: _createMenuItems(action.professions)
+        }
+      )
+
+    case GET_OPERATOR_SUCCESS:
+      console.log('Inside Reducer of operator:: ', action.operators)
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          invoiceOperators: _createMenuItems(action.operators)
         }
       )
 
@@ -166,9 +178,9 @@ const invoiceReducer = (state = initialState, action) => {
         )
       })
 
-      case EMPTY_INVOICE_ROWS:
+    case EMPTY_INVOICE_ROWS:
       return Object.assign({}, state, {
-        invoiceInputRows: [],       
+        invoiceInputRows: [],
         invoiceRowCounter: 0
       })
 
@@ -300,7 +312,7 @@ const _calculateRowSum = rowNumber => {
 
   formValues['rows'][rowNumber]['vat_percent_description'] = `${
     formValues['rows'][rowNumber]['vat_percent']
-    } %`
+  } %`
 }
 
 const _createInvoiceRow = (invoices, selected) =>
@@ -351,6 +363,8 @@ const _createInputRow = (index, copy) => [
 ]
 
 const _createMenuItems = menuItems =>
-  menuItems.map((item, index) => <MenuItem key={index} value={item} primaryText={item} />)
+  menuItems.map((item, index) => (
+    <MenuItem key={index} value={item} primaryText={item} />
+  ))
 
 export default invoiceReducer

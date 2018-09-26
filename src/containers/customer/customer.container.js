@@ -10,7 +10,8 @@ import {
   saveCustomerUpdate,
   cancelCustomerUpdate,
   addNewCustomerInvoice,
-  closeCustomerSnackBar
+  closeCustomerSnackBar,
+  getEinvoiceOperator
 } from '../../actions/index'
 
 import { customerValidate as validate } from '../validate'
@@ -40,6 +41,7 @@ const mapStateToProps = state => {
     customer_id: state.customer.customerEdit.customer_id,
     showSnackbar: state.customer.showSnackbar,
     showFailSnackbar: state.customer.showFailSnackbar,
+    eInvoiceOperators: state.customer.eInvoiceOperators,
     state
   }
 }
@@ -56,7 +58,8 @@ const mapDispatchToProps = dispatch => {
     saveCustomerUpdate: customer_id => dispatch(saveCustomerUpdate(customer_id)),
     cancelCustomerUpdate: () => dispatch(cancelCustomerUpdate()),
     addNewCustomerInvoice: customer_id => dispatch(addNewCustomerInvoice(customer_id)),
-    closeCustomerSnackBar: () => dispatch(closeCustomerSnackBar())
+    closeCustomerSnackBar: () => dispatch(closeCustomerSnackBar()),
+    getEinvoiceOperator: () => dispatch(getEinvoiceOperator())
   }
 }
 

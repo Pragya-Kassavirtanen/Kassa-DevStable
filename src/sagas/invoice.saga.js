@@ -10,6 +10,7 @@ import {
   EDIT_INVOICE,
   CANCEL_EDIT_INVOICE,
   GET_PROFESSION,
+  GET_FINVOICE_OPERATOR,  
   CLEAR_INVOICE_OPTIONS,
   GENERATE_INVOICE_PDF,
   INVOICE_DOWNLOAD_PDF,
@@ -26,6 +27,8 @@ import {
   addInvoiceRow,
   getProfessionSuccess,
   getProfessionFailed,
+  getOperatorSuccess,
+  getOperatorFailed,
   saveAndSendInvoice,
   getInvoiceByIdSuccess,
   copyInvoiceSuccess,
@@ -569,6 +572,18 @@ function* cancelEditInvoiceSaga() {
   }
 }
 
+function* getFinvoiceOperatorsSaga() {
+  try {
+    const url = `${API_SERVER}/GetFinInvoiceOperators`
+    const result = yield apiManualRequest(url)
+    const parRes = JSON.parse(result.data)    
+    const parsedResult = propertyArray(parRes, 'operator_name')    
+    if (parsedResult) yield put(getOperatorSuccess(parsedResult))
+  } catch (e) {    
+    yield put(getOperatorFailed(e))
+  }
+}
+
 // Spawn a new getInvoiceSaga task on each GET_INVOICES_START
 export function* watchGetInvoiceSaga() {
   yield takeEvery(GET_INVOICES_START, getInvoiceSaga)
@@ -616,4 +631,8 @@ export function* watchSaveAndSendInvoicePDF() {
 
 export function* watchInvoiceDownloadPDF() {
   yield takeEvery(INVOICE_DOWNLOAD_PDF, invoiceDownloadPDF)
+}
+
+export function* watchFinvoiceOperators(){
+  yield takeEvery(GET_FINVOICE_OPERATOR, getFinvoiceOperatorsSaga)
 }

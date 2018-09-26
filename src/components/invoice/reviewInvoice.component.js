@@ -184,6 +184,14 @@ const ReviewInvoice = () => (
           disabled={true}
         />
       </div>
+      <div>
+        <Field
+          name="finvoice_operator"
+          component={renderTextField}
+          label="Verkkolaskuoperaattori"
+          disabled={true}
+        />      
+      </div>
     </div>
   </div>
 )

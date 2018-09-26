@@ -24,6 +24,7 @@ import { SelectField } from 'redux-form-material-ui'
 export default class CustomerComponent extends React.Component {
   componentDidMount() {
     this.props.getCustomersStart()
+    this.props.getEinvoiceOperator()    
   }
 
   render() {
@@ -40,6 +41,7 @@ const Customer = ({
   customerRows,
   countryItems,
   invoiceItems,
+  eInvoiceOperators,
   handleSubmit,
   customerPages,
   isEdit,
@@ -100,7 +102,7 @@ const Customer = ({
               {customerInfo(countryItems)}
             </div>
             <div className="col-xs-12 col-sm-6 col-lg-6">
-              {invoiceInfo(invoiceItems)}
+              {invoiceInfo(invoiceItems, eInvoiceOperators)}
             </div>
           </div>
         </div>
@@ -222,7 +224,7 @@ const customerInfo = countryItems => (
   </div>
 )
 
-const invoiceInfo = invoiceItems => (
+const invoiceInfo = (invoiceItems, eInvoiceOperators) => (
   <div className="panel panel-default">
     <div className="panel-heading">
       <h3 className="panel-title">Laskun toimitustapa</h3>
@@ -264,6 +266,15 @@ const invoiceInfo = invoiceItems => (
           component={renderTextField}
           label="Verkkolaskuosoite"
         />
+      </div>
+      <div>
+        <Field
+          name="finvoice_operator"
+          component={SelectField}
+          floatingLabelText="Verkkolaskuoperaattori"
+        >
+          {eInvoiceOperators}
+        </Field>
       </div>
     </div>
   </div>

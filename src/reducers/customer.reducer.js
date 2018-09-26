@@ -1,4 +1,5 @@
 import React from 'react'
+import { MenuItem } from 'material-ui'
 import CustomerRow from '../components/customer/customerRow.component'
 import {
   GET_CUSTOMERS_SUCCESS,
@@ -10,7 +11,8 @@ import {
   SAVE_CUSTOMER_UPDATE,
   CANCEL_CUSTOMER_UPDATE,
   ADD_NEW_CUSTOMER_INVOICE_SUCCESS,
-  ADD_CUSTOMER_FAILED
+  ADD_CUSTOMER_FAILED,
+  GET_EOPERATOR_SUCCESS
 } from '../constants'
 
 const customerReducer = (
@@ -22,7 +24,8 @@ const customerReducer = (
     showSnackbar: false,
     showFailSnackbar: false,
     isEdit: false,
-    noMenu: false
+    noMenu: false,
+    eInvoiceOperators: []
   },
   action
 ) => {
@@ -124,10 +127,25 @@ const customerReducer = (
         }
       )
 
+      case GET_EOPERATOR_SUCCESS:
+      console.log('Inside Customer Reducer of operator:: ', action.operators)
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          eInvoiceOperators: _createOperatorList(action.operators)
+        }
+      )
+
     default:
       return state
   }
 }
+
+const _createOperatorList = menuItems =>
+  menuItems.map((item, index) => (
+    <MenuItem key={index} value={item} primaryText={item} />
+  ))
 
 const _createCustomerRow = (customers, selected) =>
   customers

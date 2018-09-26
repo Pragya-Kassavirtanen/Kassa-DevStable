@@ -7,20 +7,30 @@ import {
   UPDATE_CUSTOMER,
   SAVE_CUSTOMER_UPDATE,
   CANCEL_CUSTOMER_UPDATE,
-  ADD_NEW_CUSTOMER_INVOICE
+  ADD_NEW_CUSTOMER_INVOICE,
+  GET_EINVOICE_OPERATOR
 } from '../constants'
 
-import { getCustomersSuccess, getCustomerByIdSuccess, addNewCustomerInvoiceSuccess, addCustomerSuccess, addCustomerFailed } from '../actions/index'
+import {
+  getCustomersSuccess,
+  getCustomerByIdSuccess,
+  addNewCustomerInvoiceSuccess,
+  addCustomerSuccess,
+  addCustomerFailed,
+  getEOperatorSuccess,
+  getEOperatorFailed
+} from '../actions/index'
 
 import { getFormValues, change, reset } from 'redux-form'
+
+import { propertyArray } from '../utils/invoice.utils'
+
 import store from '../store'
 
 import { apiManualPost, apiManualRequest } from '../utils/request'
 
 function* newCustomerSaga() {
-
   try {
-
     const url = `${API_SERVER}/CreateCustomer`
     const formValues = getFormValues('customer')(store.getState())
     const uuid = store.getState().client.user.data[2]
@@ -36,51 +46,40 @@ function* newCustomerSaga() {
       delivery_address: formValues.delivery_address,
       zip_code: formValues.zip_code,
       city: formValues.city,
-      web_invoice: formValues.web_invoice
+      web_invoice: formValues.web_invoice,
+      finvoice_operator: formValues.finvoice_operator
     })
 
-    const resultAddCustomer = yield call(apiManualPost, url, body)    
-    
+    const resultAddCustomer = yield call(apiManualPost, url, body)
+
     if (resultAddCustomer.data === 'Customer Data saved successfully!') {
       yield put(addCustomerSuccess(resultAddCustomer.data))
     } else {
       yield put(addCustomerFailed(resultAddCustomer.data))
     }
-    
+
     yield put(reset('customer'))
 
     //Update Customer Grid after Add Customer
-    const getCustomerUrl = `${API_SERVER}/GetCustomers`    
+    const getCustomerUrl = `${API_SERVER}/GetCustomers`
     const getCustomerBody = JSON.stringify({ uuid: uuid })
     const result = yield call(apiManualPost, getCustomerUrl, getCustomerBody)
 
-   if (result.data) yield put(getCustomersSuccess(result.data))  
-
-  } catch (e) {    
+    if (result.data) yield put(getCustomersSuccess(result.data))
+  } catch (e) {
     yield put(addCustomerFailed(e))
   }
 }
-
-
-/* function* getCustomersSaga() {
-  try {
-    const url = `${API_SERVER}/GetCustomers`
-    const result = yield apiManualRequest(url)
-    if (result.data) yield put(getCustomersSuccess(result.data))
-  } catch (e) {
-    console.warn(e)
-  }
-} */
 
 function* getCustomersSaga() {
   try {
     const url = `${API_SERVER}/GetCustomers`
     const uuid = store.getState().client.user.data[2]
-    const body = JSON.stringify({     
+    const body = JSON.stringify({
       uuid: uuid
     })
-    const result = yield call(apiManualPost, url, body)   
-   if (result.data) yield put(getCustomersSuccess(result.data))   
+    const result = yield call(apiManualPost, url, body)
+    if (result.data) yield put(getCustomersSuccess(result.data))
   } catch (e) {
     console.warn(e)
   }
@@ -110,7 +109,7 @@ function* getCustomerToAddInvoiceSaga(customer_id) {
   try {
     const url = `${API_SERVER}/GetCustomersByCustomerID`
     const body = JSON.stringify({ customer_id: customer_id.id })
-    const result = yield call(apiManualPost, url, body)   
+    const result = yield call(apiManualPost, url, body)
 
     if (result.data) yield put(addNewCustomerInvoiceSuccess(result.data))
     const customerInvoiceResult = result.data
@@ -119,7 +118,6 @@ function* getCustomerToAddInvoiceSaga(customer_id) {
     for (let key of customerInvoiceKeys) {
       yield put(change('invoice', key, customerInvoiceResult[key]))
     }
-    
   } catch (e) {
     console.warn(e)
   }
@@ -143,13 +141,14 @@ function* saveCustomerUpdateSaga() {
       delivery_address: formValues.delivery_address,
       zip_code: formValues.zip_code,
       city: formValues.city,
-      web_invoice: formValues.web_invoice
+      web_invoice: formValues.web_invoice,
+      finvoice_operator: formValues.finvoice_operator
     })
 
     yield call(apiManualPost, url, body)
     yield put(reset('customer'))
 
-    const customerUrl = `${API_SERVER}/GetCustomers`   
+    const customerUrl = `${API_SERVER}/GetCustomers`
     const result = yield apiManualRequest(customerUrl)
     if (result.data) yield put(getCustomersSuccess(result.data))
   } catch (e) {
@@ -157,12 +156,12 @@ function* saveCustomerUpdateSaga() {
   }
 }
 
- function* cancelCustomerUpdateSaga() {
-   try {
-      yield put(reset('customer'))
-   } catch (e) {
+function* cancelCustomerUpdateSaga() {
+  try {
+    yield put(reset('customer'))
+  } catch (e) {
     console.warn(e)
-   }    
+  }
 }
 
 function* removeCustomerSaga(customer_id) {
@@ -170,8 +169,18 @@ function* removeCustomerSaga(customer_id) {
     const url = `${API_SERVER}/DeleteCustomer`
     const body = JSON.stringify({ customer_id: customer_id.id })
     yield call(apiManualPost, url, body)
-  } catch (e) {
+  } catch (e) {}
+}
 
+function* getEinvoiceOperatorsSaga() {
+  try {
+    const url = `${API_SERVER}/GetFinInvoiceOperators`
+    const result = yield apiManualRequest(url)
+    const parRes = JSON.parse(result.data)
+    const parsedResult = propertyArray(parRes, 'operator_name')
+    if (parsedResult) yield put(getEOperatorSuccess(parsedResult))
+  } catch (e) {
+    yield put(getEOperatorFailed(e))
   }
 }
 
@@ -191,9 +200,9 @@ export function* watchSaveCustomerSaga() {
   yield takeEvery(SAVE_CUSTOMER_UPDATE, saveCustomerUpdateSaga)
 }
 
- export function* watchCancelCustomerSaga() {
+export function* watchCancelCustomerSaga() {
   yield takeEvery(CANCEL_CUSTOMER_UPDATE, cancelCustomerUpdateSaga)
-} 
+}
 
 export function* watchRemoveCustomerSaga() {
   yield takeEvery(REMOVE_CUSTOMER, removeCustomerSaga)
@@ -201,4 +210,8 @@ export function* watchRemoveCustomerSaga() {
 
 export function* watchGetCustomerToAddInvoiceSaga() {
   yield takeEvery(ADD_NEW_CUSTOMER_INVOICE, getCustomerToAddInvoiceSaga)
+}
+
+export function* watchEInvoiceOperators() {
+  yield takeEvery(GET_EINVOICE_OPERATOR, getEinvoiceOperatorsSaga)
 }

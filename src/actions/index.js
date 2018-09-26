@@ -127,6 +127,12 @@ import {
   GET_PROFESSION,
   GET_PROFESSION_SUCCESS,
   GET_PROFESSION_FAILED,
+  GET_FINVOICE_OPERATOR,
+  GET_OPERATOR_SUCCESS,
+  GET_OPERATOR_FAILED,
+  GET_EINVOICE_OPERATOR,
+  GET_EOPERATOR_SUCCESS,
+  GET_EOPERATOR_FAILED,
   SHOW_TOOLTIP,
   HIDE_TOOLTIP,
   REMOVE_EXPENSE,
@@ -207,7 +213,13 @@ export const getInvoicesSuccess = (invoices, customerResult) => ({ type: GET_INV
 export const getInvoicesFailed = error => ({ type: GET_INVOICES_FAILED, error })
 
 export const getProfessions = () => ({ type: GET_PROFESSION })
+export const getFinvoiceOperator = () => ({ type: GET_FINVOICE_OPERATOR })
+export const getEinvoiceOperator = () => ({ type: GET_EINVOICE_OPERATOR })
+export const getEOperatorSuccess = (operators) => ({ type: GET_EOPERATOR_SUCCESS, operators })
+export const getEOperatorFailed = (error) => ({ type: GET_EOPERATOR_FAILED, error })
 export const getProfessionSuccess = (professions) => ({ type: GET_PROFESSION_SUCCESS, professions })
+export const getOperatorSuccess = (operators) => ({ type: GET_OPERATOR_SUCCESS, operators })
+export const getOperatorFailed = error => ({ type: GET_OPERATOR_FAILED, error })
 export const getProfessionFailed = error => ({ type: GET_PROFESSION_FAILED, error })
 
 export const saveInvoiceSuccess = result => ({ type: SAVE_INVOICE_SUCCESS, result})

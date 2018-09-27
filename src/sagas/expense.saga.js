@@ -95,31 +95,14 @@ function* saveExpenseSaga() {
   formValues.date_of_purchase = formatFiDateToISO(formValues.date_of_purchase)
   const file = formValues.inputFile[0]
 
-  const expenseInputRow = formValues.expenseInputRow
-
-  expenseInputRow[Symbol.iterator] = function*() {
-    const keys = Reflect.ownKeys(this)
-    for (const key of keys) {
-      yield this[key]
-    }
-  }
-
   const body = {
     invoice_id: formValues.invoice.invoice_id,
     place_of_purchase: formValues.place_of_purchase,
-    date_of_purchase: formValues.date_of_purchase
+    date_of_purchase: formValues.date_of_purchase,
+    expenseInputRow: !!formValues.expenseInputRow
+    ? formValues.expenseInputRow.filter(el => el)
+    : []
   }
-
-  body.expenseInputRow = expenseInputRow.map((el, ind) => {
-    el.description = el['description' + ind]
-    el.sum = el['sum' + ind]
-    el.vat = el['vat' + ind] / 100
-
-    delete el['vat' + ind]
-    delete el['description' + ind]
-    delete el['sum' + ind]
-    return el
-  })
 
   try {
     const channel = yield call(createUploadFileChannel, url, file, body)
@@ -250,21 +233,21 @@ function* editExpenseSaga({ invoice_expense_id }) {
       yield put(
         change(
           'newfee',
-          `expenseInputRow.${i}.description${i}`,
+          `expenseInputRow.${i}.description`,
           expenseResult[0].expenseInputRow.slice(0, occurences)[i].description
         )
       )
       yield put(
         change(
           'newfee',
-          `expenseInputRow.${i}.sum${i}`,
+          `expenseInputRow.${i}.sum`,
           expenseResult[0].expenseInputRow.slice(0, occurences)[i].sum
         )
       )
       yield put(
         change(
           'newfee',
-          `expenseInputRow.${i}.vat${i}`,
+          `expenseInputRow.${i}.vat`,
           expenseResult[0].expenseInputRow.slice(0, occurences)[i].vat
         )
       )
@@ -386,36 +369,15 @@ function* saveExpenseUpdateSaga() {
   //const date_of_purchase = new Date('2018.8.31')
   //const purchaseDate = formatFiDateToISO(date_of_purchase)
 
-  const expenseInputRow = formValues.expenseInputRow
-
-/*   expenseInputRow[Symbol.iterator] = function*() {
-    const keys = Reflect.ownKeys(this)
-    for (const key of keys) {
-      yield this[key]
-    }
-  } */
-
-  console.log('Inside saveExpenseUpdateSaga BEFORE:: ',expenseInputRow)
-
   const body = {
     invoice_id: formValues.invoice.invoice_id,
     invoice_expense_id: invoice_expense_id,
     place_of_purchase: formValues.place_of_purchase,
-    date_of_purchase: formValues.date_of_purchase
+    date_of_purchase: formValues.date_of_purchase,
+    expenseInputRow: !!formValues.expenseInputRow
+    ? formValues.expenseInputRow.filter(el => el)
+    : []
   }
-
-  body.expenseInputRow = expenseInputRow.map((el, ind) => {
-    el.description = el['description' + ind]
-    el.sum = el['sum' + ind]
-    el.vat = el['vat' + ind] / 100
-
-    delete el['vat' + ind]
-    delete el['description' + ind]
-    delete el['sum' + ind]
-    return el
-  })
-
-  console.log('Inside saveExpenseUpdateSaga AFTER:: ', body.expenseInputRow)
 
   const file = formValues.inputFile[0]
 

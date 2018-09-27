@@ -29,9 +29,10 @@ let newExpenseContainer = reduxForm({
     place_of_purchase: '',   
     date_of_purchase: date,
     expenseInputRow: [{
-      description0: '',
-      sum0: '',
-      vat0: 24
+      description: '',
+      sum: '',
+      vat: 24,
+      key: '0'
     }],
     receipt_picture: ''
   },
@@ -44,12 +45,23 @@ const mapStateToProps = (state) => {
   const formValues = getFormValues('newfee')(state)
   const expenseInputRow = state.expense.expenseInputRow  
 
-  expenseInputRow.forEach(el => {
+/*   expenseInputRow.forEach(el => {
     if (!formValues['expenseInputRow'][el.key]) {
       formValues['expenseInputRow'][el.key] = {}     
       formValues['expenseInputRow'][el.key][`vat${el.key}`] = 24
     }
-  })
+  }) */
+
+  if (formValues) {
+    formValues['expenseInputRow'] = formValues['expenseInputRow'].filter(x => expenseInputRow.filter(y => y.key === x.key).length > 0)
+
+    expenseInputRow.forEach(el => {
+      !formValues['expenseInputRow'][el.key] &&
+        (formValues['expenseInputRow'][el.key] = 
+        { description :'', sum : '', vat : 24, key : el.key })})
+    }else {
+      state.expense.expenseInputRow = state.expense.expenseInputRow.slice(0,1) 
+    }
 
     //Filter invoiceNames as per invoicepaid to be False
     const validInvoiceNames = state.invoice.invoices.filter(el => el.invoicepaid === 0)    
@@ -62,7 +74,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.oidc.user,
     invoices: invoiceNames,    
-    expenseRows: state.expense.expenseInputRow,
+    //expenseRows: state.expense.expenseInputRow,
+    expenseRows: expenseInputRow,
     showSpinner: state.expense.showSpinner,
     showSnackbar: state.expense.showSnackbar,    
     isEdit: state.expense.isEdit    

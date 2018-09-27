@@ -165,8 +165,8 @@ function* saveTravellingExpense() {
       additional_vehicle_cost_id: !!formValues.additional_vehicle_cost
         ? allowanceCost[formValues.additional_vehicle_cost]['id']
         : '2',
-      allowancePassenger: !!formValues.allowancePassenger
-        ? formValues.allowancePassenger.filter(el => el)
+      allowancePassenger: !!formValues.passengerInputRow
+        ? formValues.passengerInputRow.filter(el => el)
         : [],
       pay_mileage: !!formValues.pay_mileage,
       pay_allowance: !!formValues.pay_allowance
@@ -175,7 +175,7 @@ function* saveTravellingExpense() {
 
   delete refinedForm.invoice
   //delete refinedForm.allowanceInputRow
-  //delete refinedForm.allowancePassenger
+  delete refinedForm.passengerInputRow
 
   const result = yield call(
     apiManualPost,
@@ -352,7 +352,7 @@ function* editAllowanceSaga({ id }) {
       yield put(
         change(
           'newallowance',
-          `allowancePassenger.${j}.passenger`,
+          `passengerInputRow.${j}.passenger`,
           allowanceResult[0].allowancePassenger.slice(0, occurencesPassenger)[j].passenger
         )
       )
@@ -482,8 +482,8 @@ function* saveAllowanceUpdateSaga() {
         additional_vehicle_cost_id: !!formValues.additional_vehicle_cost
           ? allowanceCost[formValues.additional_vehicle_cost]['id']
           : '2',
-        allowancePassenger: !!formValues.allowancePassenger
-          ? formValues.allowancePassenger.filter(el => el)
+        allowancePassenger: !!formValues.passengerInputRow
+          ? formValues.passengerInputRow.filter(el => el)
           : [],
         pay_mileage: !!formValues.pay_mileage,
         pay_allowance: !!formValues.pay_allowance
@@ -494,7 +494,8 @@ function* saveAllowanceUpdateSaga() {
     delete refinedForm.deleted
     delete refinedForm.deleted_at
     delete refinedForm.created
-    delete refinedForm.last_modified_date   
+    delete refinedForm.last_modified_date
+    delete refinedForm.passengerInputRow   
 
    const result =  yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
 

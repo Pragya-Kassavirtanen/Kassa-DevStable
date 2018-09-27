@@ -52,7 +52,8 @@ const initialState = {
     },
     newallowance: {
       values: {
-        allowanceInputRow: []
+        allowanceInputRow: [],
+        passengerInputRow: []
       }
     },
     newfee: {

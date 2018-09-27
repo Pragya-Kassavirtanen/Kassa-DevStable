@@ -56,13 +56,18 @@ const initialState = {
   allowanceInputRow: [
     <AllowanceInputRow route={`allowanceInputRow[${0}][route]`} key={0} />,
     <AllowanceInputRow route={`allowanceInputRow[${1}][route]`} key={1} />
+  ],  
+  passengerInputRow: [
+    <PassengerInputRow
+    passenger={`passengerInputRow[${0}][passenger]`}
+    key={0}   
+  />  
   ],
-  allowancePassenger: [],
   expenses: [],
   expenseRow: [],
   expenseRowCounter: 1,
   allowanceRowCounter: 2,
-  passengerRowCounter: 0,
+  passengerRowCounter: 1,
   allowances: [],
   allowanceRow: [],
   rowKeys: [],
@@ -134,8 +139,8 @@ const expenseReducer = (state = initialState, action) => {
       })
 
     case EMPTY_PASSENGER_ROWS:
-      return Object.assign({}, state, {
-        allowancePassenger: [],
+      return Object.assign({}, state, {        
+        passengerInputRow: [],
         passengerRowCounter: 0
       })
 
@@ -195,9 +200,9 @@ const expenseReducer = (state = initialState, action) => {
 
     case ADD_PASSENGER_ROW:
       const check = action.check
-      const allowancePassengerState = state.allowancePassenger
+      const allowancePassengerState = state.passengerInputRow
       return Object.assign({}, state, {
-        allowancePassenger: allowancePassengerState.concat(
+        passengerInputRow: allowancePassengerState.concat(
           _createPassengerRow(state.passengerRowCounter, check)
         ),
         passengerRowCounter: state.passengerRowCounter + 1,
@@ -208,7 +213,7 @@ const expenseReducer = (state = initialState, action) => {
 
     case REMOVE_PASSENGER_ROW:
       return Object.assign({}, state, {
-        allowancePassenger: state.allowancePassenger.filter(
+        passengerInputRow: state.passengerInputRow.filter(
           (el, index) => index !== action.rowNumber
         ),
         passengerPrice:
@@ -372,7 +377,7 @@ const expenseReducer = (state = initialState, action) => {
           showSnackbar: true,
           allowanceEdit: [],
           isEdit: false,
-          allowancePassenger: [],
+          passengerInputRow: [],
           passengerRowCounter: 0,
           passengerPrice: 0
         }
@@ -397,7 +402,7 @@ const expenseReducer = (state = initialState, action) => {
         {
           allowanceEdit: [],
           isEdit: false,
-          allowancePassenger: [],
+          passengerInputRow: [],
           passengerRowCounter: 0,
           passengerPrice: 0
         }
@@ -473,7 +478,7 @@ const _createAllowanceInputRow = index => [
 
 const _createPassengerRow = (index, check) => [
   <PassengerInputRow
-    passenger={`allowancePassenger[${index}][passenger]`}
+    passenger={`passengerInputRow[${index}][passenger]`}
     key={index}
     autoFocusIndex={`${index}`}
     check={check}

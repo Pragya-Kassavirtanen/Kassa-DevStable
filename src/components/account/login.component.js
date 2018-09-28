@@ -21,7 +21,7 @@ import { registerAsyncValidate as asyncValidate } from '../../containers/asyncVa
 import Spinner from 'react-spinner-material'
 
 import userManager from '../../utils/PHZUserManager'
-import { loginFormSubmit } from '../../actions'
+import { loginFormSubmit, closeLoginSnackbar } from '../../actions'
 import { faqFunction } from '../../utils/website.utils'
 import ResetPassword from './resetPassword.component'
 
@@ -66,7 +66,12 @@ class LoginComponent extends Component {
   }
 
   render() {
-    const { handleSubmit, showSpinner, showFailSnackbar } = this.props
+    const {
+      handleSubmit,
+      showSpinner,
+      showFailSnackbar,
+      closeLoginSnackbar
+    } = this.props
 
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -163,6 +168,9 @@ class LoginComponent extends Component {
             message="Kirjautuminen epäonnistui, tarkista kentät"
             autoHideDuration={4000}
             bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
+            onRequestClose={() => {
+              closeLoginSnackbar()
+            }}
           />
           <Dialog
             title="Kirjaudutaan"
@@ -199,7 +207,7 @@ const mapStateToProps = state => {
 
 const attached = connect(
   mapStateToProps,
-  { loginFormSubmit }
+  { loginFormSubmit, closeLoginSnackbar }
 )(LoginComponent)
 
 export default reduxForm({

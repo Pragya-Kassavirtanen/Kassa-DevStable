@@ -57,10 +57,10 @@ function* getInvoiceSaga() {
     })
 
     const invoiceResult = yield call(apiManualPost, invoiceUrl, body)
-    const customerResult = yield call(apiManualPost, customerUrl, body)
+    const customerResult = yield call(apiManualPost, customerUrl, body)    
 
-    if (invoiceResult.data && customerResult.data)
-      yield put(getInvoicesSuccess(invoiceResult.data, customerResult.data))
+    if (invoiceResult.data.status === true && customerResult.data)
+      yield put(getInvoicesSuccess(invoiceResult.data.data, customerResult.data))
   } catch (e) {
     yield put(getInvoicesFailed(e))
   }

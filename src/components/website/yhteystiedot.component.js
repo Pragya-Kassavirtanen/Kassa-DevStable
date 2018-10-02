@@ -17,7 +17,7 @@ const Yhteystiedot = () => (
           <div className="firstBox">
             <h1>Kassavirtanen</h1>
             <p>
-              Palvelemme arkisin klo 8:00 - 4:00.
+              Palvelemme arkisin klo 8:00 - 16:00.
               <br />
               Asiakaspalvelumme vastaa myös chatin kautta 24h sisällä.
             </p>
@@ -31,7 +31,7 @@ const Yhteystiedot = () => (
           </div>
           <div className="thirdBox">
             <h1>Y-tunnus</h1>
-            <p>1234567-1</p>
+            <p>2803711-2</p>
           </div>
           <div className="fourthBox red">
             <h1>Asiakaspalvelu</h1>

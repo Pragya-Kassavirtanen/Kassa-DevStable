@@ -1,4 +1,5 @@
 import React from 'react'
+//import { Doughnut } from 'react-chartjs-2'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
@@ -10,9 +11,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
  */
 
 export default class Dashboard extends React.Component {
-  /*   componentWillMount() {
-    this.props.checkAuthInfo()
-  } */
+  componentWillMount() {   
+    this.props.getCustomersChart()
+  }
 
   render() {
     return <DashboardComponent {...this.props} />
@@ -63,6 +64,22 @@ const DashboardComponent = () => (
                 </div>
                 <div style={{ marginBottom: '75px' }} className="panel-body">
                   <p>Otsikko teksti</p>
+                  {/*                   <Doughnut
+                    data={this.state.chartData}
+                    width={100}
+                    height={50}
+                    options={{
+                      title: {
+                        display: this.props.displayTitle,
+                        text: 'Largest Cities in ' + this.props.location,
+                        fontSize: 25
+                      },
+                      legend: {
+                        display: this.props.displayLegend,
+                        position: this.props.legendPosition
+                      }
+                    }}
+                  /> */}
                 </div>
                 <div className="panel-footer" />
               </div>

@@ -1,8 +1,8 @@
 import { takeEvery, put, call } from 'redux-saga/effects'
 
-import { checkAuthInfoSuccess, checkAuthInfoFailed } from '../actions'
-import { CHECK_AUTH_INFO, API_SERVER } from '../constants'
-import { apiPost } from '../utils/request'
+import { checkAuthInfoSuccess, checkAuthInfoFailed, getCustomersChartSuccess, getCustomersChartFailed } from '../actions'
+import { CHECK_AUTH_INFO, GET_CUSTOMERS_CHART, API_SERVER } from '../constants'
+import { apiPost, apiManualPost } from '../utils/request'
 import store from '../store'
 
 /**
@@ -31,6 +31,29 @@ function* checkAuthInfo() {
   }
 }
 
+function* getCustomersChart() {
+  try {
+    const url = `${API_SERVER}/GetInfoCustomersChart`
+    const uuid = store.getState().client.user.data[2]    
+    const body = JSON.stringify({     
+      uuid: uuid
+    })
+
+    const result = yield call(apiManualPost, url, body)    
+    const resultParsed = JSON.parse(result.data)
+
+    console.log('Inside getCustomersChart:: ', resultParsed)
+    yield put(getCustomersChartSuccess(resultParsed))
+  } catch (e) {
+    console.warn(e)
+    yield put(getCustomersChartFailed(e))
+  }
+}
+
 export function* watchCheckAuthInfoSaga() {
   yield takeEvery(CHECK_AUTH_INFO, checkAuthInfo)
+}
+
+export function* watchCustomersChartSaga() {
+  yield takeEvery(GET_CUSTOMERS_CHART, getCustomersChart)
 }

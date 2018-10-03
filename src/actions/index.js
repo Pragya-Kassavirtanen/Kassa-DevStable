@@ -28,6 +28,9 @@ import {
   CHECK_AUTH_INFO,
   CHECK_AUTH_INFO_SUCCESS,
   CHECK_AUTH_INFO_FAILED,
+  GET_CUSTOMERS_CHART,
+  GET_CUSTOMERS_CHART_SUCCESS,
+  GET_CUSTOMERS_CHART_FAILED,
   ON_PROFILE_UPDATE,
   ON_PASSWORD_UPDATE,
   LOAD_PROFILE_SUCCESS,
@@ -308,6 +311,9 @@ export const customerPageChange = selected => ({type: CUSTOMER_PAGE_CHANGE, sele
 export const checkAuthInfo = () => ({ type: CHECK_AUTH_INFO })
 export const checkAuthInfoSuccess = result => ({ type: CHECK_AUTH_INFO_SUCCESS, result })
 export const checkAuthInfoFailed = error => ({ type: CHECK_AUTH_INFO_FAILED, error })
+export const getCustomersChart = () => ({ type: GET_CUSTOMERS_CHART })
+export const getCustomersChartSuccess = (result) => ({ type: GET_CUSTOMERS_CHART_SUCCESS, result })
+export const getCustomersChartFailed = (error) => ({ type: GET_CUSTOMERS_CHART_FAILED, error })
 
 export const profileUpdate = () => ({ type: ON_PROFILE_UPDATE })
 export const passwordUpdate = () => ({ type: ON_PASSWORD_UPDATE })

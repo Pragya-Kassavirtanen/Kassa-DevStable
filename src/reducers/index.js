@@ -14,6 +14,7 @@ import salaryReducer from './salary.reducer'
 import registerForm from './register.reducer'
 import loginForm from './login.reducer'
 import clientReducer from './client.reducer'
+import dashboardReducer from './dashboard.reducer'
 
 /**
  * TODO: describe this
@@ -37,7 +38,8 @@ const reducers = combineReducers({
   salary: salaryReducer,
   register: registerForm,
   login: loginForm,
-  client: clientReducer
+  client: clientReducer,
+  dashboard: dashboardReducer
 })
 
 export default reducers

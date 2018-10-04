@@ -12,6 +12,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 export default class Dashboard extends React.Component {
   componentWillMount() {
+    this.props.getInvoiceChart()
     this.props.getCustomersChart()
   }
 
@@ -20,7 +21,7 @@ export default class Dashboard extends React.Component {
   }
 }
 
-const DashboardComponent = ({ topCustomers }) => (
+const DashboardComponent = ({ invoiceChartData, topCustomers }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
       <div className="row">
@@ -51,8 +52,18 @@ const DashboardComponent = ({ topCustomers }) => (
                 <div className="panel-heading">
                   <h3 className="panel-title">LASKUT</h3>
                 </div>
-                <div style={{ marginBottom: '75px' }} className="panel-body">
-                  <p>Otsikko teksti</p>
+                <div className="panel-body">
+                  <Doughnut
+                    data={invoiceChartData}
+                    width={100}
+                    height={50}
+                    options={{
+                      legend: {
+                        display: true,
+                        position: 'right'
+                      }
+                    }}
+                  />
                 </div>
                 <div className="panel-footer" />
               </div>
@@ -62,7 +73,7 @@ const DashboardComponent = ({ topCustomers }) => (
                 <div className="panel-heading">
                   <h3 className="panel-title">TOP 5 ASIAKKAAT</h3>
                 </div>
-                <div className="panel-body">                  
+                <div className="panel-body">
                   <Doughnut
                     data={topCustomers}
                     width={100}

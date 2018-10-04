@@ -31,6 +31,10 @@ import {
   GET_CUSTOMERS_CHART,
   GET_CUSTOMERS_CHART_SUCCESS,
   GET_CUSTOMERS_CHART_FAILED,
+  GET_INVOICE_CHART,
+  GET_INVOICE_CHART_SUCCESS,
+  GET_INVOICE_CHART_FAILED,
+
   ON_PROFILE_UPDATE,
   ON_PASSWORD_UPDATE,
   LOAD_PROFILE_SUCCESS,
@@ -185,7 +189,7 @@ import {
   ALLOWANCE_UPDATE_FAILED,
   EMPTY_PASSENGER_ROWS,
   INVOICE_EDIT_SUCCESS,
-  LANGUAGE_CHANGE
+  LANGUAGE_CHANGE  
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -314,6 +318,9 @@ export const checkAuthInfoFailed = error => ({ type: CHECK_AUTH_INFO_FAILED, err
 export const getCustomersChart = () => ({ type: GET_CUSTOMERS_CHART })
 export const getCustomersChartSuccess = (result) => ({ type: GET_CUSTOMERS_CHART_SUCCESS, result })
 export const getCustomersChartFailed = (error) => ({ type: GET_CUSTOMERS_CHART_FAILED, error })
+export const getInvoiceChart = () => ({ type: GET_INVOICE_CHART })
+export const getInvoiceChartSuccess = (result) => ({ type: GET_INVOICE_CHART_SUCCESS, result })
+export const getInvoiceChartFailed = (error) => ({ type: GET_INVOICE_CHART_FAILED, error })
 
 export const profileUpdate = () => ({ type: ON_PROFILE_UPDATE })
 export const passwordUpdate = () => ({ type: ON_PASSWORD_UPDATE })

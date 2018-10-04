@@ -1,5 +1,5 @@
 import React from 'react'
-//import { Doughnut } from 'react-chartjs-2'
+import { Doughnut } from 'react-chartjs-2'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
@@ -11,7 +11,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
  */
 
 export default class Dashboard extends React.Component {
-  componentWillMount() {   
+  componentWillMount() {
     this.props.getCustomersChart()
   }
 
@@ -20,7 +20,7 @@ export default class Dashboard extends React.Component {
   }
 }
 
-const DashboardComponent = () => (
+const DashboardComponent = ({ topCustomers }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
       <div className="row">
@@ -62,24 +62,18 @@ const DashboardComponent = () => (
                 <div className="panel-heading">
                   <h3 className="panel-title">TOP 5 ASIAKKAAT</h3>
                 </div>
-                <div style={{ marginBottom: '75px' }} className="panel-body">
-                  <p>Otsikko teksti</p>
-                  {/*                   <Doughnut
-                    data={this.state.chartData}
+                <div className="panel-body">                  
+                  <Doughnut
+                    data={topCustomers}
                     width={100}
                     height={50}
                     options={{
-                      title: {
-                        display: this.props.displayTitle,
-                        text: 'Largest Cities in ' + this.props.location,
-                        fontSize: 25
-                      },
                       legend: {
-                        display: this.props.displayLegend,
-                        position: this.props.legendPosition
+                        display: true,
+                        position: 'right'
                       }
                     }}
-                  /> */}
+                  />
                 </div>
                 <div className="panel-footer" />
               </div>

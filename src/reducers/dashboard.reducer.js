@@ -4,7 +4,7 @@ import {
 } from '../constants'
 
 const initialState = {
-  topCustomers:[]
+  topCustomers:{}
 }
 
 const dashboardReducer = (state = initialState, action) => {

@@ -6,12 +6,14 @@ import {
   getCustomersChartSuccess,
   getCustomersChartFailed,
   getInvoiceChartSuccess,
-  getInvoiceChartFailed
+  getInvoiceChartFailed,
+  getUserTaxInfoSuccess
 } from '../actions'
 import {
   CHECK_AUTH_INFO,
   GET_CUSTOMERS_CHART,
   GET_INVOICE_CHART,
+  GET_USER_TAX_INFO,
   API_SERVER
 } from '../constants'
 import { apiPost, apiManualPost } from '../utils/request'
@@ -54,12 +56,14 @@ function* getInvoiceChart() {
     const bgColor = [
       'rgba(0, 170, 255, 0.8)',
       'rgba(0, 230, 230, 0.8)',
-      'rgba(0, 153, 0, 0.8)'
+      'rgba(0, 153, 0, 0.8)',
+      'rgba(0, 119, 179, 0.8)'
     ]
     const brColor = [
       'rgba(0, 170, 255, 0.8)',
       'rgba(0, 230, 230, 0.8)',
-      'rgba(0, 153, 0, 0.8)'
+      'rgba(0, 153, 0, 0.8)',
+      'rgba(0, 119, 179, 0.8)'
     ]
 
     const chartData = chartDataFormat(labels, percentData, bgColor, brColor, 10)
@@ -103,6 +107,22 @@ function* getCustomersChart() {
   }
 }
 
+function* getUserTaxInfo() {
+  try {
+    const url = `${API_SERVER}/GetUserTaxInfo`
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({
+      uuid: uuid
+    })
+    const result = yield call(apiManualPost, url, body)
+    const resultParsed = JSON.parse(result.data)
+    console.log('Inside getUserTaxInfo:: ', resultParsed)
+    yield put(getUserTaxInfoSuccess(resultParsed))   
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 export function* watchCheckAuthInfoSaga() {
   yield takeEvery(CHECK_AUTH_INFO, checkAuthInfo)
 }
@@ -113,4 +133,8 @@ export function* watchCustomersChartSaga() {
 
 export function* watchInvoiceChartSaga() {
   yield takeEvery(GET_INVOICE_CHART, getInvoiceChart)
+}
+
+export function* watchGetUserTaxInfoSaga() {
+  yield takeEvery(GET_USER_TAX_INFO, getUserTaxInfo)
 }

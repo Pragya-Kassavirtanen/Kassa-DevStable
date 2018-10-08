@@ -66,7 +66,12 @@ const AdminComponent = ({
   updateAdminSalaryStatus,
   showAdminSnackbar,
   hideAdminSnackbar,
-  showSpinner
+  showSpinner,
+  releaseSearchRows,
+  addRelease,
+  removeRelease,
+  tiedotteetSearchPages,
+  tiedotteetSearchPageChange
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -105,7 +110,12 @@ const AdminComponent = ({
               isToPaySalaryId,
               isToLiftSalary,
               cancelUpdateAdminSalaryStatus,
-              updateAdminSalaryStatus
+              updateAdminSalaryStatus,
+              releaseSearchRows,
+              addRelease,
+              removeRelease,
+              tiedotteetSearchPages,
+              tiedotteetSearchPageChange
             )}
           </div>
         </div>
@@ -159,7 +169,12 @@ const selectPanel = (
   isToPaySalaryId,
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
-  updateAdminSalaryStatus
+  updateAdminSalaryStatus,
+  releaseSearchRows,
+  addRelease,
+  removeRelease,
+  tiedotteetSearchPages,
+  tiedotteetSearchPageChange
 ) => {
   switch (selectedMenuItem) {
     case 0:
@@ -195,6 +210,15 @@ const selectPanel = (
         cancelUpdateAdminSalaryStatus,
         updateAdminSalaryStatus
       )
+    case 3:
+      return tiedotteetPanel(
+        releaseSearchRows,
+        selected,
+        addRelease,
+        removeRelease,
+        tiedotteetSearchPages,
+        tiedotteetSearchPageChange
+      )
   }
 }
 
@@ -209,6 +233,7 @@ const sideMenu = (changeAdminMenu, selectedMenuItem) => (
         <ListItem value={0} primaryText="Laskut" />
         <ListItem value={1} primaryText="Asiakkaat" />
         <ListItem value={2} primaryText="Palkat" />
+        <ListItem value={3} primaryText="Tiedotteet" />
       </SelectableList>
     </Paper>
   </div>
@@ -383,6 +408,89 @@ const salaryPanel = (
   </div>
 )
 
+const tiedotteetPanel = (
+  releaseSearchRows,
+  selected,
+  addRelease,
+  removeRelease,
+  tiedotteetSearchPages,
+  tiedotteetSearchPageChange
+) => (
+  <div className="col-xs-9 col-sm-9 col-lg-9">
+    <div className="panel panel-default">
+      <div className="panel-body">
+        <Table selectable={false}>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn>Julkaisupäivä</TableHeaderColumn>
+              <TableHeaderColumn>Julkaisu</TableHeaderColumn>
+              <TableHeaderColumn>Toiminnot</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {createReleaseRow(
+              releaseSearchRows,
+              selected,
+              addRelease,
+              removeRelease
+            )}
+          </TableBody>
+        </Table>
+        <Divider />
+        <ReactPaginate
+          previousLabel={<i className="fa fa-chevron-left" />}
+          nextLabel={<i className="fa fa-chevron-right" />}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={tiedotteetSearchPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={tiedotteetSearchPageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      </div>
+    </div>
+  </div>
+)
+
+const createReleaseRow = (releases, selected, addRelease, removeRelease) =>
+  releases.slice(selected * 10, selected * 10 + 10).map(el => (
+    <TableRow selectable={false} key={el.release_id}>
+      <TableRowColumn>
+        <b>{el.release_date}</b>
+      </TableRowColumn>
+      <TableRowColumn>
+        <b>{el.release}</b>
+      </TableRowColumn>
+      <TableRowColumn>
+        <div style={{ display: 'flex' }}>
+          <Link to="/dashboard/main">
+            <p
+              style={{ marginLeft: '10px' }}
+              onClick={() => {
+                store.dispatch(addRelease(el.release_id))
+              }}
+            >
+              <FontAwesome name="plus" />
+            </p>
+          </Link>
+          <Link to="/dashboard/main">
+            <p
+              style={{ marginLeft: '10px' }}
+              onClick={() => {
+                store.dispatch(removeRelease(el.release_id))
+              }}
+            >
+              <FontAwesome name="window-close" />
+            </p>
+          </Link>
+        </div>
+      </TableRowColumn>
+    </TableRow>
+  ))
+
 const createInvoiceRow = (
   invoices,
   selected,
@@ -427,7 +535,7 @@ const createInvoiceRow = (
           }}
           disabled={el.invoicepaid !== 0 ? true : false}
           checked={isToPayInvoiceId !== el.invoice_id ? false : true}
-        />       
+        />
         <Dialog
           title={`Vahvistako laskun nro ${isToPayInvoiceId} on maksettu?`}
           contentStyle={{
@@ -532,7 +640,7 @@ const createSalaryRow = (
           }}
           disabled={el.status === 'paid' ? true : false}
           checked={isToPaySalaryId !== el.id ? false : true}
-        />       
+        />
         <Dialog
           open={isToLiftSalary}
           title={`Vahvista, että palkan nro ${isToPaySalaryId} maksetaan?`}

@@ -2,6 +2,8 @@ import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import OwnInfoContainer from '../../containers/dashboard/ownInfo.container'
+//import ReleaseInfoContainer from '../../containers/dashboard/releaseInfo.container'
 
 /**
  * The dashboard component to be viewed after user has
@@ -14,6 +16,7 @@ export default class Dashboard extends React.Component {
   componentWillMount() {
     this.props.getInvoiceChart()
     this.props.getCustomersChart()
+    this.props.getUserTaxInfo()
   }
 
   render() {
@@ -94,21 +97,8 @@ const DashboardComponent = ({ invoiceChartData, topCustomers }) => (
                 <div className="panel-heading">
                   <h3 className="panel-title">OMAT TIEDOT</h3>
                 </div>
-                <div style={{ marginBottom: '85px' }} className="panel-body">
-                  <ul className="list-group">
-                    <li className="list-group-item">
-                      Otsikko teksti
-                      <span className="pull-right">0,00 €</span>
-                    </li>
-                    <li className="list-group-item">
-                      Otsikko teksti
-                      <span className="pull-right">0,00 €</span>
-                    </li>
-                    <li className="list-group-item">
-                      Otsikko teksti
-                      <span className="pull-right">0,00 €</span>
-                    </li>
-                  </ul>
+                <div className="row">               
+                  <OwnInfoContainer />
                 </div>
                 <div className="panel-footer" />
               </div>
@@ -123,8 +113,8 @@ const DashboardComponent = ({ invoiceChartData, topCustomers }) => (
               <div className="panel-heading">
                 <h3 className="panel-title">TIEDOTTEET</h3>
               </div>
-              <div style={{ marginBottom: '75px' }} className="panel-body">
-                <p>Otsikko teksti</p>
+              <div className="row">             
+                {/* <ReleaseInfoContainer /> */}
               </div>
             </div>
           </div>

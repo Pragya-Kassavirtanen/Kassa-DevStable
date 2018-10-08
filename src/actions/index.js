@@ -34,6 +34,8 @@ import {
   GET_INVOICE_CHART,
   GET_INVOICE_CHART_SUCCESS,
   GET_INVOICE_CHART_FAILED,
+  GET_USER_TAX_INFO,
+  GET_USER_TAX_INFO_SUCCESS,
 
   ON_PROFILE_UPDATE,
   ON_PASSWORD_UPDATE,
@@ -180,11 +182,15 @@ import {
   INVOICE_SEARCH_PAGE_CHANGE,
   SALARY_SEARCH_PAGE_CHANGE,
   USER_SEARCH_PAGE_CHANGE,
+  TIEDOTTEET_SEARCH_PAGE_CHANGE,
+  RELEASE_INFO_SEARCH_PAGE_CHANGE,
   WARN_INVOICE_TO_PAY,
   WARN_SALARY_TO_PAY,
   ADD_SALARY_SUCCESS,
   UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
   UPDATE_ADMIN_SALARY_STATUS_SUCCESS,
+  ADD_RELEASE,
+  REMOVE_RELEASE,
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
   EMPTY_PASSENGER_ROWS,
@@ -321,6 +327,8 @@ export const getCustomersChartFailed = (error) => ({ type: GET_CUSTOMERS_CHART_F
 export const getInvoiceChart = () => ({ type: GET_INVOICE_CHART })
 export const getInvoiceChartSuccess = (result) => ({ type: GET_INVOICE_CHART_SUCCESS, result })
 export const getInvoiceChartFailed = (error) => ({ type: GET_INVOICE_CHART_FAILED, error })
+export const getUserTaxInfo = () => ({ type: GET_USER_TAX_INFO })
+export const getUserTaxInfoSuccess = (result) => ({ type: GET_USER_TAX_INFO_SUCCESS, result })
 
 export const profileUpdate = () => ({ type: ON_PROFILE_UPDATE })
 export const passwordUpdate = () => ({ type: ON_PASSWORD_UPDATE })
@@ -376,6 +384,8 @@ export const updateAdminSalaryStatus = (id) => ({type: UPDATE_ADMIN_SALARY_STATU
 export const invoiceSearchPageChange = selected => ({type: INVOICE_SEARCH_PAGE_CHANGE, selected})
 export const salarySearchPageChange = selected => ({type: SALARY_SEARCH_PAGE_CHANGE, selected})
 export const userSearchPageChange = selected => ({type: USER_SEARCH_PAGE_CHANGE, selected})
+export const tiedotteetSearchPageChange = selected => ({type: TIEDOTTEET_SEARCH_PAGE_CHANGE, selected})
+export const releaseInfoSearchPageChange = selected => ({type: RELEASE_INFO_SEARCH_PAGE_CHANGE, selected})
 export const warnInvoiceToPay = selected =>  ({type: WARN_INVOICE_TO_PAY, selected})
 export const warnSalaryToPay = selected =>  ({type: WARN_SALARY_TO_PAY, selected})
 export const cancelUpdateAdminInvoiceStatus = () => ({type: CANCEL_UPDATE_AMDIN_INVOICE_STATUS})
@@ -383,6 +393,8 @@ export const cancelUpdateAdminSalaryStatus = () => ({type: CANCEL_UPDATE_AMDIN_S
 export const addSalarySuccess = () => ({type: ADD_SALARY_SUCCESS})
 export const updateAdminInvoiceStatusSuccess = () => ({type: UPDATE_ADMIN_INVOICE_STATUS_SUCCESS})
 export const updateAdminSalaryStatusSuccess = () => ({type: UPDATE_ADMIN_SALARY_STATUS_SUCCESS})
+export const addRelease = (release_id) => ({type: ADD_RELEASE, release_id})
+export const removeRelease = (release_id) => ({type: REMOVE_RELEASE, release_id})
  
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

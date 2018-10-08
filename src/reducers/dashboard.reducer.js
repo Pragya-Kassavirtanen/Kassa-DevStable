@@ -2,12 +2,16 @@ import {
   GET_CUSTOMERS_CHART_SUCCESS,
   GET_CUSTOMERS_CHART_FAILED,
   GET_INVOICE_CHART_SUCCESS,
-  GET_INVOICE_CHART_FAILED
+  GET_INVOICE_CHART_FAILED,
+  GET_USER_TAX_INFO_SUCCESS
 } from '../constants'
 
 const initialState = {
   invoiceChartData: {},
-  topCustomers: {}
+  topCustomers: {},
+  userTaxInfo: {},
+  releaseInfoSearchRows: [],
+  selected: 0
 }
 
 const dashboardReducer = (state = initialState, action) => {
@@ -27,6 +31,15 @@ const dashboardReducer = (state = initialState, action) => {
 
     case GET_INVOICE_CHART_FAILED:
       return Object.assign({}, { ...state }, { ...action.error })
+
+    case GET_USER_TAX_INFO_SUCCESS:
+        return Object.assign(
+          {},
+          { ...state },
+          {
+            userTaxInfo: action.result
+          }
+        )
 
     default:
       return state

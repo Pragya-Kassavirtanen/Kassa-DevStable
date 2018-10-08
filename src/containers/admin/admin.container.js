@@ -8,6 +8,9 @@ import {
   invoiceSearchPageChange,
   salarySearchPageChange,
   userSearchPageChange,
+  addRelease,
+  removeRelease,
+  tiedotteetSearchPageChange,
   warnInvoiceToPay,
   warnSalaryToPay,
   updateAdminInvoiceStatus,
@@ -38,6 +41,8 @@ const mapStateToProps = state => {
 
     salarySearchRows: state.admin.salarySearchRows,
 
+    releaseSearchRows: state.admin.releaseSearchRows,
+
     showSpinner: state.admin.showSpinner,
 
     showAdminSnackbar: state.admin.showAdminSnackbar,
@@ -52,7 +57,11 @@ const mapStateToProps = state => {
 
     salarySearchPages: !!state.admin.salarySearchRows
       ? Math.ceil(state.admin.salarySearchRows.length / 10)
-      : 0          
+      : 0,
+     
+    tiedotteetSearchPages: !!state.admin.releaseSearchRows
+      ? Math.ceil(state.admin.releaseSearchRows.length / 10)
+      : 0
   }
 }
 
@@ -77,6 +86,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(salarySearchPageChange(selected)),
 
     userSearchPageChange: selected => dispatch(userSearchPageChange(selected)),
+    
+    tiedotteetSearchPageChange: selected => dispatch(tiedotteetSearchPageChange(selected)),
 
     warnInvoiceToPay: selected => dispatch(warnInvoiceToPay(selected)),
 
@@ -91,8 +102,11 @@ const mapDispatchToProps = dispatch => {
     updateAdminSalaryStatus: id => dispatch(updateAdminSalaryStatus(id)),
 
     cancelUpdateAdminSalaryStatus: () =>
-      dispatch(cancelUpdateAdminSalaryStatus())
+      dispatch(cancelUpdateAdminSalaryStatus()),
 
+    addRelease: (release_id) => dispatch(addRelease(release_id)),
+
+    removeRelease: (release_id) => dispatch(removeRelease(release_id))
   }
 }
 

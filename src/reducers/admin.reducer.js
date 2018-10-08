@@ -39,6 +39,7 @@ const initialState = {
   invoiceSearchRows: [],
   userSearchRows: [],
   salarySearchRows: [],
+  releaseSearchRows: [],
   selected: 0,
   isToPayInvoiceId: 0,
   isToPay: false,

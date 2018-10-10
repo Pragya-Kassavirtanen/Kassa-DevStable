@@ -7,16 +7,21 @@ import {
   getCustomersChartFailed,
   getInvoiceChartSuccess,
   getInvoiceChartFailed,
-  getUserTaxInfoSuccess
+  getUserTaxInfoSuccess,
+  getCompanyUpdatesSuccess,
+  getInvoiceAmountByMonthlyChartSuccess,
+  getInvoiceAmountByMonthlyChartFailed
 } from '../actions'
 import {
   CHECK_AUTH_INFO,
   GET_CUSTOMERS_CHART,
   GET_INVOICE_CHART,
   GET_USER_TAX_INFO,
+  GET_COMPANY_UPDATES,
+  GET_INVOICE_AMOUNT_MONTHLY,
   API_SERVER
 } from '../constants'
-import { apiPost, apiManualPost } from '../utils/request'
+import { apiPost, apiManualPost, apiManualRequest } from '../utils/request'
 import store from '../store'
 import { propertyArray } from '../utils/invoice.utils'
 import { chartDataFormat, calcPercent } from '../utils/dashboard.utils'
@@ -107,6 +112,53 @@ function* getCustomersChart() {
   }
 }
 
+function* getInvoiceAmountByMonthlyChart() {
+  try {
+    const url = `${API_SERVER}/GetInvoiceAmountByMonthly`
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({
+      uuid: uuid
+    })
+    const result = yield call(apiManualPost, url, body)
+    const resultParsed = JSON.parse(result.data)
+    const labels = propertyArray(resultParsed, 'Month')
+    const data = propertyArray(resultParsed, 'SumwithoutTax')   
+    const bgColor = [
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)'
+    ]
+    const brColor = [
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)',
+      'rgba(0, 170, 255, 0.8)'
+    ]
+
+    const chartData = chartDataFormat(labels, data, bgColor, brColor, 10)
+    yield put(getInvoiceAmountByMonthlyChartSuccess(chartData))
+  } catch (e) {
+    yield put(getInvoiceAmountByMonthlyChartFailed(e))
+  }
+}
+
 function* getUserTaxInfo() {
   try {
     const url = `${API_SERVER}/GetUserTaxInfo`
@@ -118,6 +170,18 @@ function* getUserTaxInfo() {
     const resultParsed = JSON.parse(result.data)
     console.log('Inside getUserTaxInfo:: ', resultParsed)
     yield put(getUserTaxInfoSuccess(resultParsed))   
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* getCompanyUpdates() {
+  try {
+    const url = `${API_SERVER}/GetCompanyUpdates`    
+    const result = yield call(apiManualRequest, url)
+    const resultParsed = JSON.parse(result.data)
+    console.log('Inside getCompanyUpdates:: ', resultParsed)
+    yield put(getCompanyUpdatesSuccess(resultParsed))   
   } catch (e) {
     console.warn(e)
   }
@@ -135,6 +199,14 @@ export function* watchInvoiceChartSaga() {
   yield takeEvery(GET_INVOICE_CHART, getInvoiceChart)
 }
 
+export function* watchGetInvoiceAmountByMonthlySaga() {
+  yield takeEvery(GET_INVOICE_AMOUNT_MONTHLY, getInvoiceAmountByMonthlyChart)
+}
+
 export function* watchGetUserTaxInfoSaga() {
   yield takeEvery(GET_USER_TAX_INFO, getUserTaxInfo)
+}
+
+export function* watchGetCompanyUpdatesSaga() {
+  yield takeEvery(GET_COMPANY_UPDATES, getCompanyUpdates)
 }

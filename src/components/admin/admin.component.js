@@ -4,9 +4,12 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import AdminInvoiceFilterRowContainer from '../../containers/admin/adminInvoiceFilterRow.container'
 import AdminUserFilterRowContainer from '../../containers/admin/adminUserFilterRow.container'
 import AdminUserFormContainer from '../../containers/admin/adminUserForm.container'
+import AdminUpdateFormContainer from '../../containers/admin/adminUpdateForm.container'
 import AdminSalaryFilterRowContainer from '../../containers/admin/adminSalaryFilterRow.container'
 import Spinner from 'react-spinner-material'
 import ReactPaginate from 'react-paginate'
+import { Link } from 'react-router'
+import FontAwesome from 'react-fontawesome'
 import {
   ListItem,
   List,
@@ -33,8 +36,12 @@ import {
 } from '../../utils/invoice.utils'
 import DateTimeFormat from '../../utils/DateTimeFormat'
 import store from '../../store'
+import {formatDateAndTime} from '../../utils/dashboard.utils'
 
 export default class Admin extends Component {
+  componentWillMount() {   
+    this.props.adminGetUpdates()
+  }
   render() {
     return <AdminComponent {...this.props} />
   }
@@ -68,8 +75,8 @@ const AdminComponent = ({
   hideAdminSnackbar,
   showSpinner,
   releaseSearchRows,
-  addRelease,
-  removeRelease,
+  adminAddNewUpdates,
+  adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
   tiedotteetSearchPageChange
 }) => (
@@ -111,9 +118,9 @@ const AdminComponent = ({
               isToLiftSalary,
               cancelUpdateAdminSalaryStatus,
               updateAdminSalaryStatus,
-              releaseSearchRows,
-              addRelease,
-              removeRelease,
+              releaseSearchRows,              
+              adminAddNewUpdates,
+              adminDeleteCompanyUpdates,
               tiedotteetSearchPages,
               tiedotteetSearchPageChange
             )}
@@ -170,9 +177,9 @@ const selectPanel = (
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
   updateAdminSalaryStatus,
-  releaseSearchRows,
-  addRelease,
-  removeRelease,
+  releaseSearchRows, 
+  adminAddNewUpdates,
+  adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
   tiedotteetSearchPageChange
 ) => {
@@ -213,9 +220,9 @@ const selectPanel = (
     case 3:
       return tiedotteetPanel(
         releaseSearchRows,
-        selected,
-        addRelease,
-        removeRelease,
+        selected,        
+        adminAddNewUpdates,
+        adminDeleteCompanyUpdates,
         tiedotteetSearchPages,
         tiedotteetSearchPageChange
       )
@@ -411,13 +418,20 @@ const salaryPanel = (
 const tiedotteetPanel = (
   releaseSearchRows,
   selected,
-  addRelease,
-  removeRelease,
+  adminAddNewUpdates,
+  adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
   tiedotteetSearchPageChange
 ) => (
   <div className="col-xs-9 col-sm-9 col-lg-9">
     <div className="panel panel-default">
+      <div className="panel-heading">
+        <h3 className="panel-title">Yrityspäivitykset</h3>
+      </div>
+      <div className="panel-body">
+        <AdminUpdateFormContainer />
+      </div>
+      <hr style={{ marginTop: '0px' }} />
       <div className="panel-body">
         <Table selectable={false}>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -430,9 +444,9 @@ const tiedotteetPanel = (
           <TableBody displayRowCheckbox={false}>
             {createReleaseRow(
               releaseSearchRows,
-              selected,
-              addRelease,
-              removeRelease
+              selected,             
+              adminAddNewUpdates,
+              adminDeleteCompanyUpdates,
             )}
           </TableBody>
         </Table>
@@ -455,32 +469,23 @@ const tiedotteetPanel = (
   </div>
 )
 
-const createReleaseRow = (releases, selected, addRelease, removeRelease) =>
+const createReleaseRow = (releases, selected, adminAddNewUpdates,
+  adminDeleteCompanyUpdates) =>
   releases.slice(selected * 10, selected * 10 + 10).map(el => (
-    <TableRow selectable={false} key={el.release_id}>
+    <TableRow selectable={false} key={el.id}>
       <TableRowColumn>
-        <b>{el.release_date}</b>
+        <b>{formatDateAndTime(el.created)}</b>
       </TableRowColumn>
       <TableRowColumn>
-        <b>{el.release}</b>
+        <b>{el.newsupdate}</b>
       </TableRowColumn>
       <TableRowColumn>
-        <div style={{ display: 'flex' }}>
-          <Link to="/dashboard/main">
+        <div style={{ display: 'flex' }}>          
+          <Link>
             <p
               style={{ marginLeft: '10px' }}
               onClick={() => {
-                store.dispatch(addRelease(el.release_id))
-              }}
-            >
-              <FontAwesome name="plus" />
-            </p>
-          </Link>
-          <Link to="/dashboard/main">
-            <p
-              style={{ marginLeft: '10px' }}
-              onClick={() => {
-                store.dispatch(removeRelease(el.release_id))
+                store.dispatch(adminDeleteCompanyUpdates(el.id))
               }}
             >
               <FontAwesome name="window-close" />

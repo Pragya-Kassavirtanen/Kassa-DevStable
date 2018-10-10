@@ -7,16 +7,17 @@ import {
   expandAdminUser,
   invoiceSearchPageChange,
   salarySearchPageChange,
-  userSearchPageChange,
-  addRelease,
-  removeRelease,
+  userSearchPageChange,  
+  adminAddNewUpdates,
+  adminDeleteCompanyUpdates,  
   tiedotteetSearchPageChange,
   warnInvoiceToPay,
   warnSalaryToPay,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus,
   updateAdminSalaryStatus,
-  cancelUpdateAdminSalaryStatus
+  cancelUpdateAdminSalaryStatus,
+  adminGetUpdates
 } from '../../actions/index'
 
 let AdminContainer = Admin
@@ -104,9 +105,11 @@ const mapDispatchToProps = dispatch => {
     cancelUpdateAdminSalaryStatus: () =>
       dispatch(cancelUpdateAdminSalaryStatus()),
 
-    addRelease: (release_id) => dispatch(addRelease(release_id)),
+    adminAddNewUpdates: () => dispatch(adminAddNewUpdates()),
 
-    removeRelease: (release_id) => dispatch(removeRelease(release_id))
+    adminDeleteCompanyUpdates: (id) => dispatch(adminDeleteCompanyUpdates(id)),
+
+    adminGetUpdates: () => dispatch(adminGetUpdates())
   }
 }
 

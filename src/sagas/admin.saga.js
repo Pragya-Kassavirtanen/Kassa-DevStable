@@ -1,8 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
-
 import store from '../store'
-import { getFormValues } from 'redux-form'
-
+import { getFormValues, reset } from 'redux-form'
 import { formatFiToISO } from '../utils/DateTimeFormat'
 
 import {
@@ -16,12 +14,15 @@ import {
   UPDATE_ADMIN_USER,
   SEARCH_ADMIN_WAGES,
   UPDATE_ADMIN_INVOICE_STATUS,
-  UPDATE_ADMIN_SALARY_STATUS
+  UPDATE_ADMIN_SALARY_STATUS,
+  ADMIN_ADD_NEW_UPDATES,
+  ADMIN_DELETE_COMPANY_UPDATE,
+  ADMIN_GET_UPDATES
 } from '../constants'
 
 import { convertStateToInt, nestProperties } from '../utils/invoice.utils'
 
-import { apiPost, apiRequest, apiManualPost } from '../utils/request'
+import { apiPost, apiRequest, apiManualPost, apiManualRequest } from '../utils/request'
 
 import {
   searchAdminInvoiceSuccess,
@@ -39,7 +40,11 @@ import {
   updateAdminUserResult,
   updateAdminInvoiceStatusSuccess,
   searchAdminWages,
-  updateAdminSalaryStatusSuccess
+  updateAdminSalaryStatusSuccess,
+  //adminAddNewUpdatesSuccess,
+  //adminDeleteCompanyUpdatesSuccess,
+  adminGetUpdatesSuccess,
+  adminGetUpdates
 } from '../actions/index'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -353,6 +358,59 @@ function* adminUpdateSalaryStatusSaga({ id }) {
   }
 }
 
+function* adminAddNewUpdatesSaga() {
+  try {
+    const url = `${API_SERVER}/AddNewUpdates`
+    const formValues = getFormValues('adminUpdates')(store.getState())
+    const body = JSON.stringify({
+      newsupdate : formValues.company_update
+    })
+    const result = yield call(apiManualPost, url, body)     
+
+    if (result.data === 'company update added successfully') {
+      //yield put(adminAddNewUpdatesSuccess(result.data))
+      yield put(reset('adminUpdates'))
+      yield put(adminGetUpdates())
+    } else {
+      yield put(reset('adminUpdates'))
+      console.warn(result.data)
+    }    
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* adminDeleteCompanyUpdatesSaga({id}) {
+  try {
+    const url = `${API_SERVER}/DeleteCompanyUpdate`
+    const body = JSON.stringify({
+      id: id     
+    })
+    const result = yield call(apiManualPost, url, body)    
+    console.log('Inside adminDeleteCompanyUpdatesSaga:: ', result)
+
+/*     if (result.data === 'company update deleted successfully') {
+      yield put(adminDeleteCompanyUpdatesSuccess(result.data))
+    } else {
+      console.warn(result.data)
+    }  */   
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* adminGetUpdatesSaga() {
+  try {
+    const url = `${API_SERVER}/GetCompanyUpdates`    
+    const result = yield call(apiManualRequest, url)
+    const resultParsed = JSON.parse(result.data)
+    console.log('Inside adminGetUpdatesSaga:: ', resultParsed)
+    yield put(adminGetUpdatesSuccess(resultParsed))      
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 /* export function* watchAdminChangeMenuSaga() {
   yield takeEvery(CHANGE_ADMIN_MENU, adminChangeMenuSaga)
 } */
@@ -391,4 +449,16 @@ export function* watchAdminUpdateInvoiceStatusSaga() {
 
 export function* watchAdminUpdateSalaryStatusSaga() {
   yield takeEvery(UPDATE_ADMIN_SALARY_STATUS, adminUpdateSalaryStatusSaga)
+}
+
+export function* watchAdminAddNewUpdatesSaga() {
+  yield takeEvery(ADMIN_ADD_NEW_UPDATES, adminAddNewUpdatesSaga)
+}
+
+export function* watchAdminDeleteCompanyUpdateSaga() {
+  yield takeEvery(ADMIN_DELETE_COMPANY_UPDATE, adminDeleteCompanyUpdatesSaga)
+}
+
+export function* watchAdminGetUpdatesSaga() {
+  yield takeEvery(ADMIN_GET_UPDATES, adminGetUpdatesSaga)
 }

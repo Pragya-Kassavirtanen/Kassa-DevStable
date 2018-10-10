@@ -1,6 +1,6 @@
 import { watchGetInvoiceSaga, watchSaveAndSendInvoiceSaga, watchCopyInvoice, watchRemoveInvoiceSaga, watchSaveInvoiceDraft, watchEditInvoice, watchCancelEditInvoice, watchGetProfession, watchClearInvoiceOption, watchGenerateInvoicePDF, watchSaveAndSendInvoicePDF, watchInvoiceDownloadPDF, watchFinvoiceOperators } from './invoice.saga'
 import { watchTaxSaga, watchGetTaxCardStartSaga, watchPostYelSaga, watchGetYelSaga, watchUpdatePasswordSaga } from './tax.saga'
-import { watchCheckAuthInfoSaga, watchCustomersChartSaga, watchInvoiceChartSaga, watchGetUserTaxInfoSaga } from './dashboard.saga'
+import { watchCheckAuthInfoSaga, watchCustomersChartSaga, watchInvoiceChartSaga, watchGetUserTaxInfoSaga, watchGetCompanyUpdatesSaga, watchGetInvoiceAmountByMonthlySaga } from './dashboard.saga'
 import { watchLoadProfileSaga, watchUpdateProfileSaga } from './profile.saga'
 import { watchNewCustomerSaga, watchGetCustomersSaga, watchGetCustomerByIdSaga, watchRemoveCustomerSaga, watchSaveCustomerSaga, watchCancelCustomerSaga, watchGetCustomerToAddInvoiceSaga, watchEInvoiceOperators } from './customer.saga'
 import { watchSendRegisterInfoSaga } from './register.saga'
@@ -16,7 +16,10 @@ import {
   watchAdminUserUpdateSaga,
   watchAdminWagesSearchSaga,
   watchAdminUpdateInvoiceStatusSaga,
-  watchAdminUpdateSalaryStatusSaga
+  watchAdminUpdateSalaryStatusSaga,
+  watchAdminAddNewUpdatesSaga,
+  watchAdminDeleteCompanyUpdateSaga,
+  watchAdminGetUpdatesSaga
 } from './admin.saga'
 import { watchRehydrateSaga } from './rehydrate.saga'
 import { watchGetNewSalarySaga, watchSelectRowSalarySaga, watchGetSalariesSaga, watchPostSalarySaga, watchGetSalaryByIdSaga, watchSaveSalarySlipSaga } from './salary.saga'
@@ -38,6 +41,8 @@ export default function* rootSaga() {
     watchCustomersChartSaga(),
     watchInvoiceChartSaga(),
     watchGetUserTaxInfoSaga(),
+    watchGetCompanyUpdatesSaga(),
+    watchGetInvoiceAmountByMonthlySaga(),
     watchLoadProfileSaga(),
     watchCopyInvoice(),
     watchRemoveInvoiceSaga(),
@@ -97,6 +102,9 @@ export default function* rootSaga() {
     watchAdminWagesSearchSaga(),
     watchAdminUpdateInvoiceStatusSaga(),
     watchAdminUpdateSalaryStatusSaga(),
+    watchAdminAddNewUpdatesSaga(),
+    watchAdminDeleteCompanyUpdateSaga(),
+    watchAdminGetUpdatesSaga(),
     watchInvoiceDownloadPDF(),
     watchFinvoiceOperators(),
     watchEInvoiceOperators()

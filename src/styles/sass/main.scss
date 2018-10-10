@@ -215,6 +215,10 @@ input[type="text"]::-ms-clear {
     &-textfield {
       margin: 5px;
     }
+    &-updateformfield {
+      margin: 5px;
+      width: 100%;
+    }
     &-hover-row:hover {
       background-color: #cccccc;
       -webkit-transition: width 2s; /* Safari */

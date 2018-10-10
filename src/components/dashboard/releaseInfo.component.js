@@ -1,14 +1,15 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate'
-import {  
+import {
   Table,
   TableBody,
   TableRow,
   TableRowColumn,
   TableHeader,
-  TableHeaderColumn,  
-  Divider  
+  TableHeaderColumn,
+  Divider
 } from 'material-ui'
+import { formatDateAndTime } from '../../utils/dashboard.utils'
 
 export default class ReleaseInfoComponent extends React.Component {
   render() {
@@ -56,13 +57,13 @@ const ReleaseInfo = (
 )
 
 const createReleaseInfoRow = (releaseInfoSearchRows, selected) =>
-releaseInfoSearchRows.slice(selected * 10, selected * 10 + 10).map(el => (
-    <TableRow selectable={false} key={el.release_id}>
+  {
+    return releaseInfoSearchRows.slice(selected * 10, selected * 10 + 10).map(el => (<TableRow selectable={false} key={el.id}>
       <TableRowColumn>
-        <b>{el.release_date}</b>
+        <b>{formatDateAndTime(el.created)}</b>
       </TableRowColumn>
       <TableRowColumn>
-        <b>{el.release}</b>
+        <b>{el.newsupdate}</b>
       </TableRowColumn>
-    </TableRow>
-  ))
+    </TableRow>))
+  }

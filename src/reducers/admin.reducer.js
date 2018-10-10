@@ -18,6 +18,7 @@ import {
   INVOICE_SEARCH_PAGE_CHANGE,
   SALARY_SEARCH_PAGE_CHANGE,
   USER_SEARCH_PAGE_CHANGE,
+  TIEDOTTEET_SEARCH_PAGE_CHANGE,
   WARN_INVOICE_TO_PAY,
   WARN_SALARY_TO_PAY,
   UPDATE_ADMIN_INVOICE_STATUS,
@@ -25,7 +26,8 @@ import {
   UPDATE_ADMIN_SALARY_STATUS,
   CANCEL_UPDATE_AMDIN_SALARY_STATUS,
   UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
-  UPDATE_ADMIN_SALARY_STATUS_SUCCESS
+  UPDATE_ADMIN_SALARY_STATUS_SUCCESS,
+  ADMIN_GET_UPDATES_SUCCESS
 } from '../constants'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -46,7 +48,8 @@ const initialState = {
   invoicepaid: 0,
   isToPaySalaryId: 0,
   isToLiftSalary: false,
-  Status: ''
+  Status: '',
+  newsupdate: ''
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -221,6 +224,13 @@ const adminReducer = (state = initialState, action) => {
         { selected: action.selected.selected }
       )
 
+      case TIEDOTTEET_SEARCH_PAGE_CHANGE:
+      return Object.assign(
+        {},
+        { ...state },
+        { selected: action.selected.selected }
+      )
+
     case WARN_INVOICE_TO_PAY:
       return Object.assign(
         {},
@@ -301,6 +311,13 @@ const adminReducer = (state = initialState, action) => {
           isToPaySalaryId: 0
         }
       )
+
+    case ADMIN_GET_UPDATES_SUCCESS:
+        return Object.assign(
+          {},
+          { ...state },
+          { releaseSearchRows: action.result }
+        )
 
     default:
       return state

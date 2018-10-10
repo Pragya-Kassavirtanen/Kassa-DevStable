@@ -36,6 +36,11 @@ import {
   GET_INVOICE_CHART_FAILED,
   GET_USER_TAX_INFO,
   GET_USER_TAX_INFO_SUCCESS,
+  GET_COMPANY_UPDATES,
+  GET_COMPANY_UPDATES_SUCCESS,
+  GET_INVOICE_AMOUNT_MONTHLY,
+  GET_INVOICE_AMOUNT_MONTHLY_CHART_SUCCESS,
+  GET_INVOICE_AMOUNT_MONTHLY_CHART_FAILED,
 
   ON_PROFILE_UPDATE,
   ON_PASSWORD_UPDATE,
@@ -189,8 +194,14 @@ import {
   ADD_SALARY_SUCCESS,
   UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
   UPDATE_ADMIN_SALARY_STATUS_SUCCESS,
-  ADD_RELEASE,
-  REMOVE_RELEASE,
+
+  ADMIN_ADD_NEW_UPDATES,
+  ADMIN_ADD_NEW_UPDATES_SUCCESS,
+  ADMIN_DELETE_COMPANY_UPDATE,
+  ADMIN_DELETE_COMPANY_UPDATE_SUCCESS,
+  ADMIN_GET_UPDATES,
+  ADMIN_GET_UPDATES_SUCCESS,
+
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
   EMPTY_PASSENGER_ROWS,
@@ -329,6 +340,11 @@ export const getInvoiceChartSuccess = (result) => ({ type: GET_INVOICE_CHART_SUC
 export const getInvoiceChartFailed = (error) => ({ type: GET_INVOICE_CHART_FAILED, error })
 export const getUserTaxInfo = () => ({ type: GET_USER_TAX_INFO })
 export const getUserTaxInfoSuccess = (result) => ({ type: GET_USER_TAX_INFO_SUCCESS, result })
+export const getCompanyUpdates = () => ({type: GET_COMPANY_UPDATES})
+export const getCompanyUpdatesSuccess = (result) => ({type: GET_COMPANY_UPDATES_SUCCESS, result})
+export const getInvoiceAmountMonthly = () => ({type: GET_INVOICE_AMOUNT_MONTHLY})
+export const getInvoiceAmountByMonthlyChartSuccess = (result) => ({ type: GET_INVOICE_AMOUNT_MONTHLY_CHART_SUCCESS, result })
+export const getInvoiceAmountByMonthlyChartFailed = (error) => ({ type: GET_INVOICE_AMOUNT_MONTHLY_CHART_FAILED, error })
 
 export const profileUpdate = () => ({ type: ON_PROFILE_UPDATE })
 export const passwordUpdate = () => ({ type: ON_PASSWORD_UPDATE })
@@ -393,9 +409,14 @@ export const cancelUpdateAdminSalaryStatus = () => ({type: CANCEL_UPDATE_AMDIN_S
 export const addSalarySuccess = () => ({type: ADD_SALARY_SUCCESS})
 export const updateAdminInvoiceStatusSuccess = () => ({type: UPDATE_ADMIN_INVOICE_STATUS_SUCCESS})
 export const updateAdminSalaryStatusSuccess = () => ({type: UPDATE_ADMIN_SALARY_STATUS_SUCCESS})
-export const addRelease = (release_id) => ({type: ADD_RELEASE, release_id})
-export const removeRelease = (release_id) => ({type: REMOVE_RELEASE, release_id})
- 
+
+export const adminAddNewUpdates = () => ({type: ADMIN_ADD_NEW_UPDATES})
+export const adminAddNewUpdatesSuccess = () => ({type:ADMIN_ADD_NEW_UPDATES_SUCCESS})
+export const adminDeleteCompanyUpdates = (id) => ({type: ADMIN_DELETE_COMPANY_UPDATE, id})
+export const adminDeleteCompanyUpdatesSuccess = () => ({type: ADMIN_DELETE_COMPANY_UPDATE_SUCCESS})
+export const adminGetUpdates = () => ({type: ADMIN_GET_UPDATES})
+export const adminGetUpdatesSuccess = (result) => ({type: ADMIN_GET_UPDATES_SUCCESS, result})
+
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})
 export const getSalariesStart = () => ({ type: GET_SALARIES_START })

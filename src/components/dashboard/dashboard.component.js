@@ -1,5 +1,5 @@
 import React from 'react'
-import { Doughnut } from 'react-chartjs-2'
+import { Doughnut, Bar } from 'react-chartjs-2'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import OwnInfoContainer from '../../containers/dashboard/ownInfo.container'
@@ -14,9 +14,11 @@ import OwnInfoContainer from '../../containers/dashboard/ownInfo.container'
 
 export default class Dashboard extends React.Component {
   componentWillMount() {
+    this.props.getInvoiceAmountMonthly()
     this.props.getInvoiceChart()
     this.props.getCustomersChart()
     this.props.getUserTaxInfo()
+    this.props.getCompanyUpdates()
   }
 
   render() {
@@ -24,7 +26,7 @@ export default class Dashboard extends React.Component {
   }
 }
 
-const DashboardComponent = ({ invoiceChartData, topCustomers }) => (
+const DashboardComponent = ({ invoiceAmountByMonthlyChartData, invoiceChartData, topCustomers }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
       <div className="row">
@@ -42,8 +44,17 @@ const DashboardComponent = ({ invoiceChartData, topCustomers }) => (
               <div className="panel-heading">
                 <h3 className="panel-title">LASKUTUKSET KUUKAUSITTAIN</h3>
               </div>
-              <div style={{ marginBottom: '75px' }} className="panel-body">
-                <p>Otsikko teksti</p>
+              <div className="panel-body">                
+                <Bar
+                    data={invoiceAmountByMonthlyChartData}
+                    width={100}
+                    height={50}
+                    options={{
+                      legend: {
+                        display: false                        
+                      }
+                    }}
+                  />
               </div>
             </div>
           </div>

@@ -7,8 +7,7 @@ import {
   expandAdminUser,
   invoiceSearchPageChange,
   salarySearchPageChange,
-  userSearchPageChange,  
-  adminAddNewUpdates,
+  userSearchPageChange, 
   adminDeleteCompanyUpdates,  
   tiedotteetSearchPageChange,
   warnInvoiceToPay,
@@ -103,9 +102,7 @@ const mapDispatchToProps = dispatch => {
     updateAdminSalaryStatus: id => dispatch(updateAdminSalaryStatus(id)),
 
     cancelUpdateAdminSalaryStatus: () =>
-      dispatch(cancelUpdateAdminSalaryStatus()),
-
-    adminAddNewUpdates: () => dispatch(adminAddNewUpdates()),
+      dispatch(cancelUpdateAdminSalaryStatus()),   
 
     adminDeleteCompanyUpdates: (id) => dispatch(adminDeleteCompanyUpdates(id)),
 

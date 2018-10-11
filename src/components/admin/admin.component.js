@@ -74,8 +74,7 @@ const AdminComponent = ({
   showAdminSnackbar,
   hideAdminSnackbar,
   showSpinner,
-  releaseSearchRows,
-  adminAddNewUpdates,
+  releaseSearchRows,  
   adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
   tiedotteetSearchPageChange
@@ -118,8 +117,7 @@ const AdminComponent = ({
               isToLiftSalary,
               cancelUpdateAdminSalaryStatus,
               updateAdminSalaryStatus,
-              releaseSearchRows,              
-              adminAddNewUpdates,
+              releaseSearchRows,
               adminDeleteCompanyUpdates,
               tiedotteetSearchPages,
               tiedotteetSearchPageChange
@@ -177,8 +175,7 @@ const selectPanel = (
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
   updateAdminSalaryStatus,
-  releaseSearchRows, 
-  adminAddNewUpdates,
+  releaseSearchRows,
   adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
   tiedotteetSearchPageChange
@@ -220,8 +217,7 @@ const selectPanel = (
     case 3:
       return tiedotteetPanel(
         releaseSearchRows,
-        selected,        
-        adminAddNewUpdates,
+        selected,
         adminDeleteCompanyUpdates,
         tiedotteetSearchPages,
         tiedotteetSearchPageChange
@@ -418,7 +414,6 @@ const salaryPanel = (
 const tiedotteetPanel = (
   releaseSearchRows,
   selected,
-  adminAddNewUpdates,
   adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
   tiedotteetSearchPageChange
@@ -444,8 +439,7 @@ const tiedotteetPanel = (
           <TableBody displayRowCheckbox={false}>
             {createReleaseRow(
               releaseSearchRows,
-              selected,             
-              adminAddNewUpdates,
+              selected,
               adminDeleteCompanyUpdates,
             )}
           </TableBody>
@@ -469,8 +463,7 @@ const tiedotteetPanel = (
   </div>
 )
 
-const createReleaseRow = (releases, selected, adminAddNewUpdates,
-  adminDeleteCompanyUpdates) =>
+const createReleaseRow = (releases, selected, adminDeleteCompanyUpdates) =>
   releases.slice(selected * 10, selected * 10 + 10).map(el => (
     <TableRow selectable={false} key={el.id}>
       <TableRowColumn>

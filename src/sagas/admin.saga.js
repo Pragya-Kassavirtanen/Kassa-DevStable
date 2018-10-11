@@ -41,8 +41,7 @@ import {
   updateAdminInvoiceStatusSuccess,
   searchAdminWages,
   updateAdminSalaryStatusSuccess,
-  //adminAddNewUpdatesSuccess,
-  //adminDeleteCompanyUpdatesSuccess,
+  //adminAddNewUpdatesSuccess,  
   adminGetUpdatesSuccess,
   adminGetUpdates
 } from '../actions/index'
@@ -389,11 +388,11 @@ function* adminDeleteCompanyUpdatesSaga({id}) {
     const result = yield call(apiManualPost, url, body)    
     console.log('Inside adminDeleteCompanyUpdatesSaga:: ', result)
 
-/*     if (result.data === 'company update deleted successfully') {
-      yield put(adminDeleteCompanyUpdatesSuccess(result.data))
+    if (result.data === 'company update deleted successfully') {            
+      yield put(adminGetUpdates())
     } else {
       console.warn(result.data)
-    }  */   
+    }   
   } catch (e) {
     console.warn(e)
   }

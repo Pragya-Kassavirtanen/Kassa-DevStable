@@ -54,3 +54,61 @@ export const formatDateAndTime = dt => {
   let fdt = date + ' klo ' + time
   return fdt
 }
+
+export const convertInvoiceStateNames = invoiceState => {
+  switch (invoiceState) {
+    case 'Draft':
+      return 'Luonnos'
+    case 'Sent':
+      return 'Lähetetty'
+    case 'Paid':
+      return 'Maksettu'
+    case 'UnderProcessing':
+      return 'Käsittely'
+  }
+}
+
+export const convertMonthNames = month => {
+  switch (month) {
+    case 'January':
+      return 'Tammikuu'
+    case 'February':
+      return 'Helmikuu'
+    case 'March':
+      return 'Maaliskuu'
+    case 'April':
+      return 'Huhtikuu'
+    case 'May':
+      return 'Toukokuu'
+    case 'June':
+      return 'Kesäkuu'
+    case 'July':
+      return 'Heinäkuu'
+    case 'August':
+      return 'Elokuu'
+    case 'September':
+      return 'Syyskuu'
+    case 'October':
+      return 'Lokakuu'
+    case 'Novemeber':
+      return 'Marraskuu'
+    case 'December':
+      return 'Joulukuu'
+  }
+}
+
+export const labelInvoiceMonthlyArray = (array) => {
+  let list = []
+  for (var i = 0; i < array.length; i++) {
+    list.push(convertMonthNames(array[i]))
+  }
+  return list
+}
+
+export const labelInvoiceArray = (array) => {
+  let list = []
+  for (var i = 0; i < array.length; i++) {
+    list.push(convertInvoiceStateNames(array[i]))
+  }
+  return list
+}

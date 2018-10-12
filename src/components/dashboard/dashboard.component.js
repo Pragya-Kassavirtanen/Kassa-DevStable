@@ -3,7 +3,7 @@ import { Doughnut, Bar } from 'react-chartjs-2'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import OwnInfoContainer from '../../containers/dashboard/ownInfo.container'
-//import ReleaseInfoContainer from '../../containers/dashboard/releaseInfo.container'
+import ReleaseInfoContainer from '../../containers/dashboard/releaseInfo.container'
 
 /**
  * The dashboard component to be viewed after user has
@@ -26,7 +26,11 @@ export default class Dashboard extends React.Component {
   }
 }
 
-const DashboardComponent = ({ invoiceAmountByMonthlyChartData, invoiceChartData, topCustomers }) => (
+const DashboardComponent = ({
+  invoiceAmountByMonthlyChartData,
+  invoiceChartData,
+  topCustomers
+}) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
       <div className="row">
@@ -44,18 +48,29 @@ const DashboardComponent = ({ invoiceAmountByMonthlyChartData, invoiceChartData,
               <div className="panel-heading">
                 <h3 className="panel-title">LASKUTUKSET KUUKAUSITTAIN</h3>
               </div>
-              <div className="panel-body">                
+              <div className="panel-body">
                 <Bar
-                    data={invoiceAmountByMonthlyChartData}
-                    width={100}
-                    height={50}
-                    options={{
-                      legend: {
-                        display: false                        
-                      }
-                    }}
-                  />
+                  data={invoiceAmountByMonthlyChartData}
+                  width={100}
+                  height={20}
+                  options={{
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true
+                          }
+                      }],
+                      xAxes: [{                         
+                        barPercentage: 0.4
+                      }]
+                  }
+                  }}
+                />
               </div>
+              <div className="panel-footer" />
             </div>
           </div>
         </div>
@@ -108,7 +123,7 @@ const DashboardComponent = ({ invoiceAmountByMonthlyChartData, invoiceChartData,
                 <div className="panel-heading">
                   <h3 className="panel-title">OMAT TIEDOT</h3>
                 </div>
-                <div className="row">               
+                <div style={{marginBottom: '30px'}} className="row">
                   <OwnInfoContainer />
                 </div>
                 <div className="panel-footer" />
@@ -119,17 +134,18 @@ const DashboardComponent = ({ invoiceAmountByMonthlyChartData, invoiceChartData,
       </div>
       <div className="row">
         <div className="dashboard-content-header">
-          <div className="col-xs-12 col-sm-12 col-lg-12">
+          <div className="col-xs-12 col-sm-12 col-lg-12"> 
             <div className="panel panel-default">
               <div className="panel-heading">
                 <h3 className="panel-title">TIEDOTTEET</h3>
               </div>
-              <div className="row">             
-                {/* <ReleaseInfoContainer /> */}
+              <div style={{borderColor: 'transparent', marginBottom:'0px'}} className="panel panel-default">                
+                  <ReleaseInfoContainer />                
               </div>
+              <div className="panel-footer" />
             </div>
-          </div>
         </div>
+        </div> 
       </div>
     </div>
   </MuiThemeProvider>

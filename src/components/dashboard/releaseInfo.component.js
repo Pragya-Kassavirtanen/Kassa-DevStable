@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactPaginate from 'react-paginate'
 import {
   Table,
   TableBody,
@@ -9,6 +8,7 @@ import {
   TableHeaderColumn,
   Divider
 } from 'material-ui'
+import ReactPaginate from 'react-paginate'
 import { formatDateAndTime } from '../../utils/dashboard.utils'
 
 export default class ReleaseInfoComponent extends React.Component {
@@ -17,53 +17,52 @@ export default class ReleaseInfoComponent extends React.Component {
   }
 }
 
-const ReleaseInfo = (
+const ReleaseInfo = ({
   releaseInfoSearchRows,
   selected,
   releaseInfoSearchPages,
   releaseInfoSearchPageChange
-) => (
-  <div className="col-xs-9 col-sm-9 col-lg-9">
-    <div className="panel panel-default">
-      <div className="panel-body">
-        <Table selectable={false}>
-          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-            <TableRow>
-              <TableHeaderColumn>Julkaisupäivä</TableHeaderColumn>
-              <TableHeaderColumn>Julkaisu</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
-            {createReleaseInfoRow(releaseInfoSearchRows, selected)}
-          </TableBody>
-        </Table>
-        <Divider />
-        <ReactPaginate
-          previousLabel={<i className="fa fa-chevron-left" />}
-          nextLabel={<i className="fa fa-chevron-right" />}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
-          pageCount={releaseInfoSearchPages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={releaseInfoSearchPageChange}
-          containerClassName={'pagination'}
-          subContainerClassName={'pages pagination'}
-          activeClassName={'active'}
-        />
-      </div>
-    </div>
-  </div>
+}) => (    
+     <div className="panel-body">    
+      <Table selectable={false}>
+        <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+          <TableRow>
+            <TableHeaderColumn style={{width: '25%'}}>Julkaisupäivä</TableHeaderColumn>
+            <TableHeaderColumn style={{width: '75%'}}>Julkaisu</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody displayRowCheckbox={false}>
+          {createReleaseInfoRow(releaseInfoSearchRows, selected)}
+        </TableBody>
+      </Table>
+      <Divider />
+      <ReactPaginate
+        previousLabel={<i className="fa fa-chevron-left" />}
+        nextLabel={<i className="fa fa-chevron-right" />}
+        breakLabel={'...'}
+        breakClassName={'break-me'}
+        pageCount={releaseInfoSearchPages}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={releaseInfoSearchPageChange}
+        containerClassName={'pagination'}
+        subContainerClassName={'pages pagination'}
+        activeClassName={'active'}
+      />    
+    </div>  
 )
 
-const createReleaseInfoRow = (releaseInfoSearchRows, selected) =>
-  {
-    return releaseInfoSearchRows.slice(selected * 10, selected * 10 + 10).map(el => (<TableRow selectable={false} key={el.id}>
-      <TableRowColumn>
-        <b>{formatDateAndTime(el.created)}</b>
-      </TableRowColumn>
-      <TableRowColumn>
-        <b>{el.newsupdate}</b>
-      </TableRowColumn>
-    </TableRow>))
-  }
+const createReleaseInfoRow = (releaseInfoSearchRows, selected) => {
+  return releaseInfoSearchRows
+    .slice(selected * 10, selected * 10 + 10)
+    .map(el => (
+      <TableRow selectable={false} key={el.id}>
+        <TableRowColumn style={{width: '25%'}}>
+          <b>{formatDateAndTime(el.created)}</b>
+        </TableRowColumn>
+        <TableRowColumn style={{width: '75%'}}>
+          <b>{el.newsupdate}</b>
+        </TableRowColumn>
+      </TableRow>
+    ))
+}

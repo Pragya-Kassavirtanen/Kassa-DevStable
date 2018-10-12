@@ -55,7 +55,7 @@ const Footer = () => (
         <article className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
           <h5>ASIAKASPALVELU</h5>
           <ul>
-            <li>Puh. 020 734 6900</li>
+            <li>Puh. 020 734 6905</li>
             <li>
               <MailTo email="asiakaspalvelu@kassavirtanen.fi">
                 asiakaspalvelu@kassavirtanen.fi
@@ -84,7 +84,7 @@ const Footer = () => (
               <li>
                 <a
                   rel="noopener noreferrer"
-                  href="https://www.linkedin.com/company/kassavirtanen/"
+                  href="https://twitter.com/kassavirtanen"
                   target="_blank"
                 >
                   <NavIcon

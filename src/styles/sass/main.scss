@@ -215,9 +215,9 @@ input[type="text"]::-ms-clear {
     &-textfield {
       margin: 5px;
     }
-    &-updateformfield {
-      margin: 5px;
-      width: 100%;
+    &-updateformfield {     
+      width: 100% !important;     
+      padding-left: 0px !important;
     }
     &-hover-row:hover {
       background-color: #cccccc;

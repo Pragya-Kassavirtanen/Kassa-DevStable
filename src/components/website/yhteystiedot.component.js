@@ -35,7 +35,7 @@ const Yhteystiedot = () => (
           </div>
           <div className="fourthBox red">
             <h1>Asiakaspalvelu</h1>
-            <p>Puh. 020 734 6900</p>
+            <p>Puh. 020 734 6905</p>
             <p>Sähköposti: asiakaspalvelu@kassavirtanen.fi</p>
           </div>
         </div>

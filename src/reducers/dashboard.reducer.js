@@ -5,7 +5,8 @@ import {
   GET_INVOICE_CHART_FAILED,
   GET_USER_TAX_INFO_SUCCESS,
   GET_COMPANY_UPDATES_SUCCESS,
-  GET_INVOICE_AMOUNT_MONTHLY_CHART_SUCCESS
+  GET_INVOICE_AMOUNT_MONTHLY_CHART_SUCCESS,
+  RELEASE_INFO_SEARCH_PAGE_CHANGE
 } from '../constants'
 
 const initialState = {
@@ -58,6 +59,13 @@ const dashboardReducer = (state = initialState, action) => {
         {
           releaseInfoSearchRows: action.result
         }
+      )
+
+    case RELEASE_INFO_SEARCH_PAGE_CHANGE:
+      return Object.assign(
+        {},
+        { ...state },
+        { selected: action.selected.selected }
       )
 
     default:

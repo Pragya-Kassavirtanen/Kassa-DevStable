@@ -14,9 +14,7 @@ const OwnInfo = ({ userTaxInfo }) => (
       <TableBody displayRowCheckbox={false}>
         <TableRow>
           <TableRowColumn>Perus %</TableRowColumn>
-          <TableRowColumn>
-           {`${userTaxInfo.tax_percentage} % `}           
-          </TableRowColumn>
+          <TableRowColumn>{`${userTaxInfo.tax_percentage} % `}</TableRowColumn>
         </TableRow>
         <TableRow>
           <TableRowColumn>Palvelumaksu</TableRowColumn>
@@ -29,9 +27,7 @@ const OwnInfo = ({ userTaxInfo }) => (
         </TableRow>
         <TableRow>
           <TableRowColumn>YEL</TableRowColumn>
-          <TableRowColumn>            
-            {`${userTaxInfo.yel_percentage} % `}
-          </TableRowColumn>
+          <TableRowColumn>{`${userTaxInfo.yel_percentage} % `}</TableRowColumn>
         </TableRow>
         <TableRow>
           <TableRowColumn>Rahaa nostettavissa</TableRowColumn>

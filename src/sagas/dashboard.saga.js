@@ -24,7 +24,12 @@ import {
 import { apiPost, apiManualPost, apiManualRequest } from '../utils/request'
 import store from '../store'
 import { propertyArray } from '../utils/invoice.utils'
-import { chartDataFormat, calcPercent } from '../utils/dashboard.utils'
+import {
+  chartDataFormat,
+  calcPercent,
+  labelInvoiceMonthlyArray,
+  labelInvoiceArray
+} from '../utils/dashboard.utils'
 
 /**
  * @author Skylar Kong
@@ -56,22 +61,28 @@ function* getInvoiceChart() {
     const result = yield call(apiManualPost, url, body)
     const resultParsed = JSON.parse(result.data)
     const labels = propertyArray(resultParsed, 'status')
+    const convLabels = labelInvoiceArray(labels)
     const data = propertyArray(resultParsed, 'invoicecount')
     const percentData = calcPercent(data)
     const bgColor = [
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 230, 230, 0.8)',
-      'rgba(0, 153, 0, 0.8)',
-      'rgba(0, 119, 179, 0.8)'
+      'rgba(0, 128, 255, 0.8)',
+      'rgba(128, 255, 255, 0.8)',
+      'rgba(0, 255, 204, 0.8)',
+      'rgba(0, 204, 204, 0.8)'
     ]
     const brColor = [
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 230, 230, 0.8)',
-      'rgba(0, 153, 0, 0.8)',
-      'rgba(0, 119, 179, 0.8)'
+      'rgba(0, 128, 255, 0.8)',
+      'rgba(128, 255, 255, 0.8)',
+      'rgba(0, 255, 204, 0.8)',
+      'rgba(0, 204, 204, 0.8)'
     ]
-
-    const chartData = chartDataFormat(labels, percentData, bgColor, brColor, 10)
+    const chartData = chartDataFormat(
+      convLabels,
+      percentData,
+      bgColor,
+      brColor,
+      10
+    )
     yield put(getInvoiceChartSuccess(chartData))
   } catch (e) {
     yield put(getInvoiceChartFailed(e))
@@ -91,20 +102,19 @@ function* getCustomersChart() {
     const data = propertyArray(resultParsed, 'sum')
     const percentData = calcPercent(data)
     const bgColor = [
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 230, 230, 0.8)',
-      'rgba(0, 153, 0, 0.8)',
-      'rgba(0, 119, 179, 0.8)',
-      'rgba(102, 178, 178, 0.8)'
+      'rgba(0, 204, 204, 0.8)',
+      'rgba(128, 255, 255, 0.8)',
+      'rgba(83, 198, 83, 0.8)',
+      'rgba(0, 77, 153, 0.8)',
+      'rgba(0, 153, 153, 0.8)'
     ]
     const brColor = [
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 230, 230, 0.8)',
-      'rgba(0, 153, 0, 0.8)',
-      'rgba(0, 119, 179, 0.8)',
-      'rgba(102, 178, 178, 0.8)'
+      'rgba(0, 204, 204, 0.8)',
+      'rgba(128, 255, 255, 0.8)',
+      'rgba(83, 198, 83, 0.8)',
+      'rgba(0, 77, 153, 0.8)',
+      'rgba(0, 153, 153, 0.8)'
     ]
-
     const chartData = chartDataFormat(labels, percentData, bgColor, brColor, 10)
     yield put(getCustomersChartSuccess(chartData))
   } catch (e) {
@@ -122,37 +132,11 @@ function* getInvoiceAmountByMonthlyChart() {
     const result = yield call(apiManualPost, url, body)
     const resultParsed = JSON.parse(result.data)
     const labels = propertyArray(resultParsed, 'Month')
-    const data = propertyArray(resultParsed, 'SumwithoutTax')   
-    const bgColor = [
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)'
-    ]
-    const brColor = [
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)',
-      'rgba(0, 170, 255, 0.8)'
-    ]
-
-    const chartData = chartDataFormat(labels, data, bgColor, brColor, 10)
+    const convLabels = labelInvoiceMonthlyArray(labels)
+    const data = propertyArray(resultParsed, 'SumwithoutTax')
+    const bgColor = 'rgba(0, 204, 204, 0.8)'
+    const brColor = 'rgba(0, 0, 0, 0)'
+    const chartData = chartDataFormat(convLabels, data, bgColor, brColor, 10)
     yield put(getInvoiceAmountByMonthlyChartSuccess(chartData))
   } catch (e) {
     yield put(getInvoiceAmountByMonthlyChartFailed(e))
@@ -169,7 +153,7 @@ function* getUserTaxInfo() {
     const result = yield call(apiManualPost, url, body)
     const resultParsed = JSON.parse(result.data)
     console.log('Inside getUserTaxInfo:: ', resultParsed)
-    yield put(getUserTaxInfoSuccess(resultParsed))   
+    yield put(getUserTaxInfoSuccess(resultParsed))
   } catch (e) {
     console.warn(e)
   }
@@ -177,11 +161,11 @@ function* getUserTaxInfo() {
 
 function* getCompanyUpdates() {
   try {
-    const url = `${API_SERVER}/GetCompanyUpdates`    
+    const url = `${API_SERVER}/GetCompanyUpdates`
     const result = yield call(apiManualRequest, url)
     const resultParsed = JSON.parse(result.data)
     console.log('Inside getCompanyUpdates:: ', resultParsed)
-    yield put(getCompanyUpdatesSuccess(resultParsed))   
+    yield put(getCompanyUpdatesSuccess(resultParsed))
   } catch (e) {
     console.warn(e)
   }

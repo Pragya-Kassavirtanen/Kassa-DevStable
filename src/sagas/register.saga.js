@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
-
+import CryptoJS from 'crypto-js'
 import {
   registerFormSubmitSuccess,
   registerFormSubmitFailed
@@ -19,21 +19,19 @@ import store from '../store'
 function* sendRegisterInfo() {
   try {
     const url = `${KVT_IDENTITY_SERVER}/RegisterUser`
-
     const formValues = getFormValues('register')(store.getState())
-
     const refinedForm = Object.assign({}, { ...formValues })
+    const hashedPassword = CryptoJS.SHA256(refinedForm.password).toString()  
+
     const body = JSON.stringify({
       email: refinedForm.email,
       FirstName: refinedForm.FirstName,
-      Lastname: refinedForm.Lastname,
-      password: refinedForm.password,
+      Lastname: refinedForm.Lastname,      
+      password: hashedPassword,
       SubjectId: refinedForm.email
     })
-    const result = yield call(registerPost, url, body)
 
-    console.log('result data ::  ', result.data.Server)
-
+    const result = yield call(registerPost, url, body)    
     if (result.data.Server === 'Success') {
       yield put(registerFormSubmitSuccess(result.data.Server))
     } else {

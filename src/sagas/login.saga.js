@@ -1,5 +1,6 @@
 import { take, fork, cancel, call, put, cancelled } from 'redux-saga/effects'
 import { browserHistory } from 'react-router'
+import CryptoJS from 'crypto-js'
 import {
   LOGIN_FORM_SUBMIT,
   CLIENT_UNSET,
@@ -25,13 +26,13 @@ function* loginFlow() {
 
   try {
     const url = `${KVT_IDENTITY_SERVER}/CheckUser`
-
     const formValues = getFormValues('login')(store.getState())
-
     const refinedForm = Object.assign({}, { ...formValues })
+    const hashedPassword = CryptoJS.SHA256(refinedForm.password).toString()
+
     const body = JSON.stringify({
-      email: refinedForm.email,
-      password: refinedForm.password,
+      email: refinedForm.email,     
+      password: hashedPassword,
       SubjectId: refinedForm.email
     })
 

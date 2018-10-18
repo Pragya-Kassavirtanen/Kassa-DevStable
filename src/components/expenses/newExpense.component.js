@@ -116,8 +116,8 @@ const NewExpense = ({
                       />
                     ) : (
                       <Field
-                        name="receipt_picture"
-                        label="Kuitti"
+                        name="receipt_picture"                        
+                        placeholder="kuitti.png tai kuitti.jpg tai kuitti.gif"
                         disabled={true}
                         component={renderExpenseTextField}
                       />

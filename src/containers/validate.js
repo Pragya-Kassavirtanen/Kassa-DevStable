@@ -62,17 +62,16 @@ export const invoiceValidate = values => {
   const requiredCustomerInfoFields = [
     'company_name',
     'business_id',
-    'person_to_contact'
+    'person_to_contact',
+    'person_to_contact_email'
   ]
 
   let requiredDeliveryMethodFields = []
 
-  if (values['delivery_method'] === 'Sähköposti') {
-    requiredDeliveryMethodFields = ['person_to_contact_email']
-  } else if (values['delivery_method'] === 'Kirjeposti') {
-    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address']
+  if (values['delivery_method'] === 'Verkkolasku') {
+    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address', 'web_invoice']
   } else {
-    requiredDeliveryMethodFields = ['web_invoice']
+    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address']
   }
 
   // Invoice Info
@@ -95,7 +94,7 @@ export const invoiceValidate = values => {
 
   if (
     values.invoice_reference &&
-    !/^[a-zA-Z0-9]+$/i.test(values.invoice_reference)
+    !/^[äÄöÖåÅA-Za-z0-9.\-_,\s]+$/i.test(values.invoice_reference)
   ) {
     errors['invoice_reference'] = 'Viitenumero ei ole kelvollinen'
   }
@@ -166,7 +165,7 @@ export const customerValidate = values => {
     }
   }) */
 
-  const requiredFields = ['company_name', 'business_id', 'person_to_contact']
+  const requiredFields = ['company_name', 'business_id', 'person_to_contact', 'person_to_contact_email']
   requiredFields.forEach(field => {
     if (!values[field]) {
       errors[field] = 'Kenttä on pakollinen'

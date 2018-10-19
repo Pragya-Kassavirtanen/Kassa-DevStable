@@ -10,6 +10,7 @@ import {
   GET_CUSTOMER_BY_ID_SUCCESS,
   SAVE_CUSTOMER_UPDATE,
   CANCEL_CUSTOMER_UPDATE,
+  LOCATION_CHANGE,
   ADD_NEW_CUSTOMER_INVOICE_SUCCESS,
   ADD_CUSTOMER_FAILED,
   GET_EOPERATOR_SUCCESS
@@ -115,6 +116,16 @@ const customerReducer = (
           isEdit: false
         }
       )
+
+    case LOCATION_CHANGE:
+      return Object.assign(
+      {},
+      { ...state },
+      {
+        customerEdit: [],
+        isEdit: false
+      }
+    )
 
       case ADD_NEW_CUSTOMER_INVOICE_SUCCESS:
       console.log('ADD_NEW_CUSTOMER_INVOICE_SUCCESS result::      ', action.result)

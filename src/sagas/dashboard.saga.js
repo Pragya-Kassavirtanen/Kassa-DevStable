@@ -19,9 +19,11 @@ import {
   GET_USER_TAX_INFO,
   GET_COMPANY_UPDATES,
   GET_INVOICE_AMOUNT_MONTHLY,
-  API_SERVER
+  API_SERVER,
+  KVT_IDENTITY_SERVER,
+  GET_RENEW_TOKEN
 } from '../constants'
-import { apiPost, apiManualPost, apiManualRequest } from '../utils/request'
+import { apiPost, apiManualPost, apiManualRequest, registerGet } from '../utils/request'
 import store from '../store'
 import { propertyArray } from '../utils/invoice.utils'
 import {
@@ -171,6 +173,16 @@ function* getCompanyUpdates() {
   }
 }
 
+function* getRenewToken() {
+  try {
+    const url = `${KVT_IDENTITY_SERVER}/RenewTokens`
+    const result = yield call(registerGet, url)   
+    console.log('Inside getRenewToken API:: ', result.data)   
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 export function* watchCheckAuthInfoSaga() {
   yield takeEvery(CHECK_AUTH_INFO, checkAuthInfo)
 }
@@ -193,4 +205,8 @@ export function* watchGetUserTaxInfoSaga() {
 
 export function* watchGetCompanyUpdatesSaga() {
   yield takeEvery(GET_COMPANY_UPDATES, getCompanyUpdates)
+}
+
+export function* watchGetRenewTokenSaga() {
+  yield takeEvery(GET_RENEW_TOKEN, getRenewToken)
 }

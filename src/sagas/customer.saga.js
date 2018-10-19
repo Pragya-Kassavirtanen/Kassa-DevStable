@@ -7,6 +7,7 @@ import {
   UPDATE_CUSTOMER,
   SAVE_CUSTOMER_UPDATE,
   CANCEL_CUSTOMER_UPDATE,
+  LOCATION_CHANGE,
   ADD_NEW_CUSTOMER_INVOICE,
   GET_EINVOICE_OPERATOR
 } from '../constants'
@@ -158,7 +159,7 @@ function* saveCustomerUpdateSaga() {
 
 function* cancelCustomerUpdateSaga() {
   try {
-    yield put(reset('customer'))
+    yield put(reset('customer'))    
   } catch (e) {
     console.warn(e)
   }
@@ -170,6 +171,14 @@ function* removeCustomerSaga(customer_id) {
     const body = JSON.stringify({ customer_id: customer_id.id })
     yield call(apiManualPost, url, body)
   } catch (e) {}
+}
+
+function* customerLocationChangeSaga() {
+  try {
+    yield put(reset('customer'))
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 function* getEinvoiceOperatorsSaga() {
@@ -214,4 +223,8 @@ export function* watchGetCustomerToAddInvoiceSaga() {
 
 export function* watchEInvoiceOperators() {
   yield takeEvery(GET_EINVOICE_OPERATOR, getEinvoiceOperatorsSaga)
+}
+
+export function* watchCustomerLocationChange() {
+  yield takeEvery(LOCATION_CHANGE, customerLocationChangeSaga)
 }

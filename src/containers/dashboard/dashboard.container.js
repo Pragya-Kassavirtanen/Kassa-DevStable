@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import DashboardComponent from '../../components/dashboard/dashboard.component'
-import { getCustomersChart, getInvoiceChart, getUserTaxInfo, getCompanyUpdates, getInvoiceAmountMonthly } from '../../actions'
+import { getCustomersChart, getInvoiceChart, getUserTaxInfo, getCompanyUpdates, getInvoiceAmountMonthly, onRenewToken } from '../../actions'
 
 const mapStateToProps = state => {
   return {
@@ -20,7 +20,8 @@ const mapDispatchToProps = dispatch => {
     getInvoiceChart: () => dispatch(getInvoiceChart()),
     getUserTaxInfo: () => dispatch(getUserTaxInfo()),
     getCompanyUpdates: () => dispatch(getCompanyUpdates()),
-    getInvoiceAmountMonthly: () => dispatch(getInvoiceAmountMonthly())
+    getInvoiceAmountMonthly: () => dispatch(getInvoiceAmountMonthly()),
+    onRenewToken: () => dispatch(onRenewToken())
   }
 }
 

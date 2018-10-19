@@ -69,7 +69,7 @@ export const invoiceValidate = values => {
   let requiredDeliveryMethodFields = []
 
   if (values['delivery_method'] === 'Verkkolasku') {
-    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address', 'web_invoice']
+    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address', 'web_invoice', 'finvoice_operator']
   } else {
     requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address']
   }

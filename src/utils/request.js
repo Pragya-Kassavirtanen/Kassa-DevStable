@@ -74,6 +74,20 @@ export const registerPost = (url, body, method = 'POST') => {
     .catch(error => ({ error }))
 }
 
+export const registerGet = (url, method = 'GET') => {
+  const headers = new Headers()
+  headers.append('Content-Type', 'application/json')
+
+  const options = {
+    method,
+    headers
+  }
+  return fetch(url, options)
+    .then(res => res.json())
+    .then(data => ({ data }))
+    .catch(error => ({ error }))
+}
+
 export const apiPost = (url, body, method = 'POST') => {
   const headers = getAuthHeaders()
   headers.append('Content-Type', 'application/json')

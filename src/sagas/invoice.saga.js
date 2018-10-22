@@ -14,7 +14,8 @@ import {
   CLEAR_INVOICE_OPTIONS,
   GENERATE_INVOICE_PDF,
   INVOICE_DOWNLOAD_PDF,
-  SAVE_AND_SEND_INVOICE_PDF
+  SAVE_AND_SEND_INVOICE_PDF,
+  LOCATION_CHANGE
 } from '../constants'
 import {
   getInvoicesSuccess,
@@ -34,7 +35,8 @@ import {
   copyInvoiceSuccess,
   generateInvoicePDFSuccess,
   generateInvoicePDFFailed,
-  changeInvoiceBillingDate
+  changeInvoiceBillingDate,
+  invoiceEditOff
 } from '../actions/index'
 import { apiManualPost, apiManualRequest, apiBlobPost } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
@@ -440,6 +442,113 @@ function* editInvoiceSaga({ invoice_id }) {
   }
 }
 
+function* invoiceLocationChangeSaga(){
+  try {
+    let invoiceEdit = []
+    invoiceEdit = store.getState().invoice.invoiceEdit
+    const customerInfoKeys = Object.keys(invoiceEdit[0]).filter(
+      key => key !== 'Invoice'
+    )
+    //dispatch customer data to redux form
+    for (let key of customerInfoKeys) {
+      yield put(change('invoice', key, ''))
+    }        
+    let renewBillDate = new Date()   
+    yield put(change('invoice', 'billing_date', renewBillDate))
+    yield put(changeInvoiceBillingDate(renewBillDate))   
+    yield put(change('invoice', 'overdue', 14))
+
+    let date = new Date()
+    let due_date = new DateTimeFormat('fi', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    }).format(date.setDate(date.getDate() + 14))
+
+    yield put(change('invoice','due_date', due_date))
+
+    yield put(change('invoice','invoice_reference', ''))    
+    yield put(change('invoice','description', ''))       
+    yield put(change('invoice','job_title', ''))    
+    yield put(change('invoice','instant_payment', ''))    
+    yield put(change('invoice','status', ''))
+    yield put(emptyInvoiceRows())
+    const occurences = invoiceEdit[0].Invoice[0].rows.filter(
+      el => el.invoice_item_id
+    ).length
+
+    //dispatch invoice rows to redux form
+    const l = invoiceEdit[0].Invoice[0].rows.slice(0, occurences).length
+    let sum_tax_free = new Intl.NumberFormat('fi-FI', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(0)
+
+    for (let i = 0; i < l; i++) {
+      yield put(addInvoiceRow(true))
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.description`,
+          ''
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.end_date`,
+          ''
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.start_date`,
+          ''
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.quantity`,
+          ''
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.quantity_price`,
+          ''
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.unit`,
+         'kpl'
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.vat_percent`,
+          24
+        )
+      )
+      yield put(
+        change(
+          'invoice',
+          `rows.${i}.sum_tax_free`,
+          sum_tax_free
+        )
+      )    
+    }
+    yield put(invoiceEditOff())
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 function* copyInvoiceSaga({ invoice_id }) {
   try {
     const invoiceUrl = `${API_SERVER}/CopyInvoiceByInvoiceID`
@@ -635,4 +744,8 @@ export function* watchInvoiceDownloadPDF() {
 
 export function* watchFinvoiceOperators(){
   yield takeEvery(GET_FINVOICE_OPERATOR, getFinvoiceOperatorsSaga)
+}
+
+export function* watchInvoiceLocationChangeSaga() {
+  yield takeEvery(LOCATION_CHANGE, invoiceLocationChangeSaga)
 }

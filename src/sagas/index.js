@@ -1,4 +1,4 @@
-import { watchGetInvoiceSaga, watchSaveAndSendInvoiceSaga, watchCopyInvoice, watchRemoveInvoiceSaga, watchSaveInvoiceDraft, watchEditInvoice, watchCancelEditInvoice, watchGetProfession, watchClearInvoiceOption, watchGenerateInvoicePDF, watchSaveAndSendInvoicePDF, watchInvoiceDownloadPDF, watchFinvoiceOperators } from './invoice.saga'
+import { watchGetInvoiceSaga, watchSaveAndSendInvoiceSaga, watchCopyInvoice, watchRemoveInvoiceSaga, watchSaveInvoiceDraft, watchEditInvoice, watchCancelEditInvoice, watchGetProfession, watchClearInvoiceOption, watchGenerateInvoicePDF, watchSaveAndSendInvoicePDF, watchInvoiceDownloadPDF, watchFinvoiceOperators, watchInvoiceLocationChangeSaga } from './invoice.saga'
 import { watchTaxSaga, watchGetTaxCardStartSaga, watchPostYelSaga, watchGetYelSaga, watchUpdatePasswordSaga } from './tax.saga'
 import { watchCheckAuthInfoSaga, watchCustomersChartSaga, watchInvoiceChartSaga, watchGetUserTaxInfoSaga, watchGetCompanyUpdatesSaga, watchGetInvoiceAmountByMonthlySaga, watchGetRenewTokenSaga } from './dashboard.saga'
 import { watchLoadProfileSaga, watchUpdateProfileSaga } from './profile.saga'
@@ -109,6 +109,7 @@ export default function* rootSaga() {
     watchInvoiceDownloadPDF(),
     watchFinvoiceOperators(),   
     watchEInvoiceOperators(),
-    watchCustomerLocationChange()
+    watchCustomerLocationChange(),
+    watchInvoiceLocationChangeSaga()
   ]
 }

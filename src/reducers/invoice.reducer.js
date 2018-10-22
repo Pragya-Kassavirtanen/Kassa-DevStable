@@ -17,7 +17,7 @@ import {
   CHANGE_INVOICE_BILLING_DATE,
   GET_INVOICE_BY_ID_SUCCESS,
   CANCEL_EDIT_INVOICE,
-  LOCATION_CHANGE,
+  INVOICE_EDIT_OFF,
   INVOICE_EDIT_SUCCESS,
   GET_PROFESSION_SUCCESS,
   GET_OPERATOR_SUCCESS,
@@ -135,15 +135,15 @@ const invoiceReducer = (state = initialState, action) => {
         }
       )
 
-    case LOCATION_CHANGE:
-    return Object.assign(
-      {},
-      { ...state },
-      {
-        invoiceEdit: [],
-        isEdit: false
-      }
-    )        
+    case INVOICE_EDIT_OFF:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          invoiceEdit: [],
+          isEdit: false
+        }
+      )
 
     case INVOICE_EDIT_SUCCESS:
       return Object.assign(

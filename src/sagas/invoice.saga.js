@@ -36,7 +36,7 @@ import {
   generateInvoicePDFSuccess,
   generateInvoicePDFFailed,
   changeInvoiceBillingDate,
-  invoiceEditOff
+  cancelEditInvoice
 } from '../actions/index'
 import { apiManualPost, apiManualRequest, apiBlobPost } from '../utils/request'
 import { formatFiToISO } from '../utils/DateTimeFormat'
@@ -543,7 +543,7 @@ function* invoiceLocationChangeSaga(){
         )
       )    
     }
-    yield put(invoiceEditOff())
+    yield put(cancelEditInvoice())
   } catch (e) {
     console.warn(e)
   }

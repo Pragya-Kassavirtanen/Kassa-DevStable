@@ -15,7 +15,9 @@ import {
   addPassengerRow,
   allowanceUpdateSuccess,
   allowanceUpdateFailed,
-  emptyPassengerRows
+  emptyPassengerRows,
+  cancelExpenseUpdate,
+  cancelAllowanceUpdate
 } from '../actions/index'
 import {
   SAVE_EXPENSE,
@@ -30,7 +32,8 @@ import {
   SAVE_EXPENSE_UPDATE,
   CANCEL_EXPENSE_UPDATE,
   SAVE_ALLOWANCE_UPDATE,
-  CANCEL_ALLOWANCE_UPDATE
+  CANCEL_ALLOWANCE_UPDATE,
+  LOCATION_CHANGE
 } from '../constants/index'
 import {
   apiManualRequest,
@@ -257,6 +260,48 @@ function* editExpenseSaga({ invoice_expense_id }) {
   }
 }
 
+function* expenseLocationChangeSaga() {
+  try {
+    let expenseEdit = []
+    expenseEdit = store.getState().expense.expenseEdit
+    let purchaseDate = new Date() 
+    yield put(change('newfee', 'date_of_purchase', purchaseDate))
+    yield put(change('newfee', 'invoice', ''))    
+    yield put(change('newfee', 'place_of_purchase', '')) 
+    const occurences = expenseEdit[0].expenseInputRow.filter(
+      el => el.invoice_expense_item_id
+    ).length
+    const l = expenseEdit[0].expenseInputRow.slice(0, occurences).length
+    for (let i = 0; i < l; i++) {
+      yield put(addExpenseRow())
+      yield put(
+        change(
+          'newfee',
+          `expenseInputRow.${i}.description`,
+          ''
+        )
+      )
+      yield put(
+        change(
+          'newfee',
+          `expenseInputRow.${i}.sum`,
+          ''
+        )
+      )
+      yield put(
+        change(
+          'newfee',
+          `expenseInputRow.${i}.vat`,
+          24
+        )
+      )
+    }
+    yield put(cancelExpenseUpdate())
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 function* editAllowanceSaga({ id }) {
   try {
     const url = `${API_SERVER}/GetAllowancesByAllowanceID`
@@ -352,6 +397,75 @@ function* editAllowanceSaga({ id }) {
     for (let key of allowanceInfoKeys) {
       yield put(change('newallowance', key, allowanceResult[0][key]))
     }
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* allowanceLocationChangeSaga() {
+  try {
+    let allowanceEdit = []
+    allowanceEdit = store.getState().expense.allowanceEdit    
+      
+    yield put(change('newallowance', 'start_date', ''))     
+    yield put(change('newallowance', 'end_date', ''))      
+    yield put(change('newallowance', 'start_time', ''))       
+    yield put(change('newallowance', 'end_time', ''))    
+    yield put(change('newallowance', 'vehicle_type', ''))    
+    yield put(
+      change('newallowance', 'additional_vehicle_cost', '')
+    )    
+    yield put(change('newallowance', 'invoice', ''))    
+
+    const occurencesRoute = allowanceEdit[0].allowanceInputRow.filter(
+      el => el.route
+    ).length
+    const l = allowanceEdit[0].allowanceInputRow.slice(0, occurencesRoute)
+      .length
+    for (let i = 0; i < l; i++) {
+      yield put(
+        change(
+          'newallowance',
+          `allowanceInputRow.${i}.route`,
+          ''
+        )
+      )
+    }
+
+    yield put(emptyPassengerRows())
+
+ const occurencesPassenger = allowanceEdit[0].allowancePassenger.filter(
+      el => el.id
+    ).length
+
+    const k = allowanceEdit[0].allowancePassenger.slice(
+      0,
+      occurencesPassenger
+    ).length    
+
+    for (let j = 0; j < k; j++) {
+      yield put(addPassengerRow(true))
+      yield put(
+        change(
+          'newallowance',
+          `passengerInputRow.${j}.passenger`,
+          ''
+        )
+      )
+    }  
+
+    const allowanceInfoKeys = Object.keys(allowanceEdit[0]).filter(
+      key =>
+        key !== 'allowanceInputRow' &&
+        'allowancePassenger' &&
+        'vehicle_Info' &&
+        'additional_vehicle_Info' &&
+        'invoice_id'
+    )
+    for (let key of allowanceInfoKeys) {
+      yield put(change('newallowance', key, ''))
+    }
+    yield put(cancelAllowanceUpdate())
   } catch (e) {
     console.warn(e)
   }
@@ -504,6 +618,10 @@ export function* watchEditExpenseSaga() {
   yield takeEvery(EDIT_EXPENSE, editExpenseSaga)
 }
 
+export function* watchExpenseLocationChangeSaga() {
+  yield takeEvery(LOCATION_CHANGE, expenseLocationChangeSaga)
+}
+
 export function* watchRemoveAllowanceSaga() {
   yield takeEvery(REMOVE_ALLOWANCE, removeAllowanceSaga)
 }
@@ -526,4 +644,8 @@ export function* watchSaveAllowanceUpdateSaga() {
 
 export function* watchCancelAllowanceUpdateSaga() {
   yield takeEvery(CANCEL_ALLOWANCE_UPDATE, cancelAllowanceUpdateSaga)
+}
+
+export function* watchAllowanceLocationChangeSaga() {
+  yield takeEvery(LOCATION_CHANGE, allowanceLocationChangeSaga)
 }

@@ -87,7 +87,6 @@ import {
   EXPAND_ADMIN_INVOICE_TRUE,
   EXPAND_ADMIN_INVOICE_FALSE,
   CHANGE_INVOICE_BILLING_DATE,
-  INVOICE_EDIT_OFF,
   SEARCH_ADMIN_USERS,
   SEARCH_ADMIN_USERS_SUCCESS,
   SEARCH_ADMIN_USERS_FAILED,
@@ -266,7 +265,6 @@ export const generateInvoicePDFSuccess = result => ({ type: GENERATE_INVOICE_PDF
 export const generateInvoicePDFFailed = error => ({ type: GENERATE_INVOICE_PDF_FAILED, error})
 
 export const changeInvoiceBillingDate = date => ({type: CHANGE_INVOICE_BILLING_DATE, date})
-export const invoiceEditOff = () => ({type: INVOICE_EDIT_OFF})
 export const downloadPDFSuccess = () => ({ type: DOWNLOAD_PDF_SUCCESS })
 export const downloadPDFFailed = () => ({ type: DOWNLOAD_PDF_FAILED })
 export const showTooltip = () => ({ type: SHOW_TOOLTIP })

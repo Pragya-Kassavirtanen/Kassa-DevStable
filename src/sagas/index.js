@@ -26,7 +26,9 @@ import { watchGetNewSalarySaga, watchSelectRowSalarySaga, watchGetSalariesSaga, 
 import { watchSaveExpenseSaga, watchSaveTravellingExpenseSaga, watchGetExpenseStartSaga, watchLoadAllowanceCostSaga, watchRemoveExpenseSaga, watchEditExpenseSaga, watchRemoveAllowanceSaga, watchEditAllowanceSaga, watchSaveAllowanceUpdateSaga,
   watchCancelAllowanceUpdateSaga,
   watchSaveExpenseUpdateSaga,
-  watchCancelExpenseUpdateSaga } from './expense.saga'
+  watchCancelExpenseUpdateSaga,
+  watchExpenseLocationChangeSaga,
+  watchAllowanceLocationChangeSaga } from './expense.saga'
 import { watchLoginSaga } from './login.saga'
 import { watchChangeLanguageSaga } from './lang.saga'
 import { watchResetPasswordSaga } from './resetPassword.saga'
@@ -110,6 +112,8 @@ export default function* rootSaga() {
     watchFinvoiceOperators(),   
     watchEInvoiceOperators(),
     watchCustomerLocationChange(),
-    watchInvoiceLocationChangeSaga()
+    watchInvoiceLocationChangeSaga(),
+    watchExpenseLocationChangeSaga(),
+    watchAllowanceLocationChangeSaga()
   ]
 }

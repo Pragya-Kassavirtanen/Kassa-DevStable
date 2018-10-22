@@ -16,8 +16,7 @@ import {
   EMPTY_INVOICE_ROWS,
   CHANGE_INVOICE_BILLING_DATE,
   GET_INVOICE_BY_ID_SUCCESS,
-  CANCEL_EDIT_INVOICE,
-  INVOICE_EDIT_OFF,
+  CANCEL_EDIT_INVOICE,  
   INVOICE_EDIT_SUCCESS,
   GET_PROFESSION_SUCCESS,
   GET_OPERATOR_SUCCESS,
@@ -126,16 +125,6 @@ const invoiceReducer = (state = initialState, action) => {
       )
 
     case CANCEL_EDIT_INVOICE:
-      return Object.assign(
-        {},
-        { ...state },
-        {
-          invoiceEdit: [],
-          isEdit: false
-        }
-      )
-
-    case INVOICE_EDIT_OFF:
       return Object.assign(
         {},
         { ...state },

@@ -5,7 +5,8 @@ import {
   GET_TAX_CARD_START,
   POST_YEL_START,
   GET_YEL_START,
-  ON_PASSWORD_UPDATE
+  ON_PASSWORD_UPDATE,
+  LOCATION_CHANGE
 } from '../constants'
 import {
   createUploadFileChannel,
@@ -137,6 +138,18 @@ function* updatePasswordSaga() {
   }
 }
 
+function* passwordLocationChangeSaga() {
+  try {
+    yield put(reset('password'))
+    yield put(change('yel','yelSelect', 'yel_self'))
+    yield put(change('yel','yel_income',''))
+    yield put(change('yel','firsttime_enterprenuer',false))
+    yield put(change('yel','age_group',''))  
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 export function* watchTaxSaga() {
   yield takeEvery(POST_TAX_CARD, postTaxCardSaga)
 }
@@ -155,4 +168,8 @@ export function* watchGetYelSaga() {
 
 export function* watchUpdatePasswordSaga() {
   yield takeEvery(ON_PASSWORD_UPDATE, updatePasswordSaga)
+}
+
+export function* watchPasswordLocationChangeSaga() {
+  yield takeEvery(LOCATION_CHANGE, passwordLocationChangeSaga)
 }

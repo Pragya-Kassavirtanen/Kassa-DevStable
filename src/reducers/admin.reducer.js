@@ -1,5 +1,6 @@
 import {
   CHANGE_ADMIN_MENU,
+  LOCATION_CHANGE,
   SEARCH_ADMIN_INVOICE_SUCCESS,
   SEARCH_ADMIN_INVOICE_FAILED,
   EXPAND_ADMIN_INVOICE_TRUE,
@@ -65,6 +66,18 @@ const adminReducer = (state = initialState, action) => {
           salarySearchRows: []
         },
         { selected: 0 }
+      )
+
+    case LOCATION_CHANGE:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          invoiceSearchRows: [],
+          userSearchRows: [],
+          salarySearchRows: []
+        },
+        { selectedMenuItem: 0 }
       )
 
     case SEARCH_ADMIN_INVOICE_SUCCESS:
@@ -224,7 +237,7 @@ const adminReducer = (state = initialState, action) => {
         { selected: action.selected.selected }
       )
 
-      case TIEDOTTEET_SEARCH_PAGE_CHANGE:
+    case TIEDOTTEET_SEARCH_PAGE_CHANGE:
       return Object.assign(
         {},
         { ...state },
@@ -313,11 +326,11 @@ const adminReducer = (state = initialState, action) => {
       )
 
     case ADMIN_GET_UPDATES_SUCCESS:
-        return Object.assign(
-          {},
-          { ...state },
-          { releaseSearchRows: action.result }
-        )
+      return Object.assign(
+        {},
+        { ...state },
+        { releaseSearchRows: action.result }
+      )
 
     default:
       return state

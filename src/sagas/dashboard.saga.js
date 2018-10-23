@@ -23,7 +23,7 @@ import {
   KVT_IDENTITY_SERVER,
   GET_RENEW_TOKEN
 } from '../constants'
-import { apiPost, apiManualPost, apiManualRequest, registerGet } from '../utils/request'
+import { apiPost, apiManualPost, apiManualRequest, registerPost } from '../utils/request'
 import store from '../store'
 import { propertyArray } from '../utils/invoice.utils'
 import {
@@ -176,7 +176,13 @@ function* getCompanyUpdates() {
 function* getRenewToken() {
   try {
     const url = `${KVT_IDENTITY_SERVER}/RenewTokens`
-    const result = yield call(registerGet, url)   
+    const uuid = store.getState().client.user.data[2]
+    const email = store.getState().client.user.data[1]
+    const body = JSON.stringify({
+      uuid: uuid,
+      email: email
+    })
+    const result = yield call(registerPost, url, body)   
     console.log('Inside getRenewToken API:: ', result.data)   
   } catch (e) {
     console.warn(e)

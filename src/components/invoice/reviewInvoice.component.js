@@ -2,7 +2,7 @@ import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Field } from 'redux-form'
-import { Link, browserHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import { RaisedButton, Snackbar, Dialog } from 'material-ui'
 import { renderTextField, renderRadioGroup } from '../../utils/wrappers'
 import ReviewInvoiceInputTable from './reviewInvoiceInputTable.component'
@@ -24,7 +24,7 @@ const ReviewInvoiceComponent = ({
   saveAndSendInvoicePDF,
   apiSuccess,
   closeSnackbar,
-  saveInvoiceDraft, 
+  saveInvoiceDraft,
   isSaveAndSend,
   showSpinner
 }) => (
@@ -73,24 +73,16 @@ const ReviewInvoiceComponent = ({
           <div className="col-xs-12 col-sm-12 col-lg-12">
             <div className="panel panel-default">
               <div className="panel-body">
-                <div className="pull-left">
-                  <RaisedButton
-                    label="<< Takaisin"
-                    primary={true}
-                    containerElement={<Link to="/dashboard/invoice" />}
-                  />
-                </div>
-                <div className="pull-right">
-                  <RaisedButton
-                    label="Tallenna ja lähetä"
-                    onClick={saveAndSendInvoicePDF}
-                    primary={true}
-                  />
-                </div>
                 <div className="pull-right">
                   <RaisedButton
                     label="Tallenna luonnos"
                     onClick={saveInvoiceDraft}
+                    primary={true}
+                    style={{ marginRight: '100px' }}
+                  />
+                  <RaisedButton
+                    label="Tallenna ja lähetä"
+                    onClick={saveAndSendInvoicePDF}
                     primary={true}
                     style={{ marginRight: '10px' }}
                   />
@@ -102,7 +94,7 @@ const ReviewInvoiceComponent = ({
       </div>
       <Snackbar
         open={apiSuccess}
-        message="Lasku tallennettu luonnoksi!"
+        message="Lasku tallennettu luonnokseksi!"
         autoHideDuration={2000}
         bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
         onRequestClose={() => {
@@ -190,7 +182,7 @@ const ReviewInvoice = () => (
           component={renderTextField}
           label="Verkkolaskuoperaattori"
           disabled={true}
-        />      
+        />
       </div>
     </div>
   </div>
@@ -307,21 +299,6 @@ const ReviewInvoiceInfo = () => (
     </div>
   </div>
 )
-
-/* const invoiceAdditionalInformation = () =>
-  <div className="panel panel-default">
-    <div className="panel-heading">
-      <h3 className="panel-title">Laskun lisätiedot</h3>
-    </div>
-    <div className="panel-body">
-      <Field name="instant_payment"
-             component={renderCheckbox}
-             maxHeight={200}
-             disabled={true}
-             label="Pikapalkka">
-      </Field>
-    </div>
-  </div> */
 
 const invoiceAdditionalInformation = () => (
   <div className="panel panel-default">

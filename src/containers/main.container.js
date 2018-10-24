@@ -42,6 +42,11 @@ const navItems = [
     name: 'user',
     content: 'ETUSIVU',
     url: '/dashboard/main'
+  },  
+  {
+    name: 'users',
+    content: 'ASIAKKAAT',
+    url: '/dashboard/customer'
   },
   {
     name: 'sticky-note',
@@ -49,19 +54,14 @@ const navItems = [
     url: '/dashboard/invoice'
   },
   {
-    name: 'users',
-    content: 'ASIAKKAAT',
-    url: '/dashboard/customer'
+    name: 'newspaper-o',
+    content: 'KULUT JA KORVAUKSET',
+    url: '/dashboard/fee'
   },
   {
     name: 'credit-card',
     content: 'PALKAT',
     url: '/dashboard/salary'
-  },
-  {
-    name: 'newspaper-o',
-    content: 'KULUT JA KORVAUKSET',
-    url: '/dashboard/fee'
   }
 ]
 

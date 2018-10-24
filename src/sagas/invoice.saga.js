@@ -91,14 +91,14 @@ function* clearInvoiceOptionSaga() {
 function* saveAndSendInvoiceSaga() {
   try {
     const invoiceEdit = store.getState().invoice.invoiceEdit
-    //console.log('saveAndSendInvoiceSaga invoiceEdit:: ', invoiceEdit)
+    console.log('saveAndSendInvoiceSaga invoiceEdit:: ', invoiceEdit)
 
     let url
     let invoice_id
 
     if (invoiceEdit.length > 0) {
       invoice_id = invoiceEdit[0].Invoice[0].invoice_id
-      //console.log('invoice_id:: ', invoice_id)
+      console.log('invoice_id:: ', invoice_id)
 
       if (!!invoice_id) {
         url = `${API_SERVER}/UpdateInvoice`
@@ -132,10 +132,10 @@ function* saveAndSendInvoiceSaga() {
 
     const isSaveInvoiceDraft = store.getState().invoiceReviews
       .isSaveInvoiceDraft
-    //console.log('isSaveInvoiceDraft:: ', isSaveInvoiceDraft)
+    console.log('isSaveInvoiceDraft:: ', isSaveInvoiceDraft)
 
     body.instant_payment = formValues.instant_payment
-    //console.log('body.instant_payment:: ', body.instant_payment)
+    console.log('body.instant_payment:: ', body.instant_payment)
 
     //Handling SaveAsDraft & SaveAndSendInvoice Status for AddInvoice & UpdateInvoice
     if (
@@ -144,16 +144,16 @@ function* saveAndSendInvoiceSaga() {
         body.instant_payment === '')
     ) {
       body.status = 1
-      //console.log('body.status:: ', body.status)
+      console.log('body.status:: ', body.status)
     } else if (
       isSaveInvoiceDraft === false &&
       body.instant_payment === 'quick_pay'
     ) {
       body.status = 2
-      //console.log('body.status:: ', body.status)
+      console.log('body.status:: ', body.status)
     } else {
       body.status = 0
-      //console.log('body.status:: ', body.status)
+      console.log('body.status:: ', body.status)
     }
 
     let bodyRows = []
@@ -249,7 +249,7 @@ function* saveAndSendInvoiceSaga() {
         invoice_id = store.getState().invoiceReviews.invoice_id
       } else if (invoiceEdit.length > 0) {
         invoice_id = invoiceEdit[0].Invoice[0].invoice_id
-        //console.log('invoice_id:: ', invoice_id)
+        console.log('invoice_id:: ', invoice_id)
       }
 
       //Calling GenerateInvoicePDF API....
@@ -263,7 +263,7 @@ function* saveAndSendInvoiceSaga() {
         generateInvoicePDFUrl,
         generateInvoicePDFBody
       )
-      //console.log('generateInvoicePDFResult:: ', generateInvoicePDFResult)
+      console.log('generateInvoicePDFResult:: ', generateInvoicePDFResult)
 
       if (generateInvoicePDFResult.data === 'Invoice Pdf sent successfully') {
         yield put(generateInvoicePDFSuccess(generateInvoicePDFResult.data))
@@ -443,107 +443,112 @@ function* editInvoiceSaga({ invoice_id }) {
 }
 
 function* invoiceLocationChangeSaga(){
-  try {
-    let invoiceEdit = []
-    invoiceEdit = store.getState().invoice.invoiceEdit
-    const customerInfoKeys = Object.keys(invoiceEdit[0]).filter(
-      key => key !== 'Invoice'
-    )
-    //dispatch customer data to redux form
-    for (let key of customerInfoKeys) {
-      yield put(change('invoice', key, ''))
-    }        
-    let renewBillDate = new Date()   
-    yield put(change('invoice', 'billing_date', renewBillDate))
-    yield put(changeInvoiceBillingDate(renewBillDate))   
-    yield put(change('invoice', 'overdue', 14))
-
-    let date = new Date()
-    let due_date = new DateTimeFormat('fi', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric'
-    }).format(date.setDate(date.getDate() + 14))
-
-    yield put(change('invoice','due_date', due_date))
-
-    yield put(change('invoice','invoice_reference', ''))    
-    yield put(change('invoice','description', ''))       
-    yield put(change('invoice','job_title', ''))    
-    yield put(change('invoice','instant_payment', ''))    
-    yield put(change('invoice','status', ''))
-    yield put(emptyInvoiceRows())
-    const occurences = invoiceEdit[0].Invoice[0].rows.filter(
-      el => el.invoice_item_id
-    ).length
-
-    //dispatch invoice rows to redux form
-    const l = invoiceEdit[0].Invoice[0].rows.slice(0, occurences).length
-    let sum_tax_free = new Intl.NumberFormat('fi-FI', {
-      style: 'currency',
-      currency: 'EUR'
-    }).format(0)
-
-    for (let i = 0; i < l; i++) {
-      yield put(addInvoiceRow(true))
-      yield put(
-        change(
-          'invoice',
-          `rows.${i}.description`,
-          ''
-        )
+  try {    
+    const pathname = store.getState().routing.locationBeforeTransitions.pathname
+    if(pathname === '/dashboard/invoice/review'){
+      console.log('Need not to clear the invoice form..........')
+    }else {
+      let invoiceEdit = []
+      invoiceEdit = store.getState().invoice.invoiceEdit
+      const customerInfoKeys = Object.keys(invoiceEdit[0]).filter(
+        key => key !== 'Invoice'
       )
-      yield put(
-        change(
-          'invoice',
-          `rows.${i}.end_date`,
-          ''
+      //dispatch customer data to redux form
+      for (let key of customerInfoKeys) {
+        yield put(change('invoice', key, ''))
+      }        
+      let renewBillDate = new Date()   
+      yield put(change('invoice', 'billing_date', renewBillDate))
+      yield put(changeInvoiceBillingDate(renewBillDate))   
+      yield put(change('invoice', 'overdue', 14))
+  
+      let date = new Date()
+      let due_date = new DateTimeFormat('fi', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+      }).format(date.setDate(date.getDate() + 14))
+  
+      yield put(change('invoice','due_date', due_date))
+  
+      yield put(change('invoice','invoice_reference', ''))    
+      yield put(change('invoice','description', ''))       
+      yield put(change('invoice','job_title', ''))    
+      yield put(change('invoice','instant_payment', ''))    
+      yield put(change('invoice','status', ''))
+      yield put(emptyInvoiceRows())
+      const occurences = invoiceEdit[0].Invoice[0].rows.filter(
+        el => el.invoice_item_id
+      ).length
+  
+      //dispatch invoice rows to redux form
+      const l = invoiceEdit[0].Invoice[0].rows.slice(0, occurences).length
+      let sum_tax_free = new Intl.NumberFormat('fi-FI', {
+        style: 'currency',
+        currency: 'EUR'
+      }).format(0)
+  
+      for (let i = 0; i < l; i++) {
+        yield put(addInvoiceRow(true))
+        yield put(
+          change(
+            'invoice',
+            `rows.${i}.description`,
+            ''
+          )
         )
-      )
-      yield put(
-        change(
-          'invoice',
-          `rows.${i}.start_date`,
-          ''
+        yield put(
+          change(
+            'invoice',
+            `rows.${i}.end_date`,
+            ''
+          )
         )
-      )
-      yield put(
-        change(
-          'invoice',
-          `rows.${i}.quantity`,
-          ''
+        yield put(
+          change(
+            'invoice',
+            `rows.${i}.start_date`,
+            ''
+          )
         )
-      )
-      yield put(
-        change(
-          'invoice',
-          `rows.${i}.quantity_price`,
-          ''
+        yield put(
+          change(
+            'invoice',
+            `rows.${i}.quantity`,
+            ''
+          )
         )
-      )
-      yield put(
-        change(
-          'invoice',
-          `rows.${i}.unit`,
-         'kpl'
+        yield put(
+          change(
+            'invoice',
+            `rows.${i}.quantity_price`,
+            ''
+          )
         )
-      )
-      yield put(
-        change(
-          'invoice',
-          `rows.${i}.vat_percent`,
-          24
+        yield put(
+          change(
+            'invoice',
+            `rows.${i}.unit`,
+           'kpl'
+          )
         )
-      )
-      yield put(
-        change(
-          'invoice',
-          `rows.${i}.sum_tax_free`,
-          sum_tax_free
+        yield put(
+          change(
+            'invoice',
+            `rows.${i}.vat_percent`,
+            24
+          )
         )
-      )    
+        yield put(
+          change(
+            'invoice',
+            `rows.${i}.sum_tax_free`,
+            sum_tax_free
+          )
+        )    
+      }
+      yield put(cancelEditInvoice())
     }
-    yield put(cancelEditInvoice())
   } catch (e) {
     console.warn(e)
   }

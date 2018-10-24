@@ -1,4 +1,5 @@
 import { takeEvery, call, take, put } from 'redux-saga/effects'
+import CryptoJS from 'crypto-js'
 import {
   POST_TAX_CARD,
   API_SERVER,
@@ -23,7 +24,6 @@ import {
   yelUpdateFailed
 } from '../actions/index'
 import { getFormValues, change, reset } from 'redux-form'
-
 import store from '../store'
 
 /**
@@ -117,17 +117,13 @@ function* getYelSaga() {
 function* updatePasswordSaga() {
   try {
     const formValues = getFormValues('password')(store.getState())
-    const password = formValues.new_pw    
-
+    const hashedOldPassword = CryptoJS.SHA256(formValues.current_pw).toString()   
+    const hashedPassword = CryptoJS.SHA256(formValues.new_pw).toString()
     const uuid = store.getState().client.user.data[2]
-    const body = JSON.stringify({ password: password, uuid: uuid })
-
+    const body = JSON.stringify({ oldpassword: hashedOldPassword, password: hashedPassword, uuid: uuid })
     const url = `${API_SERVER}/UpdateUserCredentials`
-
-    const result = yield call(apiManualPost, url, body)  
-    
+    const result = yield call(apiManualPost, url, body)    
     yield put(reset('password'))
-
     if (result.data === 'user password updated successfully!') {      
       yield put(passwordUpdateSuccess(result.data))
     } else {

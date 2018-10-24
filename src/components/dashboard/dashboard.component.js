@@ -1,6 +1,5 @@
 import React from 'react'
 import { Doughnut, Bar } from 'react-chartjs-2'
-import { RaisedButton } from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import OwnInfoContainer from '../../containers/dashboard/ownInfo.container'
@@ -30,17 +29,13 @@ export default class Dashboard extends React.Component {
 const DashboardComponent = ({
   invoiceAmountByMonthlyChartData,
   invoiceChartData,
-  topCustomers,
-  onRenewToken
+  topCustomers  
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
       <div className="row">
         <div className="dashboard-content-header">
-          <h1>Tapahtuma</h1>
-          <ul className="nav nav-pills pull-right">
-            <li><RaisedButton label="Renew Token" primary={true} onClick={onRenewToken}/></li>     
-          </ul>
+          <h1>Tapahtuma</h1>          
         </div>
       </div>
       <div className="dashboard-content-header">

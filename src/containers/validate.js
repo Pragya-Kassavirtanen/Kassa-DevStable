@@ -438,18 +438,6 @@ export const yelValidate = values => {
     }
   })
 
-  /*   if (!/^[0-9]*$/i.test(values['income'] && values['income'])) {
-    errors['income'] = 'Syöte ei ole kelvollinen'
-  }
-
-  if (values['income'] < 7645 && values['income']) {
-    errors['income'] = 'YEL-vakuutusta ei tarvitse maksaa alle 7645 euron tuloista'
-  }
-
-  if(values['income'] > 173625 && values['income']) {
-    errors['income'] = 'YEL-vakuutusta ei tarvitse maksaa yli 173625 euron tuloista'
-  } */
-
   return errors
 }
 

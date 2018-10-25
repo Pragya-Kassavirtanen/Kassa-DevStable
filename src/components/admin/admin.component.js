@@ -36,10 +36,10 @@ import {
 } from '../../utils/invoice.utils'
 import DateTimeFormat from '../../utils/DateTimeFormat'
 import store from '../../store'
-import {formatDateAndTime} from '../../utils/dashboard.utils'
+import { formatDateAndTime } from '../../utils/dashboard.utils'
 
 export default class Admin extends Component {
-  componentWillMount() {   
+  componentWillMount() {
     this.props.adminGetUpdates()
   }
   render() {
@@ -74,7 +74,7 @@ const AdminComponent = ({
   showAdminSnackbar,
   hideAdminSnackbar,
   showSpinner,
-  releaseSearchRows,  
+  releaseSearchRows,
   adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
   tiedotteetSearchPageChange
@@ -182,6 +182,15 @@ const selectPanel = (
 ) => {
   switch (selectedMenuItem) {
     case 0:
+      return customerPanel(
+        userSearchRows,
+        selected,
+        userSearchPages,
+        userSearchPageChange,
+        expandAdminUser,
+        changeAdminMenu
+      )
+    case 1:
       return invoicePanel(
         invoiceSearchRows,
         invoiceSearchPages,
@@ -192,15 +201,6 @@ const selectPanel = (
         warnInvoiceToPay,
         updateAdminInvoiceStatus,
         cancelUpdateAdminInvoiceStatus
-      )
-    case 1:
-      return customerPanel(
-        userSearchRows,
-        selected,
-        userSearchPages,
-        userSearchPageChange,
-        expandAdminUser,
-        changeAdminMenu
       )
     case 2:
       return salaryPanel(
@@ -233,8 +233,8 @@ const sideMenu = (changeAdminMenu, selectedMenuItem) => (
         onChange={changeAdminMenu}
         value={selectedMenuItem}
       >
-        <ListItem value={0} primaryText="Laskut" />
-        <ListItem value={1} primaryText="Asiakkaat" />
+        <ListItem value={0} primaryText="Asiakkaat" />
+        <ListItem value={1} primaryText="Laskut" />
         <ListItem value={2} primaryText="Palkat" />
         <ListItem value={3} primaryText="Tiedotteet" />
       </SelectableList>
@@ -440,7 +440,7 @@ const tiedotteetPanel = (
             {createReleaseRow(
               releaseSearchRows,
               selected,
-              adminDeleteCompanyUpdates,
+              adminDeleteCompanyUpdates
             )}
           </TableBody>
         </Table>
@@ -473,7 +473,7 @@ const createReleaseRow = (releases, selected, adminDeleteCompanyUpdates) =>
         <b>{el.newsupdate}</b>
       </TableRowColumn>
       <TableRowColumn>
-        <div style={{ display: 'flex' }}>          
+        <div style={{ display: 'flex' }}>
           <Link>
             <p
               style={{ marginLeft: '10px' }}

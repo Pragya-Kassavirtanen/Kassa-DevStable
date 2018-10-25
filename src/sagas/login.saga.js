@@ -28,7 +28,7 @@ function* loginFlow() {
     const url = `${KVT_IDENTITY_SERVER}/CheckUser`
     const formValues = getFormValues('login')(store.getState())
     const refinedForm = Object.assign({}, { ...formValues })
-    const hashedPassword = CryptoJS.SHA256(refinedForm.password).toString()
+    const hashedPassword = CryptoJS.SHA256(refinedForm.password).toString()   
 
     const body = JSON.stringify({
       email: refinedForm.email,     

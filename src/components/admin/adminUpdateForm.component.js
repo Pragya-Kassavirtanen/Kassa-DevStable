@@ -25,7 +25,7 @@ const AdminUpdateFormComponent = ({ adminAddNewUpdates }) => (
               name="company_update"
               component={renderTextField}
               className="dashboard-admin-updateformfield"             
-              floatingLabelText="Päivittää"              
+              floatingLabelText="Päivitä"              
               multiLine={true}
               rows={1}
             />

@@ -90,21 +90,13 @@ const NewExpense = ({
                     />
                   </div>
                   <div>
-                    {isEdit ? (
-                      <Field
-                        name="date_of_purchase"
-                        component={renderExpenseTextField}
-                        label="Ostopäivämäärä"
-                      />
-                    ) : (
-                      <Field
-                        name="date_of_purchase"
-                        component={renderDatePicker}
-                        floatingLabelText="Ostopäivämäärä"
-                        textFieldStyle={{ width: '100%' }}
-                        onChangeCallback={changeExpensePurchaseDate}
-                      />
-                    )}
+                    <Field
+                      name="date_of_purchase"
+                      component={renderDatePicker}
+                      floatingLabelText="Ostopäivämäärä"
+                      textFieldStyle={{ width: '100%' }}
+                      onChangeCallback={changeExpensePurchaseDate}
+                    />
                   </div>
                   <div className="dashboard-expense">
                     {isEdit ? (
@@ -116,7 +108,7 @@ const NewExpense = ({
                       />
                     ) : (
                       <Field
-                        name="receipt_picture"                        
+                        name="receipt_picture"
                         placeholder="kuitti.png tai kuitti.jpg tai kuitti.gif"
                         disabled={true}
                         component={renderExpenseTextField}

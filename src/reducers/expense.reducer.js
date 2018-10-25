@@ -42,7 +42,9 @@ import {
   SAVE_ALLOWANCE_UPDATE,
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
-  EMPTY_PASSENGER_ROWS
+  EMPTY_PASSENGER_ROWS,
+  CHANGE_ALLOWANCE_START_TIME,
+  CHANGE_ALLOWANCE_END_TIME
 } from '../constants/index'
 const initialState = {
   expenseInputRow: [
@@ -225,18 +227,37 @@ const expenseReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         showAdditionalInfo: action.value === 'o'
       })
+    
+/*     case CHANGE_ALLOWANCE_START_DATE:
+      return Object.assign({}, state, { start_date: action.date })
+
+    case CHANGE_ALLOWANCE_END_DATE:
+      return Object.assign({}, state, { end_date: action.date }) */
+
+    case CHANGE_ALLOWANCE_START_TIME:
+      return Object.assign({}, state, { start_time: action.time })
+
+    case CHANGE_ALLOWANCE_END_TIME:
+      return Object.assign({}, state, { end_time: action.time })
 
     case CHANGE_ALLOWANCE_DATE:
       try {
         const start_date = getFormValues('newallowance')(store.getState())
           .start_date
+        console.log('Inside CHANGE_ALLOWANCE_DATE:: ', start_date)
+
         const end_date = getFormValues('newallowance')(store.getState())
           .end_date
+        console.log('Inside CHANGE_ALLOWANCE_DATE:: ', end_date)
+
         const difference = Math.ceil(
           (new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24)
         )
+
         if (!!difference) return Object.assign({}, state, { days: difference })
+
         else return Object.assign({}, state, { days: 0 })
+        
       } catch (e) {
         return Object.assign({}, state, { days: 0 })
       }

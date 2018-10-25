@@ -50,7 +50,7 @@ const NewAllowance = ({
   showMileageForm,
   showAllowanceForm,
   allowancePassenger,
-  addPassengerRow,  
+  addPassengerRow,
   showAdditionalVehicleInfo,
   vehicleTypeItems,
   vehicleAdditionalItems,
@@ -75,7 +75,9 @@ const NewAllowance = ({
   closeSnackbar,
   isEdit,
   saveAllowanceUpdate,
-  cancelAllowanceUpdate
+  cancelAllowanceUpdate,
+  changeAllowanceStartTime,
+  changeAllowanceEndTime
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -105,7 +107,7 @@ const NewAllowance = ({
                       name="invoice"
                       component={SelectField}
                       floatingLabelText="Valitse lasku"
-                      style={{ width: '100%' }}                      
+                      style={{ width: '100%' }}
                     >
                       {invoices}
                     </Field>
@@ -122,104 +124,59 @@ const NewAllowance = ({
                 <div className="panel-heading">
                   <h3 className="panel-title">Syötä matkan tiedot</h3>
                 </div>
-                {isEdit ? (
-                  <div className="panel-body" style={{ marginBottom: '25px' }}>
-                    <div>
-                      <Field
-                        name="destination"
-                        component={renderTextField}                        
-                        label="Matkan kohde"
-                        style={{ float: 'left', width: '50%' }}                        
-                      />
-                      <Field
-                        name="country"
-                        component={SelectField}
-                        style={{ float: 'left', width: '50%' }}
-                        floatingLabelText="Maa"
-                      >
-                        {countryItems}
-                      </Field>
-                    </div>
-                    <div>
-                      <Field
-                        name="start_date"
-                        component={renderTextField}
-                        label="Matkan alkamispäivä"
-                      />
-                      <Field
-                        name="start_time"
-                        component={renderTextField}
-                        label="Alkuaika"
-                      />
-                    </div>
-                    <div>
-                      <Field
-                        name="end_date"
-                        component={renderTextField}
-                        label="Matkan päättymispäivä"
-                      />
-                      <Field
-                        name="end_time"
-                        component={renderTextField}
-                        label="Loppuaika"
-                      />
-                    </div>
+                <div className="panel-body" style={{ marginBottom: '25px' }}>
+                  <div>
+                    <Field
+                      name="destination"
+                      component={renderTextField}
+                      label="Matkan kohde"
+                      style={{ float: 'left', width: '50%' }}
+                      autoFocus
+                    />
+                    <Field
+                      name="country"
+                      component={SelectField}
+                      style={{ float: 'left', width: '50%' }}
+                      floatingLabelText="Maa"
+                    >
+                      {countryItems}
+                    </Field>
                   </div>
-                ) : (
-                  <div className="panel-body" style={{ marginBottom: '25px' }}>
-                    <div>
-                      <Field
-                        name="destination"
-                        component={renderTextField}
-                        label="Matkan kohde"
-                        style={{ float: 'left', width: '50%' }}
-                        autoFocus
-                      />
-                      <Field
-                        name="country"
-                        component={SelectField}
-                        style={{ float: 'left', width: '50%' }}
-                        floatingLabelText="Maa"
-                      >
-                        {countryItems}
-                      </Field>
-                    </div>
-                    <div>
-                      <Field
-                        name="start_date"
-                        component={renderDatePicker}
-                        floatingLabelText="Matkan alkamispäivä"
-                        textFieldStyle={{ float: 'left', width: '50%' }}
-                        maxDate={endDate ? new Date(endDate) : undefined}
-                        onChangeCallback={changeAllowanceDate}
-                      />
-                      <Field
-                        name="start_time"
-                        component={renderTimePicker}
-                        floatingLabelText="Alkuaika"
-                        textFieldStyle={{ float: 'left', width: '50%' }}
-                        onChangeCallback={() => undefined}
-                      />
-                    </div>
-                    <div>
-                      <Field
-                        name="end_date"
-                        component={renderDatePicker}
-                        floatingLabelText="Matkan päättymispäivä"
-                        textFieldStyle={{ float: 'left', width: '50%' }}
-                        minDate={new Date(startDate)}
-                        onChangeCallback={changeAllowanceDate}
-                      />
-                      <Field
-                        name="end_time"
-                        component={renderTimePicker}
-                        floatingLabelText="Loppuaika"
-                        textFieldStyle={{ float: 'left', width: '50%' }}
-                        onChangeCallback={() => undefined}
-                      />
-                    </div>
+                  <div>
+                    <Field
+                      name="start_date"
+                      component={renderDatePicker}
+                      floatingLabelText="Matkan alkamispäivä"
+                      textFieldStyle={{ float: 'left', width: '50%' }}
+                      maxDate={endDate ? new Date(endDate) : undefined}
+                      onChangeCallback={changeAllowanceDate}
+                    />
+                    <Field
+                      name="start_time"
+                      component={renderTimePicker}
+                      floatingLabelText="Alkuaika"
+                      textFieldStyle={{ float: 'left', width: '50%' }}
+                      onChangeCallback={changeAllowanceStartTime}
+                    />
                   </div>
-                )}
+                  <div>
+                    <Field
+                      name="end_date"
+                      component={renderDatePicker}
+                      floatingLabelText="Matkan päättymispäivä"
+                      textFieldStyle={{ float: 'left', width: '50%' }}
+                      minDate={new Date(startDate)}
+                      onChangeCallback={changeAllowanceDate}
+                    />
+                    <Field
+                      name="end_time"
+                      component={renderTimePicker}
+                      floatingLabelText="Loppuaika"
+                      textFieldStyle={{ float: 'left', width: '50%' }}
+                      onChangeCallback={changeAllowanceEndTime}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -251,7 +208,7 @@ const NewAllowance = ({
         <div className="row">
           {payMileage(
             showMileageForm,
-            addPassengerRow,           
+            addPassengerRow,
             allowancePassenger,
             vehicleTypeItems,
             vehicleAdditionalItems,
@@ -361,7 +318,7 @@ const routeSpecification = (allowanceRows, addAllowanceRow) => (
           <h3 className="panel-title">Reitin erittely</h3>
         </div>
         <div className="panel-body">
-          <Table selectable={false}>           
+          <Table selectable={false}>
             <TableBody displayRowCheckbox={false}>{allowanceRows}</TableBody>
           </Table>
           <div>
@@ -381,7 +338,7 @@ const routeSpecification = (allowanceRows, addAllowanceRow) => (
 
 const payMileage = (
   showMileageForm,
-  addPassengerRow, 
+  addPassengerRow,
   allowancePassenger,
   vehicleTypeItems,
   vehicleAdditionalItems,
@@ -557,7 +514,7 @@ const submitButton = (
                       cancelAllowanceUpdate()
                       browserHistory.push('/dashboard/fee')
                     }}
-                  />                
+                  />
                 </li>
                 <li>
                   {invalid ? (

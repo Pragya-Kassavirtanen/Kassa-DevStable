@@ -235,7 +235,7 @@ export const expenseValidate = values => {
     }
   })
 
-  const editFlag = store.getState().expense.isEdit
+/*   const editFlag = store.getState().expense.isEdit
 
   if (values.date_of_purchase) {
     if (
@@ -256,7 +256,7 @@ export const expenseValidate = values => {
       errors['date_of_purchase'] =
         'Päiväysmuoto ei ole kelvollinen, kirjoita yyyy-mm-dd'
     }
-  }
+  } */
 
   const expenses = store.getState().expense.expenseInputRow.map(_ => _.key)
 
@@ -276,14 +276,10 @@ export const expenseValidate = values => {
       if (!values['expenseInputRow'][item][`sum${item}`]) {
         errors['expenseInputRow'][item][`sum${item}`] = 'Pakollinen kenttä'
       }
-
-      /*  if (!values['expenseInputRow'][item][`vat${item}`]) {
-        errors['expenseInputRow'][item][`vat${item}`] = 'Pakollinen kenttä'
-      } */
     }
   })
 
-  //console.log('Inside expenseValidate:: ', errors)
+  console.log('Inside expenseValidateErrors:: ', errors)
   return errors
 }
 
@@ -305,7 +301,7 @@ export const allowanceValidate = values => {
     }
   })
 
-  const editFlag = store.getState().expense.isEdit
+/*   const editFlag = store.getState().expense.isEdit
 
   //REgEx:: 13.9.2018 = ^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$
 
@@ -389,7 +385,7 @@ export const allowanceValidate = values => {
       errors['end_time'] =
         'Aikamuoto ei ole kelvollinen, kirjoita hh tai hh: mm tai hh: mm: ss'
     }
-  }
+  } */
 
   if (values.pay_mileage) {
     const requiredMileageFields = ['distance', 'license_plate', 'vehicle_type']
@@ -424,7 +420,7 @@ export const allowanceValidate = values => {
   routeArrayErrors.filter(_ => !!_.route).length !== 0 &&
     (errors.allowanceInputRow = routeArrayErrors)
 
-  //console.log('Inside allowanceValidate:: ', errors)
+  console.log('Inside allowanceValidateErrors:: ', errors)
   return errors
 }
 

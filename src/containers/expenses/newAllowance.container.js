@@ -16,7 +16,9 @@ import {
   saveTravellingExpense,
   closeExpenseSnackBar,
   saveAllowanceUpdate,
-  cancelAllowanceUpdate
+  cancelAllowanceUpdate,
+  changeAllowanceStartTime,
+  changeAllowanceEndTime
 } from '../../actions/index'
 
 import {
@@ -194,6 +196,8 @@ const mapDispatchToProps = dispatch => {
     showAdditionalVehicleInfo: value =>
       dispatch(showAdditionalVehicleInfo(value)),
     changeAllowanceDate: () => dispatch(changeAllowanceDate()),
+    changeAllowanceStartTime: (time) => dispatch(changeAllowanceStartTime(time)),
+    changeAllowanceEndTime: (time) => dispatch(changeAllowanceEndTime(time)),
     saveTravellingExpense: () => dispatch(saveTravellingExpense()),
     closeSnackbar: () => dispatch(closeExpenseSnackBar()),
     saveAllowanceUpdate: () => dispatch(saveAllowanceUpdate()),

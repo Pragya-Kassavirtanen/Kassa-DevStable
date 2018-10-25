@@ -17,7 +17,11 @@ import {
   allowanceUpdateFailed,
   emptyPassengerRows,
   cancelExpenseUpdate,
-  cancelAllowanceUpdate
+  cancelAllowanceUpdate,
+  changeExpensePurchaseDate,
+  //changeAllowanceDate,
+  changeAllowanceStartTime
+  //changeAllowanceEndTime
 } from '../actions/index'
 import {
   SAVE_EXPENSE,
@@ -43,7 +47,6 @@ import {
 import store from '../store'
 import { getFormValues, reset, change } from 'redux-form'
 import { formatFiDateToISO, formatFiTimeToISO } from '../utils/DateTimeFormat'
-//import { reverseDate } from '../utils/invoice.utils'
 
 /**
  * @author Skylar Kong
@@ -210,8 +213,13 @@ function* editExpenseSaga({ invoice_expense_id }) {
     if (expenseResult) yield put(getExpenseByIdSuccess(expenseResult))
 
     let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
+    console.log('purchaseDate:: ',purchaseDate)
 
-    yield put(change('newfee', 'date_of_purchase', purchaseDate))
+    let renewPurchaseDate = new Date(purchaseDate)
+    console.log('renewPurchaseDate:: ', renewPurchaseDate)
+
+    yield put(change('newfee', 'date_of_purchase', renewPurchaseDate))
+    yield put(changeExpensePurchaseDate(renewPurchaseDate))
 
     let invoicePopId = store.getState().expense.expenseEdit[0].invoice_id
 
@@ -313,21 +321,28 @@ function* editAllowanceSaga({ id }) {
 
     console.log('allowanceResult:: ',allowanceResult[0])
     
-    let startDate = store.getState().expense.allowanceEdit[0].start_date
-    //startDate = reverseDate(startDate)    
-    yield put(change('newallowance', 'start_date', startDate))
+    let startDate = store.getState().expense.allowanceEdit[0].start_date      
 
-    let endDate = store.getState().expense.allowanceEdit[0].end_date
-    //endDate = reverseDate(endDate)    
+    //let renewStartDate = new Date(startDate)
+    yield put(change('newallowance', 'start_date', startDate))
+    //yield put(changeAllowanceDate(renewStartDate))
+
+    let endDate = store.getState().expense.allowanceEdit[0].end_date    
     yield put(change('newallowance', 'end_date', endDate))
 
-    let startTime = store.getState().expense.allowanceEdit[0].start_time
-    //startTime = startTime.slice(0, startTime.lastIndexOf(':'))    
+    let startTime = store.getState().expense.allowanceEdit[0].start_time    
+    console.log('startTime:: ',startTime)
+
+    //startTime = startTime.slice(0, startTime.lastIndexOf(':'))   
     yield put(change('newallowance', 'start_time', startTime))
+    yield put(changeAllowanceStartTime(startTime))
 
     let endTime = store.getState().expense.allowanceEdit[0].end_time
+    console.log('endTime:: ',endTime)
+
     //endTime = endTime.slice(0, endTime.lastIndexOf(':'))    
     yield put(change('newallowance', 'end_time', endTime))
+    //yield put(changeAllowanceEndTime(endTime))
 
     let vehicleType = allowanceResult[0].vehicle_Info[0].vehicle_type
     yield put(change('newallowance', 'vehicle_type', vehicleType))

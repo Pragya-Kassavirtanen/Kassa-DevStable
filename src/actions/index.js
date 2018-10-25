@@ -75,7 +75,11 @@ import {
   ADD_PASSENGER_ROW,
   REMOVE_PASSENGER_ROW,
   SHOW_ADDITIONAL_VEHICLE_INFO,
+  
   CHANGE_ALLOWANCE_DATE,
+  CHANGE_ALLOWANCE_START_TIME,
+  CHANGE_ALLOWANCE_END_TIME,
+
   POST_TAX_CARD_SUCCESS,
   POST_TAX_CARD_FAILED,
   GET_TAX_CARD_START,
@@ -263,7 +267,6 @@ export const emptyInvoiceRows = () => ({type: EMPTY_INVOICE_ROWS})
 export const saveInvoiceDraft = () => ({type: SAVE_INVOICE_DRAFT})
 export const generateInvoicePDFSuccess = result => ({ type: GENERATE_INVOICE_PDF_SUCCESS, result})
 export const generateInvoicePDFFailed = error => ({ type: GENERATE_INVOICE_PDF_FAILED, error})
-
 export const changeInvoiceBillingDate = date => ({type: CHANGE_INVOICE_BILLING_DATE, date})
 export const downloadPDFSuccess = () => ({ type: DOWNLOAD_PDF_SUCCESS })
 export const downloadPDFFailed = () => ({ type: DOWNLOAD_PDF_FAILED })
@@ -283,7 +286,12 @@ export const removeAllowanceRow = key => ({type: REMOVE_ALLOWANCE_ROW, key})
 export const addPassengerRow = (check) => ({type: ADD_PASSENGER_ROW, check})
 export const removePassengerRow = rowNumber => ({type: REMOVE_PASSENGER_ROW, rowNumber})
 export const showAdditionalVehicleInfo = value => ({type: SHOW_ADDITIONAL_VEHICLE_INFO, value})
+
 export const changeAllowanceDate = () => ({type: CHANGE_ALLOWANCE_DATE})
+
+export const changeAllowanceStartTime = time => ({type: CHANGE_ALLOWANCE_START_TIME, time})
+export const changeAllowanceEndTime = time => ({type: CHANGE_ALLOWANCE_END_TIME, time})
+
 export const saveExpense = () => ({ type: SAVE_EXPENSE })
 export const saveExpenseFailure = (error) => ({ type: SAVE_EXPENSE_FAILED, error })
 export const saveExpenseSuccess = (result) => ({ type: SAVE_EXPENSE_SUCCESS, result })

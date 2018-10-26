@@ -44,7 +44,9 @@ import {
   ALLOWANCE_UPDATE_FAILED,
   EMPTY_PASSENGER_ROWS,
   CHANGE_ALLOWANCE_START_TIME,
-  CHANGE_ALLOWANCE_END_TIME
+  CHANGE_ALLOWANCE_END_TIME,
+  CHANGE_ALLOWANCE_START_DATE,
+  CHANGE_ALLOWANCE_END_DATE
 } from '../constants/index'
 const initialState = {
   expenseInputRow: [
@@ -83,7 +85,7 @@ const initialState = {
   expenseEdit: [],
   allowanceEdit: [],
   isEdit: false,
-  isChangeComponent: false
+  isChangeComponent: false  
 }
 
 const expenseReducer = (state = initialState, action) => {
@@ -228,11 +230,11 @@ const expenseReducer = (state = initialState, action) => {
         showAdditionalInfo: action.value === 'o'
       })
     
-/*     case CHANGE_ALLOWANCE_START_DATE:
+    case CHANGE_ALLOWANCE_START_DATE:
       return Object.assign({}, state, { start_date: action.date })
 
     case CHANGE_ALLOWANCE_END_DATE:
-      return Object.assign({}, state, { end_date: action.date }) */
+      return Object.assign({}, state, { end_date: action.date })
 
     case CHANGE_ALLOWANCE_START_TIME:
       return Object.assign({}, state, { start_time: action.time })
@@ -244,11 +246,11 @@ const expenseReducer = (state = initialState, action) => {
       try {
         const start_date = getFormValues('newallowance')(store.getState())
           .start_date
-        console.log('Inside CHANGE_ALLOWANCE_DATE:: ', start_date)
+        //console.log('Inside CHANGE_ALLOWANCE_DATE:: ', start_date)
 
         const end_date = getFormValues('newallowance')(store.getState())
           .end_date
-        console.log('Inside CHANGE_ALLOWANCE_DATE:: ', end_date)
+        //console.log('Inside CHANGE_ALLOWANCE_DATE:: ', end_date)
 
         const difference = Math.ceil(
           (new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24)

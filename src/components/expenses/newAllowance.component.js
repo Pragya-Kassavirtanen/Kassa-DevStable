@@ -29,6 +29,11 @@ import {
 } from 'material-ui'
 
 export default class NewAllowanceComponent extends React.Component {
+
+  componentDidMount() {
+    this.props.changeAllowanceDate()    
+  }
+
   render() {
     return <NewAllowance {...this.props} />
   }
@@ -156,7 +161,7 @@ const NewAllowance = ({
                       component={renderTimePicker}
                       floatingLabelText="Alkuaika"
                       textFieldStyle={{ float: 'left', width: '50%' }}
-                      onChangeCallback={changeAllowanceStartTime}
+                      onChangeCallback={changeAllowanceStartTime}                      
                     />
                   </div>
                   <div>

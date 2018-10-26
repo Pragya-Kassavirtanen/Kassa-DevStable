@@ -77,6 +77,8 @@ import {
   SHOW_ADDITIONAL_VEHICLE_INFO,
   
   CHANGE_ALLOWANCE_DATE,
+  CHANGE_ALLOWANCE_START_DATE,
+  CHANGE_ALLOWANCE_END_DATE,
   CHANGE_ALLOWANCE_START_TIME,
   CHANGE_ALLOWANCE_END_TIME,
 
@@ -288,7 +290,8 @@ export const removePassengerRow = rowNumber => ({type: REMOVE_PASSENGER_ROW, row
 export const showAdditionalVehicleInfo = value => ({type: SHOW_ADDITIONAL_VEHICLE_INFO, value})
 
 export const changeAllowanceDate = () => ({type: CHANGE_ALLOWANCE_DATE})
-
+export const changeAllowanceStartDate = (date) => ({type: CHANGE_ALLOWANCE_START_DATE, date})
+export const changeAllowanceEndDate = (date) => ({type: CHANGE_ALLOWANCE_END_DATE, date})
 export const changeAllowanceStartTime = time => ({type: CHANGE_ALLOWANCE_START_TIME, time})
 export const changeAllowanceEndTime = time => ({type: CHANGE_ALLOWANCE_END_TIME, time})
 

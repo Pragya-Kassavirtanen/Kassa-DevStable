@@ -19,9 +19,11 @@ import {
   cancelExpenseUpdate,
   cancelAllowanceUpdate,
   changeExpensePurchaseDate,
-  //changeAllowanceDate,
-  changeAllowanceStartTime
-  //changeAllowanceEndTime
+  changeAllowanceDate,
+  changeAllowanceStartDate,
+  changeAllowanceEndDate,
+  changeAllowanceStartTime,
+  changeAllowanceEndTime
 } from '../actions/index'
 import {
   SAVE_EXPENSE,
@@ -46,7 +48,11 @@ import {
 } from '../utils/request'
 import store from '../store'
 import { getFormValues, reset, change } from 'redux-form'
-import { formatFiDateToISO, formatFiTimeToISO } from '../utils/DateTimeFormat'
+import {
+  formatFiDateToISO,
+  formatFiTimeToISO,
+  formatEditTime
+} from '../utils/DateTimeFormat'
 
 /**
  * @author Skylar Kong
@@ -106,8 +112,8 @@ function* saveExpenseSaga() {
     place_of_purchase: formValues.place_of_purchase,
     date_of_purchase: formValues.date_of_purchase,
     expenseInputRow: !!formValues.expenseInputRow
-    ? formValues.expenseInputRow.filter(el => el)
-    : []
+      ? formValues.expenseInputRow.filter(el => el)
+      : []
   }
 
   try {
@@ -213,7 +219,7 @@ function* editExpenseSaga({ invoice_expense_id }) {
     if (expenseResult) yield put(getExpenseByIdSuccess(expenseResult))
 
     let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
-    console.log('purchaseDate:: ',purchaseDate)
+    console.log('purchaseDate:: ', purchaseDate)
 
     let renewPurchaseDate = new Date(purchaseDate)
     console.log('renewPurchaseDate:: ', renewPurchaseDate)
@@ -272,37 +278,19 @@ function* expenseLocationChangeSaga() {
   try {
     let expenseEdit = []
     expenseEdit = store.getState().expense.expenseEdit
-    let purchaseDate = new Date() 
+    let purchaseDate = new Date()
     yield put(change('newfee', 'date_of_purchase', purchaseDate))
-    yield put(change('newfee', 'invoice', ''))    
-    yield put(change('newfee', 'place_of_purchase', '')) 
+    yield put(change('newfee', 'invoice', ''))
+    yield put(change('newfee', 'place_of_purchase', ''))
     const occurences = expenseEdit[0].expenseInputRow.filter(
       el => el.invoice_expense_item_id
     ).length
     const l = expenseEdit[0].expenseInputRow.slice(0, occurences).length
     for (let i = 0; i < l; i++) {
       yield put(addExpenseRow())
-      yield put(
-        change(
-          'newfee',
-          `expenseInputRow.${i}.description`,
-          ''
-        )
-      )
-      yield put(
-        change(
-          'newfee',
-          `expenseInputRow.${i}.sum`,
-          ''
-        )
-      )
-      yield put(
-        change(
-          'newfee',
-          `expenseInputRow.${i}.vat`,
-          24
-        )
-      )
+      yield put(change('newfee', `expenseInputRow.${i}.description`, ''))
+      yield put(change('newfee', `expenseInputRow.${i}.sum`, ''))
+      yield put(change('newfee', `expenseInputRow.${i}.vat`, 24))
     }
     yield put(cancelExpenseUpdate())
   } catch (e) {
@@ -319,30 +307,26 @@ function* editAllowanceSaga({ id }) {
 
     if (allowanceResult) yield put(getAllowanceByIdSuccess(allowanceResult))
 
-    console.log('allowanceResult:: ',allowanceResult[0])
-    
-    let startDate = store.getState().expense.allowanceEdit[0].start_date      
+    let startDate = store.getState().expense.allowanceEdit[0].start_date
+    let renewStartDate = new Date(startDate)
+    yield put(change('newallowance', 'start_date', renewStartDate))
+    yield put(changeAllowanceStartDate(renewStartDate))
 
-    //let renewStartDate = new Date(startDate)
-    yield put(change('newallowance', 'start_date', startDate))
-    //yield put(changeAllowanceDate(renewStartDate))
+    let endDate = store.getState().expense.allowanceEdit[0].end_date
+    let renewEndDate = new Date(endDate)
+    yield put(change('newallowance', 'end_date', renewEndDate))
+    yield put(changeAllowanceEndDate(renewEndDate))
+    yield put(changeAllowanceDate())
 
-    let endDate = store.getState().expense.allowanceEdit[0].end_date    
-    yield put(change('newallowance', 'end_date', endDate))
-
-    let startTime = store.getState().expense.allowanceEdit[0].start_time    
-    console.log('startTime:: ',startTime)
-
-    //startTime = startTime.slice(0, startTime.lastIndexOf(':'))   
-    yield put(change('newallowance', 'start_time', startTime))
-    yield put(changeAllowanceStartTime(startTime))
+    let startTime = store.getState().expense.allowanceEdit[0].start_time
+    let renewStartTime = formatEditTime(startTime)
+    yield put(change('newallowance', 'start_time', renewStartTime))
+    yield put(changeAllowanceStartTime(renewStartTime))
 
     let endTime = store.getState().expense.allowanceEdit[0].end_time
-    console.log('endTime:: ',endTime)
-
-    //endTime = endTime.slice(0, endTime.lastIndexOf(':'))    
-    yield put(change('newallowance', 'end_time', endTime))
-    //yield put(changeAllowanceEndTime(endTime))
+    let renewEndTime = formatEditTime(endTime)
+    yield put(change('newallowance', 'end_time', renewEndTime))
+    yield put(changeAllowanceEndTime(renewEndTime))
 
     let vehicleType = allowanceResult[0].vehicle_Info[0].vehicle_type
     yield put(change('newallowance', 'vehicle_type', vehicleType))
@@ -357,7 +341,7 @@ function* editAllowanceSaga({ id }) {
     let invoicePop = store
       .getState()
       .invoice.invoices.filter(el => el.invoice_id === invoicePopId)
-    yield put(change('newallowance', 'invoice', invoicePop[0]))    
+    yield put(change('newallowance', 'invoice', invoicePop[0]))
 
     const occurencesRoute = allowanceResult[0].allowanceInputRow.filter(
       el => el.route
@@ -377,18 +361,13 @@ function* editAllowanceSaga({ id }) {
 
     yield put(emptyPassengerRows())
 
- const occurencesPassenger = allowanceResult[0].allowancePassenger.filter(
+    const occurencesPassenger = allowanceResult[0].allowancePassenger.filter(
       el => el.id
     ).length
-
-    console.log('Inside editAllowanceSaga occurencesPassenger:: ',occurencesPassenger)
-
     const k = allowanceResult[0].allowancePassenger.slice(
       0,
       occurencesPassenger
     ).length
-
-    console.log('Inside editAllowanceSaga k:: ',k)
 
     for (let j = 0; j < k; j++) {
       yield put(addPassengerRow(true))
@@ -396,20 +375,27 @@ function* editAllowanceSaga({ id }) {
         change(
           'newallowance',
           `passengerInputRow.${j}.passenger`,
-          allowanceResult[0].allowancePassenger.slice(0, occurencesPassenger)[j].passenger
+          allowanceResult[0].allowancePassenger.slice(0, occurencesPassenger)[j]
+            .passenger
         )
       )
-    }  
+    }
 
-    const allowanceInfoKeys = Object.keys(allowanceResult[0]).filter(
-      key =>
-        key !== 'allowanceInputRow' &&
-        'allowancePassenger' &&
-        'vehicle_Info' &&
-        'additional_vehicle_Info' &&
-        'invoice_id'
-    )
-    for (let key of allowanceInfoKeys) {
+    const filterKeys = [
+      'allowanceInputRow',
+      'allowancePassenger',
+      'vehicle_Info',
+      'additional_vehicle_Info',
+      'invoice_id',
+      'start_date',
+      'start_time',
+      'end_date',
+      'end_time'
+    ]
+    const allowanceInfoKeys = Object.keys(allowanceResult[0])
+    const conditions = allowanceInfoKeys.filter(f => !filterKeys.includes(f))
+
+    for (let key of conditions) {
       yield put(change('newallowance', key, allowanceResult[0][key]))
     }
   } catch (e) {
@@ -420,17 +406,15 @@ function* editAllowanceSaga({ id }) {
 function* allowanceLocationChangeSaga() {
   try {
     let allowanceEdit = []
-    allowanceEdit = store.getState().expense.allowanceEdit    
-      
-    yield put(change('newallowance', 'start_date', ''))     
-    yield put(change('newallowance', 'end_date', ''))      
-    yield put(change('newallowance', 'start_time', ''))       
-    yield put(change('newallowance', 'end_time', ''))    
-    yield put(change('newallowance', 'vehicle_type', ''))    
-    yield put(
-      change('newallowance', 'additional_vehicle_cost', '')
-    )    
-    yield put(change('newallowance', 'invoice', ''))    
+    allowanceEdit = store.getState().expense.allowanceEdit
+
+    yield put(change('newallowance', 'start_date', ''))
+    yield put(change('newallowance', 'end_date', ''))
+    yield put(change('newallowance', 'start_time', ''))
+    yield put(change('newallowance', 'end_time', ''))
+    yield put(change('newallowance', 'vehicle_type', ''))
+    yield put(change('newallowance', 'additional_vehicle_cost', ''))
+    yield put(change('newallowance', 'invoice', ''))
 
     const occurencesRoute = allowanceEdit[0].allowanceInputRow.filter(
       el => el.route
@@ -438,46 +422,38 @@ function* allowanceLocationChangeSaga() {
     const l = allowanceEdit[0].allowanceInputRow.slice(0, occurencesRoute)
       .length
     for (let i = 0; i < l; i++) {
-      yield put(
-        change(
-          'newallowance',
-          `allowanceInputRow.${i}.route`,
-          ''
-        )
-      )
+      yield put(change('newallowance', `allowanceInputRow.${i}.route`, ''))
     }
 
     yield put(emptyPassengerRows())
 
- const occurencesPassenger = allowanceEdit[0].allowancePassenger.filter(
+    const occurencesPassenger = allowanceEdit[0].allowancePassenger.filter(
       el => el.id
     ).length
 
-    const k = allowanceEdit[0].allowancePassenger.slice(
-      0,
-      occurencesPassenger
-    ).length    
+    const k = allowanceEdit[0].allowancePassenger.slice(0, occurencesPassenger)
+      .length
 
     for (let j = 0; j < k; j++) {
       yield put(addPassengerRow(true))
-      yield put(
-        change(
-          'newallowance',
-          `passengerInputRow.${j}.passenger`,
-          ''
-        )
-      )
-    }  
+      yield put(change('newallowance', `passengerInputRow.${j}.passenger`, ''))
+    }
 
-    const allowanceInfoKeys = Object.keys(allowanceEdit[0]).filter(
-      key =>
-        key !== 'allowanceInputRow' &&
-        'allowancePassenger' &&
-        'vehicle_Info' &&
-        'additional_vehicle_Info' &&
-        'invoice_id'
-    )
-    for (let key of allowanceInfoKeys) {
+    const filterKeys = [
+      'allowanceInputRow',
+      'allowancePassenger',
+      'vehicle_Info',
+      'additional_vehicle_Info',
+      'invoice_id',
+      'start_date',
+      'start_time',
+      'end_date',
+      'end_time'
+    ]
+    const allowanceInfoKeys = Object.keys(allowanceEdit[0])
+    const conditions = allowanceInfoKeys.filter(f => !filterKeys.includes(f))
+
+    for (let key of conditions) {
       yield put(change('newallowance', key, ''))
     }
     yield put(cancelAllowanceUpdate())
@@ -504,8 +480,8 @@ function* saveExpenseUpdateSaga() {
     place_of_purchase: formValues.place_of_purchase,
     date_of_purchase: formValues.date_of_purchase,
     expenseInputRow: !!formValues.expenseInputRow
-    ? formValues.expenseInputRow.filter(el => el)
-    : []
+      ? formValues.expenseInputRow.filter(el => el)
+      : []
   }
 
   const file = formValues.inputFile[0]
@@ -517,7 +493,7 @@ function* saveExpenseUpdateSaga() {
       if (err) {
         yield put(expenseUpdateFailed(err))
         //yield put(emptyExpenseRows())
-        //yield put(reset('newfee'))     
+        //yield put(reset('newfee'))
       }
       if (success) {
         yield put(expenseUpdateSuccess(success))
@@ -586,15 +562,19 @@ function* saveAllowanceUpdateSaga() {
     delete refinedForm.deleted_at
     delete refinedForm.created
     delete refinedForm.last_modified_date
-    delete refinedForm.passengerInputRow   
+    delete refinedForm.passengerInputRow
 
-   const result =  yield call(apiManualPost, url, JSON.stringify({ ...refinedForm }))
+    const result = yield call(
+      apiManualPost,
+      url,
+      JSON.stringify({ ...refinedForm })
+    )
 
-   if(result.data === 'Allowances updated successfully!'){
-     yield put(allowanceUpdateSuccess(result.data))
-   }else{
-    yield put(allowanceUpdateFailed(result.data))
-   }
+    if (result.data === 'Allowances updated successfully!') {
+      yield put(allowanceUpdateSuccess(result.data))
+    } else {
+      yield put(allowanceUpdateFailed(result.data))
+    }
     yield put(reset('newallowance'))
   } catch (e) {
     allowanceUpdateFailed(e)

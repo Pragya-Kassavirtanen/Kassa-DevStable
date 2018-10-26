@@ -18,7 +18,9 @@ import {
   saveAllowanceUpdate,
   cancelAllowanceUpdate,
   changeAllowanceStartTime,
-  changeAllowanceEndTime
+  changeAllowanceEndTime,
+  changeAllowanceStartDate,
+  changeAllowanceEndDate
 } from '../../actions/index'
 
 import {
@@ -37,17 +39,11 @@ let newAllowanceContainer = reduxForm({
     destination: '',
     country: 'Suomi',
     vehicle_type: 'default_vehicle_type',
-    additional_vehicle_cost: 'default_additional_vehicle_cost',
-    start_date: new DateTimeFormat('fi', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric'
-    }).format(date),
-    end_date: new DateTimeFormat('fi', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric'
-    }).format(new Date(date.setFullYear(date.getFullYear() + 1))),
+    additional_vehicle_cost: 'default_additional_vehicle_cost',    
+    start_date: new Date(),    
+    end_date: new Date(date.setDate(date.getDate() + 14)),
+    start_time: new Date(),
+    end_time: new Date(),       
     allowanceInputRow: [
       {
         route: '',
@@ -196,6 +192,8 @@ const mapDispatchToProps = dispatch => {
     showAdditionalVehicleInfo: value =>
       dispatch(showAdditionalVehicleInfo(value)),
     changeAllowanceDate: () => dispatch(changeAllowanceDate()),
+    changeAllowanceStartDate: (date) => dispatch(changeAllowanceStartDate(date)),
+    changeAllowanceEndDate: (date) => dispatch(changeAllowanceEndDate(date)),
     changeAllowanceStartTime: (time) => dispatch(changeAllowanceStartTime(time)),
     changeAllowanceEndTime: (time) => dispatch(changeAllowanceEndTime(time)),
     saveTravellingExpense: () => dispatch(saveTravellingExpense()),

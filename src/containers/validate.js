@@ -139,7 +139,7 @@ export const invoiceValidate = values => {
     } */
   })
 
-  console.log('errors:: ', errors)
+  //console.log('errors:: ', errors)
   return errors
 }
 
@@ -279,7 +279,7 @@ export const expenseValidate = values => {
     }
   })
 
-  console.log('Inside expenseValidateErrors:: ', errors)
+  //console.log('Inside expenseValidateErrors:: ', errors)
   return errors
 }
 
@@ -300,92 +300,6 @@ export const allowanceValidate = values => {
       errors[field] = 'Kenttä on pakollinen'
     }
   })
-
-/*   const editFlag = store.getState().expense.isEdit
-
-  //REgEx:: 13.9.2018 = ^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$
-
-  if (values.start_date) {
-    if (
-      !editFlag &&
-      !/^(\w{3}) (\w{3}) (\d\d) (\d\d\d\d) (\d\d):(\d\d):(\d\d) GMT\+(\d\d\d\d) \(Eastern European Summer Time\)$/i.test(
-        values.start_date
-      )
-    ) {
-      errors['start_date'] = 'Kenttä on pakollinen'
-    }
-
-    if (
-      editFlag &&
-      !/^\s*([0-9]{4}[-\.]?((0[13-9]|1[012])[-\.]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-\.]?31|02[-\.]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00)[-\.]?02[-\.]?29)\s*$/i.test(
-        values.start_date
-      )
-    ) {
-      errors['start_date'] =
-        'Päiväysmuoto ei ole kelvollinen, kirjoita yyyy-mm-dd'
-    }
-  }
-
-  if (values.end_date) {
-    if (
-      !editFlag &&
-      !/^(\w{3}) (\w{3}) (\d\d) (\d\d\d\d) (\d\d):(\d\d):(\d\d) GMT\+(\d\d\d\d) \(Eastern European Summer Time\)$/i.test(
-        values.end_date
-      )
-    ) {
-      errors['end_date'] = 'Kenttä on pakollinen'
-    }
-
-    if (
-      editFlag &&
-      !/^\s*([0-9]{4}[-\.]?((0[13-9]|1[012])[-\.]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-\.]?31|02[-\.]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00)[-\.]?02[-\.]?29)\s*$/i.test(
-        values.end_date
-      )
-    ) {
-      errors['end_date'] =
-        'Päiväysmuoto ei ole kelvollinen, kirjoita yyyy-mm-dd'
-    }
-  }
-
-  if (values.start_time) {
-    if (
-      !editFlag &&
-      !/^(\w{3}) (\w{3}) (\d\d) (\d\d\d\d) (\d\d):(\d\d):(\d\d) GMT\+(\d\d\d\d) \(Eastern European Summer Time\)$/i.test(
-        values.start_time
-      )
-    ) {
-      errors['start_time'] = 'Kenttä on pakollinen'
-    }
-    if (
-      editFlag &&
-      !/^([0-1]?\d|2[0-3])(?::([0-5]?\d))?(?::([0-5]?\d))?$/i.test(
-        values.start_time
-      )
-    ) {
-      errors['start_time'] =
-        'Aikamuoto ei ole kelvollinen, kirjoita hh tai hh: mm tai hh: mm: ss'
-    }
-  }
-
-  if (values.end_time) {
-    if (
-      !editFlag &&
-      !/^(\w{3}) (\w{3}) (\d\d) (\d\d\d\d) (\d\d):(\d\d):(\d\d) GMT\+(\d\d\d\d) \(Eastern European Summer Time\)$/i.test(
-        values.end_time
-      )
-    ) {
-      errors['end_time'] = 'Kenttä on pakollinen'
-    }
-    if (
-      editFlag &&
-      !/^([0-1]?\d|2[0-3])(?::([0-5]?\d))?(?::([0-5]?\d))?$/i.test(
-        values.end_time
-      )
-    ) {
-      errors['end_time'] =
-        'Aikamuoto ei ole kelvollinen, kirjoita hh tai hh: mm tai hh: mm: ss'
-    }
-  } */
 
   if (values.pay_mileage) {
     const requiredMileageFields = ['distance', 'license_plate', 'vehicle_type']
@@ -420,7 +334,7 @@ export const allowanceValidate = values => {
   routeArrayErrors.filter(_ => !!_.route).length !== 0 &&
     (errors.allowanceInputRow = routeArrayErrors)
 
-  console.log('Inside allowanceValidateErrors:: ', errors)
+  //console.log('Inside allowanceValidateErrors:: ', errors)
   return errors
 }
 

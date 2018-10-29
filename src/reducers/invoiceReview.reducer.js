@@ -56,7 +56,9 @@ const reviewInvoice = (
     case REVIEW_INVOICE_EDIT_SUCCESS:
       return Object.assign({}, state,
         {
-          apiSuccess: true
+          apiSuccess: true,
+          showSpinner: false, 
+          isSaveAndSend: false
       })
 
     case SAVE_INVOICE_FAILED:

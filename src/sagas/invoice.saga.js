@@ -235,7 +235,7 @@ function* saveAndSendInvoiceSaga() {
     // FIXME: prevent success happening when error occures
     const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
 
-    if (result.data === 'Customer invoice updated successfully!') {
+    if (result.data === 'Invoice updated successfully') {
       yield put(reviewInvoiceEditSuccess())
     } else {
       const resultParsed = JSON.parse(result.data)

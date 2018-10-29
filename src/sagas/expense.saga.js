@@ -466,13 +466,7 @@ function* saveExpenseUpdateSaga() {
   const url = `${API_SERVER}/UpdateExpenses`
   const formValues = getFormValues('newfee')(store.getState())
   const invoice_expense_id = store.getState().expense.expenseEdit[0]
-    .invoice_expense_id
-
-  //@@ToDo :: Need to reverse the date like below....
-  //const reversedPurchaseDate = reverseDate(formValues.date_of_purchase)
-  //console.log('reversedPurchaseDate:: ',reversedPurchaseDate)
-  //const date_of_purchase = new Date('2018.8.31')
-  //const purchaseDate = formatFiDateToISO(date_of_purchase)
+    .invoice_expense_id  
 
   const body = {
     invoice_id: formValues.invoice.invoice_id,
@@ -533,15 +527,10 @@ function* saveAllowanceUpdateSaga() {
         uuid: uuid,
         allowanceInputRow: formValues.allowanceInputRow.filter(el => el),
 
-        /* start_date: formatFiDateToISO(formValues.start_date),
+        start_date: formatFiDateToISO(formValues.start_date),
         end_date: formatFiDateToISO(formValues.end_date),
         start_time: formatFiTimeToISO(formValues.start_time),
-        end_time: formatFiTimeToISO(formValues.end_time), */
-
-        start_date: formValues.start_date,
-        end_date: formValues.end_date,
-        start_time: formValues.start_time,
-        end_time: formValues.end_time,
+        end_time: formatFiTimeToISO(formValues.end_time),
 
         vehicle_type_id: !!formValues.vehicle_type
           ? allowanceCost[formValues.vehicle_type]['id']

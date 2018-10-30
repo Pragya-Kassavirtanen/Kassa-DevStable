@@ -134,6 +134,11 @@ export const invoiceValidate = values => {
     if (!values['rows'][parseInt(item)]['quantity']) {
       errors['rows'][parseInt(item)]['quantity'] = 'Pakollinen'
     }
+    
+    if(!/^[1-9]+[0-9]*$/i.test(values['rows'][parseInt(item)]['quantity']) && values['rows'][parseInt(item)]['quantity']){
+      errors['rows'][parseInt(item)]['quantity'] = 'Virheellinen määrä'
+    }
+
     if (!values['rows'][parseInt(item)]['unit']) {
       errors['rows'][parseInt(item)]['unit'] = 'Pakollinen'
     }

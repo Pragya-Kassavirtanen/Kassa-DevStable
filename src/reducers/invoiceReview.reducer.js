@@ -50,15 +50,16 @@ const reviewInvoice = (
       return Object.assign({}, state, {       
         apiSuccess: true,
         invoice_id: action.result,
-        isSaveInvoiceDraft: false
+        isSaveInvoiceDraft: false,
+        showSpinner: false        
       })
 
     case REVIEW_INVOICE_EDIT_SUCCESS:
       return Object.assign({}, state,
         {
           apiSuccess: true,
-          showSpinner: false, 
-          isSaveAndSend: false
+          showSpinner: false,         
+          isSaveInvoiceDraft: false
       })
 
     case SAVE_INVOICE_FAILED:

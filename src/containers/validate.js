@@ -69,7 +69,13 @@ export const invoiceValidate = values => {
   let requiredDeliveryMethodFields = []
 
   if (values['delivery_method'] === 'Verkkolasku') {
-    requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address', 'web_invoice', 'finvoice_operator']
+    requiredDeliveryMethodFields = [
+      'zip_code',
+      'city',
+      'delivery_address',
+      'web_invoice',
+      'finvoice_operator'
+    ]
   } else {
     requiredDeliveryMethodFields = ['zip_code', 'city', 'delivery_address']
   }
@@ -134,9 +140,14 @@ export const invoiceValidate = values => {
     if (!values['rows'][parseInt(item)]['quantity_price']) {
       errors['rows'][parseInt(item)]['quantity_price'] = 'Pakollinen'
     }
-    /* if (!values['rows'][parseInt(item)]['vat_percent']) {
-      errors['rows'][parseInt(item)]['vat_percent'] = 'Pakollinen'
-    } */
+    if (
+      !/^\d{1,6}(\.\d{1,2})?$/i.test(
+        values['rows'][parseInt(item)]['quantity_price']
+      ) &&
+      values['rows'][parseInt(item)]['quantity_price']
+    ) {
+      errors['rows'][parseInt(item)]['quantity_price'] = 'Virheellinen hinta'
+    }
   })
 
   //console.log('errors:: ', errors)
@@ -146,26 +157,12 @@ export const invoiceValidate = values => {
 export const customerValidate = values => {
   const errors = {}
 
-  // Customer Info
-  /*   const requiredCustomerInfoFields = [
-    'company_name', 'business_id', 'person_to_contact', 'person_to_contact_email'
-  ] */
-
-  //const requiredCustomerInfoFields = ['company_name', 'business_id', 'person_to_contact']
-
-  // Delivery Info
-  /*   const requiredDeliveryMethodFields = [
-    'delivery_method'
-  ] */
-
-  /* const requiredFields = [...requiredCustomerInfoFields, ...requiredDeliveryMethodFields]
-  requiredFields.forEach(field => {
-    if ( !values[ field ] ) {
-      errors[ field ] = 'Kenttä on pakollinen'
-    }
-  }) */
-
-  const requiredFields = ['company_name', 'business_id', 'person_to_contact', 'person_to_contact_email']
+  const requiredFields = [
+    'company_name',
+    'business_id',
+    'person_to_contact',
+    'person_to_contact_email'
+  ]
   requiredFields.forEach(field => {
     if (!values[field]) {
       errors[field] = 'Kenttä on pakollinen'
@@ -234,29 +231,6 @@ export const expenseValidate = values => {
       errors[field] = 'Kenttä on pakollinen'
     }
   })
-
-/*   const editFlag = store.getState().expense.isEdit
-
-  if (values.date_of_purchase) {
-    if (
-      !editFlag &&
-      !/^(\w{3}) (\w{3}) (\d\d) (\d\d\d\d) (\d\d):(\d\d):(\d\d) GMT\+(\d\d\d\d) \(Eastern European Summer Time\)$/i.test(
-        values.date_of_purchase
-      )
-    ) {
-      errors['date_of_purchase'] = 'Kenttä on pakollinen'
-    }
-
-    if (
-      editFlag &&
-      !/^\s*([0-9]{4}[-\.]?((0[13-9]|1[012])[-\.]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-\.]?31|02[-\.]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00)[-\.]?02[-\.]?29)\s*$/i.test(
-        values.date_of_purchase
-      )
-    ) {
-      errors['date_of_purchase'] =
-        'Päiväysmuoto ei ole kelvollinen, kirjoita yyyy-mm-dd'
-    }
-  } */
 
   const expenses = store.getState().expense.expenseInputRow.map(_ => _.key)
 

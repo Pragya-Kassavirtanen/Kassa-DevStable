@@ -19,6 +19,7 @@ export default class Dashboard extends React.Component {
     this.props.getCustomersChart()
     this.props.getUserTaxInfo()
     this.props.getCompanyUpdates()
+    //this.props.onTokenValidation()    
   }
 
   render() {

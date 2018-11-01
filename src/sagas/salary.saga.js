@@ -17,23 +17,6 @@ import {
 import store from '../store'
 import { apiManualPost, apiBlobPost } from '../utils/request'
 
-/* function* getNewSalarySaga() {
-  try {
-    const url = `${API_SERVER}/GetInvoiceInfoForWages`
-    const result = yield call(apiManualRequest, url)
-    const resultParsed = JSON.parse(result.data)
-    resultParsed[Symbol.iterator] = function* () {
-      const keys = Reflect.ownKeys(this)
-      for (const key of keys) {
-        yield this[key]
-      }
-    }
-    yield put(getNewSalarySuccess(resultParsed))
-  } catch (e) {
-    console.warn(e)
-  }
-} */
-
 function* getNewSalarySaga() {
   try {
     const url = `${API_SERVER}/GetInvoiceInfoForWages`
@@ -87,9 +70,9 @@ function* postSalarySaga({ selected }) {
     })
     const url = `${API_SERVER}/AddSalary`   
     const resultAddSalary = yield call(apiManualPost, url, body)
-
+    
     if (resultAddSalary.data === 'Salary saved successfully!') {
-      yield put(addSalarySuccess(resultAddSalary.data))
+      yield put(addSalarySuccess(resultAddSalary.data))      
     } else {
       console.warn('Inside Failed AddSalary:: ',resultAddSalary.data)
     }
@@ -109,7 +92,7 @@ function* postSalarySaga({ selected }) {
     const resultInvoiceInfo = yield call(apiManualPost, invoiceInfoUrl, invoiceInfoBody)    
     const resultParsedInvoiceInfo = JSON.parse(resultInvoiceInfo.data)
     console.log('Inside postSalarySaga resultParsedInvoiceInfo:: ',resultParsedInvoiceInfo)
-    yield put(getNewSalarySuccess(resultParsedInvoiceInfo))
+    yield put(getNewSalarySuccess(resultParsedInvoiceInfo))    
   } catch (e) {
     console.warn(e)
   }

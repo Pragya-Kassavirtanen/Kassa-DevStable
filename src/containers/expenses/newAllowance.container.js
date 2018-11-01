@@ -55,12 +55,12 @@ let newAllowanceContainer = reduxForm({
       }
     ],
     distance: 0,
-    pay_forest_road: false,
-    pay_heavy_load: false,
-    pay_working_dog: false,
+    forest_trail: false,
+    heavy_load: false,
+    working_dog: false,
     license_plate: '',
-    pay_mileage: false,
-    pay_allowance: false,
+    mileage_allowance: false,
+    day_allowance: false,
     full_time_allowance: 0,
     part_time_allowance: 0,
     meal_allowance: 0,
@@ -140,8 +140,8 @@ const mapStateToProps = state => {
     allowancePassenger: passengerInputRows,
     showAdditionalInfo: state.expense.showAdditionalInfo,
 
-    showMileageForm: !formValues || formValues.pay_mileage,
-    showAllowanceForm: !formValues || formValues.pay_allowance,
+    showMileageForm: !formValues || formValues.mileage_allowance,
+    showAllowanceForm: !formValues || formValues.day_allowance,
     startDate: !formValues || formValues.start_date,
     endDate: !formValues || formValues.end_date,
 
@@ -154,14 +154,14 @@ const mapStateToProps = state => {
 
     fullTimeSelected:
       !!formValues &&
-      formValues.pay_allowance &&
+      formValues.day_allowance &&
       formValues.full_time_allowance,
     partTimeSelected:
       !!formValues &&
-      formValues.pay_allowance &&
+      formValues.day_allowance &&
       formValues.part_time_allowance,
     mealSelected:
-      !!formValues && formValues.pay_allowance && formValues.meal_allowance,
+      !!formValues && formValues.day_allowance && formValues.meal_allowance,
 
     allowanceDaysFull: _createMenuItems(
       _getFullDayValues(state.expense.days, formValues)
@@ -174,7 +174,7 @@ const mapStateToProps = state => {
     ),
 
     distance:
-      !!formValues && formValues.pay_mileage
+      !!formValues && formValues.mileage_allowance
         ? !isNaN(Number.parseFloat(formValues.distance))
           ? parseFloat(formValues.distance)
           : false
@@ -245,7 +245,7 @@ const _getMealValues = (days, formValues) =>
 const calculateKmPrice = (state, formValues) => {
   let kmPrice = 0
   const allowanceCost = state.expense.allowanceCost
-  if (!!formValues && formValues.pay_mileage && !!formValues.vehicle_type) {
+  if (!!formValues && formValues.mileage_allowance && !!formValues.vehicle_type) {
     kmPrice =
       allowanceCost[formValues.vehicle_type]['value'] +
       state.expense.passengerPrice
@@ -253,13 +253,13 @@ const calculateKmPrice = (state, formValues) => {
       if (!!formValues.additional_vehicle_cost) {
         kmPrice += allowanceCost[formValues.additional_vehicle_cost]['value']
       }
-      if (formValues.pay_forest_road) {
+      if (formValues.forest_trail) {
         kmPrice += allowanceCost.forest_road.value
       }
-      if (formValues.pay_heavy_load) {
+      if (formValues.heavy_load) {
         kmPrice += allowanceCost.heavy_load.value
       }
-      if (formValues.pay_working_dog) {
+      if (formValues.working_dog) {
         kmPrice += allowanceCost.working_dog.value
       }
     }

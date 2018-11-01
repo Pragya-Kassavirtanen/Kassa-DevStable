@@ -42,6 +42,7 @@ import {
   GET_INVOICE_AMOUNT_MONTHLY_CHART_SUCCESS,
   GET_INVOICE_AMOUNT_MONTHLY_CHART_FAILED,
   GET_RENEW_TOKEN,
+  TOKEN_VALIDATION,
 
   ON_PROFILE_UPDATE,
   ON_PASSWORD_UPDATE,
@@ -358,6 +359,7 @@ export const getInvoiceAmountMonthly = () => ({type: GET_INVOICE_AMOUNT_MONTHLY}
 export const getInvoiceAmountByMonthlyChartSuccess = (result) => ({ type: GET_INVOICE_AMOUNT_MONTHLY_CHART_SUCCESS, result })
 export const getInvoiceAmountByMonthlyChartFailed = (error) => ({ type: GET_INVOICE_AMOUNT_MONTHLY_CHART_FAILED, error })
 export const onRenewToken = (result) => ({ type: GET_RENEW_TOKEN, result})
+export const onTokenValidation = (result) => ({ type: TOKEN_VALIDATION, result})
 
 export const profileUpdate = () => ({ type: ON_PROFILE_UPDATE })
 export const passwordUpdate = () => ({ type: ON_PASSWORD_UPDATE })

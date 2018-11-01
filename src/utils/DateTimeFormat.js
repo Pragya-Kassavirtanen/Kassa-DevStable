@@ -41,6 +41,9 @@ export const formatFiTimeToISO = (pickerDate) => {
 export const formatEditTime = (editTime) => {    
   let nowDate = new Date()    
   let newDate = nowDate.getFullYear()+'-'+(nowDate.getMonth()+1)+'-'+nowDate.getDate() + 'T' + editTime
-  let formatNewDate = new Date(newDate)  
+  console.log('newDate:: ', newDate)
+  //let formatNewDate = new Date(newDate)
+  let formatNewDate = new Date() 
+  console.log('formatNewDate:: ',formatNewDate)  
   return formatNewDate
 }

@@ -280,7 +280,7 @@ export const allowanceValidate = values => {
     }
   })
 
-  if (values.pay_mileage) {
+  if (values.mileage_allowance) {
     const requiredMileageFields = ['distance', 'license_plate', 'vehicle_type']
 
     if (

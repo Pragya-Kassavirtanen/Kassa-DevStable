@@ -204,11 +204,19 @@ export const createUploadFileChannel = (url, file, opt) => {
       }
     }
 
+    let document_id
+    if(store.getState().expense.expenseEdit == undefined){
+      document_id = 0
+    }else {
+      document_id = store.getState().expense.expenseEdit[0].document_id
+    }
+
     reader.onloadend = e => {     
 
       const body = {
         ...opt,
-        uuid: store.getState().client.user.data[2],     
+        uuid: store.getState().client.user.data[2],
+        document_id: document_id, 
         filename: file.name,
         filetype: file.type,
         data: e.target.result
@@ -216,6 +224,7 @@ export const createUploadFileChannel = (url, file, opt) => {
 
       let nestedBody = nestPropertyAsObject(body, 'document', [
         'uuid',
+        'document_id',
         'filename',
         'filetype',
         'data'        

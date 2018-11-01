@@ -20,7 +20,8 @@ const mapDispatchToProps = dispatch => {
     getInvoiceChart: () => dispatch(getInvoiceChart()),
     getUserTaxInfo: () => dispatch(getUserTaxInfo()),
     getCompanyUpdates: () => dispatch(getCompanyUpdates()),
-    getInvoiceAmountMonthly: () => dispatch(getInvoiceAmountMonthly())    
+    getInvoiceAmountMonthly: () => dispatch(getInvoiceAmountMonthly())
+    //onTokenValidation: () => dispatch(onTokenValidation())
   }
 }
 

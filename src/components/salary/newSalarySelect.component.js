@@ -27,25 +27,25 @@ const NewSalarySelect = ({
 }) =>
 <div className="panel-body">
   <Table multiSelectable={true} onRowSelection={selectRowSalary}>
-    <TableHeader adjustForCheckbox={true} displaySelectAll={false}>
-      <TableRow>
-        <TableHeaderColumn>Lasku</TableHeaderColumn>
-        <TableHeaderColumn>Yritys</TableHeaderColumn>
-        <TableHeaderColumn>Summa</TableHeaderColumn>
+  <TableHeader adjustForCheckbox={true} displaySelectAll={false}>
+    <TableRow>
+      <TableHeaderColumn>Lasku</TableHeaderColumn>
+      <TableHeaderColumn>Yritys</TableHeaderColumn>
+      <TableHeaderColumn>Summa</TableHeaderColumn>
+    </TableRow>
+  </TableHeader>
+  <TableBody deselectOnClickaway={false}>
+    {newSalary.map(element =>
+      <TableRow className="dashboard-admin-hover-row" key={element.invoice_id}>
+        <TableRowColumn>{element.invoice_id}</TableRowColumn>
+        <TableRowColumn>{element.company_name}</TableRowColumn>
+        <TableRowColumn>{new Intl.NumberFormat('fi-FI', {
+                          style: 'currency',
+                          currency: 'EUR'
+                        }).format(element.sumwithoutTax)}
+        </TableRowColumn>
       </TableRow>
-    </TableHeader>
-    <TableBody deselectOnClickaway={false}>
-      {newSalary.map(element =>
-        <TableRow className="dashboard-admin-hover-row" key={element.invoice_id}>
-          <TableRowColumn>{element.invoice_id}</TableRowColumn>
-          <TableRowColumn>{element.company_name}</TableRowColumn>
-          <TableRowColumn>{new Intl.NumberFormat('fi-FI', {
-                            style: 'currency',
-                            currency: 'EUR'
-                          }).format(element.sumwithoutTax)}
-          </TableRowColumn>
-        </TableRow>
-      )}
-    </TableBody>
-  </Table>
+    )}
+  </TableBody>
+</Table>
 </div>

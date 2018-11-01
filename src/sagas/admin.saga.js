@@ -50,7 +50,7 @@ import DateTimeFormat from '../utils/DateTimeFormat'
 
 function* adminInvoiceSearchSaga() {
   try {
-    const url = `${API_SERVER}/SearchInvoices`
+    const url = `${API_SERVER}/SearchInvoices`   
     let nestedBody, instant_payment
     const formValues = getFormValues('admin')(store.getState())
 
@@ -69,7 +69,7 @@ function* adminInvoiceSearchSaga() {
         invoice_reference: formValues.invoice_reference,
         minSum: formValues.minSum,
         maxsum: formValues.maxsum,
-        instant_payment: instant_payment
+        instant_payment: instant_payment        
       }
 
       nestedBody = nestProperties(body, 'Invoice', [
@@ -320,8 +320,12 @@ function* adminUserUpdateSaga({ email, uuid }) {
 function* adminUpdateInvoiceStatusSaga({ invoice_id }) {
   try {
     const url = `${API_SERVER}/UpdateInvoiceStatus`
+    const id = invoice_id.split('$$')
+    const uuid = id[0]
+    const inv_id = id[1]
     const body = JSON.stringify({
-      invoice_id: invoice_id,
+      uuid: uuid,
+      invoice_id: inv_id,
       invoicePaid: store.getState().admin.invoicepaid
     })
     const result = yield call(apiManualPost, url, body)

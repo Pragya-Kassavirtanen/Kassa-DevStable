@@ -263,6 +263,7 @@ const invoicePanel = (
         <Table selectable={false}>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
+              <TableHeaderColumn>Sähköposti</TableHeaderColumn>
               <TableHeaderColumn>Yrityksen nimi</TableHeaderColumn>
               <TableHeaderColumn>Laskunro.</TableHeaderColumn>
               <TableHeaderColumn>Laskuviite</TableHeaderColumn>
@@ -499,7 +500,10 @@ const createInvoiceRow = (
   cancelUpdateAdminInvoiceStatus
 ) =>
   invoices.slice(selected * 10, selected * 10 + 10).map(el => (
-    <TableRow selectable={false} key={el.invoice_id}>
+    <TableRow selectable={false} key={el.email+el.invoice_id}>
+      <TableRowColumn>
+        <b>{el.email}</b>
+      </TableRowColumn>
       <TableRowColumn>
         <b>{el.company_name}</b>
       </TableRowColumn>
@@ -529,13 +533,13 @@ const createInvoiceRow = (
       <TableRowColumn>
         <Checkbox
           onCheck={() => {
-            store.dispatch(warnInvoiceToPay(el.invoice_id))
+            store.dispatch(warnInvoiceToPay(`${el.uuid}$$${el.invoice_id}`))
           }}
           disabled={el.invoicepaid !== 0 ? true : false}
-          checked={isToPayInvoiceId !== el.invoice_id ? false : true}
-        />
+          checked={isToPayInvoiceId !== `${el.uuid}$$${el.invoice_id}` ? false : true}
+        />        
         <Dialog
-          title={`Vahvistako laskun nro ${isToPayInvoiceId} on maksettu?`}
+          title={'Vahvistako laskun on maksettu?'}
           contentStyle={{
             width: '450px',
             height: '200px',

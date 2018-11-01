@@ -255,7 +255,8 @@ function* saveAndSendInvoiceSaga() {
       //Calling GenerateInvoicePDF API....
       const generateInvoicePDFUrl = `${API_SERVER}/GenerateInvoicePDF`
       const generateInvoicePDFBody = JSON.stringify({
-        invoice_id: invoice_id
+        invoice_id: invoice_id,
+        uuid: uuid
       })
 
       const generateInvoicePDFResult = yield call(
@@ -290,8 +291,10 @@ function* saveAndSendInvoicePDF() {
 function* generateInvoicePDF({ invoice_id }) {
   try {
     const url = `${API_SERVER}/GenerateInvoicePDF`
+    const uuid = store.getState().client.user.data[2]
     const body = JSON.stringify({
-      invoice_id: invoice_id
+      invoice_id: invoice_id,
+      uuid: uuid
     })
     yield call(apiManualPost, url, body)
   } catch (e) {
@@ -302,8 +305,10 @@ function* generateInvoicePDF({ invoice_id }) {
 function* invoiceDownloadPDF({ invoice_id }) {
   try {
     const url = `${API_SERVER}/InvoiceDownloadPDF`
+    const uuid = store.getState().client.user.data[2]
     const body = JSON.stringify({
-      invoice_id: invoice_id
+      invoice_id: invoice_id,
+      uuid: uuid
     })
     yield call(apiBlobPost, url, body)
   } catch (e) {
@@ -314,8 +319,10 @@ function* invoiceDownloadPDF({ invoice_id }) {
 function* removeInvoiceSaga({ invoice_id }) {
   try {
     const url = `${API_SERVER}/DeleteInvoice`
+    const uuid = store.getState().client.user.data[2]
     const body = JSON.stringify({
-      invoice_id: invoice_id
+      invoice_id: invoice_id,
+      uuid: uuid
     })
     yield call(apiManualPost, url, body)
   } catch (e) {}
@@ -324,8 +331,10 @@ function* removeInvoiceSaga({ invoice_id }) {
 function* editInvoiceSaga({ invoice_id }) {
   try {
     const url = `${API_SERVER}/GetInvoiceByInvoiceID`
+    const uuid = store.getState().client.user.data[2]
     const body = JSON.stringify({
-      invoice_id: invoice_id
+      invoice_id: invoice_id,
+      uuid: uuid
     })
     const result = yield call(apiManualPost, url, body)
     if (result.data) yield put(getInvoiceByIdSuccess(result.data))
@@ -557,8 +566,10 @@ function* invoiceLocationChangeSaga(){
 function* copyInvoiceSaga({ invoice_id }) {
   try {
     const invoiceUrl = `${API_SERVER}/CopyInvoiceByInvoiceID`
+    const uuid = store.getState().client.user.data[2]
     const body = JSON.stringify({
-      invoice_id: invoice_id
+      invoice_id: invoice_id,
+      uuid: uuid
     })
 
     //api calls for invoice data

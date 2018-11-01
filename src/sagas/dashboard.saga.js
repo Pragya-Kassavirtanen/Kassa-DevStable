@@ -10,7 +10,9 @@ import {
   getUserTaxInfoSuccess,
   getCompanyUpdatesSuccess,
   getInvoiceAmountByMonthlyChartSuccess,
-  getInvoiceAmountByMonthlyChartFailed
+  getInvoiceAmountByMonthlyChartFailed,
+  onRenewToken,
+  setClient
 } from '../actions'
 import {
   CHECK_AUTH_INFO,
@@ -21,7 +23,8 @@ import {
   GET_INVOICE_AMOUNT_MONTHLY,
   API_SERVER,
   KVT_IDENTITY_SERVER,
-  GET_RENEW_TOKEN
+  GET_RENEW_TOKEN,
+  TOKEN_VALIDATION
 } from '../constants'
 import { apiPost, apiManualPost, apiManualRequest, registerPost } from '../utils/request'
 import store from '../store'
@@ -183,7 +186,23 @@ function* getRenewToken() {
       email: email
     })
     const result = yield call(registerPost, url, body)   
-    console.log('Inside getRenewToken API:: ', result.data)   
+    console.log('Inside getRenewToken API:: ', result.data)
+    yield put(setClient(result.data))
+    sessionStorage.setItem('user', JSON.stringify(result.data)) 
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* getTokenValidation() {
+  try {
+    const url = `${API_SERVER}/TokenValidation`
+    const resultTokenValidate = yield call(apiManualRequest, url)
+    console.log('Inside getTokenValidation:: ',resultTokenValidate.data) 
+    if(resultTokenValidate.data === 'Token expired'){
+      const resultRenewToken = yield put(onRenewToken())
+      console.log('Inside getTokenValidation:: ', resultRenewToken)
+    }
   } catch (e) {
     console.warn(e)
   }
@@ -215,4 +234,8 @@ export function* watchGetCompanyUpdatesSaga() {
 
 export function* watchGetRenewTokenSaga() {
   yield takeEvery(GET_RENEW_TOKEN, getRenewToken)
+}
+
+export function* watchTokenValidationSaga() {
+  yield takeEvery(TOKEN_VALIDATION, getTokenValidation)
 }

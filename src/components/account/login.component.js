@@ -7,11 +7,11 @@ import {
   TextField,
   RaisedButton,
   Checkbox,
-  FlatButton,
+  //FlatButton,
   Dialog,
   Snackbar
 } from 'material-ui'
-import FontAwesome from 'react-fontawesome'
+//import FontAwesome from 'react-fontawesome'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -20,7 +20,7 @@ import { registerValidate as validate } from '../../containers/validate'
 import { registerAsyncValidate as asyncValidate } from '../../containers/asyncValidate'
 import Spinner from 'react-spinner-material'
 
-import userManager from '../../utils/PHZUserManager'
+//import userManager from '../../utils/PHZUserManager'
 import { loginFormSubmit, closeLoginSnackbar } from '../../actions'
 import { faqFunction } from '../../utils/website.utils'
 import ResetPassword from './resetPassword.component'
@@ -33,11 +33,11 @@ import ResetPassword from './resetPassword.component'
 
 /****** TO BE REFACTORED ***/
 
-const _handleGoogleLogin = e => {
+/* const _handleGoogleLogin = e => {
   e.preventDefault()
   userManager.signinRedirect()
   console.log('done')
-}
+} */
 
 const renderTextField = ({
   input,
@@ -79,7 +79,7 @@ class LoginComponent extends Component {
           <form onSubmit={handleSubmit(this.onFormSubmit)}>
             <div>
               <Panel className="form-login-content">
-                <div>
+{/*                 <div>
                   <FlatButton
                     backgroundColor="#3F5B96"
                     hoverColor="#3F7796"
@@ -91,8 +91,8 @@ class LoginComponent extends Component {
                       />
                     }
                   />
-                </div>
-                <div className="form-register-oauth">
+                </div> */}
+{/*                 <div className="form-register-oauth">
                   <FlatButton
                     backgroundColor="#F32E06"
                     onClick={_handleGoogleLogin}
@@ -105,10 +105,10 @@ class LoginComponent extends Component {
                       />
                     }
                   />
-                </div>
-                <div className="form-hr-before">
+                </div> */}
+                {/* <div className="form-hr-before">
                   <hr className="form-hr" />
-                </div>
+                </div> */}
                 <div>
                   <Field
                     label="Sähköposti*"

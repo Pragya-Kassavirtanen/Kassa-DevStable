@@ -521,9 +521,9 @@ const _createPassengerRow = (index, check) => [
 /* const _calculateAllowanceSum = (allowance, allowance_cost) =>
   allowance.distance *
     (allowance.vehicle_type +
-      allowance.pay_working_dog * allowance_cost.working_dog.value +
-      allowance.pay_forest_road * allowance_cost.forest_road.value +
-      allowance.pay_heavy_load * allowance_cost.heavy_load.value +
+      allowance.working_dog * allowance_cost.working_dog.value +
+      allowance.forest_trail * allowance_cost.forest_road.value +
+      allowance.heavy_load * allowance_cost.heavy_load.value +
       allowance.passenger_count * allowance_cost.passenger_cost.value +
       allowance.additional_vehicle_cost) +
   allowance.full_time_allowance * allowance_cost.full_time_allowance.value +

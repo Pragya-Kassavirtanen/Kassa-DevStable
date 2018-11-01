@@ -196,12 +196,12 @@ const NewAllowance = ({
                 </div>
                 <div className="panel-body">
                   <Field
-                    name="pay_mileage"
+                    name="mileage_allowance"
                     label="Kilometrikorvaukset"
                     component={renderCheckbox}
                   />
                   <Field
-                    name="pay_allowance"
+                    name="day_allowance"
                     label="Päivä- ja ruokarahat"
                     component={renderCheckbox}
                   />
@@ -431,17 +431,17 @@ const additionalInfo = vehicleAdditionalItems => (
       {vehicleAdditionalItems}
     </Field>
     <Field
-      name="pay_heavy_load"
+      name="heavy_load"
       label="Kuljetettu raskasta kuormaa"
       component={renderCheckbox}
     />
     <Field
-      name="pay_forest_road"
+      name="forest_trail"
       label="Ajettu metsäautotiellä"
       component={renderCheckbox}
     />
     <Field
-      name="pay_working_dog"
+      name="working_dog"
       label="Kuljetettu työkoiraa"
       component={renderCheckbox}
     />

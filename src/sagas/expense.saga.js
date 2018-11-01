@@ -163,8 +163,8 @@ function* saveTravellingExpense() {
       allowancePassenger: !!formValues.passengerInputRow
         ? formValues.passengerInputRow.filter(el => el)
         : [],
-      pay_mileage: !!formValues.pay_mileage,
-      pay_allowance: !!formValues.pay_allowance
+      mileage_allowance: !!formValues.mileage_allowance,
+      day_allowance: !!formValues.day_allowance
     }
   )
 
@@ -320,6 +320,7 @@ function* editAllowanceSaga({ id }) {
 
     let startTime = store.getState().expense.allowanceEdit[0].start_time
     let renewStartTime = formatEditTime(startTime)
+    console.log('renewStartTime:: ', renewStartTime)
     yield put(change('newallowance', 'start_time', renewStartTime))
     yield put(changeAllowanceStartTime(renewStartTime))
 
@@ -466,11 +467,11 @@ function* saveExpenseUpdateSaga() {
   const url = `${API_SERVER}/UpdateExpenses`
   const formValues = getFormValues('newfee')(store.getState())
   const invoice_expense_id = store.getState().expense.expenseEdit[0]
-    .invoice_expense_id  
+    .invoice_expense_id
 
   const body = {
     invoice_id: formValues.invoice.invoice_id,
-    invoice_expense_id: invoice_expense_id,
+    invoice_expense_id: invoice_expense_id,    
     place_of_purchase: formValues.place_of_purchase,
     date_of_purchase: formValues.date_of_purchase,
     expenseInputRow: !!formValues.expenseInputRow
@@ -485,9 +486,7 @@ function* saveExpenseUpdateSaga() {
     while (true) {
       const { progress = 0, err, success } = yield take(channel)
       if (err) {
-        yield put(expenseUpdateFailed(err))
-        //yield put(emptyExpenseRows())
-        //yield put(reset('newfee'))
+        yield put(expenseUpdateFailed(err))        
       }
       if (success) {
         yield put(expenseUpdateSuccess(success))
@@ -541,8 +540,8 @@ function* saveAllowanceUpdateSaga() {
         allowancePassenger: !!formValues.passengerInputRow
           ? formValues.passengerInputRow.filter(el => el)
           : [],
-        pay_mileage: !!formValues.pay_mileage,
-        pay_allowance: !!formValues.pay_allowance
+        mileage_allowance: !!formValues.mileage_allowance,
+        day_allowance: !!formValues.day_allowance
       }
     )
 

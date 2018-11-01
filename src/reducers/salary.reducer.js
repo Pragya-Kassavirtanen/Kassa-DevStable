@@ -79,7 +79,7 @@ const salaryReducer = (state = initialState, action) => {
         {},
         { ...state },
         {
-          selectedRows: []
+          selectedRows: []          
         }
       )
 

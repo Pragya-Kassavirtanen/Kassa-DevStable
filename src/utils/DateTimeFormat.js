@@ -37,13 +37,3 @@ export const formatFiTimeToISO = (pickerDate) => {
   let found = utcTime.match(/\d\d:\d\d:\d\d/)
   return found[0]
 }
-
-export const formatEditTime = (editTime) => {    
-  let nowDate = new Date()    
-  let newDate = nowDate.getFullYear()+'-'+(nowDate.getMonth()+1)+'-'+nowDate.getDate() + 'T' + editTime
-  console.log('newDate:: ', newDate)
-  //let formatNewDate = new Date(newDate)
-  let formatNewDate = new Date() 
-  console.log('formatNewDate:: ',formatNewDate)  
-  return formatNewDate
-}

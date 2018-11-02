@@ -205,7 +205,7 @@ export const createUploadFileChannel = (url, file, opt) => {
     }
 
     let document_id
-    if(store.getState().expense.expenseEdit == undefined){
+    if(store.getState().expense.expenseEdit[0] == undefined){
       document_id = 0
     }else {
       document_id = store.getState().expense.expenseEdit[0].document_id

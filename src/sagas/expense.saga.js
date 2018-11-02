@@ -50,8 +50,7 @@ import store from '../store'
 import { getFormValues, reset, change } from 'redux-form'
 import {
   formatFiDateToISO,
-  formatFiTimeToISO,
-  formatEditTime
+  formatFiTimeToISO
 } from '../utils/DateTimeFormat'
 
 /**
@@ -319,13 +318,12 @@ function* editAllowanceSaga({ id }) {
     yield put(changeAllowanceDate())
 
     let startTime = store.getState().expense.allowanceEdit[0].start_time
-    let renewStartTime = formatEditTime(startTime)
-    console.log('renewStartTime:: ', renewStartTime)
+    let renewStartTime = new Date(`${startDate}T${startTime}`)
     yield put(change('newallowance', 'start_time', renewStartTime))
     yield put(changeAllowanceStartTime(renewStartTime))
 
     let endTime = store.getState().expense.allowanceEdit[0].end_time
-    let renewEndTime = formatEditTime(endTime)
+    let renewEndTime = new Date(`${endDate}T${endTime}`)
     yield put(change('newallowance', 'end_time', renewEndTime))
     yield put(changeAllowanceEndTime(renewEndTime))
 

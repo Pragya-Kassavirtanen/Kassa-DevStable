@@ -245,7 +245,7 @@ function* editExpenseSaga({ invoice_expense_id }) {
 
     const l = expenseResult[0].expenseInputRow.slice(0, occurences).length
     for (let i = 0; i < l; i++) {
-      yield put(addExpenseRow())
+      //yield put(addExpenseRow())
       yield put(
         change(
           'newfee',
@@ -486,6 +486,7 @@ function* saveExpenseUpdateSaga() {
       if (err) {
         yield put(expenseUpdateFailed(err))        
       }
+      
       if (success) {
         yield put(expenseUpdateSuccess(success))
         yield put(emptyExpenseRows())

@@ -34,6 +34,7 @@ import {
   SAVE_TRAVELLING_EXPENSE_SUCCESS,
   GET_EXPENSE_BY_ID_SUCCESS,
   GET_ALLOWANCE_BY_ID_SUCCESS,
+  SAVE_EXPENSE_UPDATE,
   EXPENSE_UPDATE_SUCCESS,
   EXPENSE_UPDATE_FAILED,
   CANCEL_EXPENSE_UPDATE,
@@ -117,6 +118,9 @@ const expenseReducer = (state = initialState, action) => {
 
     case SAVE_EXPENSE:
       return Object.assign({}, state, { showSpinner: true })
+
+    case SAVE_EXPENSE_UPDATE:
+    return Object.assign({}, state, { showSpinner: true })
 
     case SAVE_EXPENSE_SUCCESS:
       return Object.assign({}, state, {
@@ -336,6 +340,8 @@ const expenseReducer = (state = initialState, action) => {
         {},
         { ...state },
         {
+          showSpinner: false,
+          showSnackbar: true,
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [

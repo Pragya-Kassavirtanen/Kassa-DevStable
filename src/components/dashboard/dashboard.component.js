@@ -19,7 +19,26 @@ export default class Dashboard extends React.Component {
     this.props.getCustomersChart()
     this.props.getUserTaxInfo()
     this.props.getCompanyUpdates()
-    //this.props.onTokenValidation()    
+    //this.props.onTokenValidation()
+
+    //window.addEventListener('scroll', this.handleScroll.bind(this))
+    window.addEventListener('beforeunload', this.handleRefresh.bind(this))   
+  }
+
+  componentWillUnmount() {
+    //window.removeEventListener('scroll', this.handleScroll.bind(this))
+    window.removeEventListener('beforeunload', this.handleRefresh.bind(this))
+  }
+
+  /*   handleScroll(e) {    
+    console.log(e)
+  } */
+
+  handleRefresh(e) {    
+    e.preventDefault()    
+    console.log(e)
+    // Chrome requires returnValue to be set.
+    e.returnValue = ''    
   }
 
   render() {

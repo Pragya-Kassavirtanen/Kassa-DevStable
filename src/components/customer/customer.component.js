@@ -24,7 +24,7 @@ import { SelectField } from 'redux-form-material-ui'
 export default class CustomerComponent extends React.Component {
   componentDidMount() {
     this.props.getCustomersStart()
-    this.props.getEinvoiceOperator()    
+    this.props.getEinvoiceOperator()
   }
 
   render() {

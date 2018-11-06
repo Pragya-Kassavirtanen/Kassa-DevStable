@@ -14,7 +14,7 @@ import { CLIENT_UNSET } from '../constants'
 // when the store is updated
 const mapStateToProps = (state, ownProps) => {
   return {   
-    user : state.oidc.user ? state.oidc.user : (store.getState()).client.user,
+    user : state.oidc.user ? state.oidc.user : store.getState().client.user,
     navItems: navItems,
     path: ownProps.location.pathname   
   }

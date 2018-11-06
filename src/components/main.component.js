@@ -19,7 +19,7 @@ const Main = ({ children, user, navItems, path, handleManualLogout }) => {
     <div>
       <Header user={user} navItems={navItems} handleManualLogout= {handleManualLogout}/>
       { children }
-      { (!user || user.expired) &&
+      { (!user) &&
       ((path !== '/dashboard/register') &&
         path !== '/dashboard/login')
       && <Account/> }

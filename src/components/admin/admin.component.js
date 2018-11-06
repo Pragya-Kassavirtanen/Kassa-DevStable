@@ -6,7 +6,6 @@ import AdminUserFilterRowContainer from '../../containers/admin/adminUserFilterR
 import AdminUserFormContainer from '../../containers/admin/adminUserForm.container'
 import AdminUpdateFormContainer from '../../containers/admin/adminUpdateForm.container'
 import AdminSalaryFilterRowContainer from '../../containers/admin/adminSalaryFilterRow.container'
-import Spinner from 'react-spinner-material'
 import ReactPaginate from 'react-paginate'
 import { Link } from 'react-router'
 import FontAwesome from 'react-fontawesome'
@@ -72,8 +71,8 @@ const AdminComponent = ({
   cancelUpdateAdminSalaryStatus,
   updateAdminSalaryStatus,
   showAdminSnackbar,
-  hideAdminSnackbar,
-  showSpinner,
+  showAdminFailSnackbar,
+  hideAdminSnackbar,  
   releaseSearchRows,
   adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
@@ -130,23 +129,18 @@ const AdminComponent = ({
         message="Tiedot päivitetty"
         bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
         contentStyle={{ textAlign: 'center' }}
-        autoHideDuration={5000}
+        autoHideDuration={2000}
         onRequestClose={hideAdminSnackbar}
       />
-      <Dialog
-        title="Tietoja päivitetään"
-        contentStyle={{ width: '350px', height: '150px', textAlign: 'center' }}
-        modal={true}
-        open={showSpinner}
-      >
-        <Spinner
-          width={100}
-          height={120}
-          spinnerColor={'#44C0CC'}
-          spinnerWidth={2}
-          show={showSpinner}
-        />
-      </Dialog>
+      <Snackbar
+        open={showAdminFailSnackbar}
+        message="Päivitys epäonnistui"
+        autoHideDuration={4000}
+        bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
+        onRequestClose={() => {
+          hideAdminSnackbar()
+        }}
+      />
     </div>
   </MuiThemeProvider>
 )

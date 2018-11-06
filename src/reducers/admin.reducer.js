@@ -9,11 +9,12 @@ import {
   EXPAND_ADMIN_USER_FALSE,
   SEARCH_ADMIN_USERS_SUCCESS,
   SEARCH_ADMIN_USERS_FAILED,
-  UPDATE_ADMIN_INVOICE,
-  UPDATE_ADMIN_INVOICE_RESULT,
+  //UPDATE_ADMIN_INVOICE,
+  //UPDATE_ADMIN_INVOICE_RESULT,
   HIDE_ADMIN_SNACKBAR,
-  UPDATE_ADMIN_USER,
+  //UPDATE_ADMIN_USER,
   UPDATE_ADMIN_USER_RESULT,
+  UPDATE_ADMIN_USER_RESULT_FAILED,
   SEARCH_ADMIN_WAGES_SUCCESS,
   SEARCH_ADMIN_WAGES_FAILED,
   INVOICE_SEARCH_PAGE_CHANGE,
@@ -37,8 +38,9 @@ import { convertIntToState } from '../utils/invoice.utils'
 
 const initialState = {
   selectedMenuItem: 0,
-  showSpinner: false,
+  //showSpinner: false,
   showAdminSnackbar: false,
+  showAdminFailSnackbar: false,
   invoiceSearchRows: [],
   userSearchRows: [],
   salarySearchRows: [],
@@ -193,7 +195,7 @@ const adminReducer = (state = initialState, action) => {
         { userSearchRows: closeUserUpdateRows }
       )
 
-    case UPDATE_ADMIN_INVOICE:
+    /* case UPDATE_ADMIN_INVOICE:
       return Object.assign({}, { ...state }, { showSpinner: true })
 
     case UPDATE_ADMIN_INVOICE_RESULT:
@@ -201,20 +203,27 @@ const adminReducer = (state = initialState, action) => {
         {},
         { ...state },
         { showSpinner: false, showAdminSnackbar: true }
-      )
+      ) */
 
-    case UPDATE_ADMIN_USER:
-      return Object.assign({}, { ...state }, { showSpinner: true })
+    /* case UPDATE_ADMIN_USER:
+      return Object.assign({}, { ...state }, { showSpinner: true }) */
 
     case UPDATE_ADMIN_USER_RESULT:
       return Object.assign(
         {},
         { ...state },
-        { showSpinner: false, showAdminSnackbar: true }
+        { showAdminSnackbar: true }
+      )
+
+    case UPDATE_ADMIN_USER_RESULT_FAILED:
+      return Object.assign(
+        {},
+        { ...state },
+        { showAdminFailSnackbar: true }
       )
 
     case HIDE_ADMIN_SNACKBAR:
-      return Object.assign({}, { ...state }, { showAdminSnackbar: false })
+      return Object.assign({}, { ...state }, { showAdminSnackbar: false, showAdminFailSnackbar: false })
 
     case INVOICE_SEARCH_PAGE_CHANGE:
       return Object.assign(

@@ -329,7 +329,11 @@ function* removeInvoiceSaga({ invoice_id }) {
 }
 
 function* editInvoiceSaga({ invoice_id }) {
-  try {
+  try {    
+    //To clear the Customer Dropdown
+    yield put(reset('invoice'))
+
+    //Get Edit Invoice Info
     const url = `${API_SERVER}/GetInvoiceByInvoiceID`
     const uuid = store.getState().client.user.data[2]
     const body = JSON.stringify({
@@ -454,11 +458,13 @@ function* editInvoiceSaga({ invoice_id }) {
 function* invoiceLocationChangeSaga(){
   try {    
     const pathname = store.getState().routing.locationBeforeTransitions.pathname
+    let invoiceEdit = []
+      invoiceEdit = store.getState().invoice.invoiceEdit
+    let isEdit = false
+    isEdit = store.getState().invoice.isEdit
     if(pathname === '/dashboard/invoice/review'){
       console.log('Need not to clear the invoice form..........')
-    }else {
-      let invoiceEdit = []
-      invoiceEdit = store.getState().invoice.invoiceEdit
+    }else if (isEdit === true){     
       const customerInfoKeys = Object.keys(invoiceEdit[0]).filter(
         key => key !== 'Invoice'
       )
@@ -557,7 +563,20 @@ function* invoiceLocationChangeSaga(){
         )    
       }
       yield put(cancelEditInvoice())
-    }
+    } else 
+      {
+      yield put(change('invoice', 'country', 'Suomi'))
+      yield put(change('invoice', 'company_name', ''))
+      yield put(change('invoice', 'business_id', ''))
+      yield put(change('invoice', 'person_to_contact', ''))
+      yield put(change('invoice', 'person_to_contact_email', ''))
+      yield put(change('invoice', 'delivery_method', 'Sähköposti'))
+      yield put(change('invoice', 'delivery_address', ''))
+      yield put(change('invoice', 'zip_code', ''))
+      yield put(change('invoice', 'city', ''))
+      yield put(change('invoice', 'web_invoice', ''))
+      yield put(change('invoice', 'finvoice_operator', ''))      
+      }   
   } catch (e) {
     console.warn(e)
   }

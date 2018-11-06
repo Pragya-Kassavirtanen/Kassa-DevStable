@@ -113,6 +113,7 @@ import {
   EXPAND_ADMIN_USER_FALSE,
   UPDATE_ADMIN_USER,
   UPDATE_ADMIN_USER_RESULT,
+  UPDATE_ADMIN_USER_RESULT_FAILED,
   SAVE_EXPENSE,
   SAVE_EXPENSE_FAILED,
   SAVE_EXPENSE_SUCCESS,
@@ -399,7 +400,8 @@ export const expandAdminUser = (expanded, uuid) => ({ type: EXPAND_ADMIN_USER, e
 export const expandAdminUserTrue = result => ({ type: EXPAND_ADMIN_USER_TRUE, result})
 export const expandAdminUserFalse = uuid => ({ type: EXPAND_ADMIN_USER_FALSE, uuid})
 export const updateAdminUser = (email, uuid) => ({type: UPDATE_ADMIN_USER, email, uuid})
-export const updateAdminUserResult = result => ({type: UPDATE_ADMIN_USER_RESULT, result})
+export const updateAdminUserResult = () => ({type: UPDATE_ADMIN_USER_RESULT})
+export const updateAdminUserResultFailed = () => ({type: UPDATE_ADMIN_USER_RESULT_FAILED})
 export const searchAdminInvoice = () => ({ type: SEARCH_ADMIN_INVOICE })
 export const searchAdminInvoiceSuccess = result => ({ type: SEARCH_ADMIN_INVOICE_SUCCESS, result})
 export const searchAdminInvoiceFailed = () => ({ type: SEARCH_ADMIN_INVOICE_FAILED})

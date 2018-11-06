@@ -70,7 +70,7 @@ const NewInvoice = ({
   selectInvoiceCustomer,
   isEdit,
   invalid,
-  noMenu,
+  //noMenu,
   submitFailed,
   cancelEditInvoice,
   clearInvoiceOptions,
@@ -116,7 +116,8 @@ const NewInvoice = ({
             className="pull-left dashboard-content-header-select-customer"
             component={SelectField}
             floatingLabelText="Asiakas"
-            disabled={isEdit || noMenu}
+            //disabled={isEdit || noMenu}
+            disabled={isEdit}
             style={{ marginTop: '25px', marginRight: '20px' }}
             maxHeight={200}
             onChange={(e, i) =>

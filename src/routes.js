@@ -101,7 +101,7 @@ export default class RouteComponent extends React.Component {
             component={isUserAuthenticated(Admin)}
           />
         </Route>
-        <Route path="/dashboard/*" component={Main} />
+        <Route path="/dashboard/*" component={Main} />        
         <Route exact path="/" component={FrontMain}>          
           <Route path="/home/etusivu" component={FrontPage} />
           <Route path="/home/hinnasto" component={Hinnasto} />

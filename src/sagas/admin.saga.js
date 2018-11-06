@@ -38,6 +38,7 @@ import {
   expandAdminUserFalse,
   expandAdminUserTrue,
   updateAdminUserResult,
+  updateAdminUserResultFailed,
   updateAdminInvoiceStatusSuccess,
   searchAdminWages,
   updateAdminSalaryStatusSuccess,
@@ -295,12 +296,15 @@ function* adminUserUpdateSaga({ email, uuid }) {
       })
     ) */
     const body = JSON.stringify({ ...refinedForm })
-    yield call(apiManualPost, invoiceUrl, body)
-    //const resultParsed = JSON.parse(result.data)   
-    yield put(updateAdminUserResult(true))
+    const result = yield call(apiManualPost, invoiceUrl, body)
+
+    if(result.data === 'User contact information updated successfully!'){
+      yield put(updateAdminUserResult())
+    } else {
+      yield put(updateAdminUserResultFailed())
+    }  
   } catch (e) {
-    console.warn(e)
-    yield put(updateAdminUserResult(false))
+    console.warn(e)    
   }
 }
 

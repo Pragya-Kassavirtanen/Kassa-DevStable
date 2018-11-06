@@ -13,10 +13,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
   const Header = ({ user, navItems, handleManualLogout }) =>
   <MuiThemeProvider muiTheme={getMuiTheme()}>
-    { !user || user.expired
-      ? <Navigation />
-      : <SecNavigation user={user} navItems={navItems} handleManualLogout= {handleManualLogout}/>
-    }
+    { !user ? <Navigation /> : <SecNavigation user={user} navItems={navItems} handleManualLogout= {handleManualLogout}/> }
   </MuiThemeProvider>
 
 export default Header

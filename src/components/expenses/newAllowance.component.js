@@ -62,9 +62,11 @@ const NewAllowance = ({
   showAdditionalInfo,
   startDate,
   endDate,
-  dayItems,
+  //dayItems,
   changeAllowanceDate,
-  selectAllowanceDays,
+  //selectAllowanceDays,
+  showFullTimeAllowance,
+  changeFieldValue,
   allowanceDaysFull,
   allowanceDaysPart,
   allowanceDaysMeal,
@@ -222,8 +224,10 @@ const NewAllowance = ({
           )}
           {payAllowance(
             showAllowanceForm,
-            dayItems,
-            selectAllowanceDays,
+            //dayItems,
+            //selectAllowanceDays,
+            showFullTimeAllowance,
+            changeFieldValue,
             allowanceDaysFull,
             allowanceDaysPart,
             allowanceDaysMeal
@@ -450,8 +454,10 @@ const additionalInfo = vehicleAdditionalItems => (
 
 const payAllowance = (
   showAllowanceForm,
-  dayItems,
-  selectAllowanceDays,
+  //dayItems,
+  //selectAllowanceDays,
+  showFullTimeAllowance,
+  changeFieldValue,
   allowanceDaysFull,
   allowanceDaysPart,
   allowanceDaysMeal
@@ -465,14 +471,27 @@ const payAllowance = (
           </div>
           <div className="panel-body">
             <div>
-              <Field
+              {showFullTimeAllowance ? (
+                              <Field
+                              name="full_time_allowance"
+                              component={SelectField}
+                              floatingLabelText="Kokopäiväraha"
+                              style={{ float: 'left', width: '100%' }}                              
+                              onChange={() => changeFieldValue('full_time_allowance', 0)}                               
+                            >
+                              {allowanceDaysFull}
+                            </Field>
+              ) : (
+                <Field
                 name="full_time_allowance"
                 component={SelectField}
                 floatingLabelText="Kokopäiväraha"
-                style={{ float: 'left', width: '100%' }}
+                style={{ float: 'left', width: '100%' }}                
               >
                 {allowanceDaysFull}
               </Field>
+              )}
+
               <Field
                 name="part_time_allowance"
                 component={SelectField}

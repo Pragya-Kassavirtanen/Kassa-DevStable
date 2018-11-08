@@ -90,7 +90,7 @@ export const convertMonthNames = month => {
       return 'Syyskuu'
     case 'October':
       return 'Lokakuu'
-    case 'Novemeber':
+    case 'November':
       return 'Marraskuu'
     case 'December':
       return 'Joulukuu'

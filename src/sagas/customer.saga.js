@@ -149,8 +149,11 @@ function* saveCustomerUpdateSaga() {
     yield call(apiManualPost, url, body)
     yield put(reset('customer'))
 
-    const customerUrl = `${API_SERVER}/GetCustomers`
-    const result = yield apiManualRequest(customerUrl)
+    //Update Customer Grid after Edit Customer
+    const getCustomerUrl = `${API_SERVER}/GetCustomers`
+    const getCustomerBody = JSON.stringify({ uuid: uuid })
+    const result = yield call(apiManualPost, getCustomerUrl, getCustomerBody)
+
     if (result.data) yield put(getCustomersSuccess(result.data))
   } catch (e) {
     console.warn(e)

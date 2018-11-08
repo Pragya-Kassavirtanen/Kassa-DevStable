@@ -170,7 +170,7 @@ const ReviewInvoice = () => (
       </div>
       <div>
         <Field
-          name="finvoice_address"
+          name="web_invoice"
           component={renderTextField}
           label="Verkkolaskuosoite"
           disabled={true}

@@ -13,16 +13,13 @@ const OwnInfo = ({ userTaxInfo }) => (
     <Table selectable={false}>
       <TableBody displayRowCheckbox={false}>
         <TableRow>
-          <TableRowColumn>Perus %</TableRowColumn>
+          <TableRowColumn>Veroprosentti</TableRowColumn>
           <TableRowColumn>{`${userTaxInfo.tax_percentage} % `}</TableRowColumn>
         </TableRow>
         <TableRow>
           <TableRowColumn>Palvelumaksu</TableRowColumn>
           <TableRowColumn>
-            {new Intl.NumberFormat('fi-FI', {
-              style: 'currency',
-              currency: 'EUR'
-            }).format(userTaxInfo.service_payment)}
+            {`${userTaxInfo.service_payment} % `}
           </TableRowColumn>
         </TableRow>
         <TableRow>

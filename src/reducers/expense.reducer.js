@@ -51,7 +51,7 @@ import {
 } from '../constants/index'
 const initialState = {
   expenseInputRow: [
-    <ExpenseInputRow      
+    <ExpenseInputRow
       description={`expenseInputRow[${0}][description]`}
       sum={`expenseInputRow[${0}][sum]`}
       vat={`expenseInputRow[${0}][vat]`}
@@ -61,12 +61,12 @@ const initialState = {
   allowanceInputRow: [
     <AllowanceInputRow route={`allowanceInputRow[${0}][route]`} key={0} />,
     <AllowanceInputRow route={`allowanceInputRow[${1}][route]`} key={1} />
-  ],  
+  ],
   passengerInputRow: [
     <PassengerInputRow
-    passenger={`passengerInputRow[${0}][passenger]`}
-    key={0}   
-  />  
+      passenger={`passengerInputRow[${0}][passenger]`}
+      key={0}
+    />
   ],
   expenses: [],
   expenseRow: [],
@@ -77,16 +77,17 @@ const initialState = {
   allowanceRow: [],
   rowKeys: [],
   showAdditionalInfo: false,
+  showFullTimeAllowance: false,
   days: 0,
   passengerPrice: 0,
   selected: 0,
   allowanceSelected: 0,
   showSpinner: false,
-  showSnackbar: false,  
+  showSnackbar: false,
   expenseEdit: [],
   allowanceEdit: [],
   isEdit: false,
-  isChangeComponent: false  
+  isChangeComponent: false
 }
 
 const expenseReducer = (state = initialState, action) => {
@@ -120,7 +121,7 @@ const expenseReducer = (state = initialState, action) => {
       return Object.assign({}, state, { showSpinner: true })
 
     case SAVE_EXPENSE_UPDATE:
-    return Object.assign({}, state, { showSpinner: true })
+      return Object.assign({}, state, { showSpinner: true })
 
     case SAVE_EXPENSE_SUCCESS:
       return Object.assign({}, state, {
@@ -136,7 +137,7 @@ const expenseReducer = (state = initialState, action) => {
     case EMPTY_EXPENSE_ROWS:
       return Object.assign({}, state, {
         expenseInputRow: [
-          <ExpenseInputRow            
+          <ExpenseInputRow
             description={`expenseInputRow[${0}][description]`}
             sum={`expenseInputRow[${0}][sum]`}
             vat={`expenseInputRow[${0}][vat]`}
@@ -147,7 +148,7 @@ const expenseReducer = (state = initialState, action) => {
       })
 
     case EMPTY_PASSENGER_ROWS:
-      return Object.assign({}, state, {        
+      return Object.assign({}, state, {
         passengerInputRow: [],
         passengerRowCounter: 0
       })
@@ -233,7 +234,7 @@ const expenseReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         showAdditionalInfo: action.value === 'o'
       })
-    
+
     case CHANGE_ALLOWANCE_START_DATE:
       return Object.assign({}, state, { start_date: action.date })
 
@@ -250,20 +251,34 @@ const expenseReducer = (state = initialState, action) => {
       try {
         const start_date = getFormValues('newallowance')(store.getState())
           .start_date
-        //console.log('Inside CHANGE_ALLOWANCE_DATE:: ', start_date)
 
         const end_date = getFormValues('newallowance')(store.getState())
           .end_date
-        //console.log('Inside CHANGE_ALLOWANCE_DATE:: ', end_date)
+
+        const full_time_allowance = getFormValues('newallowance')(
+          store.getState()
+        ).full_time_allowance
+        //console.log('Inside CHANGE_ALLOWANCE_DATE:: ', full_time_allowance)
 
         const difference = Math.ceil(
           (new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24)
         )
 
-        if (!!difference) return Object.assign({}, state, { days: difference })
+        let showFullTimeAllowance
+        if (full_time_allowance > difference) {
+          showFullTimeAllowance = true
+        } else showFullTimeAllowance = false
 
-        else return Object.assign({}, state, { days: 0 })
-        
+        if (!!difference)
+          return Object.assign({}, state, {
+            days: difference,
+            showFullTimeAllowance: showFullTimeAllowance
+          })
+        else
+          return Object.assign({}, state, {
+            days: 0,
+            showFullTimeAllowance: showFullTimeAllowance
+          })
       } catch (e) {
         return Object.assign({}, state, { days: 0 })
       }
@@ -345,7 +360,7 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow              
+            <ExpenseInputRow
               description={`expenseInputRow[${0}][description]`}
               sum={`expenseInputRow[${0}][sum]`}
               vat={`expenseInputRow[${0}][vat]`}
@@ -364,7 +379,7 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow              
+            <ExpenseInputRow
               description={`expenseInputRow[${0}][description]`}
               sum={`expenseInputRow[${0}][sum]`}
               vat={`expenseInputRow[${0}][vat]`}
@@ -383,7 +398,7 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow              
+            <ExpenseInputRow
               description={`expenseInputRow[${0}][description]`}
               sum={`expenseInputRow[${0}][sum]`}
               vat={`expenseInputRow[${0}][vat]`}
@@ -502,7 +517,7 @@ const _createAllowanceRow = (allowances, selected) =>
 ] */
 
 const _createExpenseInputRow = index => [
-  <ExpenseInputRow    
+  <ExpenseInputRow
     description={`expenseInputRow[${index}][description]`}
     sum={`expenseInputRow[${index}][sum]`}
     vat={`expenseInputRow[${index}][vat]`}

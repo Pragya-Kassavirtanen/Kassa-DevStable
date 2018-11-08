@@ -23,10 +23,10 @@ export const registerValidate = values => {
 
   if (
     values['password'] &&
-    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i.test(values['password'])
+    !/^(?=.*[äöåa-z])(?=.*[ÄÖÅA-Z])(?=.*\d)[äöåa-zÄÖÅA-Z\d]*\S{8,}$/i.test(values['password'])
   ) {
     errors.password =
-      'Virheellinen salasana, Salasanan tulee sisältää vähintään: 8 merkkiä, pieniä ja isoja kirjaimia, numeroita !'
+      'Virheellinen salasana, Salasanan tulee sisältää vähintään: 8 merkkiä, numeroita, pieniä ja isoja kirjaimia!'
   }
 
   if (values['password'] !== values['passwordConfirmation']) {
@@ -133,20 +133,18 @@ export const invoiceValidate = values => {
     }
     if (!values['rows'][parseInt(item)]['quantity']) {
       errors['rows'][parseInt(item)]['quantity'] = 'Pakollinen'
-    }
-    
-    if(!/^[1-9]+[0-9]*$/i.test(values['rows'][parseInt(item)]['quantity']) && values['rows'][parseInt(item)]['quantity']){
+    }    
+    if(!/^\d{1,5}[\,\.]{1}\d{1,2}$/i.test(values['rows'][parseInt(item)]['quantity']) && values['rows'][parseInt(item)]['quantity']){
       errors['rows'][parseInt(item)]['quantity'] = 'Virheellinen määrä'
     }
-
     if (!values['rows'][parseInt(item)]['unit']) {
       errors['rows'][parseInt(item)]['unit'] = 'Pakollinen'
     }
     if (!values['rows'][parseInt(item)]['quantity_price']) {
       errors['rows'][parseInt(item)]['quantity_price'] = 'Pakollinen'
-    }
+    }    
     if (
-      !/^\d{1,6}(\.\d{1,2})?$/i.test(
+      !/^\d{1,6}[\,\.]{1}\d{1,2}$/i.test(
         values['rows'][parseInt(item)]['quantity_price']
       ) &&
       values['rows'][parseInt(item)]['quantity_price']
@@ -244,16 +242,16 @@ export const expenseValidate = values => {
   expenses.forEach(item => {
     errors['expenseInputRow'][item] = {}
     if (values['expenseInputRow'] && errors['expenseInputRow'][item]) {
-      if (!values['expenseInputRow'][item][`description${item}`]) {
-        errors['expenseInputRow'][item][`description${item}`] =
+      if (!values['expenseInputRow'][item]['description']) {
+        errors['expenseInputRow'][item]['description'] =
           'Pakollinen kenttä'
       }
-      if (!/^[0-9]*$/i.test(values['expenseInputRow'][item][`sum${item}`])) {
-        errors['expenseInputRow'][item][`sum${item}`] =
+      if (!/^[0-9]*$/i.test(values['expenseInputRow'][item]['sum'])) {
+        errors['expenseInputRow'][item]['sum'] =
           'Summa ei ole kelvollinen'
       }
-      if (!values['expenseInputRow'][item][`sum${item}`]) {
-        errors['expenseInputRow'][item][`sum${item}`] = 'Pakollinen kenttä'
+      if (!values['expenseInputRow'][item]['sum']) {
+        errors['expenseInputRow'][item]['sum'] = 'Pakollinen kenttä'
       }
     }
   })
@@ -281,14 +279,14 @@ export const allowanceValidate = values => {
   })
 
   if (values.mileage_allowance) {
-    const requiredMileageFields = ['distance', 'license_plate', 'vehicle_type']
+    const requiredMileageFields = ['distance', 'license_plate', 'vehicle_type']    
 
     if (
       !values[requiredMileageFields[0]] ||
       !/^\d+$/.test(values[requiredMileageFields[0]])
     ) {
       errors[requiredMileageFields[0]] = 'Syöte ei ole kelvollinen'
-    }
+    }   
 
     if (
       values[requiredMileageFields[2]] !== 'Polkupyörä' &&
@@ -312,6 +310,18 @@ export const allowanceValidate = values => {
     }
   routeArrayErrors.filter(_ => !!_.route).length !== 0 &&
     (errors.allowanceInputRow = routeArrayErrors)
+
+  //passengerInputRow
+  const passengerArrayErrors = []
+  if (values.passengerInputRow)
+    for (let index in values.passengerInputRow) {
+      const passengerErrors = {}
+      if(!values.passengerInputRow[index].passenger)
+      passengerErrors.passenger = 'Lisää matkustajan nimi, tai poista rivi'
+      passengerArrayErrors[index] = passengerErrors
+    }
+  passengerArrayErrors.filter(_ => !!_.passenger).length !== 0 &&
+    (errors.passengerInputRow = passengerArrayErrors)
 
   //console.log('Inside allowanceValidateErrors:: ', errors)
   return errors
@@ -341,8 +351,8 @@ export const passwordValidate = values => {
   })
 
   if (
-    values.new_pw &&
-    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i.test(values.new_pw)
+    values.new_pw &&    
+    !/^(?=.*[äöåa-z])(?=.*[ÄÖÅA-Z])(?=.*\d)[äöåa-zÄÖÅA-Z\d]*\S{8,}$/i.test(values.new_pw)
   ) {
     errors.new_pw = 'Virheellinen salasana, noudata ohjeita!'
   }

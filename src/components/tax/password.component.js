@@ -33,16 +33,19 @@ const PasswordComponent = ({
                 <Field
                   name="current_pw"
                   label="Nykyinen salasana"
+                  type="password"
                   component={renderTextField}
                 />
                 <Field
                   name="new_pw"
                   label="Uusi salasana"
+                  type="password"
                   component={renderTextField}
                 />
                 <Field
                   name="check_pw"
                   label="Toista uusi salasana"
+                  type="password"
                   component={renderTextField}
                 />
               </div>

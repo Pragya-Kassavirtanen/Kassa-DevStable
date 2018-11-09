@@ -8,6 +8,7 @@ const Yrityksille = () => (
     <div className="cover">
       <img
         src={yrityksille_banner}
+        alt="Kassavirtanen_yrityksille_banner"
         style={{ width: '100%', height: '300px' }}
       />
     </div>
@@ -18,8 +19,7 @@ const Yrityksille = () => (
         Yksityishenkilönä laskutat helposti ja turvallisesti ilman omaa
         yritystä, eikä sinun tarvitse huolehtia yrittäjiin kohdistuvasta
         byrokratiasta tai velvoitteista. <br />
-        Kassavirtanen huolehtii puolestasi siitä, että voit keskittyä siihen
-        mikä sinulle on tärkeää.
+        Kassavirtanen huolehtii puolestasi siitä, että voit keskittyä tärkeimpään.
       </p>
     </div>
     <div className="bluebackground">

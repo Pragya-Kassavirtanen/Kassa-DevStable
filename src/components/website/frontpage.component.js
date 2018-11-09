@@ -16,6 +16,7 @@ const FrontPage = () => (
     <div className="cover">
       <img
         src={herravirtanen_etusivu}
+        alt="Kassavirtanen_herravirtanen_etusivu"
         style={{ width: '100%', height: '300px' }}
       />
     </div>
@@ -42,6 +43,7 @@ const FrontPage = () => (
         <div className="col-xs-12 col-sm-6 col-lg-6">
           <img
             src={woman_etusivu}
+            alt="Kassavirtanen_woman_etusivu"
             style={{ width: '360px', marginTop: '70px' }}
           />
           <h6>Laskutus</h6>
@@ -54,6 +56,7 @@ const FrontPage = () => (
         <div className="col-xs-12 col-sm-6 col-lg-6">
           <img
             src={man_etusivu}
+            alt="Kassavirtanen_man_etusivu"
             style={{ width: '360px', marginTop: '70px' }}
           />
           <h6>Palkan nostaminen</h6>
@@ -68,9 +71,9 @@ const FrontPage = () => (
           <h6>Palkka tilille jopa samana päivänä</h6>
           <br />
           <p>
-            Palkka nopeammin kuin toimeksiantajasi ehtii maksamaan! Pikapalkan
-            palvelumaksu on vain 2,5% normaaliveloituksen lisäksi, ja saat rahat
-            parhaimmassa tapauksessa samana päivänä tilille.
+            Saat palkkasi nopeammin kuin toimeksiantajasi ehtii maksamaan! Pikapalkan 
+            palvelumaksu on vain 2,5% normaaliveloituksen lisäksi, ja saat rahat 
+            parhaimmassa tapauksessa tilillesi jo samana päivänä.
           </p>
         </div>
       </div>
@@ -79,7 +82,7 @@ const FrontPage = () => (
       <h6>Kevytyrittäjyys on helppoa</h6>
       <br />
       <p>
-        Maksat vain 2-4,0% palkan arvonlisäverottomasta summasta. Laskun
+        Palkkasi yhteydessä ovat kulut vain 2-4,0% palkan arvonlisäverottomasta summasta. Laskun 
         lähettäminen, muistutukset ja perintä ovat ilmaisia.
       </p>
     </div>

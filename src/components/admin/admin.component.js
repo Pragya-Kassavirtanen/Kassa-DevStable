@@ -462,10 +462,10 @@ const createReleaseRow = (releases, selected, adminDeleteCompanyUpdates) =>
   releases.slice(selected * 10, selected * 10 + 10).map(el => (
     <TableRow selectable={false} key={el.id}>
       <TableRowColumn>
-        <b>{formatDateAndTime(el.created)}</b>
+        {formatDateAndTime(el.created)}
       </TableRowColumn>
-      <TableRowColumn>
-        <b>{el.newsupdate}</b>
+      <TableRowColumn style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>        
+        <span>{el.newsupdate}</span>
       </TableRowColumn>
       <TableRowColumn>
         <div style={{ display: 'flex' }}>
@@ -496,24 +496,22 @@ const createInvoiceRow = (
   invoices.slice(selected * 10, selected * 10 + 10).map(el => (
     <TableRow selectable={false} key={el.email+el.invoice_id}>
       <TableRowColumn>
-        <b>{el.email}</b>
+        {el.email}
       </TableRowColumn>
       <TableRowColumn>
-        <b>{el.company_name}</b>
+        {el.company_name}
       </TableRowColumn>
       <TableRowColumn>
-        <b>{el.invoice_id}</b>
+        {el.invoice_id}
       </TableRowColumn>
       <TableRowColumn>
-        <b>{el.invoice_reference}</b>
+        {el.invoice_reference}
       </TableRowColumn>
-      <TableRowColumn>
-        <b>
+      <TableRowColumn>        
           {new Intl.NumberFormat('fi-FI', {
             style: 'currency',
             currency: 'EUR'
-          }).format(el.sum)}
-        </b>
+          }).format(el.sum)}        
       </TableRowColumn>
       <TableRowColumn>
         <Checkbox
@@ -522,7 +520,7 @@ const createInvoiceRow = (
         />
       </TableRowColumn>
       <TableRowColumn>
-        <b>{convertIntToState(el.status)}</b>
+        {convertIntToState(el.status)}
       </TableRowColumn>
       <TableRowColumn>
         <Checkbox

@@ -58,10 +58,10 @@ const createReleaseInfoRow = (releaseInfoSearchRows, selected) => {
     .map(el => (
       <TableRow selectable={false} key={el.id}>
         <TableRowColumn style={{width: '25%'}}>
-          <b>{formatDateAndTime(el.created)}</b>
+          {formatDateAndTime(el.created)}
         </TableRowColumn>
-        <TableRowColumn style={{width: '75%'}}>
-          <b>{el.newsupdate}</b>
+        <TableRowColumn style={{width: '75%', whiteSpace: 'normal', wordWrap: 'break-word'}}>
+          <span>{el.newsupdate}</span>
         </TableRowColumn>
       </TableRow>
     ))

@@ -7,11 +7,14 @@ const pikapalkka_hinnasto = require('../../images/pikapalkka.png')
 const Hinnasto = () => (
   <div className="container-fluid cover">
     <div className="cover">
-      <img src={hinnasto_banner} style={{ width: '100%', height: '300px' }} />
+      <img 
+      src={hinnasto_banner} 
+      alt="Kassavirtanen_hinnasto_banner"
+      style={{ width: '100%', height: '300px' }} />
     </div>
     <div className="hinnasto-content col-xs-12 col-sm-12 col-lg-12">
       <div className="hinnasto-intro">
-        <h6>Ei kallis vaan</h6>
+        <h6>Ei kallis vaan edullinen</h6>
         <br />
         <p>
           Kassavirtasen käyttöönottaminen ja rekisteröinti on maksutonta.
@@ -30,36 +33,40 @@ const Hinnasto = () => (
         <div className="hinnasto-palkka col-xs-12 col-sm-6 col-lg-6">
           <img
             src={palkka_hinnasto}
+            alt="Kassavirtanen_palkka_hinnasto"
             style={{ width: '360px', marginTop: '30px' }}
           />
           <h1 className="percentage">PALKKA 2-4,0%</h1>
           <div className="hinnasto-palkka-content">
-            <p>Nosta palkkaa tehdyistä töistä.</p>
+            <p>Laskutat vain tekemästäsi työstä, 
+              ja me veloitamme palvelumaksun suoraan toimeksiantajaltasi. 
+              Mitä enemmän laskutat vuodessa, sitä edullisempi palvelumaksumme on!
+            </p>
             <ul>
-              <li className="list2">&lt; 50 000 € - 4,0%</li>
-              <li className="list2">&gt; 50 000 € - 3,5%</li>
-              <li className="list2">&gt; 100 000 € - 3%</li>
-              <li className="list2">&gt; 200 000 € - 2%</li>
+              <li className="list2">&lt; 100 000 € - 4,0%</li>
+              <li className="list2">&gt; 100 000 € - 3,5%</li>
+              <li className="list2">&gt; 150 000 € - 3%</li>              
             </ul>
           </div>
         </div>
         <div className="hinnasto-pikapalkka col-xs-12 col-sm-6 col-lg-6">
           <img
             src={pikapalkka_hinnasto}
+            alt="Kassavirtanen_pikapalkka_hinnasto"
             style={{ width: '360px', marginTop: '28px' }}
           />
           <div className="percentage">
             <h1>PIKAPALKKA 2,5%</h1>
-            <p>(Normaali veloituksen lisäksi)</p>
+            <p>(Palvelumaksun lisäksi)</p>
           </div>
           <p className="hinnasto-pikapalkka-content">
             Valitse Kassavirtasen pikapalkka, kun haluat <br />
             saada palkkasi nopeammin <br />
-            kuin toimeksiantajasi ehtii maksaa! <br />
+            kuin toimeksiantajasi ehtii maksamaan! <br />
             <br />
             Pikapalkan palvelumaksu on vain 2,5% <br />
-            normaaliveloituksen lisäksi, ja parhaimmassa <br />
-            tapauksessa palkka on samana päivänä tililläsi.
+            palvelumaksun lisäksi, ja parhaimmassa <br />
+            tapauksessa palkka on tililläsi jo samana päivänä.
           </p>
         </div>
       </div>
@@ -94,7 +101,7 @@ const Hinnasto = () => (
         euroa. <br />
         Jos lasku on suurempi, maksetaan pikapalkkaa vain 4000 euron edestä,
         loput suorituksen saavuttua. <br />
-        Mikäli emme saa suoritusta toimeksiantajaltasi osittain, sinun tulee
+        Mikäli emme saa suoritusta toimeksiantajaltasi osittain, tulee sinun
         palauttaa palkka vastaavalta osin.
       </p>
     </div>
@@ -113,7 +120,7 @@ const Hinnasto = () => (
         asti perintäyhtiön kautta. <br />
         <br />
         Tämä on Kassavirtasen käyttäjälle kulutonta, sillä perintäkulut maksaa
-        laskun saaja. Muistutus- ja perintäpalvelumme ovat asialliset ja
+        velallinen. Muistutus- ja perintäpalvelumme ovat asialliset ja
         tähtäävät <br />
         laskun maksamiseen aiheuttamatta turhia ongelmia toimeksiantajallesi.
       </p>

@@ -6,7 +6,7 @@ import { Panel } from 'react-bootstrap'
 import {
   TextField,
   RaisedButton,
-  Checkbox,
+  //Checkbox,
   //FlatButton,
   Dialog,
   Snackbar
@@ -56,9 +56,9 @@ const renderTextField = ({
   />
 )
 
-const renderCheckbox = ({ input, label }) => (
+/* const renderCheckbox = ({ input, label }) => (
   <Checkbox label={label} checked={!!input.value} onCheck={input.onChange} />
-)
+) */
 
 class LoginComponent extends Component {
   onFormSubmit = values => {
@@ -126,13 +126,13 @@ class LoginComponent extends Component {
                     component={renderTextField}
                   />
                 </div>
-                <div className="form-login-checkbox">
+{/*                  <div className="form-login-checkbox">
                   <Field
                     name="checkbox"
                     label="Muista minut"
                     component={renderCheckbox}
                   />
-                </div>
+                </div> */}
                 <div className="form-login-button">
                   <RaisedButton label="Kirjaudu" primary={true} type="submit" />
                 </div>

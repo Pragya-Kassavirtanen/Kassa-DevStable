@@ -8,6 +8,7 @@ const FAQ = () => (
     <div className="cover">
       <img
         src={usein_kysyttya_banner}
+        alt="Kassavirtanen_usein_kysyttya_banner"
         style={{ width: '100%', height: '300px' }}
       />
     </div>
@@ -31,7 +32,7 @@ const FAQ = () => (
               <div>
                 <p>
                   Palvelun aloittaminen on maksutonta, maksat palvelun käytöstä
-                  vain palkkaa nostaessasi; 4,5% palkan arvonlisäverottomasta
+                  vain palkkaa nostaessasi; 4,0% palkan arvonlisäverottomasta
                   summasta.
                 </p>
               </div>
@@ -98,7 +99,7 @@ const FAQ = () => (
               <h6>Milloin palkkani maksetaan?</h6>
               <div>
                 <p>
-                  Palkkasi maksetaan heti maksusuoritusten saavuttua, ellei
+                  Palkkasi maksetaan heti maksusuoritusten saavuttua Kassavirtasen kautta tilillesi, ellei
                   palkkaa erikseen valita pikapalkaksi.
                 </p>
               </div>
@@ -112,8 +113,8 @@ const FAQ = () => (
                   Aiheutuneet lisäkustannukset korvataan asianmukaisia
                   tositteita vastaan. Mikäli siis haluat palkan päälle
                   maksettavan lisäkorvauksia, toimitathan tositteet
-                  Kassavirtasen palkanlaskentaan. Tämä onnistuu helposti
-                  skannaamalla!
+                  Kassavirtasen palkanlaskentaan. Tämä onnistuu helposti 
+                  lähettämällä tositteet joko sähköpostitse tai suoraan palveluun!
                 </p>
               </div>
             </div>

@@ -72,13 +72,13 @@ function* getInvoiceChart() {
     const bgColor = [
       'rgba(0, 128, 255, 0.8)',
       'rgba(128, 255, 255, 0.8)',
-      'rgba(0, 255, 204, 0.8)',
+      'rgba(0, 153, 122, 0.8)',
       'rgba(0, 204, 204, 0.8)'
     ]
     const brColor = [
       'rgba(0, 128, 255, 0.8)',
       'rgba(128, 255, 255, 0.8)',
-      'rgba(0, 255, 204, 0.8)',
+      'rgba(0, 153, 122, 0.8)',
       'rgba(0, 204, 204, 0.8)'
     ]
     const chartData = chartDataFormat(

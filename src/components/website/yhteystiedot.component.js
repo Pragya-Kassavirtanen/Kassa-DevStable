@@ -8,6 +8,7 @@ const Yhteystiedot = () => (
     <div className="cover">
       <img
         src={yhteystiedot_banner}
+        alt="Kassavirtanen_yhteystiedot_banner"
         style={{ width: '100%', height: '300px' }}
       />
     </div>

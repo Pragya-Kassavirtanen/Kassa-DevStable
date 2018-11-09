@@ -115,6 +115,20 @@ function* saveExpenseSaga() {
       : []
   }
 
+  let bodyExpenseRows = []
+
+  const l = Array.isArray(body.expenseInputRow) ? body.expenseInputRow.length : Object.keys(body.expenseInputRow).length
+
+  for (let i = 0; i < l; i++) {
+    body.expenseInputRow[i].description = body.expenseInputRow[i]['description']
+    body.expenseInputRow[i].sum = parseFloat(body.expenseInputRow[i]['sum'].replace(/,/g, '.')).toString()
+    body.expenseInputRow[i].vat = body.expenseInputRow[i]['vat']
+
+    bodyExpenseRows[i] = body.expenseInputRow[i]
+  }
+
+  body.expenseInputRow = bodyExpenseRows
+
   try {
     const channel = yield call(createUploadFileChannel, url, file, body)
     while (true) {
@@ -245,7 +259,7 @@ function* editExpenseSaga({ invoice_expense_id }) {
 
     const l = expenseResult[0].expenseInputRow.slice(0, occurences).length
     for (let i = 0; i < l; i++) {
-      //yield put(addExpenseRow())
+      yield put(addExpenseRow())
       yield put(
         change(
           'newfee',
@@ -476,6 +490,20 @@ function* saveExpenseUpdateSaga() {
       ? formValues.expenseInputRow.filter(el => el)
       : []
   }
+
+  let bodyExpenseRows = []
+
+  const l = Array.isArray(body.expenseInputRow) ? body.expenseInputRow.length : Object.keys(body.expenseInputRow).length
+
+  for (let i = 0; i < l; i++) {
+    body.expenseInputRow[i].description = body.expenseInputRow[i]['description']
+    body.expenseInputRow[i].sum = parseFloat(body.expenseInputRow[i]['sum'].replace(/,/g, '.')).toString()
+    body.expenseInputRow[i].vat = body.expenseInputRow[i]['vat']
+
+    bodyExpenseRows[i] = body.expenseInputRow[i]
+  }
+
+  body.expenseInputRow = bodyExpenseRows
 
   const file = formValues.inputFile[0]
 

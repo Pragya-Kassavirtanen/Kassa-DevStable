@@ -161,8 +161,10 @@ function* saveAndSendInvoiceSaga() {
       ? body.rows.length
       : Object.keys(body.rows).length
     for (let i = 0; i < l; i++) {
-      body.rows[i].description = body.rows[i]['description']
-      body.rows[i].quantity = body.rows[i]['quantity']
+      body.rows[i].description = body.rows[i]['description']      
+      body.rows[i].quantity = parseFloat(
+        body.rows[i]['quantity'].replace(/,/g, '.')
+      ).toString()
       body.rows[i].quantity_price = parseFloat(
         body.rows[i]['quantity_price'].replace(/,/g, '.')
       ).toString()

@@ -134,7 +134,7 @@ export const invoiceValidate = values => {
     if (!values['rows'][parseInt(item)]['quantity']) {
       errors['rows'][parseInt(item)]['quantity'] = 'Pakollinen'
     }    
-    if(!/^\d{1,5}[\,\.]*\d{1,2}$/i.test(values['rows'][parseInt(item)]['quantity']) && values['rows'][parseInt(item)]['quantity']){
+    if(!/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(values['rows'][parseInt(item)]['quantity']) && values['rows'][parseInt(item)]['quantity']){
       errors['rows'][parseInt(item)]['quantity'] = 'Virheellinen määrä'
     }
     if (!values['rows'][parseInt(item)]['unit']) {
@@ -144,7 +144,7 @@ export const invoiceValidate = values => {
       errors['rows'][parseInt(item)]['quantity_price'] = 'Pakollinen'
     }    
     if (
-      !/^\d{1,6}[\,\.]*\d{1,2}$/i.test(
+      !/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(
         values['rows'][parseInt(item)]['quantity_price']
       ) &&
       values['rows'][parseInt(item)]['quantity_price']
@@ -245,8 +245,8 @@ export const expenseValidate = values => {
       if (!values['expenseInputRow'][item]['description']) {
         errors['expenseInputRow'][item]['description'] =
           'Pakollinen kenttä'
-      }
-      if (!/^\d{1,6}[\,\.]*\d{1,2}$/i.test(values['expenseInputRow'][item]['sum'])) {
+      }      
+      if (!/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(values['expenseInputRow'][item]['sum'])) {
         errors['expenseInputRow'][item]['sum'] =
           'Summa ei ole kelvollinen'
       }

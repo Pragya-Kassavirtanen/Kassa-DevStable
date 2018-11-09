@@ -106,7 +106,7 @@ const salaryReducer = (state = initialState, action) => {
         0
       )
 
-      if (service_percentage <= 0) {
+/*       if (service_percentage <= 0) {
         switch (true) {
           case sum <= 50000:
             service_percentage = 4.5
@@ -120,6 +120,20 @@ const salaryReducer = (state = initialState, action) => {
           case sum > 200000:
             service_percentage = 2
             break
+        }
+      } */
+
+      if (service_percentage <= 0) {
+        switch (true) {
+          case sum <= 100000:
+            service_percentage = 4
+            break
+          case sum > 100000:
+            service_percentage = 3.5
+            break
+          case sum > 150000:
+            service_percentage = 3
+            break          
         }
       }
 

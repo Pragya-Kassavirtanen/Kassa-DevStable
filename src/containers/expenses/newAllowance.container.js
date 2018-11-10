@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { connect } from 'react-redux'
-import { reduxForm, getFormValues, change } from 'redux-form'
+import { reduxForm, getFormValues } from 'redux-form'
 
 import { MenuItem } from 'material-ui'
 
@@ -131,8 +131,7 @@ const mapStateToProps = state => {
   }
 
   return {
-    isEdit: state.expense.isEdit,
-    showFullTimeAllowance: state.expense.showFullTimeAllowance,
+    isEdit: state.expense.isEdit,    
     id: state.expense.allowanceEdit.id,
     user: state.oidc.user,
     invoices: invoiceNames,
@@ -201,8 +200,7 @@ const mapDispatchToProps = dispatch => {
     closeSnackbar: () => dispatch(closeExpenseSnackBar()),
     saveAllowanceUpdate: () => dispatch(saveAllowanceUpdate()),
     cancelAllowanceUpdate: () => dispatch(cancelAllowanceUpdate()),
-    removePassengerRow: rowNumber => dispatch(removePassengerRow(rowNumber)),
-    changeFieldValue: (field, value) => dispatch(change('newallowance', field, value))
+    removePassengerRow: rowNumber => dispatch(removePassengerRow(rowNumber))    
   }
 }
 

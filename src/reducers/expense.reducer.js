@@ -77,7 +77,6 @@ const initialState = {
   allowanceRow: [],
   rowKeys: [],
   showAdditionalInfo: false,
-  showFullTimeAllowance: false,
   days: 0,
   passengerPrice: 0,
   selected: 0,
@@ -255,29 +254,17 @@ const expenseReducer = (state = initialState, action) => {
         const end_date = getFormValues('newallowance')(store.getState())
           .end_date
 
-        const full_time_allowance = getFormValues('newallowance')(
-          store.getState()
-        ).full_time_allowance
-        //console.log('Inside CHANGE_ALLOWANCE_DATE:: ', full_time_allowance)
-
         const difference = Math.ceil(
           (new Date(end_date) - new Date(start_date)) / (1000 * 60 * 60 * 24)
         )
 
-        let showFullTimeAllowance
-        if (full_time_allowance > difference) {
-          showFullTimeAllowance = true
-        } else showFullTimeAllowance = false
-
         if (!!difference)
           return Object.assign({}, state, {
-            days: difference,
-            showFullTimeAllowance: showFullTimeAllowance
+            days: difference
           })
         else
           return Object.assign({}, state, {
-            days: 0,
-            showFullTimeAllowance: showFullTimeAllowance
+            days: 0            
           })
       } catch (e) {
         return Object.assign({}, state, { days: 0 })

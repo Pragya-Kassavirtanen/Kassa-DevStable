@@ -39,7 +39,8 @@ import {
   CANCEL_EXPENSE_UPDATE,
   SAVE_ALLOWANCE_UPDATE,
   CANCEL_ALLOWANCE_UPDATE,
-  LOCATION_CHANGE
+  LOCATION_CHANGE,
+  CHANGE_ALLOWANCE_DATE
 } from '../constants/index'
 import {
   apiManualRequest,
@@ -604,6 +605,23 @@ function* cancelAllowanceUpdateSaga() {
   }
 }
 
+function* changeAllowanceDateSaga() {
+  try {
+    const full_time_allowance = getFormValues('newallowance')(store.getState()).full_time_allowance
+    const days = store.getState().expense.days
+
+    if (full_time_allowance > days) {
+      yield put(change('newallowance','full_time_allowance', 0))
+      yield put(change('newallowance','part_time_allowance', 0))
+      yield put(change('newallowance','meal_allowance', 0))
+    }
+    console.log('Retain all day_allowance values')
+
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 export function* watchSaveExpenseSaga() {
   yield takeEvery(SAVE_EXPENSE, saveExpenseSaga)
 }
@@ -658,4 +676,8 @@ export function* watchCancelAllowanceUpdateSaga() {
 
 export function* watchAllowanceLocationChangeSaga() {
   yield takeEvery(LOCATION_CHANGE, allowanceLocationChangeSaga)
+}
+
+export function* watchChangeAllowanceDateSaga() {
+  yield takeEvery(CHANGE_ALLOWANCE_DATE, changeAllowanceDateSaga)
 }

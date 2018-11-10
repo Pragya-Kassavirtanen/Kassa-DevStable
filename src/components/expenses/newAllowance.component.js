@@ -29,9 +29,8 @@ import {
 } from 'material-ui'
 
 export default class NewAllowanceComponent extends React.Component {
-
   componentDidMount() {
-    this.props.changeAllowanceDate()    
+    this.props.changeAllowanceDate()
   }
 
   render() {
@@ -65,8 +64,6 @@ const NewAllowance = ({
   //dayItems,
   changeAllowanceDate,
   //selectAllowanceDays,
-  showFullTimeAllowance,
-  changeFieldValue,
   allowanceDaysFull,
   allowanceDaysPart,
   allowanceDaysMeal,
@@ -163,7 +160,7 @@ const NewAllowance = ({
                       component={renderTimePicker}
                       floatingLabelText="Alkuaika"
                       textFieldStyle={{ float: 'left', width: '50%' }}
-                      onChangeCallback={changeAllowanceStartTime}                      
+                      onChangeCallback={changeAllowanceStartTime}
                     />
                   </div>
                   <div>
@@ -226,8 +223,6 @@ const NewAllowance = ({
             showAllowanceForm,
             //dayItems,
             //selectAllowanceDays,
-            showFullTimeAllowance,
-            changeFieldValue,
             allowanceDaysFull,
             allowanceDaysPart,
             allowanceDaysMeal
@@ -456,8 +451,6 @@ const payAllowance = (
   showAllowanceForm,
   //dayItems,
   //selectAllowanceDays,
-  showFullTimeAllowance,
-  changeFieldValue,
   allowanceDaysFull,
   allowanceDaysPart,
   allowanceDaysMeal
@@ -471,27 +464,14 @@ const payAllowance = (
           </div>
           <div className="panel-body">
             <div>
-              {showFullTimeAllowance ? (
-                              <Field
-                              name="full_time_allowance"
-                              component={SelectField}
-                              floatingLabelText="Kokopäiväraha"
-                              style={{ float: 'left', width: '100%' }}                              
-                              onChange={() => changeFieldValue('full_time_allowance', 0)}                               
-                            >
-                              {allowanceDaysFull}
-                            </Field>
-              ) : (
-                <Field
+              <Field
                 name="full_time_allowance"
                 component={SelectField}
                 floatingLabelText="Kokopäiväraha"
-                style={{ float: 'left', width: '100%' }}                
+                style={{ float: 'left', width: '100%' }}
               >
                 {allowanceDaysFull}
               </Field>
-              )}
-
               <Field
                 name="part_time_allowance"
                 component={SelectField}

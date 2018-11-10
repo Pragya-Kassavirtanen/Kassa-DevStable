@@ -23,7 +23,9 @@ export const registerValidate = values => {
 
   if (
     values['password'] &&
-    !/^(?=.*[äöåa-z])(?=.*[ÄÖÅA-Z])(?=.*\d)[äöåa-zÄÖÅA-Z\d]*\S{8,}$/i.test(values['password'])
+    !/^(?=.*[äöåa-z])(?=.*[ÄÖÅA-Z])(?=.*\d)[äöåa-zÄÖÅA-Z\d]*\S{8,}$/i.test(
+      values['password']
+    )
   ) {
     errors.password =
       'Virheellinen salasana, Salasanan tulee sisältää vähintään: 8 merkkiä, numeroita, pieniä ja isoja kirjaimia!'
@@ -133,8 +135,13 @@ export const invoiceValidate = values => {
     }
     if (!values['rows'][parseInt(item)]['quantity']) {
       errors['rows'][parseInt(item)]['quantity'] = 'Pakollinen'
-    }    
-    if(!/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(values['rows'][parseInt(item)]['quantity']) && values['rows'][parseInt(item)]['quantity']){
+    }
+    if (
+      !/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(
+        values['rows'][parseInt(item)]['quantity']
+      ) &&
+      values['rows'][parseInt(item)]['quantity']
+    ) {
       errors['rows'][parseInt(item)]['quantity'] = 'Virheellinen määrä'
     }
     if (!values['rows'][parseInt(item)]['unit']) {
@@ -142,7 +149,7 @@ export const invoiceValidate = values => {
     }
     if (!values['rows'][parseInt(item)]['quantity_price']) {
       errors['rows'][parseInt(item)]['quantity_price'] = 'Pakollinen'
-    }    
+    }
     if (
       !/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(
         values['rows'][parseInt(item)]['quantity_price']
@@ -243,12 +250,14 @@ export const expenseValidate = values => {
     errors['expenseInputRow'][item] = {}
     if (values['expenseInputRow'] && errors['expenseInputRow'][item]) {
       if (!values['expenseInputRow'][item]['description']) {
-        errors['expenseInputRow'][item]['description'] =
-          'Pakollinen kenttä'
-      }      
-      if (!/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(values['expenseInputRow'][item]['sum'])) {
-        errors['expenseInputRow'][item]['sum'] =
-          'Summa ei ole kelvollinen'
+        errors['expenseInputRow'][item]['description'] = 'Pakollinen kenttä'
+      }
+      if (
+        !/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(
+          values['expenseInputRow'][item]['sum']
+        )
+      ) {
+        errors['expenseInputRow'][item]['sum'] = 'Summa ei ole kelvollinen'
       }
       if (!values['expenseInputRow'][item]['sum']) {
         errors['expenseInputRow'][item]['sum'] = 'Pakollinen kenttä'
@@ -279,17 +288,17 @@ export const allowanceValidate = values => {
   })
 
   if (values.mileage_allowance) {
-    const requiredMileageFields = ['distance', 'license_plate', 'vehicle_type']    
+    const requiredMileageFields = ['distance', 'license_plate', 'vehicle_type']
 
     if (
       !values[requiredMileageFields[0]] ||
       !/^\d+$/.test(values[requiredMileageFields[0]])
     ) {
       errors[requiredMileageFields[0]] = 'Syöte ei ole kelvollinen'
-    }   
+    }
 
     if (
-      values[requiredMileageFields[2]] !== 'Polkupyörä' &&
+      values[requiredMileageFields[2]] !== 'bicycle' &&
       !values[requiredMileageFields[1]]
     ) {
       errors[requiredMileageFields[1]] = 'Kenttä on pakollinen'
@@ -316,8 +325,8 @@ export const allowanceValidate = values => {
   if (values.passengerInputRow)
     for (let index in values.passengerInputRow) {
       const passengerErrors = {}
-      if(!values.passengerInputRow[index].passenger)
-      passengerErrors.passenger = 'Lisää matkustajan nimi, tai poista rivi'
+      if (!values.passengerInputRow[index].passenger)
+        passengerErrors.passenger = 'Lisää matkustajan nimi, tai poista rivi'
       passengerArrayErrors[index] = passengerErrors
     }
   passengerArrayErrors.filter(_ => !!_.passenger).length !== 0 &&
@@ -351,8 +360,10 @@ export const passwordValidate = values => {
   })
 
   if (
-    values.new_pw &&    
-    !/^(?=.*[äöåa-z])(?=.*[ÄÖÅA-Z])(?=.*\d)[äöåa-zÄÖÅA-Z\d]*\S{8,}$/i.test(values.new_pw)
+    values.new_pw &&
+    !/^(?=.*[äöåa-z])(?=.*[ÄÖÅA-Z])(?=.*\d)[äöåa-zÄÖÅA-Z\d]*\S{8,}$/i.test(
+      values.new_pw
+    )
   ) {
     errors.new_pw = 'Virheellinen salasana, noudata ohjeita!'
   }

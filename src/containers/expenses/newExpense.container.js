@@ -23,7 +23,7 @@ import {
 const date = new Date()
 let newExpenseContainer = reduxForm({
   form: 'newfee',
-  destroyOnUnmount: false,
+  //destroyOnUnmount: false,
   initialValues: {
     invoice: '',
     place_of_purchase: '',   
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => {
     }
   }) */
 
-  if (formValues) {
+  if (formValues['expenseInputRow']) {
     formValues['expenseInputRow'] = formValues['expenseInputRow'].filter(x => expenseInputRow.filter(y => y.key === x.key).length > 0)
 
     expenseInputRow.forEach(el => {

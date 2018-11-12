@@ -8,9 +8,9 @@ import {
   REMOVE_INVOICE,
   SAVE_INVOICE_DRAFT,
   EDIT_INVOICE,
-  CANCEL_EDIT_INVOICE,  
+  CANCEL_EDIT_INVOICE,
   GET_PROFESSION,
-  GET_FINVOICE_OPERATOR,  
+  GET_FINVOICE_OPERATOR,
   CLEAR_INVOICE_OPTIONS,
   GENERATE_INVOICE_PDF,
   INVOICE_DOWNLOAD_PDF,
@@ -59,10 +59,12 @@ function* getInvoiceSaga() {
     })
 
     const invoiceResult = yield call(apiManualPost, invoiceUrl, body)
-    const customerResult = yield call(apiManualPost, customerUrl, body)    
+    const customerResult = yield call(apiManualPost, customerUrl, body)
 
     if (invoiceResult.data.status === true && customerResult.data)
-      yield put(getInvoicesSuccess(invoiceResult.data.data, customerResult.data))
+      yield put(
+        getInvoicesSuccess(invoiceResult.data.data, customerResult.data)
+      )
   } catch (e) {
     yield put(getInvoicesFailed(e))
   }
@@ -161,7 +163,7 @@ function* saveAndSendInvoiceSaga() {
       ? body.rows.length
       : Object.keys(body.rows).length
     for (let i = 0; i < l; i++) {
-      body.rows[i].description = body.rows[i]['description']      
+      body.rows[i].description = body.rows[i]['description']
       body.rows[i].quantity = parseFloat(
         body.rows[i]['quantity'].replace(/,/g, '.')
       ).toString()
@@ -201,11 +203,11 @@ function* saveAndSendInvoiceSaga() {
       bodyRows[i] = body.rows[i]
     }
 
-    body.rows = bodyRows    
+    body.rows = bodyRows
 
-    let nestedBody    
+    let nestedBody
     if (!!invoice_id) {
-      body.invoice_id = invoice_id      
+      body.invoice_id = invoice_id
       nestedBody = nestProperties(body, 'Invoice', [
         'description',
         'invoice_id',
@@ -233,7 +235,7 @@ function* saveAndSendInvoiceSaga() {
         'rows'
       ])
     }
-        
+
     // FIXME: prevent success happening when error occures
     const result = yield call(apiManualPost, url, JSON.stringify(nestedBody))
 
@@ -275,7 +277,7 @@ function* saveAndSendInvoiceSaga() {
       }
     }
 
-    yield put(reset('invoice'))        
+    yield put(reset('invoice'))
     yield put(invoiceEditSuccess())
   } catch (e) {
     yield put(saveInvoiceFailed(e))
@@ -331,7 +333,7 @@ function* removeInvoiceSaga({ invoice_id }) {
 }
 
 function* editInvoiceSaga({ invoice_id }) {
-  try {    
+  try {
     //To clear the Customer Dropdown
     yield put(reset('invoice'))
 
@@ -345,7 +347,7 @@ function* editInvoiceSaga({ invoice_id }) {
     const result = yield call(apiManualPost, url, body)
     if (result.data) yield put(getInvoiceByIdSuccess(result.data))
 
-    const invoiceResult = JSON.parse(result.data)       
+    const invoiceResult = JSON.parse(result.data)
 
     const customerInfoKeys = Object.keys(invoiceResult[0]).filter(
       key => key !== 'Invoice'
@@ -356,31 +358,31 @@ function* editInvoiceSaga({ invoice_id }) {
       yield put(change('invoice', key, invoiceResult[0][key]))
     }
 
-    let billDate = invoiceResult[0].Invoice[0].billing_date    
-    let renewBillDate = new Date(billDate)    
+    let billDate = invoiceResult[0].Invoice[0].billing_date
+    let renewBillDate = new Date(billDate)
     yield put(change('invoice', 'billing_date', renewBillDate))
     yield put(changeInvoiceBillingDate(renewBillDate))
 
     let overDue = invoiceResult[0].Invoice[0].overdue
     yield put(change('invoice', 'overdue', overDue))
 
-    let dueDate =  invoiceResult[0].Invoice[0].due_date    
-    yield put(change('invoice','due_date', dueDate))
+    let dueDate = invoiceResult[0].Invoice[0].due_date
+    yield put(change('invoice', 'due_date', dueDate))
 
     let invoiceReference = invoiceResult[0].Invoice[0].invoice_reference
-    yield put(change('invoice','invoice_reference', invoiceReference))
+    yield put(change('invoice', 'invoice_reference', invoiceReference))
 
     let desc = invoiceResult[0].Invoice[0].description
-    yield put(change('invoice','description', desc))
+    yield put(change('invoice', 'description', desc))
 
-    let jobTitle = invoiceResult[0].Invoice[0].job_title    
-    yield put(change('invoice','job_title', jobTitle))
+    let jobTitle = invoiceResult[0].Invoice[0].job_title
+    yield put(change('invoice', 'job_title', jobTitle))
 
     let instantPayment = invoiceResult[0].Invoice[0].instant_payment
-    yield put(change('invoice','instant_payment', instantPayment))
-    
+    yield put(change('invoice', 'instant_payment', instantPayment))
+
     let invoiceStatus = invoiceResult[0].Invoice[0].status
-    yield put(change('invoice','status', invoiceStatus))
+    yield put(change('invoice', 'status', invoiceStatus))
 
     yield put(emptyInvoiceRows())
 
@@ -457,128 +459,112 @@ function* editInvoiceSaga({ invoice_id }) {
   }
 }
 
-function* invoiceLocationChangeSaga(){
-  try {    
+function* invoiceLocationChangeSaga() {
+  try {
     const pathname = store.getState().routing.locationBeforeTransitions.pathname
     let invoiceEdit = []
-      invoiceEdit = store.getState().invoice.invoiceEdit
+    invoiceEdit = store.getState().invoice.invoiceEdit
     let isEdit = false
     isEdit = store.getState().invoice.isEdit
-    if(pathname === '/dashboard/invoice/review'){
+    if (pathname === '/dashboard/invoice/review') {
       console.log('Need not to clear the invoice form..........')
-    }else if (isEdit === true){     
+    } else if (isEdit === true) {
       const customerInfoKeys = Object.keys(invoiceEdit[0]).filter(
         key => key !== 'Invoice'
       )
       //dispatch customer data to redux form
       for (let key of customerInfoKeys) {
         yield put(change('invoice', key, ''))
-      }        
-      let renewBillDate = new Date()   
+      }
+      let renewBillDate = new Date()
       yield put(change('invoice', 'billing_date', renewBillDate))
-      yield put(changeInvoiceBillingDate(renewBillDate))   
+      yield put(changeInvoiceBillingDate(renewBillDate))
       yield put(change('invoice', 'overdue', 14))
-  
+
       let date = new Date()
       let due_date = new DateTimeFormat('fi', {
         day: 'numeric',
         month: 'numeric',
         year: 'numeric'
       }).format(date.setDate(date.getDate() + 14))
-  
-      yield put(change('invoice','due_date', due_date))
-  
-      yield put(change('invoice','invoice_reference', ''))    
-      yield put(change('invoice','description', ''))       
-      yield put(change('invoice','job_title', ''))    
-      yield put(change('invoice','instant_payment', ''))    
-      yield put(change('invoice','status', ''))
+
+      yield put(change('invoice', 'due_date', due_date))
+
+      yield put(change('invoice', 'invoice_reference', ''))
+      yield put(change('invoice', 'description', ''))
+      yield put(change('invoice', 'job_title', ''))
+      yield put(change('invoice', 'instant_payment', ''))
+      yield put(change('invoice', 'status', ''))
       yield put(emptyInvoiceRows())
       const occurences = invoiceEdit[0].Invoice[0].rows.filter(
         el => el.invoice_item_id
       ).length
-  
+
       //dispatch invoice rows to redux form
       const l = invoiceEdit[0].Invoice[0].rows.slice(0, occurences).length
       let sum_tax_free = new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'
       }).format(0)
-  
+
       for (let i = 0; i < l; i++) {
         yield put(addInvoiceRow(true))
-        yield put(
-          change(
-            'invoice',
-            `rows.${i}.description`,
-            ''
-          )
-        )
-        yield put(
-          change(
-            'invoice',
-            `rows.${i}.end_date`,
-            ''
-          )
-        )
-        yield put(
-          change(
-            'invoice',
-            `rows.${i}.start_date`,
-            ''
-          )
-        )
-        yield put(
-          change(
-            'invoice',
-            `rows.${i}.quantity`,
-            ''
-          )
-        )
-        yield put(
-          change(
-            'invoice',
-            `rows.${i}.quantity_price`,
-            ''
-          )
-        )
-        yield put(
-          change(
-            'invoice',
-            `rows.${i}.unit`,
-           'kpl'
-          )
-        )
-        yield put(
-          change(
-            'invoice',
-            `rows.${i}.vat_percent`,
-            24
-          )
-        )
-        yield put(
-          change(
-            'invoice',
-            `rows.${i}.sum_tax_free`,
-            sum_tax_free
-          )
-        )    
+        yield put(change('invoice', `rows.${i}.description`, ''))
+        yield put(change('invoice', `rows.${i}.end_date`, ''))
+        yield put(change('invoice', `rows.${i}.start_date`, ''))
+        yield put(change('invoice', `rows.${i}.quantity`, ''))
+        yield put(change('invoice', `rows.${i}.quantity_price`, ''))
+        yield put(change('invoice', `rows.${i}.unit`, 'kpl'))
+        yield put(change('invoice', `rows.${i}.vat_percent`, 24))
+        yield put(change('invoice', `rows.${i}.sum_tax_free`, sum_tax_free))
       }
       yield put(cancelEditInvoice())
-    } else 
-      {
+    } else {
+      const formValues = getFormValues('invoice')(store.getState())
+
+      const infoKeys = Object.keys(formValues).filter(key => key !== 'rows')
+
+      for (let key of infoKeys) {
+        yield put(change('invoice', key, ''))
+      }
+
       yield put(change('invoice', 'country', 'Suomi'))
-      yield put(change('invoice', 'company_name', ''))
-      yield put(change('invoice', 'business_id', ''))
-      yield put(change('invoice', 'person_to_contact', ''))
-      yield put(change('invoice', 'person_to_contact_email', ''))
       yield put(change('invoice', 'delivery_method', 'Sähköposti'))
-      yield put(change('invoice', 'delivery_address', ''))
-      yield put(change('invoice', 'zip_code', ''))
-      yield put(change('invoice', 'city', ''))
-      yield put(change('invoice', 'web_invoice', ''))
-      yield put(change('invoice', 'finvoice_operator', ''))      
-      }   
+      let renewBillDate = new Date()
+      yield put(change('invoice', 'billing_date', renewBillDate))
+      yield put(changeInvoiceBillingDate(renewBillDate))
+      yield put(change('invoice', 'overdue', 14))
+
+      let date = new Date()
+      let due_date = new DateTimeFormat('fi', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+      }).format(date.setDate(date.getDate() + 14))
+
+      yield put(change('invoice', 'due_date', due_date))
+
+      //yield put(emptyInvoiceRows())
+
+      const l = formValues.rows.length
+      let sum_tax_free = new Intl.NumberFormat('fi-FI', {
+        style: 'currency',
+        currency: 'EUR'
+      }).format(0)
+
+      for (let i = 0; i < l; i++) {
+        yield put(addInvoiceRow(true))
+        yield put(change('invoice', `rows.${i}.description`, ''))
+        yield put(change('invoice', `rows.${i}.end_date`, ''))
+        yield put(change('invoice', `rows.${i}.start_date`, ''))
+        yield put(change('invoice', `rows.${i}.quantity`, ''))
+        yield put(change('invoice', `rows.${i}.quantity_price`, ''))
+        yield put(change('invoice', `rows.${i}.unit`, 'kpl'))
+        yield put(change('invoice', `rows.${i}.vat_percent`, 24))
+        yield put(change('invoice', `rows.${i}.sum_tax_free`, sum_tax_free))
+      }
+      //yield put(cancelEditInvoice())
+    }
   } catch (e) {
     console.warn(e)
   }
@@ -596,7 +582,7 @@ function* copyInvoiceSaga({ invoice_id }) {
     //api calls for invoice data
     const result = yield call(apiManualPost, invoiceUrl, body)
 
-    if (result.data) yield put(copyInvoiceSuccess(result.data))    
+    if (result.data) yield put(copyInvoiceSuccess(result.data))
 
     const invoiceResult = JSON.parse(result.data)
 
@@ -609,31 +595,31 @@ function* copyInvoiceSaga({ invoice_id }) {
       yield put(change('invoice', key, invoiceResult[0][key]))
     }
 
-    let billDate = invoiceResult[0].Invoice[0].billing_date    
-    let renewBillDate = new Date(billDate)    
+    let billDate = invoiceResult[0].Invoice[0].billing_date
+    let renewBillDate = new Date(billDate)
     yield put(change('invoice', 'billing_date', renewBillDate))
     yield put(changeInvoiceBillingDate(renewBillDate))
 
     let overDue = invoiceResult[0].Invoice[0].overdue
     yield put(change('invoice', 'overdue', overDue))
 
-    let dueDate =  invoiceResult[0].Invoice[0].due_date    
-    yield put(change('invoice','due_date', dueDate))
+    let dueDate = invoiceResult[0].Invoice[0].due_date
+    yield put(change('invoice', 'due_date', dueDate))
 
     let invoiceReference = invoiceResult[0].Invoice[0].invoice_reference
-    yield put(change('invoice','invoice_reference', invoiceReference))
+    yield put(change('invoice', 'invoice_reference', invoiceReference))
 
     let desc = invoiceResult[0].Invoice[0].description
-    yield put(change('invoice','description', desc))
+    yield put(change('invoice', 'description', desc))
 
-    let jobTitle = invoiceResult[0].Invoice[0].job_title    
-    yield put(change('invoice','job_title', jobTitle))
-    
+    let jobTitle = invoiceResult[0].Invoice[0].job_title
+    yield put(change('invoice', 'job_title', jobTitle))
+
     let instantPayment = invoiceResult[0].Invoice[0].instant_payment
-    yield put(change('invoice','instant_payment', instantPayment))    
-    
+    yield put(change('invoice', 'instant_payment', instantPayment))
+
     let invoiceStatus = invoiceResult[0].Invoice[0].status
-    yield put(change('invoice','status', invoiceStatus))
+    yield put(change('invoice', 'status', invoiceStatus))
 
     yield put(emptyInvoiceRows())
 
@@ -722,10 +708,10 @@ function* getFinvoiceOperatorsSaga() {
   try {
     const url = `${API_SERVER}/GetFinInvoiceOperators`
     const result = yield apiManualRequest(url)
-    const parRes = JSON.parse(result.data)    
-    const parsedResult = propertyArray(parRes, 'operator_name')    
+    const parRes = JSON.parse(result.data)
+    const parsedResult = propertyArray(parRes, 'operator_name')
     if (parsedResult) yield put(getOperatorSuccess(parsedResult))
-  } catch (e) {    
+  } catch (e) {
     yield put(getOperatorFailed(e))
   }
 }
@@ -779,7 +765,7 @@ export function* watchInvoiceDownloadPDF() {
   yield takeEvery(INVOICE_DOWNLOAD_PDF, invoiceDownloadPDF)
 }
 
-export function* watchFinvoiceOperators(){
+export function* watchFinvoiceOperators() {
   yield takeEvery(GET_FINVOICE_OPERATOR, getFinvoiceOperatorsSaga)
 }
 

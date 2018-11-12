@@ -239,3 +239,7 @@ export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net
 //Staging Server
 export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
 export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
+
+//Production Server
+/* export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */

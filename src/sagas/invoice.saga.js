@@ -544,7 +544,8 @@ function* invoiceLocationChangeSaga() {
 
       yield put(change('invoice', 'due_date', due_date))
 
-      //yield put(emptyInvoiceRows())
+      yield put(emptyInvoiceRows())
+      yield put(addInvoiceRow(true))
 
       const l = formValues.rows.length
       let sum_tax_free = new Intl.NumberFormat('fi-FI', {
@@ -553,7 +554,6 @@ function* invoiceLocationChangeSaga() {
       }).format(0)
 
       for (let i = 0; i < l; i++) {
-        yield put(addInvoiceRow(true))
         yield put(change('invoice', `rows.${i}.description`, ''))
         yield put(change('invoice', `rows.${i}.end_date`, ''))
         yield put(change('invoice', `rows.${i}.start_date`, ''))
@@ -563,7 +563,6 @@ function* invoiceLocationChangeSaga() {
         yield put(change('invoice', `rows.${i}.vat_percent`, 24))
         yield put(change('invoice', `rows.${i}.sum_tax_free`, sum_tax_free))
       }
-      //yield put(cancelEditInvoice())
     }
   } catch (e) {
     console.warn(e)

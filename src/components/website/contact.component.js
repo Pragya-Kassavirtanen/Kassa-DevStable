@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { contactFormSubmit } from '../../actions'
 import store from '../../store'
-import { contactInfoValidate as validate } from '../../containers/validate'
+//import { contactInfoValidate as validate } from '../../containers/validate'
 
 /**
  * The Website contact view
@@ -116,6 +116,6 @@ const contact = connect(
 )(ContactComponent)
 
 export default reduxForm({
-  form: 'contact',
-  validate
+  form: 'contact'
+  //validate
 })(contact)

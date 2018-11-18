@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
-import { reduxForm, Field } from 'redux-form'
-import { connect } from 'react-redux'
+import { Field } from 'redux-form'
 import { TextField, RaisedButton } from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { contactFormSubmit } from '../../actions'
-import store from '../../store'
-//import { contactInfoValidate as validate } from '../../containers/validate'
 
 /**
  * The Website contact view
@@ -33,89 +29,77 @@ const renderTextField = ({
   />
 )
 
-class ContactComponent extends Component {
-  onFormSubmit = values => {
-    this.props.contactFormSubmit(values)
-  }
-
+export default class ContactComponent extends Component {
   render() {
-    const { handleSubmit } = this.props
-
-    return (
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <form className="form"        
-          onSubmit={handleSubmit(this.onFormSubmit)}
-        >
-          <div>
-            <div className="form-group">
-              <Field
-                className="yhteystiedot-input form-input-field form-control"
-                name="name"
-                component={renderTextField}
-                label="Nimi:"
-                type="text"
-              />
-            </div>
-            <div className="form-group">
-              <Field
-                className="yhteystiedot-input form-input-field form-control"
-                name="phone"
-                component={renderTextField}
-                label="Puhelin:"
-                type="text"
-              />
-            </div>
-            <div className="form-group">
-              <Field
-                className="yhteystiedot-input form-input-field form-control"
-                name="email"
-                component={renderTextField}
-                label="Sähköposti:"
-                type="text"
-              />
-            </div>
-            <div className="form-group">
-              <Field
-                className="yhteystiedot-input form-input-field form-control"
-                name="message"
-                component={renderTextField}
-                label="Viesti:"
-                type="text"
-                multiLine={true} 
-                rows={10}
-              />
-            </div>
-            <div className="form-group">              
-                <RaisedButton
-                  className="contactButton"
-                  label="Lähetä"
-                  primary={true}
-                  type="submit"
-                  onClick={() => {
-                    store.dispatch(contactFormSubmit())
-                  }}
-                />             
-            </div>
-          </div>
-        </form>
-      </MuiThemeProvider>
-    )
+    return <Contact {...this.props} />
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    contactForm: state.contactForm,
-    state
-  }
+const _onFormSubmit = () => {
+  return false
 }
 
-const contact = connect(
-  mapStateToProps,
-  { contactFormSubmit }
-)(ContactComponent)
-
-export default reduxForm({
-  form: 'contact'
-  //validate
-})(contact)
+const Contact = ({ handleSubmit, contactFormSubmit, invalid }) => (
+  <MuiThemeProvider muiTheme={getMuiTheme()}>
+    <form className="form" onSubmit={handleSubmit(_onFormSubmit)}>
+      <div>
+        <div className="form-group">
+          <Field
+            className="yhteystiedot-input form-input-field form-control"
+            name="name"
+            component={renderTextField}
+            label="Nimi:"
+            type="text"
+          />
+        </div>
+        <div className="form-group">
+          <Field
+            className="yhteystiedot-input form-input-field form-control"
+            name="phone"
+            component={renderTextField}
+            label="Puhelin:"
+            type="text"
+          />
+        </div>
+        <div className="form-group">
+          <Field
+            className="yhteystiedot-input form-input-field form-control"
+            name="email"
+            component={renderTextField}
+            label="Sähköposti:"
+            type="text"
+          />
+        </div>
+        <div className="form-group">
+          <Field
+            className="yhteystiedot-input form-input-field form-control"
+            name="message"
+            component={renderTextField}
+            label="Viesti:"
+            type="text"
+            multiLine={true}
+            rows={10}
+          />
+        </div>
+        <div className="form-group">
+          {invalid ? (
+            <RaisedButton
+              className="contactButton"
+              label="Lähetä"
+              primary={true}
+              type="submit"
+            />
+          ) : (
+            <RaisedButton
+              className="contactButton"
+              label="Lähetä"
+              primary={true}
+              type="submit"
+              onClick={contactFormSubmit}
+            />
+          )}
+        </div>
+      </div>
+    </form>
+  </MuiThemeProvider>
+)

@@ -5,7 +5,7 @@ import { watchLoadProfileSaga, watchUpdateProfileSaga } from './profile.saga'
 import { watchNewCustomerSaga, watchGetCustomersSaga, watchGetCustomerByIdSaga, watchRemoveCustomerSaga, watchSaveCustomerSaga, watchCancelCustomerSaga, watchGetCustomerToAddInvoiceSaga, watchEInvoiceOperators, watchCustomerLocationChange } from './customer.saga'
 import { watchSendRegisterInfoSaga } from './register.saga'
 import { watchLoadRegisterReviewSaga } from './signup.saga'
-import { watchSendContactInfoSaga } from './contact.saga'
+import { watchSendContactInfoSaga, watchContactLocationChange } from './contact.saga'
 import {
   watchAdminInvoiceSearchSaga,
   watchAdminInvoiceExpandSaga,
@@ -32,7 +32,7 @@ import { watchSaveExpenseSaga, watchSaveTravellingExpenseSaga, watchGetExpenseSt
   watchChangeAllowanceDateSaga } from './expense.saga'
 import { watchLoginSaga } from './login.saga'
 import { watchChangeLanguageSaga } from './lang.saga'
-import { watchResetPasswordSaga } from './resetPassword.saga'
+import { watchResetPasswordSaga, watchResetPasswordLocationChange } from './resetPassword.saga'
 
 // Single entry point to start all sagas at once
 export default function* rootSaga() {
@@ -100,8 +100,10 @@ export default function* rootSaga() {
     watchPasswordLocationChangeSaga(),    
     watchLoadRegisterReviewSaga(),
     watchSendContactInfoSaga(),
+    watchContactLocationChange(),
     watchChangeLanguageSaga(),
     watchResetPasswordSaga(),
+    watchResetPasswordLocationChange(),
     watchClearInvoiceOption(),
     watchGenerateInvoicePDF(),
     watchSaveAndSendInvoicePDF(),

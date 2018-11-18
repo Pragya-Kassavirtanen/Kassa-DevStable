@@ -1,11 +1,11 @@
-import { take, fork, call } from 'redux-saga/effects'
-import { API_SERVER, CONTACT_FORM_SUBMIT } from '../constants'
-/* import {
+import { call, put, takeEvery } from 'redux-saga/effects'
+import { API_SERVER, CONTACT_FORM_SUBMIT, LOCATION_CHANGE } from '../constants'
+import {
   contactFormSubmitSuccess,
   contactFormSubmitFailed
-} from '../actions/index' */
+} from '../actions/index'
 import { registerPost } from '../utils/request'
-import { getFormValues } from 'redux-form'
+import { getFormValues, reset } from 'redux-form'
 import store from '../store'
 
 /**
@@ -15,7 +15,6 @@ import store from '../store'
 function* sendContactInfo() {
   try {
     const contactFormValues = getFormValues('contact')(store.getState())
-    //console.log('Inside sendContactInfo:: ', contactFormValues)
     const body = JSON.stringify({
       email: contactFormValues.email,
       firstname: contactFormValues.name,
@@ -24,19 +23,29 @@ function* sendContactInfo() {
     })
     const url = `${API_SERVER}/LogUserSentMail`
     const result = yield call(registerPost, url, body)
-    console.log('Inside sendContactInfo:: ', result)
-    /*  if (result.message === 'Email sent successfully') {
-      //yield put(contactFormSubmitSuccess)
+    if (result.data.message === 'Email sent successfully') {
+      yield put(contactFormSubmitSuccess())
     } else {
-      //yield put(contactFormSubmitFailed)
-    } */
+      yield put(contactFormSubmitFailed())
+    }
+    yield put(reset('contact'))
+  } catch (e) {
+    yield put(contactFormSubmitFailed(e))
+  }
+}
+
+function* contactLocationChangeSaga() {
+  try {
+    yield put(reset('contact'))
   } catch (e) {
     console.warn(e)
-    //yield put(contactFormSubmitFailed)
   }
 }
 
 export function* watchSendContactInfoSaga() {
-  yield take(CONTACT_FORM_SUBMIT)
-  yield fork(sendContactInfo)
+  yield takeEvery(CONTACT_FORM_SUBMIT, sendContactInfo)
+}
+
+export function* watchContactLocationChange() {
+  yield takeEvery(LOCATION_CHANGE, contactLocationChangeSaga)
 }

@@ -2,13 +2,10 @@ import React from 'react'
 import { Router, Route, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerActions } from 'react-router-redux'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
-
 import store from './store'
 import Main from './containers/main.container'
 //import Login from './containers/login.container'
-
 import Login from './components/account/login.component'
-
 import Register from './containers/register.container'
 import Callback from './containers/callback.container'
 import Invoice from './containers/invoice/invoice.container'
@@ -23,12 +20,11 @@ import NewExpense from './containers/expenses/newExpense.container'
 import InvoiceEdit from './containers/invoice/invoiceEdit.container'
 import NewAllowance from './containers/expenses/newAllowance.container'
 import Admin from './containers/admin/admin.container'
-
 import FrontMain from './containers/frontMain.container'
 import FrontPage from './components/website/frontpage.component'
 import FAQ from './components/website/faq.component'
 import Hinnasto from './components/website/hinnasto.component'
-import Yhteystiedot from './components/website/yhteystiedot.component'
+import Yhteystiedot from './containers/website/yhteystiedot.container'
 import Yrityksille from './components/website/yrityksille.component'
 
 /**

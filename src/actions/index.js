@@ -174,12 +174,18 @@ import {
   SAVE_SALARY_SLIP,
   FRONT_PAGE_FORM_SUBMIT,
   CONTACT_FORM_SUBMIT,
+  CONTACT_FORM_SUBMIT_SUCCESS,
+  CONTACT_FORM_SUBMIT_FAILED,
+  HIDE_CONTACT_SNACKBAR,
   CLOSE_CUSTOMER_SNACKBAR,
   CLEAR_INVOICE_OPTIONS,
   GENERATE_INVOICE_PDF,
   INVOICE_DOWNLOAD_PDF,
   SAVE_AND_SEND_INVOICE_PDF,
   RESET_PASSWORD_FORM_SUBMIT,
+  RESET_PASSWORD_SUBMIT_SUCCESS,
+  RESET_PASSWORD_SUBMIT_FAILED,
+  HIDE_RESET_PASSWORD_SNACKBAR,
   PASSWORD_UPDATE_SUCCESS,
   PASSWORD_UPDATE_FAILED,
   CLOSE_PASSWORD_SNACKBAR,
@@ -374,13 +380,19 @@ export const loadProfileFailed = error => ({ type: LOAD_PROFILE_FAILED, error })
 export const closePasswordSnackbar = () => ({type: CLOSE_PASSWORD_SNACKBAR})
 export const closeYelSnackbar = () => ({type: CLOSE_YEL_SNACKBAR})
 
-export const loginFormSubmit = (email, password) => ({ type: LOGIN_FORM_SUBMIT, email, password })
+//export const loginFormSubmit = (email, password) => ({ type: LOGIN_FORM_SUBMIT, email, password })
+
+export const loginFormSubmit = () => ({ type: LOGIN_FORM_SUBMIT })
+
 export const loginFormSubmitSuccess = () => ({ type: LOGIN_FORM_SUBMIT_SUCCESS})
 export const loginFormSubmitFailed = error => ({ type: LOGIN_FORM_SUBMIT_FAILED, error })
 export const closeLoginSnackbar = () => ({ type: CLOSE_LOGIN_SNACKBAR })
 export const setClient = (token) => ({ type: CLIENT_SET, token })
 export const unsetClient = () => ({ type: CLIENT_UNSET })
 export const resetPasswordFormSubmit = (email) => ({ type: RESET_PASSWORD_FORM_SUBMIT, email })
+export const resetPasswordSubmitSuccess = () => ({ type: RESET_PASSWORD_SUBMIT_SUCCESS })
+export const resetPasswordSubmitFailed = () => ({ type: RESET_PASSWORD_SUBMIT_FAILED })
+export const hideResetPasswordSnackbar = () => ({ type: HIDE_RESET_PASSWORD_SNACKBAR })
 
 export const registerFormSubmit = (email, firstname, lastname, password) => ({ type: SIGNUP_FORM_SUBMIT, email, firstname, lastname, password })
 export const registerFormSubmitSuccess = (result) => ({ type: SIGNUP_FORM_SUBMIT_SUCCESS, result })
@@ -388,7 +400,10 @@ export const registerFormSubmitFailed = error => ({ type: SIGNUP_FORM_SUBMIT_FAI
 export const closeRegisterSnackbar = () => ({ type: CLOSE_SIGNUP_SNACKBAR })
 
 export const signupFormSubmit = (firstname, lastname, email) => ({ type: FRONT_PAGE_FORM_SUBMIT, firstname, lastname, email })
-export const contactFormSubmit = (name, phone, email, message) => ({ type: CONTACT_FORM_SUBMIT, name, phone, email, message })
+export const contactFormSubmit = () => ({ type: CONTACT_FORM_SUBMIT })
+export const contactFormSubmitSuccess = () => ({ type: CONTACT_FORM_SUBMIT_SUCCESS })
+export const contactFormSubmitFailed = () => ({ type: CONTACT_FORM_SUBMIT_FAILED })
+export const hideContactSnackbar = () => ({type: HIDE_CONTACT_SNACKBAR})
 
 export const changeAdminMenu = (value) => ({ type: CHANGE_ADMIN_MENU, value })
 export const searchAdminUsers = () => ({ type: SEARCH_ADMIN_USERS })

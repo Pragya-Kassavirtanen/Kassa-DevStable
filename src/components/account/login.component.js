@@ -21,9 +21,13 @@ import { registerAsyncValidate as asyncValidate } from '../../containers/asyncVa
 import Spinner from 'react-spinner-material'
 
 //import userManager from '../../utils/PHZUserManager'
-import { loginFormSubmit, closeLoginSnackbar } from '../../actions'
+import {
+  loginFormSubmit,
+  closeLoginSnackbar,
+  hideResetPasswordSnackbar
+} from '../../actions'
 import { faqFunction } from '../../utils/website.utils'
-import ResetPassword from './resetPassword.component'
+import ResetPassword from '../../containers/resetPassword.container'
 
 /**
  * The login view component
@@ -68,9 +72,12 @@ class LoginComponent extends Component {
   render() {
     const {
       handleSubmit,
+      showResetPassSnackbar,
+      showResetFailSnackbar,
       showSpinner,
       showFailSnackbar,
-      closeLoginSnackbar
+      closeLoginSnackbar,
+      hideResetPasswordSnackbar
     } = this.props
 
     return (
@@ -79,7 +86,7 @@ class LoginComponent extends Component {
           <form onSubmit={handleSubmit(this.onFormSubmit)}>
             <div>
               <Panel className="form-login-content">
-{/*                 <div>
+                {/*                 <div>
                   <FlatButton
                     backgroundColor="#3F5B96"
                     hoverColor="#3F7796"
@@ -92,7 +99,7 @@ class LoginComponent extends Component {
                     }
                   />
                 </div> */}
-{/*                 <div className="form-register-oauth">
+                {/*                 <div className="form-register-oauth">
                   <FlatButton
                     backgroundColor="#F32E06"
                     onClick={_handleGoogleLogin}
@@ -126,7 +133,7 @@ class LoginComponent extends Component {
                     component={renderTextField}
                   />
                 </div>
-{/*                  <div className="form-login-checkbox">
+                {/*                  <div className="form-login-checkbox">
                   <Field
                     name="checkbox"
                     label="Muista minut"
@@ -163,6 +170,24 @@ class LoginComponent extends Component {
               </div>
             </Panel>
           </div>
+          <Snackbar
+            open={showResetPassSnackbar}
+            message="Palauta salasana lähetetty"
+            autoHideDuration={4000}
+            bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
+            onRequestClose={() => {
+              hideResetPasswordSnackbar()
+            }}
+          />
+          <Snackbar
+            open={showResetFailSnackbar}
+            message="Nollaa salasanan lähetys epäonnistui"
+            autoHideDuration={4000}
+            bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}
+            onRequestClose={() => {
+              hideResetPasswordSnackbar()
+            }}
+          />
           <Snackbar
             open={showFailSnackbar}
             message="Kirjautuminen epäonnistui, tarkista kentät"
@@ -201,13 +226,15 @@ const mapStateToProps = state => {
     loginForm: state.loginForm,
     showSpinner: state.login.showSpinner,
     showFailSnackbar: state.login.showFailSnackbar,
-    state
+    showResetPassSnackbar: state.resetPassword.showResetPassSnackbar,
+    showResetFailSnackbar: state.resetPassword.showResetFailSnackbar
+    //state
   }
 }
 
 const attached = connect(
   mapStateToProps,
-  { loginFormSubmit, closeLoginSnackbar }
+  { loginFormSubmit, closeLoginSnackbar, hideResetPasswordSnackbar }
 )(LoginComponent)
 
 export default reduxForm({

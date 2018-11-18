@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
-import { reduxForm, Field } from 'redux-form'
-import { connect } from 'react-redux'
+import { Field } from 'redux-form'
 import { RaisedButton } from 'material-ui'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { resetPasswordFormSubmit } from '../../actions'
-import store from '../../store'
-import { resetPasswordValidate as validate } from '../../containers/validate'
 import { renderTextField } from '../../utils/wrappers'
 
 /**
@@ -15,65 +11,46 @@ import { renderTextField } from '../../utils/wrappers'
  * @author  Pragya Gupta
  */
 
-class ResetPasswordComponent extends Component {
-  onFormSubmit = values => {
-    this.props.resetPasswordFormSubmit(values)
-  }
-
+export default class ResetPasswordComponent extends Component {
   render() {
-    const { handleSubmit, invalid } = this.props
-
-    return (
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <form onSubmit={handleSubmit(this.onFormSubmit)}>
-          <div className="panel-body">
-            <div className="formSplit">
-              <Field
-                name="email"
-                label="Sähköpostiosoite"
-                component={renderTextField}
-              />
-            </div>
-          </div>
-          <div className="clearfix">
-            <div className="button-pull">
-              {invalid ? (
-                <RaisedButton
-                  type="submit"
-                  label="Palauta salasana"
-                  primary={true}
-                />
-              ) : (
-                <RaisedButton
-                  type="submit"
-                  label="Palauta salasana"
-                  primary={true}
-                  onClick={() => {
-                    store.dispatch(resetPasswordFormSubmit())
-                  }}
-                />
-              )}
-            </div>
-          </div>
-        </form>
-      </MuiThemeProvider>
-    )
+    return <ResetPassword {...this.props} />
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    resetPassword: state.resetPassword,
-    state
-  }
+const _onFormSubmit = () => {
+  return false
 }
 
-const resetPassword = connect(
-  mapStateToProps,
-  { resetPasswordFormSubmit }
-)(ResetPasswordComponent)
-
-export default reduxForm({
-  form: 'resetPassword',
-  validate
-})(resetPassword)
+const ResetPassword = ({ handleSubmit, resetPasswordFormSubmit, invalid }) => (
+  <MuiThemeProvider muiTheme={getMuiTheme()}>
+    <form onSubmit={handleSubmit(_onFormSubmit)}>
+      <div className="panel-body">
+        <div className="formSplit">
+          <Field
+            name="email"
+            label="Sähköpostiosoite"
+            component={renderTextField}
+          />
+        </div>
+      </div>
+      <div className="clearfix">
+        <div className="button-pull">
+          {invalid ? (
+            <RaisedButton
+              type="submit"
+              label="Palauta salasana"
+              primary={true}
+            />
+          ) : (
+            <RaisedButton
+              type="submit"
+              label="Palauta salasana"
+              primary={true}
+              onClick={resetPasswordFormSubmit}
+            />
+          )}
+        </div>
+      </div>
+    </form>
+  </MuiThemeProvider>
+)

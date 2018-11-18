@@ -61,6 +61,11 @@ const Footer = () => (
                 asiakaspalvelu@kassavirtanen.fi
               </MailTo>
             </li>
+            <li>
+              <a href="../../images/kassavirtanen_käyttöohje.docx">
+                Kassavirtanen Käyttöohje
+              </a>
+            </li>
           </ul>
         </article>
       </div>

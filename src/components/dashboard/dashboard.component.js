@@ -1,4 +1,5 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
 import { Doughnut, Bar } from 'react-chartjs-2'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -35,10 +36,12 @@ export default class Dashboard extends React.Component {
   } */
 
   handleRefresh(e) {    
-    e.preventDefault()    
+    //e.preventDefault()    
     console.log(e)
     // Chrome requires returnValue to be set.
-    e.returnValue = ''    
+    e.returnValue = ''
+    //ToDo:: Refresh Token API
+    browserHistory.push('/home/etusivu')
   }
 
   render() {

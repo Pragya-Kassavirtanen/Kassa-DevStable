@@ -309,21 +309,21 @@ const invoiceDeliveryMethod = ( invoiceItems, invoiceOperators ) => (
         <Field
           name="delivery_address"
           component={renderTextField}
-          label="Laskutusosoite"
+          label="Laskutusosoite *"
         />
       </div>
       <div>
         <Field
           name="zip_code"
           component={renderTextField}
-          label="Postinumero"
+          label="Postinumero *"
         />
       </div>
       <div>
         <Field
           name="city"
           component={renderTextField}
-          label="Postitoimipaikka"
+          label="Postitoimipaikka *"
         />
       </div>
       <div>
@@ -421,7 +421,7 @@ const invoiceAdditionalInformation = clearInvoiceOptions => (
         <RadioButton value="quick_pay" label="Pikapalkka" />
         <RadioButton
           value="invoice_reminder"
-          label="En halua, että Kassavirtanen.fi tarjoaa maksuvalvonnan, maksun muistutukset ja tarvittaessa palautuksen"
+          label="En halua, että kassavirtanen.fi tarjoaa maksuvalvonnan, maksun muistutukset ja tarvittaessa perinnän"
         />
       </Field>
       <div className="pull-right">

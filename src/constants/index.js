@@ -5,6 +5,9 @@ export const CLOSE_LOGIN_SNACKBAR = 'CLOSE_LOGIN_SNACKBAR'
 export const CLIENT_SET = 'CLIENT_SET'
 export const CLIENT_UNSET = 'CLIENT_UNSET'
 export const RESET_PASSWORD_FORM_SUBMIT = 'RESET_PASSWORD_FORM_SUBMIT'
+export const RESET_PASSWORD_SUBMIT_SUCCESS = 'RESET_PASSWORD_SUBMIT_SUCCESS'
+export const RESET_PASSWORD_SUBMIT_FAILED = 'RESET_PASSWORD_SUBMIT_FAILED'
+export const HIDE_RESET_PASSWORD_SNACKBAR = 'HIDE_RESET_PASSWORD_SNACKBAR'
 
 export const SIGNUP_FORM_SUBMIT = 'SIGNUP_FORM_SUBMIT'
 export const SIGNUP_FORM_SUBMIT_SUCCESS = 'SIGNUP_FORM_SUBMIT_SUCCESS'
@@ -13,6 +16,9 @@ export const CLOSE_SIGNUP_SNACKBAR = 'CLOSE_SIGNUP_SNACKBAR'
 
 export const FRONT_PAGE_FORM_SUBMIT = 'FRONT_PAGE_FORM_SUBMIT'
 export const CONTACT_FORM_SUBMIT = 'CONTACT_FORM_SUBMIT'
+export const CONTACT_FORM_SUBMIT_SUCCESS = 'CONTACT_FORM_SUBMIT_SUCCESS'
+export const CONTACT_FORM_SUBMIT_FAILED = 'CONTACT_FORM_SUBMIT_FAILED'
+export const HIDE_CONTACT_SNACKBAR = 'HIDE_CONTACT_SNACKBAR'
 
 export const CHECK_AUTH_INFO = '@@dashboard/CHECK_AUTH_INFO'
 export const CHECK_AUTH_INFO_SUCCESS = '@@dashboard/CHECK_AUTH_INFO_SUCCESS'
@@ -237,9 +243,9 @@ export const OPENID_SERVER = process.env.OPENID_SERVER
 export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
 
 //Staging Server
-/* export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api' */
+export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
 
 //Production Server
-export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'
+/* export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */

@@ -139,7 +139,8 @@ function* selectRowSalarySaga() {
 function* getSalaryByIdSaga({ id }) {
   try {
     const url = `${API_SERVER}/GetSalaryByID`
-    const body = JSON.stringify({ id: id })
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({ id: id, uuid: uuid })
     const result = yield call(apiManualPost, url, body)
     const resultParsed = JSON.parse(result.data)
     yield put(getSalaryByIdSuccess(resultParsed))

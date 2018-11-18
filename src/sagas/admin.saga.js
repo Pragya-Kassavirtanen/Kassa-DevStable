@@ -348,8 +348,12 @@ function* adminUpdateInvoiceStatusSaga({ invoice_id }) {
 function* adminUpdateSalaryStatusSaga({ id }) {
   try {
     const url = `${API_SERVER}/UpdateSalaryStatus`
+    const sal_id = id.split('$$')
+    const uuid = sal_id[0]
+    const salary_id = sal_id[1]
     const body = JSON.stringify({
-      id: id,
+      uuid: uuid,      
+      id: salary_id,
       Status: store.getState().admin.Status
     })
     const result = yield call(apiManualPost, url, body)        

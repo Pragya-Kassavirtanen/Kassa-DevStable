@@ -8,12 +8,13 @@ export const registerValidate = values => {
     'FirstName',
     'Lastname',
     'password',
-    'passwordConfirmation'
+    'passwordConfirmation',
+    'agree_to_terms'
   ]
 
   requiredFields.forEach(field => {
     if (!values[field]) {
-      errors[field] = 'Sähköpostikenttä on pakollinen'
+      errors[field] = 'Kenttä on pakollinen'
     }
   })
 
@@ -54,6 +55,7 @@ export const registerValidate = values => {
     errors.familyName = 'Sukunimi on pakollinen'
   }
 
+  console.log('Inside registerValidate:: ', errors)
   return errors
 }
 

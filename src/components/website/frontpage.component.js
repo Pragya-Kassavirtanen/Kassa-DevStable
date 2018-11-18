@@ -68,22 +68,23 @@ const FrontPage = () => (
     <div className="frontpage-halvempi">
       <div className="row justify-content-center">
         <div className="col-xs-12 col-sm-12 col-lg-12">
-          <h6>Palkka tilille jopa samana päivänä</h6>
+          <h6>Kevytyrittäjyys on helppoa</h6>
           <br />
           <p>
-            Saat palkkasi nopeammin kuin toimeksiantajasi ehtii maksamaan! Pikapalkan 
-            palvelumaksu on vain 2,5% normaaliveloituksen lisäksi, ja saat rahat 
-            parhaimmassa tapauksessa tilillesi jo samana päivänä.
+            Palkkasi yhteydessä ovat kulut vain 2-4,0% palkan
+            arvonlisäverottomasta summasta. Laskun lähettäminen, muistutukset ja
+            perintä ovat ilmaisia.
           </p>
         </div>
       </div>
     </div>
     <div className="frontpage-jouheva col-xs-12 col-sm-12 col-lg-12">
-      <h6>Kevytyrittäjyys on helppoa</h6>
+      <h6>Palkka tilille jopa samana päivänä</h6>
       <br />
       <p>
-        Palkkasi yhteydessä ovat kulut vain 2-4,0% palkan arvonlisäverottomasta summasta. Laskun 
-        lähettäminen, muistutukset ja perintä ovat ilmaisia.
+        Saat palkkasi nopeammin kuin toimeksiantajasi ehtii maksamaan!
+        Pikapalkan palvelumaksu on vain 2,5% normaaliveloituksen lisäksi, ja
+        saat rahat parhaimmassa tapauksessa tilillesi jo samana päivänä.
       </p>
     </div>
   </div>

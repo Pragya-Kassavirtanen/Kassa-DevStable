@@ -156,7 +156,7 @@ const Customer = ({
       </form>
       <Snackbar
         open={showSnackbar}
-        message="Asiakas lisäsi onnistuneesti!"
+        message="Asiakas lisättiin onnistuneesti!"
         autoHideDuration={2000}
         bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
         onRequestClose={() => {
@@ -217,7 +217,7 @@ const customerInfo = countryItems => (
         <Field
           name="person_to_contact_email"
           component={renderTextField}
-          label="Yhteyshenkilön sähköposti"
+          label="Yhteyshenkilön sähköposti *"
         />
       </div>
     </div>

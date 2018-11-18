@@ -531,7 +531,7 @@ const createInvoiceRow = (
           checked={isToPayInvoiceId !== `${el.uuid}$$${el.invoice_id}` ? false : true}
         />        
         <Dialog
-          title={'Vahvistako laskun on maksettu?'}
+          title={'Vahvista, että lasku maksetaan'}
           contentStyle={{
             width: '450px',
             height: '200px',
@@ -611,7 +611,7 @@ const createSalaryRow = (
   updateAdminSalaryStatus
 ) =>
   wages.slice(selected * 10, selected * 10 + 10).map(el => (
-    <TableRow selectable={false} key={el.id}>
+    <TableRow selectable={false} key={el.email+el.id}>
       <TableRowColumn>{el.firstname}</TableRowColumn>
       <TableRowColumn>
         {new DateTimeFormat('fi', {
@@ -630,14 +630,14 @@ const createSalaryRow = (
       <TableRowColumn>
         <Checkbox
           onCheck={() => {
-            store.dispatch(warnSalaryToPay(el.id))
+            store.dispatch(warnSalaryToPay(`${el.uuid}$$${el.id}`))
           }}
           disabled={el.status === 'paid' ? true : false}
-          checked={isToPaySalaryId !== el.id ? false : true}
+          checked={isToPaySalaryId !== `${el.uuid}$$${el.id}` ? false : true}
         />
         <Dialog
           open={isToLiftSalary}
-          title={`Vahvista, että palkan nro ${isToPaySalaryId} maksetaan?`}
+          title={'Vahvista, että palkka maksetaan'}
           contentStyle={{
             width: '450px',
             height: '200px',

@@ -892,6 +892,10 @@ input[type="text"]::-ms-clear {
   display: block;
 }
 
+.faqpanels .collapsepanel.is-open .terms {
+  display: block;
+}
+
 .faqpanels .collapsepanel .title {
   background-color: #44c0cc;
   cursor: pointer;
@@ -915,6 +919,14 @@ input[type="text"]::-ms-clear {
   display: none;
 }
 
+.faqpanels .collapsepanel .terms {
+  padding: 20px 25px 20px 25px;
+  padding-right: 50px;
+  display: none;
+  overflow-y: scroll;
+  height: 300px;
+}
+
 .faqpanels .collapsepanel .content h6 {
   font-size: 16px;
   color: darkblue;
@@ -922,7 +934,12 @@ input[type="text"]::-ms-clear {
 }
 
 .faqpanels .collapsepanel .content p {
-  font-size: 16px;
+  font-size: 16px;  
+}
+
+.faqpanels .collapsepanel .terms p {
+  font-size: 14px;
+  text-align: left;  
 }
 
 /*Companies and entrepreneurs -->*/

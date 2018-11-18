@@ -50,15 +50,15 @@ const YelComponent = ({
                     >
                       <RadioButton
                         value="yel_self"
-                        label="Maksan YEL-vakuutuksen itse"
+                        label={'Maksan Yel-vakuutuksen itse tai tienaan tänä vuonna alle 7652,26 €'}
                       />
                       <RadioButton
                         value="yel_recommended"
-                        label={'Maksetaan YEL-vakuutus lailla'}
+                        label={'Maksetaan Yel-vakuutus tulojen mukaan 24,10 %'}
                       />
                       <RadioButton
                         value="yel_minimum"
-                        label={'Maksa minimi YEL-vakuutuksen (7656,26 €)'}
+                        label={'Maksa minimi Yel-vakuutuksen (7656,26 €)'}
                       />
                     </Field>
                     {showFirstTimer && (

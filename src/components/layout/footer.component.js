@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import MailTo from 'react-mailto'
 import NavIcon from './navicon.component'
+import { hideLink } from '../../utils/website.utils'
 
 /**
  * @author Skylar Kong
@@ -62,9 +63,7 @@ const Footer = () => (
               </MailTo>
             </li>
             <li>
-              <a href="../../images/kassavirtanen_käyttöohje.docx">
-                Kassavirtanen Käyttöohje
-              </a>
+              <a onClick={hideLink}>Kassavirtanen Käyttöohje</a>
             </li>
           </ul>
         </article>

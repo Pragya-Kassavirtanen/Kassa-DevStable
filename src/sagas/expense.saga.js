@@ -498,7 +498,7 @@ function* saveExpenseUpdateSaga() {
 
   for (let i = 0; i < l; i++) {
     body.expenseInputRow[i].description = body.expenseInputRow[i]['description']
-    body.expenseInputRow[i].sum = parseFloat(body.expenseInputRow[i]['sum'].replace(/,/g, '.')).toString()
+    body.expenseInputRow[i].sum = parseFloat(body.expenseInputRow[i]['sum'].toString().replace(/,/g, '.')).toString()
     body.expenseInputRow[i].vat = body.expenseInputRow[i]['vat']
 
     bodyExpenseRows[i] = body.expenseInputRow[i]

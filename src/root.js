@@ -1,3 +1,4 @@
+import ReactGA from 'react-ga'
 import React from 'react'
 import 'core-js/fn/object/assign'
 import { Provider } from 'react-redux'
@@ -14,6 +15,10 @@ require('es6-promise').polyfill()
 // Needed for onTouchTap
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
+
+//Google Analytics Tracking Code
+ReactGA.initialize('UA-129495772-1')
+ReactGA.pageview('/home/etusivu')
 
 export default class RootComponent extends React.Component {
   render() {

@@ -124,6 +124,7 @@
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^15.6.2",
     "react-fontawesome": "^1.5.0",
+    "react-ga": "^2.5.3",
     "react-i18next": "^7.10.1",
     "react-mailto": "^0.4.0",
     "react-paginate": "^4.4.4",

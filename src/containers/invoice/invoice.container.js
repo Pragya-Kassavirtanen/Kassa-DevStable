@@ -23,7 +23,12 @@ import {
 } from '../../actions'
 import DateTimeFormat from '../../utils/DateTimeFormat'
 import {
-  countryItems, invoiceItems, unitItems, overdueItems, alvItems, alvPercentageItems
+  countryItems,
+  invoiceItems,
+  unitItems,
+  overdueItems,
+  alvItems,
+  alvPercentageItems
 } from '../../utils/invoice.utils'
 
 /**
@@ -48,7 +53,7 @@ let NewInvoiceContainer = reduxForm({
       year: 'numeric'
     }).format(date.setDate(date.getDate() + 14)),
     overdue: 14,
-    instant_payment: '',    
+    instant_payment: '',
     status: 0,
     country: 'Suomi',
     company_name: '',
@@ -60,27 +65,30 @@ let NewInvoiceContainer = reduxForm({
     city: '',
     web_invoice: '',
     delivery_method: 'Sähköposti',
-    rows: [{
-      description: '',
-      quantity: '',
-      unit: 'kpl',
-      quantity_price: '',
-      vat_percent: 24,          
-      sum_tax_free: new Intl.NumberFormat('fi-FI', {
-        style: 'currency',
-        currency: 'EUR'
-      }).format(0)
-    }]
+    rows: [
+      {
+        description: '',
+        quantity: '',
+        unit: 'kpl',
+        quantity_price: '',
+        vat_percent: 24,
+        sum_tax_free: new Intl.NumberFormat('fi-FI', {
+          style: 'currency',
+          currency: 'EUR'
+        }).format(0)
+      }
+    ]
   },
-  validate 
+  validate
 })(NewInvoice)
 
 // To be called every time when the store is updated
-const mapStateToProps = (state) => {
-
+const mapStateToProps = state => {
   const formValues = getFormValues('invoice')(state)
   const invoiceInputRows = state.invoice.invoiceInputRows
-  const billingDate = !!state.invoice.billing_date ? state.invoice.billing_date : new Date()
+  const billingDate = !!state.invoice.billing_date
+    ? state.invoice.billing_date
+    : new Date()
   formValues.billing_date = billingDate
   formValues.due_date = dueDate(formValues.overdue, billingDate)
   // FIXME: TO BE REFACTORED
@@ -111,25 +119,32 @@ const mapStateToProps = (state) => {
     const sum = formQuantity * formQuantityPrice
     const vat = formValues['rows'][el.key]['vat_percent'] / 100
 
-    formValues['rows'][el.key]['sum_tax_free'] = new Intl.NumberFormat('fi-FI', {
-      style: 'currency',
-      currency: 'EUR'
-    }).format(sum)
+    formValues['rows'][el.key]['sum_tax_free'] = new Intl.NumberFormat(
+      'fi-FI',
+      {
+        style: 'currency',
+        currency: 'EUR'
+      }
+    ).format(sum)
 
     formValues['rows'][el.key]['vat'] = new Intl.NumberFormat('fi-FI', {
       style: 'currency',
       currency: 'EUR'
     }).format(sum * vat)
 
-    formValues['rows'][el.key]['sum_with_vat'] = new Intl.NumberFormat('fi-FI', {
-      style: 'currency',
-      currency: 'EUR'
-    }).format(sum * (vat + 1))
+    formValues['rows'][el.key]['sum_with_vat'] = new Intl.NumberFormat(
+      'fi-FI',
+      {
+        style: 'currency',
+        currency: 'EUR'
+      }
+    ).format(sum * (vat + 1))
 
-    formValues['rows'][el.key]['vat_percent_description'] = `${formValues['rows'][el.key]['vat_percent']} %`
+    formValues['rows'][el.key]['vat_percent_description'] = `${
+      formValues['rows'][el.key]['vat_percent']
+    } %`
     //TODO figure out if vat is wanted to be shown or not
     totalSum += sum * (vat + 1)
-
   })
 
   formValues['total_sum'] = totalSum
@@ -163,29 +178,37 @@ const dueDate = (overdue, billingDate) => {
   }).format(date.setDate(billingDate.getDate() + overdue))
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     getInvoicesStart: () => dispatch(getInvoicesStart()),
     getProfessions: () => dispatch(getProfessions()),
     getFinvoiceOperator: () => dispatch(getFinvoiceOperator()),
-    addInvoiceRow: (copy) => dispatch(addInvoiceRow(copy)),
+    addInvoiceRow: copy => dispatch(addInvoiceRow(copy)),
     removeInvoiceRow: () => dispatch(removeInvoiceRow()),
     onInvoiceReview: () => dispatch(onInvoiceReview()),
     invoicePageChange: selected => dispatch(invoicePageChange(selected)),
     changeInvoiceBillingDate: date => dispatch(changeInvoiceBillingDate(date)),
-    selectInvoiceCustomer: customer => Object.keys(customer).forEach(key => dispatch(change('invoice', key, customer[key]))),
+    selectInvoiceCustomer: customer =>
+      Object.keys(customer).forEach(key =>
+        dispatch(change('invoice', key, customer[key]))
+      ),
     editInvoice: invoice_id => dispatch(editInvoice(invoice_id)),
     cancelEditInvoice: () => dispatch(cancelEditInvoice()),
     getInvoiceByIdSuccess: result => dispatch(getInvoiceByIdSuccess(result)),
-    clearInvoiceOptions: () => dispatch(clearInvoiceOptions()),   
+    clearInvoiceOptions: () => dispatch(clearInvoiceOptions()),
     showTooltip: () => dispatch(showTooltip()),
     hideTooltip: () => dispatch(hideTooltip())
   }
 }
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => Object.assign({}, stateProps, dispatchProps, ownProps)
+const mergeProps = (stateProps, dispatchProps, ownProps) =>
+  Object.assign({}, stateProps, dispatchProps, ownProps)
 
-NewInvoiceContainer = connect(mapStateToProps, mapDispatchToProps, mergeProps)(NewInvoiceContainer)
+NewInvoiceContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(NewInvoiceContainer)
 
 export default NewInvoiceContainer

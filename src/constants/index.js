@@ -233,6 +233,7 @@ export const ADD_SALARY_SUCCESS = '@@salary/ADD_SALARY_SUCCESS'
 
 export const LANGUAGE_CHANGE = '@@lang/LANGUAGE_CHANGE'
 export const SAVE_AND_SEND_INVOICE_PDF = '@invoice/SAVE_AND_SEND_INVOICE_PDF'
+export const SAVE_AND_SEND_INVOICE_SUCCESS = '@invoice/SAVE_AND_SEND_INVOICE_SUCCESS'
 export const GENERATE_INVOICE_PDF_SUCCESS = '@invoice/GENERATE_INVOICE_PDF_SUCCESS'
 export const GENERATE_INVOICE_PDF_FAILED = '@invoice/GENERATE_INVOICE_PDF_FAILED'
 
@@ -243,9 +244,9 @@ export const OPENID_SERVER = process.env.OPENID_SERVER
 export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
 
 //Staging Server
-export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
+/* export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api' */
 
 //Production Server
-/* export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
+export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'

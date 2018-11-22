@@ -4,12 +4,12 @@ import {
   SAVE_INVOICE_SUCCESS,
   REVIEW_INVOICE_EDIT_SUCCESS,
   SAVE_INVOICE_FAILED,
-  CLOSE_INVOICE_REVIEW_SNACKBAR,
-  SAVE_AND_SEND_INVOICE,
+  CLOSE_INVOICE_REVIEW_SNACKBAR, 
+  SAVE_AND_SEND_INVOICE_SUCCESS,
   SAVE_AND_SEND_INVOICE_PDF,
   SAVE_INVOICE_DRAFT,
   GENERATE_INVOICE_PDF_SUCCESS,
-  GENERATE_INVOICE_PDF_FAILED
+  GENERATE_INVOICE_PDF_FAILED  
 } from '../constants'
 import { getFormValues } from 'redux-form'
 import ReviewInvoiceRow from '../components/invoice/reviewInvoiceRow.component'
@@ -22,6 +22,7 @@ const reviewInvoice = (
     showSpinner: false,
     isSaveAndSend: false,
     isSaveInvoiceDraft: false,
+    isGenerateInvoice: false,
     invoice_id: 0
   },
   action
@@ -43,15 +44,25 @@ const reviewInvoice = (
         reviewRows: reviewRows
       })
 
-    case SAVE_AND_SEND_INVOICE:
-      return Object.assign({}, state)
+    case SAVE_AND_SEND_INVOICE_SUCCESS:
+      return Object.assign({}, state,
+        {       
+          apiSuccess: true,
+          invoice_id: action.result,
+          isSaveInvoiceDraft: false,
+          isSaveAndSend: false,
+          showSpinner: false,
+          isGenerateInvoice: true               
+        })      
 
     case SAVE_INVOICE_SUCCESS:
       return Object.assign({}, state, {       
         apiSuccess: true,
         invoice_id: action.result,
         isSaveInvoiceDraft: false,
-        showSpinner: false        
+        isSaveAndSend: false,
+        showSpinner: false,
+        isGenerateInvoice: false                 
       })
 
     case REVIEW_INVOICE_EDIT_SUCCESS:
@@ -59,11 +70,20 @@ const reviewInvoice = (
         {
           apiSuccess: true,
           showSpinner: false,         
-          isSaveInvoiceDraft: false
+          isSaveInvoiceDraft: false,
+          isSaveAndSend: false,
+          isGenerateInvoice: true
       })
 
     case SAVE_INVOICE_FAILED:
-      return Object.assign({}, state, { apiSuccess: true, isSaveInvoiceDraft: false })
+      return Object.assign({}, state, {        
+        apiSuccess: false,
+        invoice_id: 0,
+        isSaveInvoiceDraft: false,
+        isSaveAndSend: false,
+        showSpinner: false,
+        isGenerateInvoice: false
+      })
 
     case CLOSE_INVOICE_REVIEW_SNACKBAR:
       return Object.assign({}, state, { apiSuccess: false, apiFailed: false })
@@ -75,10 +95,10 @@ const reviewInvoice = (
       return Object.assign({}, state, { showSpinner: true, isSaveAndSend: true })
 
     case GENERATE_INVOICE_PDF_SUCCESS:
-      return Object.assign({}, state, { isSaveAndSend: false, showSpinner: false })
+      return Object.assign({}, state, { isSaveAndSend: false, showSpinner: false, isGenerateInvoice: false })
 
     case GENERATE_INVOICE_PDF_FAILED:
-      return Object.assign({}, state, { isSaveAndSend: false, showSpinner: false })
+      return Object.assign({}, state, { isSaveAndSend: false, showSpinner: false, isGenerateInvoice: false })
 
     default:
       return state

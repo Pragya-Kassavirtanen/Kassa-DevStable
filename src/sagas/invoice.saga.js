@@ -21,10 +21,10 @@ import {
   getInvoicesSuccess,
   getInvoicesFailed,
   saveInvoiceSuccess,
+  saveAndSendInvoiceSuccess,
   reviewInvoiceEditSuccess,
   saveInvoiceFailed,
-  emptyInvoiceRows,
-  invoiceEditSuccess,
+  emptyInvoiceRows, 
   addInvoiceRow,
   getProfessionSuccess,
   getProfessionFailed,
@@ -93,14 +93,14 @@ function* clearInvoiceOptionSaga() {
 function* saveAndSendInvoiceSaga() {
   try {
     const invoiceEdit = store.getState().invoice.invoiceEdit
-    console.log('saveAndSendInvoiceSaga invoiceEdit:: ', invoiceEdit)
+    //console.log('saveAndSendInvoiceSaga invoiceEdit:: ', invoiceEdit)
 
     let url
     let invoice_id
 
     if (invoiceEdit.length > 0) {
       invoice_id = invoiceEdit[0].Invoice[0].invoice_id
-      console.log('invoice_id:: ', invoice_id)
+      //console.log('invoice_id:: ', invoice_id)
 
       if (!!invoice_id) {
         url = `${API_SERVER}/UpdateInvoice`
@@ -134,10 +134,10 @@ function* saveAndSendInvoiceSaga() {
 
     const isSaveInvoiceDraft = store.getState().invoiceReviews
       .isSaveInvoiceDraft
-    console.log('isSaveInvoiceDraft:: ', isSaveInvoiceDraft)
+    //console.log('isSaveInvoiceDraft:: ', isSaveInvoiceDraft)
 
     body.instant_payment = formValues.instant_payment
-    console.log('body.instant_payment:: ', body.instant_payment)
+    //console.log('body.instant_payment:: ', body.instant_payment)
 
     //Handling SaveAsDraft & SaveAndSendInvoice Status for AddInvoice & UpdateInvoice
     if (
@@ -146,61 +146,70 @@ function* saveAndSendInvoiceSaga() {
         body.instant_payment === '')
     ) {
       body.status = 1
-      console.log('body.status:: ', body.status)
+      //console.log('body.status:: ', body.status)
     } else if (
       isSaveInvoiceDraft === false &&
       body.instant_payment === 'quick_pay'
     ) {
       body.status = 2
-      console.log('body.status:: ', body.status)
+      //console.log('body.status:: ', body.status)
     } else {
       body.status = 0
-      console.log('body.status:: ', body.status)
+      //console.log('body.status:: ', body.status)
     }
 
+    //console.log('Inside Saveandsend:: ', body.rows)
+
+    const filteredBody = body.rows.filter((obj) =>(obj))
+
+    //console.log('Inside filter:: ', body.rows.filter((obj) =>(obj)))
+
     let bodyRows = []
-    const l = Array.isArray(body.rows)
-      ? body.rows.length
-      : Object.keys(body.rows).length
+    const l = Array.isArray(filteredBody)
+      ? filteredBody.length
+      : Object.keys(filteredBody).length
+    //console.log('Inside SAndS l: ', l)
     for (let i = 0; i < l; i++) {
-      body.rows[i].description = body.rows[i]['description']
-      body.rows[i].quantity = parseFloat(
-        body.rows[i]['quantity'].replace(/,/g, '.')
+      //console.log('before desc::',filteredBody[i]['description'])
+      filteredBody[i].description = filteredBody[i]['description']
+      //console.log('after desc:: ',filteredBody[i].description)
+      filteredBody[i].quantity = parseFloat(
+        filteredBody[i]['quantity'].replace(/,/g, '.')
       ).toString()
-      body.rows[i].quantity_price = parseFloat(
-        body.rows[i]['quantity_price'].replace(/,/g, '.')
+      filteredBody[i].quantity_price = parseFloat(
+        filteredBody[i]['quantity_price'].replace(/,/g, '.')
       ).toString()
-      body.rows[i].sum_tax_free = parseFloat(
-        body.rows[i]['sum_tax_free'].replace(/,/g, '.').replace(/\s/g, '')
+      filteredBody[i].sum_tax_free = parseFloat(
+        filteredBody[i]['sum_tax_free'].replace(/,/g, '.').replace(/\s/g, '')
       ).toString()
-      body.rows[i].sum_tax_vat = body.rows[i]['sum_tax_vat']
-      body.rows[i].unit = body.rows[i]['unit']
-      body.rows[i].vat_percent = body.rows[i]['vat_percent']
-      body.rows[i].vat = parseFloat(
-        body.rows[i].vat.replace(/,/g, '.').replace(/\s/g, '')
+      filteredBody[i].sum_tax_vat = filteredBody[i]['sum_tax_vat']
+      filteredBody[i].unit = filteredBody[i]['unit']
+      filteredBody[i].vat_percent = filteredBody[i]['vat_percent']
+      filteredBody[i].vat = parseFloat(
+        filteredBody[i].vat.replace(/,/g, '.').replace(/\s/g, '')
       )
-      body.rows[i].vat_percent_description =
-        body.rows[i]['vat_percent_description']
-      body.rows[i].start_date = formatFiToISO(
+      filteredBody[i].vat_percent_description =
+        filteredBody[i]['vat_percent_description']
+      filteredBody[i].start_date = formatFiToISO(
         new DateTimeFormat('fi', {
           day: 'numeric',
           month: 'numeric',
           year: 'numeric'
         })
-          .format(new Date(body.rows[i]['start_date']))
+          .format(new Date(filteredBody[i]['start_date']))
           .split('.')
       )
-      body.rows[i].end_date = formatFiToISO(
+      filteredBody[i].end_date = formatFiToISO(
         new DateTimeFormat('fi', {
           day: 'numeric',
           month: 'numeric',
           year: 'numeric'
         })
-          .format(new Date(body.rows[i]['end_date']))
+          .format(new Date(filteredBody[i]['end_date']))
           .split('.')
       )
 
-      bodyRows[i] = body.rows[i]
+      bodyRows[i] = filteredBody[i]
     }
 
     body.rows = bodyRows
@@ -241,19 +250,22 @@ function* saveAndSendInvoiceSaga() {
 
     if (result.data === 'Invoice updated successfully') {
       yield put(reviewInvoiceEditSuccess())
-    } else {
+    } else if (isSaveInvoiceDraft === true){      
       const resultParsed = JSON.parse(result.data)
       yield put(saveInvoiceSuccess(resultParsed[0].invoice_id))
-    }
+    } else {
+      const resultParsed = JSON.parse(result.data)
+      yield put(saveAndSendInvoiceSuccess(resultParsed[0].invoice_id))
+    }    
 
-    const isSaveAndSend = store.getState().invoiceReviews.isSaveAndSend
+    const isGenerateInvoice = store.getState().invoiceReviews.isGenerateInvoice
 
-    if (isSaveAndSend === true) {
+    if (isGenerateInvoice === true) {
       if (invoiceEdit.length <= 0) {
         invoice_id = store.getState().invoiceReviews.invoice_id
       } else if (invoiceEdit.length > 0) {
         invoice_id = invoiceEdit[0].Invoice[0].invoice_id
-        console.log('invoice_id:: ', invoice_id)
+        //console.log('invoice_id:: ', invoice_id)
       }
 
       //Calling GenerateInvoicePDF API....
@@ -268,7 +280,7 @@ function* saveAndSendInvoiceSaga() {
         generateInvoicePDFUrl,
         generateInvoicePDFBody
       )
-      console.log('generateInvoicePDFResult:: ', generateInvoicePDFResult)
+      //console.log('generateInvoicePDFResult:: ', generateInvoicePDFResult)
 
       if (generateInvoicePDFResult.data === 'Invoice Pdf sent successfully') {
         yield put(generateInvoicePDFSuccess(generateInvoicePDFResult.data))
@@ -276,9 +288,10 @@ function* saveAndSendInvoiceSaga() {
         yield put(generateInvoicePDFFailed(generateInvoicePDFResult.data))
       }
     }
-
-    yield put(reset('invoice'))
-    yield put(invoiceEditSuccess())
+    yield put(emptyInvoiceRows())
+    yield put(addInvoiceRow(true))
+    yield put(reset('invoiceReview'))
+    yield put(reset('invoice'))    
   } catch (e) {
     yield put(saveInvoiceFailed(e))
   }
@@ -697,6 +710,8 @@ function* copyInvoiceSaga({ invoice_id }) {
 
 function* cancelEditInvoiceSaga() {
   try {
+    yield put(emptyInvoiceRows())
+    yield put(addInvoiceRow(true))
     yield put(reset('invoice'))
   } catch (e) {
     console.warn(e)

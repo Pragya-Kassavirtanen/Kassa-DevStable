@@ -3,11 +3,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import {
   renderTextField,
-  renderRadioButtonGroup,
-  renderCheckbox
+  renderRadioButtonGroup 
 } from '../../utils/wrappers'
 import { Field } from 'redux-form'
-import { MenuItem, RadioButton, RaisedButton, Snackbar } from 'material-ui'
+import { MenuItem, RadioButton, RaisedButton, Snackbar, Checkbox } from 'material-ui'
 import { SelectField } from 'redux-form-material-ui'
 
 class Yel extends React.Component {
@@ -62,13 +61,12 @@ const YelComponent = ({
                       />
                     </Field>
                     {showFirstTimer && (
-                      <div>
+                      <div>                                                  
                         <Field
                           name="firsttime_enterprenuer"
                           label="Olen toiminut yrittäjänä alle neljä vuotta"
-                          component={renderCheckbox}
-                          style={{ marginTop: '25px' }}
-                        />
+                          component={renderCheckbox}                          
+                        />                        
                         <Field
                           name="yel_income"
                           style={{ verticalAlign: 'bottom' }}
@@ -141,6 +139,31 @@ const YelComponent = ({
       />
     </div>
   </MuiThemeProvider>
+)
+
+const renderCheckbox = ({
+  input,
+  label,
+  disabled,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <Checkbox
+    label={label}
+    style={{
+      borderBottom: touched && error ? '2px solid red' : 'none',
+      textAlign: 'left',
+      fontSize: '16px',
+      width: '400px',
+      height: '40px',
+      display: 'inline-block',
+      marginTop: '50px'
+    }}
+    checked={!!input.value}
+    onCheck={input.onChange}
+    disabled={disabled}
+    {...custom}
+  />
 )
 
 export default Yel

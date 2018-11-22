@@ -23,6 +23,7 @@ import {
   ON_INVOICE_REVIEW,
   GET_INVOICES_FAILED,
   SAVE_INVOICE_SUCCESS,
+  SAVE_AND_SEND_INVOICE_SUCCESS,
   REVIEW_INVOICE_EDIT_SUCCESS,
   SAVE_INVOICE_FAILED,
   CHECK_AUTH_INFO,
@@ -228,6 +229,7 @@ export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
 export const removeInvoiceRow = rowNumber => ({ type: REMOVE_INVOICE_ROW, rowNumber })
 export const loadInvoiceReview = () => ({ type: LOAD_INVOICE_REVIEW })
 export const saveAndSendInvoice = () => ({ type: SAVE_AND_SEND_INVOICE })
+export const saveAndSendInvoiceSuccess = (result) => ({ type: SAVE_AND_SEND_INVOICE_SUCCESS, result })
 export const saveAndSendInvoicePDF = () => ({ type: SAVE_AND_SEND_INVOICE_PDF })
 export const minDateChange = (value, rowNumber) => ({ type: MIN_DATE_CHANGE, value, rowNumber })
 export const maxDateChange = (value, rowNumber) => ({ type: MAX_DATE_CHANGE, value, rowNumber })

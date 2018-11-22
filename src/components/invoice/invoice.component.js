@@ -233,7 +233,7 @@ const NewInvoice = ({
         </div>
       </form>
       <Snackbar
-        open={submitFailed && invalid}
+        open={submitFailed && invalid}        
         message="Laskun lähetys epäonnistui, tarkista kentät"
         autoHideDuration={4000}
         bodyStyle={{ backgroundColor: 'red', opacity: 0.8 }}

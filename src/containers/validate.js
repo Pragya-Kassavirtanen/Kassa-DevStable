@@ -55,7 +55,7 @@ export const registerValidate = values => {
     errors.familyName = 'Sukunimi on pakollinen'
   }
 
-  console.log('Inside registerValidate:: ', errors)
+  //console.log('Inside registerValidate:: ', errors)
   return errors
 }
 
@@ -67,7 +67,8 @@ export const invoiceValidate = values => {
     'company_name',
     'business_id',
     'person_to_contact',
-    'person_to_contact_email'
+    'person_to_contact_email',
+    'delivery_method'
   ]
 
   let requiredDeliveryMethodFields = []
@@ -104,7 +105,7 @@ export const invoiceValidate = values => {
 
   if (
     values.invoice_reference &&
-    !/^[äÄöÖåÅA-Za-z0-9.\-_,\s]+$/i.test(values.invoice_reference)
+    !/^[äÄöÖåÅA-Za-z0-9.\-_,\s!@#$€£%^&*()?":{}|<>]+$/i.test(values.invoice_reference)
   ) {
     errors['invoice_reference'] = 'Viitenumero ei ole kelvollinen'
   }
@@ -151,7 +152,7 @@ export const invoiceValidate = values => {
     }
     if (!values['rows'][parseInt(item)]['quantity_price']) {
       errors['rows'][parseInt(item)]['quantity_price'] = 'Pakollinen'
-    }
+    }    
     if (
       !/^[0-9]{1,6}([,.][0-9]{1,2})?$/i.test(
         values['rows'][parseInt(item)]['quantity_price']
@@ -348,6 +349,7 @@ export const yelValidate = values => {
     }
   })
 
+  //console.log('Inside yelValidateErrors:: ', errors)
   return errors
 }
 

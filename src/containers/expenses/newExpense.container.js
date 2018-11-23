@@ -23,7 +23,7 @@ import {
 const date = new Date()
 let newExpenseContainer = reduxForm({
   form: 'newfee',
-  //destroyOnUnmount: false,
+  destroyOnUnmount: false,
   initialValues: {
     invoice: '',
     place_of_purchase: '',   
@@ -31,8 +31,7 @@ let newExpenseContainer = reduxForm({
     expenseInputRow: [{
       description: '',
       sum: '',
-      vat: 24,
-      key: '0'
+      vat: 24     
     }],
     receipt_picture: ''
   },
@@ -45,23 +44,20 @@ const mapStateToProps = (state) => {
   const formValues = getFormValues('newfee')(state)
   const expenseInputRow = state.expense.expenseInputRow  
 
-/*   expenseInputRow.forEach(el => {
+  for(let r of Object.keys(formValues['expenseInputRow'])) {
+    !expenseInputRow.reduce((sum, value) => {
+      return value.key === r || sum
+    }, false) && delete formValues['expenseInputRow'][r]
+  }
+
+  expenseInputRow.forEach(el => {
     if (!formValues['expenseInputRow'][el.key]) {
-      formValues['expenseInputRow'][el.key] = {}     
-      formValues['expenseInputRow'][el.key][`vat${el.key}`] = 24
+      formValues['expenseInputRow'][el.key] = {}    
+      formValues['expenseInputRow'][el.key]['description'] = ''
+      formValues['expenseInputRow'][el.key]['sum'] = ''
+      formValues['expenseInputRow'][el.key]['vat'] = 24      
     }
-  }) */
-
-  if (formValues['expenseInputRow']) {
-    formValues['expenseInputRow'] = formValues['expenseInputRow'].filter(x => expenseInputRow.filter(y => y.key === x.key).length > 0)
-
-    expenseInputRow.forEach(el => {
-      !formValues['expenseInputRow'][el.key] &&
-        (formValues['expenseInputRow'][el.key] = 
-        { description :'', sum : '', vat : 24, key : el.key })})
-    }else {
-      state.expense.expenseInputRow = state.expense.expenseInputRow.slice(0,1) 
-    }
+  })
 
     //Filter invoiceNames as per invoicepaid to be False
     const validInvoiceNames = state.invoice.invoices.filter(el => el.invoicepaid === 0)    
@@ -74,7 +70,6 @@ const mapStateToProps = (state) => {
   return {
     user: state.oidc.user,
     invoices: invoiceNames,    
-    //expenseRows: state.expense.expenseInputRow,
     expenseRows: expenseInputRow,
     showSpinner: state.expense.showSpinner,
     showSnackbar: state.expense.showSnackbar,    

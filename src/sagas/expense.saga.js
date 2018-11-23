@@ -15,6 +15,7 @@ import {
   addPassengerRow,
   allowanceUpdateSuccess,
   allowanceUpdateFailed,
+  emptyAllowanceInputRows,
   emptyPassengerRows,
   cancelExpenseUpdate,
   cancelAllowanceUpdate,
@@ -357,6 +358,8 @@ function* editAllowanceSaga({ id }) {
       .invoice.invoices.filter(el => el.invoice_id === invoicePopId)
     yield put(change('newallowance', 'invoice', invoicePop[0]))
 
+    yield put(emptyAllowanceInputRows())
+
     const occurencesRoute = allowanceResult[0].allowanceInputRow.filter(
       el => el.route
     ).length
@@ -429,6 +432,8 @@ function* allowanceLocationChangeSaga() {
     yield put(change('newallowance', 'vehicle_type', ''))
     yield put(change('newallowance', 'additional_vehicle_cost', ''))
     yield put(change('newallowance', 'invoice', ''))
+
+    yield put(emptyAllowanceInputRows())
 
     const occurencesRoute = allowanceEdit[0].allowanceInputRow.filter(
       el => el.route

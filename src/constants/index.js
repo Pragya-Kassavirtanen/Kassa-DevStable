@@ -139,6 +139,7 @@ export const EXPENSE_UPDATE_FAILED = '@@expense/EXPENSE_UPDATE_FAILED'
 export const ALLOWANCE_UPDATE_SUCCESS = '@@expense/ALLOWANCE_UPDATE_SUCCESS'
 export const ALLOWANCE_UPDATE_FAILED = '@@expense/ALLOWANCE_UPDATE_FAILED'
 export const EMPTY_PASSENGER_ROWS = '@@expense/EMPTY_PASSENGER_ROWS'
+export const EMPTY_ALLOWANCE_INPUT_ROWS = '@@expense/EMPTY_ALLOWANCE_INPUT_ROWS'
 export const CHANGE_ALLOWANCE_START_TIME = '@@expense/CHANGE_ALLOWANCE_START_TIME'
 export const CHANGE_ALLOWANCE_END_TIME = '@@expense/CHANGE_ALLOWANCE_END_TIME'
 export const CHANGE_ALLOWANCE_START_DATE = '@@expense/CHANGE_ALLOWANCE_START_DATE'
@@ -244,9 +245,9 @@ export const OPENID_SERVER = process.env.OPENID_SERVER
 export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
 
 //Staging Server
-/* export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api' */
+export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
 
 //Production Server
-export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'
+/* export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */

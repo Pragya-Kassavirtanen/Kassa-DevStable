@@ -221,6 +221,7 @@ import {
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
   EMPTY_PASSENGER_ROWS,
+  EMPTY_ALLOWANCE_INPUT_ROWS,
   INVOICE_EDIT_SUCCESS,
   LANGUAGE_CHANGE  
 } from '../constants/index'
@@ -334,6 +335,7 @@ export const saveAllowanceUpdate = () => ({type: SAVE_ALLOWANCE_UPDATE})
 export const cancelAllowanceUpdate = () => ({type: CANCEL_ALLOWANCE_UPDATE})
 export const changeExpensePurchaseDate = date => ({type: CHANGE_PURCHASE_DATE, date})
 export const emptyPassengerRows = () => ({type: EMPTY_PASSENGER_ROWS})
+export const emptyAllowanceInputRows = () => ({type: EMPTY_ALLOWANCE_INPUT_ROWS})
 
 export const newCustomer = () => ({type: NEW_CUSTOMER})
 export const addCustomerSuccess = (result) => ({type: ADD_CUSTOMER_SUCCESS, result})

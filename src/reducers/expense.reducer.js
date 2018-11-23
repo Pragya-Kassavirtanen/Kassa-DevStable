@@ -44,6 +44,7 @@ import {
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
   EMPTY_PASSENGER_ROWS,
+  EMPTY_ALLOWANCE_INPUT_ROWS,
   CHANGE_ALLOWANCE_START_TIME,
   CHANGE_ALLOWANCE_END_TIME,
   CHANGE_ALLOWANCE_START_DATE,
@@ -51,11 +52,10 @@ import {
 } from '../constants/index'
 const initialState = {
   expenseInputRow: [
-    <ExpenseInputRow
+    <ExpenseInputRow key={0}
       description={`expenseInputRow[${0}][description]`}
       sum={`expenseInputRow[${0}][sum]`}
-      vat={`expenseInputRow[${0}][vat]`}
-      key={0}
+      vat={`expenseInputRow[${0}][vat]`}     
     />
   ],
   allowanceInputRow: [
@@ -136,11 +136,10 @@ const expenseReducer = (state = initialState, action) => {
     case EMPTY_EXPENSE_ROWS:
       return Object.assign({}, state, {
         expenseInputRow: [
-          <ExpenseInputRow
+          <ExpenseInputRow key={0}
             description={`expenseInputRow[${0}][description]`}
             sum={`expenseInputRow[${0}][sum]`}
-            vat={`expenseInputRow[${0}][vat]`}
-            key={0}
+            vat={`expenseInputRow[${0}][vat]`}            
           />
         ],
         expenseRowCounter: 1
@@ -152,19 +151,21 @@ const expenseReducer = (state = initialState, action) => {
         passengerRowCounter: 0
       })
 
+    case EMPTY_ALLOWANCE_INPUT_ROWS:
+      return Object.assign({}, state, {       
+        allowanceInputRow: [
+          <AllowanceInputRow route={`allowanceInputRow[${0}][route]`} key={0} />,
+          <AllowanceInputRow route={`allowanceInputRow[${1}][route]`} key={1} />
+        ],
+        allowanceRowCounter: 2
+      })
+
     case REMOVE_EXPENSE_ROW:
       return Object.assign({}, state, {
         expenseInputRow: state.expenseInputRow.filter(
           (el, index) => index !== action.key
         )
       })
-
-    /*     case REMOVE_EXPENSE_ROW:
-      return Object.assign({}, state, {
-        expenseInputRow: state.expenseInputRow.filter(
-          (el) => el.key !== action.rowNumber
-        )
-      }) */
 
     case REMOVE_EXPENSE:
       return Object.assign({}, state, {
@@ -347,11 +348,10 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow
+            <ExpenseInputRow key={0}
               description={`expenseInputRow[${0}][description]`}
               sum={`expenseInputRow[${0}][sum]`}
-              vat={`expenseInputRow[${0}][vat]`}
-              key={0}
+              vat={`expenseInputRow[${0}][vat]`}              
             />
           ],
           expenseRowCounter: 1
@@ -366,11 +366,10 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow
+            <ExpenseInputRow key={0}
               description={`expenseInputRow[${0}][description]`}
               sum={`expenseInputRow[${0}][sum]`}
-              vat={`expenseInputRow[${0}][vat]`}
-              key={0}
+              vat={`expenseInputRow[${0}][vat]`}              
             />
           ],
           expenseRowCounter: 1
@@ -385,11 +384,10 @@ const expenseReducer = (state = initialState, action) => {
           expenseEdit: [],
           isEdit: false,
           expenseInputRow: [
-            <ExpenseInputRow
+            <ExpenseInputRow key={0}
               description={`expenseInputRow[${0}][description]`}
               sum={`expenseInputRow[${0}][sum]`}
-              vat={`expenseInputRow[${0}][vat]`}
-              key={0}
+              vat={`expenseInputRow[${0}][vat]`}              
             />
           ],
           expenseRowCounter: 1
@@ -410,7 +408,12 @@ const expenseReducer = (state = initialState, action) => {
           isEdit: false,
           passengerInputRow: [],
           passengerRowCounter: 0,
-          passengerPrice: 0
+          passengerPrice: 0,
+          allowanceInputRow: [
+            <AllowanceInputRow route={`allowanceInputRow[${0}][route]`} key={0} />,
+            <AllowanceInputRow route={`allowanceInputRow[${1}][route]`} key={1} />
+          ],
+          allowanceRowCounter: 2
         }
       )
 
@@ -422,7 +425,15 @@ const expenseReducer = (state = initialState, action) => {
           showSpinner: false,
           showSnackbar: true,
           allowanceEdit: [],
-          isEdit: false
+          isEdit: false,
+          allowanceInputRow: [
+            <AllowanceInputRow route={`allowanceInputRow[${0}][route]`} key={0} />,
+            <AllowanceInputRow route={`allowanceInputRow[${1}][route]`} key={1} />
+          ],
+          allowanceRowCounter: 2,
+          passengerInputRow: [],
+          passengerRowCounter: 0,
+          passengerPrice: 0
         }
       )
 
@@ -435,7 +446,12 @@ const expenseReducer = (state = initialState, action) => {
           isEdit: false,
           passengerInputRow: [],
           passengerRowCounter: 0,
-          passengerPrice: 0
+          passengerPrice: 0,
+          allowanceInputRow: [
+            <AllowanceInputRow route={`allowanceInputRow[${0}][route]`} key={0} />,
+            <AllowanceInputRow route={`allowanceInputRow[${1}][route]`} key={1} />
+          ],
+          allowanceRowCounter: 2
         }
       )
 
@@ -482,10 +498,6 @@ const _createAllowanceRow = (allowances, selected) =>
         month: 'numeric',
         year: 'numeric'
       }).format(new Date(el.end_date))}
-      /* sum={new Intl.NumberFormat('fi-FI', {
-       style: 'currency',
-       currency: 'EUR'
-     }).format(_calculateAllowanceSum(el, cost))} */
       sum={new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'
@@ -493,23 +505,12 @@ const _createAllowanceRow = (allowances, selected) =>
     />
   ))
 
-/* const _createExpenseInputRow = index => [
-  <ExpenseInputRow    
-    description={`expenseInputRow[${index}][description${index}]`}
-    sum={`expenseInputRow[${index}][sum${index}]`}
-    vat={`expenseInputRow[${index}][vat${index}]`}
-    key={index}
-    autoFocusIndex={`${index}`}
-  />
-] */
-
 const _createExpenseInputRow = index => [
-  <ExpenseInputRow
+  <ExpenseInputRow key={index}
+    autoFocusIndex={`${index}`}
     description={`expenseInputRow[${index}][description]`}
     sum={`expenseInputRow[${index}][sum]`}
-    vat={`expenseInputRow[${index}][vat]`}
-    key={index}
-    autoFocusIndex={`${index}`}
+    vat={`expenseInputRow[${index}][vat]`}    
   />
 ]
 
@@ -525,17 +526,5 @@ const _createPassengerRow = (index, check) => [
     check={check}
   />
 ]
-
-/* const _calculateAllowanceSum = (allowance, allowance_cost) =>
-  allowance.distance *
-    (allowance.vehicle_type +
-      allowance.working_dog * allowance_cost.working_dog.value +
-      allowance.forest_trail * allowance_cost.forest_road.value +
-      allowance.heavy_load * allowance_cost.heavy_load.value +
-      allowance.passenger_count * allowance_cost.passenger_cost.value +
-      allowance.additional_vehicle_cost) +
-  allowance.full_time_allowance * allowance_cost.full_time_allowance.value +
-  allowance.part_time_allowance * allowance_cost.part_time_allowance.value +
-  allowance.meal_allowance * allowance_cost.meal_allowance.value */
 
 export default expenseReducer

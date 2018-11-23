@@ -103,18 +103,22 @@ const mapStateToProps = state => {
 
   //remove removed lines from form
   if (formValues) {
-    formValues['allowanceInputRow'] = formValues['allowanceInputRow'].filter(
-      x => allowanceInputRows.filter(y => y.key === x.key).length > 0
-    )
+    for(let r of Object.keys(formValues['allowanceInputRow'])) {
+      !allowanceInputRows.reduce((sum, value) => {
+        return value.key === r || sum
+      }, false) && delete formValues['allowanceInputRow'][r]
+    }
 
     allowanceInputRows.forEach(el => {
       !formValues['allowanceInputRow'][el.key] &&
         (formValues['allowanceInputRow'][el.key] = { route: '', key: el.key })
     })
 
-    formValues['passengerInputRow'] = formValues['passengerInputRow'].filter(
-      x => passengerInputRows.filter(y => y.key === x.key).length > 0
-    )
+    for(let r of Object.keys(formValues['passengerInputRow'])) {
+      !passengerInputRows.reduce((sum, value) => {
+        return value.key === r || sum
+      }, false) && delete formValues['passengerInputRow'][r]
+    }
 
     passengerInputRows.forEach(el => {
       !formValues['passengerInputRow'][el.key] &&
@@ -126,8 +130,7 @@ const mapStateToProps = state => {
       0,
       2
     )
-    //state.expense.passengerInputRow = []
-    state.expense.passengerInputRow = state.expense.passengerInputRow.slice(0,1)
+    state.expense.passengerInputRow = []    
   }
 
   return {

@@ -32,9 +32,13 @@ export default class CustomerComponent extends React.Component {
   }
 }
 
-const _onFormSubmit = (values, e) => {
+/* const _onFormSubmit = (values, e) => {
   e.preventDefault()
-  console.log(e)
+  console.log(e)  
+} */
+
+const _onFormSubmit = () => { 
+  return false
 }
 
 const Customer = ({

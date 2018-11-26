@@ -120,10 +120,47 @@ const salaryReducer = (state = initialState, action) => {
         }
       } */
 
-      //Changed
-      const service_cost = sum * service_percentage * 0.01 * 1.24
+      const quick_pay_percentage = salaryTaxPercent[0].quick_pay_percentage
+      //console.log('quick_pay_percentage:: ', quick_pay_percentage)
 
+      const inst_pay = state.selectedRows.map(
+        el => state.newSalary[el].instant_payment
+      )
+      //console.log('Instant Payment as per the selected invoice:: ',inst_pay)
+      
+      const inst_pay_final = []
+      for (var i=0; i < inst_pay.length ; i++) {
+        if (inst_pay[i] === 'quick_pay'){
+          inst_pay_final.push(quick_pay_percentage)
+        } else {
+          inst_pay_final.push(0)
+        }
+      }
+      //console.log('inst_pay_final:: ',inst_pay_final)
+      
+      const quick_pay_cost = inst_pay_final.reduce((a,b) => a + b, 0)
+      //console.log('quick_pay_cost:: ',quick_pay_cost)
+
+      const ser_per_final = []
+      for (var i=0; i < inst_pay_final.length; i++) {
+        ser_per_final.push(inst_pay_final[i] + service_percentage)
+      }
+      //console.log('ser_per_final:: ',ser_per_final)
+
+      const inv_sum = state.selectedRows.map(
+        el => state.newSalary[el].sumwithoutTax
+      )
+      //console.log('sumwithoutTax as per the selected invoice:: ',inv_sum)
+
+      const ser_cost = []
+      for (var i = 0; i < inv_sum.length ; i++) {
+        ser_cost.push(inv_sum[i] * ser_per_final[i] * 0.01 * 1.24 )
+      }
+      const service_cost = ser_cost.reduce((a,b) => a + b, 0)
+      //console.log('service_cost_final:: ',service_cost)   
+      
       const salary_sum = sum - service_cost
+      //console.log('salary_sum:: ',salary_sum)
 
       //changed
       const palkka = state.selectedRows.map(
@@ -203,6 +240,7 @@ const salaryReducer = (state = initialState, action) => {
           newSalarySummary: {
             sumwithoutTax: sum,
             service_cost: service_cost,
+            quick_pay_cost: quick_pay_cost,
             salary_sum: salary_sum,
             gross_sum: gross_sum,
             net_sum: net_sum,

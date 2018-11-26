@@ -129,6 +129,15 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
                 </TableRowColumn>
               </TableRow>
               <TableRow>
+                <TableRowColumn>Pikapalkka</TableRowColumn>
+                <TableRowColumn>
+                  {new Intl.NumberFormat('fi-FI', {
+                    style: 'currency',
+                    currency: 'EUR'
+                  }).format(newSalarySummary.quick_pay_cost)}
+                </TableRowColumn>
+              </TableRow>
+              <TableRow>
                 <TableRowColumn>Sosiaaliturvamaksuvähennys</TableRowColumn>
                 <TableRowColumn>
                   {new Intl.NumberFormat('fi-FI', {

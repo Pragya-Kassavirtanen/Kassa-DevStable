@@ -29,7 +29,8 @@ import {
   CANCEL_UPDATE_AMDIN_SALARY_STATUS,
   UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
   UPDATE_ADMIN_SALARY_STATUS_SUCCESS,
-  ADMIN_GET_UPDATES_SUCCESS
+  ADMIN_GET_UPDATES_SUCCESS,
+  NO_PIKAPALKKA
 } from '../constants'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -52,7 +53,8 @@ const initialState = {
   isToPaySalaryId: 0,
   isToLiftSalary: false,
   Status: '',
-  newsupdate: ''
+  newsupdate: '',
+  instant_payment:''
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -271,7 +273,8 @@ const adminReducer = (state = initialState, action) => {
         {
           isToPayInvoiceId: 0,
           isToPay: false,
-          invoicepaid: 0
+          invoicepaid: 0,
+          instant_payment: ''
         }
       )
 
@@ -280,9 +283,20 @@ const adminReducer = (state = initialState, action) => {
         {},
         { ...state },
         {
-          isToPay: false
+          isToPay: false,
+          instant_payment: 'quick pay'
         }
       )
+
+    case NO_PIKAPALKKA:
+    return Object.assign(
+      {},
+      { ...state },
+      { 
+        isToPay: false,       
+        instant_payment: ''
+      }
+    )
 
     case WARN_SALARY_TO_PAY:
       return Object.assign(
@@ -319,9 +333,9 @@ const adminReducer = (state = initialState, action) => {
       return Object.assign(
         {},
         { ...state },
-        {
-          //isToPaySalaryId: 0
-          isToPayInvoiceId: 0
+        {          
+          isToPayInvoiceId: 0,
+          instant_payment: ''
         }
       )
 

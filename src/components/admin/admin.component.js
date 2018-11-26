@@ -56,6 +56,7 @@ const AdminComponent = ({
   isToPay,
   isToPayInvoiceId,
   warnInvoiceToPay,
+  noPikapalkka,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus,
   userSearchRows,
@@ -101,6 +102,7 @@ const AdminComponent = ({
               isToPay,
               isToPayInvoiceId,
               warnInvoiceToPay,
+              noPikapalkka,
               updateAdminInvoiceStatus,
               cancelUpdateAdminInvoiceStatus,
               userSearchRows,
@@ -154,6 +156,7 @@ const selectPanel = (
   isToPay,
   isToPayInvoiceId,
   warnInvoiceToPay,
+  noPikapalkka,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus,
   userSearchRows,
@@ -193,6 +196,7 @@ const selectPanel = (
         isToPay,
         isToPayInvoiceId,
         warnInvoiceToPay,
+        noPikapalkka,
         updateAdminInvoiceStatus,
         cancelUpdateAdminInvoiceStatus
       )
@@ -244,6 +248,7 @@ const invoicePanel = (
   isToPay,
   isToPayInvoiceId,
   warnInvoiceToPay,
+  noPikapalkka,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus
 ) => (
@@ -274,6 +279,7 @@ const invoicePanel = (
               isToPay,
               isToPayInvoiceId,
               warnInvoiceToPay,
+              noPikapalkka,
               updateAdminInvoiceStatus,
               cancelUpdateAdminInvoiceStatus
             )}
@@ -490,6 +496,7 @@ const createInvoiceRow = (
   isToPay,
   isToPayInvoiceId,
   warnInvoiceToPay,
+  noPikapalkka,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus
 ) =>
@@ -550,7 +557,7 @@ const createInvoiceRow = (
           <ul className="nav nav-pills pull-right">
             <li>
               <RaisedButton
-                style={{ margin: '20px' }}
+                style={{ margin: '10px' }}
                 label="Peruuta"
                 primary={true}
                 onClick={() => {
@@ -560,7 +567,17 @@ const createInvoiceRow = (
             </li>
             <li>
               <RaisedButton
-                style={{ margin: '20px' }}
+                style={{ margin: '10px' }}
+                label="Ei Pikapalkka"
+                primary={true}
+                onClick={() => {
+                  store.dispatch(noPikapalkka())
+                }}
+              />
+            </li>
+            <li>
+              <RaisedButton
+                style={{ margin: '10px' }}
                 label="Maksettu"
                 primary={true}
                 onClick={() => {

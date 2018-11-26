@@ -151,7 +151,7 @@ function* saveAndSendInvoiceSaga() {
       isSaveInvoiceDraft === false &&
       body.instant_payment === 'quick_pay'
     ) {
-      body.status = 2
+      body.status = 3
       //console.log('body.status:: ', body.status)
     } else {
       body.status = 0

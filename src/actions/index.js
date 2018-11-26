@@ -217,6 +217,7 @@ import {
   ADMIN_DELETE_COMPANY_UPDATE_SUCCESS,
   ADMIN_GET_UPDATES,
   ADMIN_GET_UPDATES_SUCCESS,
+  NO_PIKAPALKKA,
 
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
@@ -452,6 +453,7 @@ export const adminDeleteCompanyUpdates = (id) => ({type: ADMIN_DELETE_COMPANY_UP
 export const adminDeleteCompanyUpdatesSuccess = () => ({type: ADMIN_DELETE_COMPANY_UPDATE_SUCCESS})
 export const adminGetUpdates = () => ({type: ADMIN_GET_UPDATES})
 export const adminGetUpdatesSuccess = (result) => ({type: ADMIN_GET_UPDATES_SUCCESS, result})
+export const noPikapalkka = () => ({type: NO_PIKAPALKKA})
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

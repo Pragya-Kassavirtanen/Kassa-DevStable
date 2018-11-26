@@ -130,7 +130,7 @@ export const alvItems = alvList.map((item, index) => (
 
 export const invoiceStateListItems = _createMenuItems(invoiceStateList)
 
-export const convertStateToInt = state => {
+/* export const convertStateToInt = state => {
   switch (state) {
     case 'Luonnos':
       return 0
@@ -157,6 +157,40 @@ export const convertIntToState = state => {
       return 'Maksettu'
     case 3:
       return 'Erääntynyt'
+    case 4:
+      return 'Alimaksettu'
+    case 5:
+      return 'Ylimaksettu'
+  }
+} */
+
+export const convertStateToInt = state => {
+  switch (state) {
+    case 'Luonnos':
+      return 0
+    case 'Lähetetty':
+      return 1
+    case 'Maksettu':
+      return 2
+    case 'Käsittely':
+      return 3
+    case 'Alimaksettu':
+      return 4
+    case 'Ylimaksettu':
+      return 5
+  }
+}
+
+export const convertIntToState = state => {
+  switch (state) {
+    case 0:
+      return 'Luonnos'
+    case 1:
+      return 'Lähetetty'
+    case 2:
+      return 'Maksettu'
+    case 3:
+      return 'Käsittely'
     case 4:
       return 'Alimaksettu'
     case 5:

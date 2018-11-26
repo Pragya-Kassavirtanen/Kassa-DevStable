@@ -19,7 +19,8 @@ import {
   watchAdminUpdateSalaryStatusSaga,
   watchAdminAddNewUpdatesSaga,
   watchAdminDeleteCompanyUpdateSaga,
-  watchAdminGetUpdatesSaga
+  watchAdminGetUpdatesSaga,
+  watchAdminNoPikapalkkaSaga
 } from './admin.saga'
 import { watchRehydrateSaga } from './rehydrate.saga'
 import { watchGetNewSalarySaga, watchSelectRowSalarySaga, watchGetSalariesSaga, watchPostSalarySaga, watchGetSalaryByIdSaga, watchSaveSalarySlipSaga } from './salary.saga'
@@ -113,6 +114,7 @@ export default function* rootSaga() {
     watchAdminAddNewUpdatesSaga(),
     watchAdminDeleteCompanyUpdateSaga(),
     watchAdminGetUpdatesSaga(),
+    watchAdminNoPikapalkkaSaga(),
     watchInvoiceDownloadPDF(),
     watchFinvoiceOperators(),   
     watchEInvoiceOperators(),

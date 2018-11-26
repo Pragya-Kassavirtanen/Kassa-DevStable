@@ -17,7 +17,8 @@ import {
   UPDATE_ADMIN_SALARY_STATUS,
   ADMIN_ADD_NEW_UPDATES,
   ADMIN_DELETE_COMPANY_UPDATE,
-  ADMIN_GET_UPDATES
+  ADMIN_GET_UPDATES,
+  NO_PIKAPALKKA
 } from '../constants'
 
 import { convertStateToInt, nestProperties } from '../utils/invoice.utils'
@@ -330,7 +331,35 @@ function* adminUpdateInvoiceStatusSaga({ invoice_id }) {
     const body = JSON.stringify({
       uuid: uuid,
       invoice_id: inv_id,
-      invoicePaid: store.getState().admin.invoicepaid
+      invoicePaid: store.getState().admin.invoicepaid,
+      instant_payment: store.getState().admin.instant_payment
+    })
+    const result = yield call(apiManualPost, url, body)
+
+    if (result.data === 'Invoice status updated Successfully') {
+      yield put(updateAdminInvoiceStatusSuccess(result.data))
+    } else {
+      console.warn(result.data)
+    }
+    yield put(searchAdminInvoice())
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* noPikapalkkaSaga() {
+  try {
+    console.log('Inside noPikapalkkaSaga:: ',invoice_id)
+    const invoice_id = store.getState().admin.isToPayInvoiceId
+    const url = `${API_SERVER}/UpdateInvoiceStatus`
+    const id = invoice_id.split('$$')
+    const uuid = id[0]
+    const inv_id = id[1]
+    const body = JSON.stringify({
+      uuid: uuid,
+      invoice_id: inv_id,
+      invoicePaid: store.getState().admin.invoicepaid,
+      instant_payment: store.getState().admin.instant_payment
     })
     const result = yield call(apiManualPost, url, body)
 
@@ -456,6 +485,10 @@ export function* watchAdminWagesSearchSaga() {
 
 export function* watchAdminUpdateInvoiceStatusSaga() {
   yield takeEvery(UPDATE_ADMIN_INVOICE_STATUS, adminUpdateInvoiceStatusSaga)
+}
+
+export function* watchAdminNoPikapalkkaSaga() {
+  yield takeEvery(NO_PIKAPALKKA, noPikapalkkaSaga)
 }
 
 export function* watchAdminUpdateSalaryStatusSaga() {

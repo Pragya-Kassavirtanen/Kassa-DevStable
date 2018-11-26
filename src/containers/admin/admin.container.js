@@ -12,6 +12,7 @@ import {
   tiedotteetSearchPageChange,
   warnInvoiceToPay,
   warnSalaryToPay,
+  noPikapalkka,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus,
   updateAdminSalaryStatus,
@@ -92,6 +93,8 @@ const mapDispatchToProps = dispatch => {
     warnInvoiceToPay: selected => dispatch(warnInvoiceToPay(selected)),
 
     warnSalaryToPay: selected => dispatch(warnSalaryToPay(selected)),
+
+    noPikapalkka: () => dispatch(noPikapalkka()),
 
     updateAdminInvoiceStatus: invoice_id =>
       dispatch(updateAdminInvoiceStatus(invoice_id)),

@@ -125,7 +125,7 @@ const NewSalarySummary = ({ newSalarySummary, postSalary, salaries }) => (
                   {new Intl.NumberFormat('fi-FI', {
                     style: 'currency',
                     currency: 'EUR'
-                  }).format(newSalarySummary.service_cost)}
+                  }).format(newSalarySummary.palvelu)}
                 </TableRowColumn>
               </TableRow>
               <TableRow>

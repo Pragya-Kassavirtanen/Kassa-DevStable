@@ -246,9 +246,9 @@ export const OPENID_SERVER = process.env.OPENID_SERVER
 export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
 
 //Staging Server
-/* export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api' */
+export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
 
 //Production Server
-export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'
+/* export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */

@@ -136,10 +136,7 @@ const salaryReducer = (state = initialState, action) => {
           inst_pay_final.push(0)
         }
       }
-      //console.log('inst_pay_final:: ',inst_pay_final)
-      
-      const quick_pay_cost = inst_pay_final.reduce((a,b) => a + b, 0)
-      //console.log('quick_pay_cost:: ',quick_pay_cost)
+      //console.log('inst_pay_final:: ',inst_pay_final)     
 
       const ser_per_final = []
       for (var i=0; i < inst_pay_final.length; i++) {
@@ -161,6 +158,20 @@ const salaryReducer = (state = initialState, action) => {
       
       const salary_sum = sum - service_cost
       //console.log('salary_sum:: ',salary_sum)
+
+      const palvelu = []
+      for (var i = 0; i < inv_sum.length ; i++) {
+        palvelu.push(inv_sum[i] * service_percentage * 0.01 * 1.24 )
+      }
+      const palvelu_final = palvelu.reduce((a,b) => a + b, 0)      
+      //console.log('palvelu_final:: ',palvelu_final)
+
+      const pikapalkka = []
+      for (var i = 0; i < inv_sum.length ; i++) {
+        pikapalkka.push(inv_sum[i] * inst_pay_final[i] * 0.01)
+      }
+      const pikapalkka_final = pikapalkka.reduce((a,b) => a + b, 0)      
+      //console.log('pikapalkka_final:: ',pikapalkka_final)
 
       //changed
       const palkka = state.selectedRows.map(
@@ -240,7 +251,8 @@ const salaryReducer = (state = initialState, action) => {
           newSalarySummary: {
             sumwithoutTax: sum,
             service_cost: service_cost,
-            quick_pay_cost: quick_pay_cost,
+            palvelu: palvelu_final,
+            quick_pay_cost: pikapalkka_final,
             salary_sum: salary_sum,
             gross_sum: gross_sum,
             net_sum: net_sum,

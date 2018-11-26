@@ -284,7 +284,7 @@ const adminReducer = (state = initialState, action) => {
         { ...state },
         {
           isToPay: false,
-          instant_payment: 'quick pay'
+          instant_payment: 'quick_pay'
         }
       )
 

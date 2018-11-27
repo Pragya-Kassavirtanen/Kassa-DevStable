@@ -19,7 +19,7 @@ const Hinnasto = () => (
         <p>
           Kassavirtasen käyttöönottaminen ja rekisteröinti on maksutonta.
           <br />
-          Kassavirtasen laskutuspalvelua käyttäessäsi maksat vain 2-4,0% palkan
+          Kassavirtasen laskutuspalvelua käyttäessäsi maksat vain 3-4,0% palkan
           arvonlisäverottomasta summasta palkanmaksun yhteydessä.
           <br />
           <br />
@@ -36,7 +36,7 @@ const Hinnasto = () => (
             alt="Kassavirtanen_palkka_hinnasto"
             style={{ width: '360px', marginTop: '30px' }}
           />
-          <h1 className="percentage">PALKKA 2-4,0%</h1>
+          <h1 className="percentage">PALKKA 3-4,0%</h1>
           <div className="hinnasto-palkka-content">
             <p>Laskutat vain tekemästäsi työstä, 
               ja me veloitamme palvelumaksun suoraan toimeksiantajaltasi. 

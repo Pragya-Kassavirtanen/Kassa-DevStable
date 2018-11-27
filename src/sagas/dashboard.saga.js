@@ -157,7 +157,7 @@ function* getUserTaxInfo() {
     })
     const result = yield call(apiManualPost, url, body)
     const resultParsed = JSON.parse(result.data)
-    console.log('Inside getUserTaxInfo:: ', resultParsed)
+    //console.log('Inside getUserTaxInfo:: ', resultParsed)
     yield put(getUserTaxInfoSuccess(resultParsed))
   } catch (e) {
     console.warn(e)
@@ -169,7 +169,7 @@ function* getCompanyUpdates() {
     const url = `${API_SERVER}/GetCompanyUpdates`
     const result = yield call(apiManualRequest, url)
     const resultParsed = JSON.parse(result.data)
-    console.log('Inside getCompanyUpdates:: ', resultParsed)
+    //console.log('Inside getCompanyUpdates:: ', resultParsed)
     yield put(getCompanyUpdatesSuccess(resultParsed))
   } catch (e) {
     console.warn(e)
@@ -186,7 +186,7 @@ function* getRenewToken() {
       email: email
     })
     const result = yield call(registerPost, url, body)   
-    console.log('Inside getRenewToken API:: ', result.data)
+    //console.log('Inside getRenewToken API:: ', result.data)
     yield put(setClient(result.data))
     sessionStorage.setItem('user', JSON.stringify(result.data)) 
   } catch (e) {
@@ -198,7 +198,7 @@ function* getTokenValidation() {
   try {
     const url = `${API_SERVER}/TokenValidation`
     const resultTokenValidate = yield call(apiManualRequest, url)
-    console.log('Inside getTokenValidation:: ',resultTokenValidate.data) 
+    //console.log('Inside getTokenValidation:: ',resultTokenValidate.data) 
     if(resultTokenValidate.data === 'Token expired'){
       const resultRenewToken = yield put(onRenewToken())
       console.log('Inside getTokenValidation:: ', resultRenewToken)

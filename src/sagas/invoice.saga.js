@@ -480,7 +480,7 @@ function* invoiceLocationChangeSaga() {
     let isEdit = false
     isEdit = store.getState().invoice.isEdit
     if (pathname === '/dashboard/invoice/review') {
-      console.log('Need not to clear the invoice form..........')
+      //console.log('Need not to clear the invoice form..........')
     } else if (isEdit === true) {
       const customerInfoKeys = Object.keys(invoiceEdit[0]).filter(
         key => key !== 'Invoice'

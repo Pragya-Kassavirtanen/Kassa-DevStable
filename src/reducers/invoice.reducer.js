@@ -84,7 +84,7 @@ const invoiceReducer = (state = initialState, action) => {
       )
 
     case GET_PROFESSION_SUCCESS:
-      console.log('Inside Reducer of professions:: ', action.professions)
+      //console.log('Inside Reducer of professions:: ', action.professions)
       return Object.assign(
         {},
         { ...state },
@@ -94,7 +94,7 @@ const invoiceReducer = (state = initialState, action) => {
       )
 
     case GET_OPERATOR_SUCCESS:
-      console.log('Inside Reducer of operator:: ', action.operators)
+      //console.log('Inside Reducer of operator:: ', action.operators)
       return Object.assign(
         {},
         { ...state },
@@ -104,7 +104,7 @@ const invoiceReducer = (state = initialState, action) => {
       )
 
     case GET_INVOICE_BY_ID_SUCCESS:
-      console.log('result:: ', action.result)
+      //console.log('result:: ', action.result)
       return Object.assign(
         {},
         { ...state },
@@ -271,7 +271,7 @@ const _updateTotalSum = () => {
     totalSum += parseFloat(
       formValues['rows']['sum_with_vat'].replace(/,/g, '.')
     )
-    console.log(totalSum)
+    //console.log(totalSum)
   })
 
   formValues['total_sum'] = totalSum

@@ -12,7 +12,7 @@ import i18n from '../utils/i18n'
 //ToChek:: lang param is undefined
 function* changeLanguage(lang) {
   try {    
-    console.log('Inside changeLanguage:: ',lang)
+    //console.log('Inside changeLanguage:: ',lang)
     i18n.changeLanguage(lang)
   } catch (error) {
     console.warn(error)

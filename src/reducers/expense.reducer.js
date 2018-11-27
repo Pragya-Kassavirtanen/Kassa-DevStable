@@ -317,7 +317,7 @@ const expenseReducer = (state = initialState, action) => {
       })
 
     case GET_EXPENSE_BY_ID_SUCCESS:
-      console.log('result:: ', action.result)
+      //console.log('result:: ', action.result)
       return Object.assign(
         {},
         { ...state },
@@ -328,7 +328,7 @@ const expenseReducer = (state = initialState, action) => {
       )
 
     case GET_ALLOWANCE_BY_ID_SUCCESS:
-      console.log('result:: ', action.result)
+      //console.log('result:: ', action.result)
       return Object.assign(
         {},
         { ...state },

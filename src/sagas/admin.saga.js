@@ -351,7 +351,7 @@ function* adminUpdateInvoiceStatusSaga({ invoice_id }) {
 
 function* noPikapalkkaSaga() {
   try {
-    console.log('Inside noPikapalkkaSaga:: ',invoice_id)
+    //console.log('Inside noPikapalkkaSaga:: ',invoice_id)
     const invoice_id = store.getState().admin.isToPayInvoiceId
     const url = `${API_SERVER}/UpdateInvoiceStatus`
     const id = invoice_id.split('$$')
@@ -429,7 +429,7 @@ function* adminDeleteCompanyUpdatesSaga({id}) {
       id: id     
     })
     const result = yield call(apiManualPost, url, body)    
-    console.log('Inside adminDeleteCompanyUpdatesSaga:: ', result)
+    //console.log('Inside adminDeleteCompanyUpdatesSaga:: ', result)
 
     if (result.data === 'company update deleted successfully') {            
       yield put(adminGetUpdates())
@@ -446,7 +446,7 @@ function* adminGetUpdatesSaga() {
     const url = `${API_SERVER}/GetCompanyUpdates`    
     const result = yield call(apiManualRequest, url)
     const resultParsed = JSON.parse(result.data)
-    console.log('Inside adminGetUpdatesSaga:: ', resultParsed)
+    //console.log('Inside adminGetUpdatesSaga:: ', resultParsed)
     yield put(adminGetUpdatesSuccess(resultParsed))      
   } catch (e) {
     console.warn(e)
@@ -456,9 +456,11 @@ function* adminGetUpdatesSaga() {
 function* showSalaryPDFSaga({ id }) {  
   try {
     const url = `${API_SERVER}/GenerateSalaryPDF`
-    const uuid = store.getState().client.user.data[2]
+    const sal_id = id.split('$$')
+    const uuid = sal_id[0]
+    const salary_id = sal_id[1]    
     const body = JSON.stringify({
-      id: id,
+      id: salary_id,
       uuid: uuid
     })
     yield call(apiBlobPost, url, body)
@@ -470,9 +472,11 @@ function* showSalaryPDFSaga({ id }) {
 function* showInvoicePDFSaga({ invoice_id }) {  
   try {
     const url = `${API_SERVER}/InvoiceDownloadPDF`
-    const uuid = store.getState().client.user.data[2]
+    const id = invoice_id.split('$$')
+    const uuid = id[0]
+    const inv_id = id[1]
     const body = JSON.stringify({
-      invoice_id: invoice_id,
+      invoice_id: inv_id,
       uuid: uuid
     })
     yield call(apiBlobPost, url, body)

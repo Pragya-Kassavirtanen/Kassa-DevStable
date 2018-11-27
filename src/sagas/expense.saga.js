@@ -200,7 +200,7 @@ function* loadAllowanceCost() {
   const url = `${API_SERVER}/GetAllowanceCostbyYear?year=${thisYear}`
   const result = yield call(apiManualRequest, url)
   const allowanceCostResult = JSON.parse(result.data)
-  console.log('Inside loadAllowanceCost:: ', allowanceCostResult)
+  //console.log('Inside loadAllowanceCost:: ', allowanceCostResult)
   yield put(loadAllowanceCostSuccess(allowanceCostResult))
 }
 
@@ -234,10 +234,10 @@ function* editExpenseSaga({ invoice_expense_id }) {
     if (expenseResult) yield put(getExpenseByIdSuccess(expenseResult))
 
     let purchaseDate = store.getState().expense.expenseEdit[0].date_of_purchase
-    console.log('purchaseDate:: ', purchaseDate)
+    //console.log('purchaseDate:: ', purchaseDate)
 
     let renewPurchaseDate = new Date(purchaseDate)
-    console.log('renewPurchaseDate:: ', renewPurchaseDate)
+    //console.log('renewPurchaseDate:: ', renewPurchaseDate)
 
     yield put(change('newfee', 'date_of_purchase', renewPurchaseDate))
     yield put(changeExpensePurchaseDate(renewPurchaseDate))
@@ -253,7 +253,7 @@ function* editExpenseSaga({ invoice_expense_id }) {
       .place_of_purchase
     yield put(change('newfee', 'place_of_purchase', purchasePlace))
 
-    console.log('Inside editExpenseSaga:: ', expenseResult)
+    //console.log('Inside editExpenseSaga:: ', expenseResult)
 
     const occurences = expenseResult[0].expenseInputRow.filter(
       el => el.invoice_expense_item_id
@@ -620,7 +620,7 @@ function* changeAllowanceDateSaga() {
       yield put(change('newallowance','part_time_allowance', 0))
       yield put(change('newallowance','meal_allowance', 0))
     }
-    console.log('Retain all day_allowance values')
+    //console.log('Retain all day_allowance values')
 
   } catch (e) {
     console.warn(e)

@@ -49,7 +49,7 @@ function* postSalarySaga({ selected }) {
     let bills = []
     selected.map( el => bills.push({'invoice_id':el}))    
     const salarySummary = store.getState().salary.newSalarySummary
-    console.log('salarySummary:: ',salarySummary)
+    //console.log('salarySummary:: ',salarySummary)
     const uuid = store.getState().client.user.data[2]    
     const body = JSON.stringify({
       uuid: uuid,
@@ -91,7 +91,7 @@ function* postSalarySaga({ selected }) {
     })    
     const resultInvoiceInfo = yield call(apiManualPost, invoiceInfoUrl, invoiceInfoBody)    
     const resultParsedInvoiceInfo = JSON.parse(resultInvoiceInfo.data)
-    console.log('Inside postSalarySaga resultParsedInvoiceInfo:: ',resultParsedInvoiceInfo)
+    //console.log('Inside postSalarySaga resultParsedInvoiceInfo:: ',resultParsedInvoiceInfo)
     yield put(getNewSalarySuccess(resultParsedInvoiceInfo))    
   } catch (e) {
     console.warn(e)
@@ -109,7 +109,7 @@ function* getSalariesSaga() {
 
     const result = yield call(apiManualPost, url, body)
     const resultParsed = JSON.parse(result.data)
-    console.log('getSalariesSaga:: ', resultParsed)
+    //console.log('getSalariesSaga:: ', resultParsed)
 
     yield put(getSalariesSuccess(resultParsed))
 

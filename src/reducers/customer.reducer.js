@@ -58,7 +58,7 @@ const customerReducer = (
       return Object.assign({}, state, { showSnackbar: false, showFailSnackbar: false })
 
       case GET_CUSTOMER_BY_ID_SUCCESS:
-      console.log('result:: ', action.result)
+      //console.log('result:: ', action.result)
       return Object.assign(
         {},
         { ...state },
@@ -128,7 +128,7 @@ const customerReducer = (
     )
 
       case ADD_NEW_CUSTOMER_INVOICE_SUCCESS:
-      console.log('ADD_NEW_CUSTOMER_INVOICE_SUCCESS result::      ', action.result)
+      //console.log('ADD_NEW_CUSTOMER_INVOICE_SUCCESS result::      ', action.result)
       return Object.assign(
         {},
         { ...state },
@@ -139,7 +139,7 @@ const customerReducer = (
       )
 
       case GET_EOPERATOR_SUCCESS:
-      console.log('Inside Customer Reducer of operator:: ', action.operators)
+      //console.log('Inside Customer Reducer of operator:: ', action.operators)
       return Object.assign(
         {},
         { ...state },

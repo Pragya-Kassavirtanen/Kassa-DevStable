@@ -555,7 +555,7 @@ const createInvoiceRow = (
           <p
             style={{ marginLeft: '10px' }}
             onClick={() => {
-              store.dispatch(showInvoicePDF(el.invoice_id))
+              store.dispatch(showInvoicePDF(`${el.uuid}$$${el.invoice_id}`))
             }}          
           >
             <FontAwesome name="file-pdf-o" />
@@ -683,7 +683,7 @@ const createSalaryRow = (
           <p
             style={{ marginLeft: '10px' }}
             onClick={() => {
-              store.dispatch(showSalaryPDF(el.id))
+              store.dispatch(showSalaryPDF(`${el.uuid}$$${el.id}`))
             }}          
           >
             <FontAwesome name="file-pdf-o" />

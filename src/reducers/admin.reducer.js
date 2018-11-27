@@ -110,7 +110,7 @@ const adminReducer = (state = initialState, action) => {
 
     case SEARCH_ADMIN_WAGES_SUCCESS:
       const newSalaryRows = []
-      console.log('Inside SEARCH_ADMIN_WAGES_SUCCESS:: ', action.result)
+      //console.log('Inside SEARCH_ADMIN_WAGES_SUCCESS:: ', action.result)
       for (let row of action.result) {
         newSalaryRows.push({ ...row, expanded: false })
       }

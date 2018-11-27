@@ -64,7 +64,7 @@ export const convertInvoiceStateNames = invoiceState => {
     case 'Paid':
       return 'Maksettu'
     case 'UnderProcessing':
-      return 'Käsittely'
+      return 'Käsittelyssä'
   }
 }
 

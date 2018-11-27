@@ -218,6 +218,8 @@ import {
   ADMIN_GET_UPDATES,
   ADMIN_GET_UPDATES_SUCCESS,
   NO_PIKAPALKKA,
+  SHOW_SALARY_PDF,
+  SHOW_INVOICE_PDF,
 
   ALLOWANCE_UPDATE_SUCCESS,
   ALLOWANCE_UPDATE_FAILED,
@@ -454,6 +456,8 @@ export const adminDeleteCompanyUpdatesSuccess = () => ({type: ADMIN_DELETE_COMPA
 export const adminGetUpdates = () => ({type: ADMIN_GET_UPDATES})
 export const adminGetUpdatesSuccess = (result) => ({type: ADMIN_GET_UPDATES_SUCCESS, result})
 export const noPikapalkka = () => ({type: NO_PIKAPALKKA})
+export const showSalaryPDF = (id) => ({type: SHOW_SALARY_PDF, id})
+export const showInvoicePDF = (invoice_id) => ({type: SHOW_INVOICE_PDF, invoice_id})
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

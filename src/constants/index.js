@@ -208,6 +208,8 @@ export const ADMIN_DELETE_COMPANY_UPDATE_SUCCESS = '@admin/ADMIN_DELETE_COMPANY_
 export const ADMIN_GET_UPDATES = '@@admin/ADMIN_GET_UPDATES'
 export const ADMIN_GET_UPDATES_SUCCESS = '@@admin/ADMIN_GET_UPDATES_SUCCESS'
 export const NO_PIKAPALKKA = '@@admin/NO_PIKAPALKKA'
+export const SHOW_SALARY_PDF = '@@admin/SHOW_SALARY_PDF'
+export const SHOW_INVOICE_PDF = '@@admin/SHOW_INVOICE_PDF'
 export const INVOICE_SEARCH_PAGE_CHANGE = '@@admin/INVOICE_SEARCH_PAGE_CHANGE'
 export const SALARY_SEARCH_PAGE_CHANGE = '@@admin/SALARY_SEARCH_PAGE_CHANGE'
 export const USER_SEARCH_PAGE_CHANGE = '@@admin/USER_SEARCH_PAGE_CHANGE'
@@ -246,9 +248,9 @@ export const OPENID_SERVER = process.env.OPENID_SERVER
 export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
 
 //Staging Server
-export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api'
+/* export const API_SERVER = 'https://testkvtapiserver.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver-staging.azurewebsites.net/api' */
 
 //Production Server
-/* export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
-export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api' */
+export const API_SERVER = 'https://kvt-api.azurewebsites.net/api'
+export const KVT_IDENTITY_SERVER = 'https://kvt-identityserver.azurewebsites.net/api'

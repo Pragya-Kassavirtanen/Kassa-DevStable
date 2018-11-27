@@ -402,7 +402,7 @@ const invoiceInfo = (overdueItems, titleItems, changeInvoiceBillingDate) => (
           name="job_title"
           component={SelectField}
           maxHeight={200}
-          floatingLabelText="Valitse ammattinimike *"
+          floatingLabelText="Valitse *"
         >
           {titleItems}
         </Field>

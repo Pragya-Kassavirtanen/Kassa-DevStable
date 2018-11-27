@@ -58,7 +58,7 @@ const AdminSalaryFilterRowComponent = ({ searchAdminWages }) => (
             />
             <Field
               name="StatusProcessing"
-              label="Käsittely"
+              label="Käsittelyssä"
               component={renderCheckbox}
             />
           </TableRowColumn>

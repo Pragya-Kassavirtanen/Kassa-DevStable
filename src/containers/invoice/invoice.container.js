@@ -44,7 +44,7 @@ let NewInvoiceContainer = reduxForm({
   destroyOnUnmount: false,
   initialValues: {
     description: '',
-    job_title: '',
+    job_title: 'Tapaturmavakuutus',
     invoice_reference: '',
     billing_date: new Date(),
     due_date: new DateTimeFormat('fi', {

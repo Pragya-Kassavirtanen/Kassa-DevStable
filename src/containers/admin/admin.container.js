@@ -13,6 +13,8 @@ import {
   warnInvoiceToPay,
   warnSalaryToPay,
   noPikapalkka,
+  showSalaryPDF,
+  showInvoicePDF,
   updateAdminInvoiceStatus,
   cancelUpdateAdminInvoiceStatus,
   updateAdminSalaryStatus,
@@ -95,6 +97,10 @@ const mapDispatchToProps = dispatch => {
     warnSalaryToPay: selected => dispatch(warnSalaryToPay(selected)),
 
     noPikapalkka: () => dispatch(noPikapalkka()),
+
+    showSalaryPDF: (id) => dispatch(showSalaryPDF(id)),
+
+    showInvoicePDF: (invoice_id) => dispatch(showInvoicePDF(invoice_id)),
 
     updateAdminInvoiceStatus: invoice_id =>
       dispatch(updateAdminInvoiceStatus(invoice_id)),

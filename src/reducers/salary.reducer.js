@@ -168,7 +168,7 @@ const salaryReducer = (state = initialState, action) => {
 
       const pikapalkka = []
       for (var i = 0; i < inv_sum.length ; i++) {
-        pikapalkka.push(inv_sum[i] * inst_pay_final[i] * 0.01)
+        pikapalkka.push(inv_sum[i] * inst_pay_final[i] * 0.01 * 1.24 )
       }
       const pikapalkka_final = pikapalkka.reduce((a,b) => a + b, 0)      
       //console.log('pikapalkka_final:: ',pikapalkka_final)
@@ -292,10 +292,10 @@ const _createSalaryRows = (allSalaries, selected) =>
         style: 'currency',
         currency: 'EUR'
       }).format(el.net_salary)}
-      service_cost={new Intl.NumberFormat('fi-FI', {
+/*       service_cost={new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'
-      }).format(el.service_cost)}
+      }).format(el.service_cost)} */
       allowance_cost={new Intl.NumberFormat('fi-FI', {
         style: 'currency',
         currency: 'EUR'

@@ -172,7 +172,7 @@ export const convertStateToInt = state => {
       return 1
     case 'Maksettu':
       return 2
-    case 'Käsittely':
+    case 'Käsittelyssä':
       return 3
     case 'Alimaksettu':
       return 4
@@ -190,7 +190,7 @@ export const convertIntToState = state => {
     case 2:
       return 'Maksettu'
     case 3:
-      return 'Käsittely'
+      return 'Käsittelyssä'
     case 4:
       return 'Alimaksettu'
     case 5:
@@ -201,7 +201,7 @@ export const convertIntToState = state => {
 export const convertNameToState = state => {
   switch (state) {
     case 'processing':
-      return 'Käsittely'
+      return 'Käsittelyssä'
     case 'paid':
       return 'Maksettu'
   }

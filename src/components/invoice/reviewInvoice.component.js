@@ -292,7 +292,7 @@ const ReviewInvoiceInfo = () => (
         <Field
           name="job_title"
           component={renderTextField}
-          label="Valitse ammattinimike *"
+          label="Valitse *"
           disabled={true}
         />
       </div>

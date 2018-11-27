@@ -55,6 +55,7 @@ const AdminComponent = ({
   selected,
   isToPay,
   isToPayInvoiceId,
+  showInvoicePDF,
   warnInvoiceToPay,
   noPikapalkka,
   updateAdminInvoiceStatus,
@@ -68,6 +69,7 @@ const AdminComponent = ({
   salarySearchPageChange,
   warnSalaryToPay,
   isToPaySalaryId,
+  showSalaryPDF,
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
   updateAdminSalaryStatus,
@@ -101,6 +103,7 @@ const AdminComponent = ({
               selected,
               isToPay,
               isToPayInvoiceId,
+              showInvoicePDF,
               warnInvoiceToPay,
               noPikapalkka,
               updateAdminInvoiceStatus,
@@ -115,6 +118,7 @@ const AdminComponent = ({
               salarySearchPageChange,
               warnSalaryToPay,
               isToPaySalaryId,
+              showSalaryPDF,
               isToLiftSalary,
               cancelUpdateAdminSalaryStatus,
               updateAdminSalaryStatus,
@@ -155,6 +159,7 @@ const selectPanel = (
   selected,
   isToPay,
   isToPayInvoiceId,
+  showInvoicePDF,
   warnInvoiceToPay,
   noPikapalkka,
   updateAdminInvoiceStatus,
@@ -169,6 +174,7 @@ const selectPanel = (
   salarySearchPageChange,
   warnSalaryToPay,
   isToPaySalaryId,
+  showSalaryPDF,
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
   updateAdminSalaryStatus,
@@ -195,6 +201,7 @@ const selectPanel = (
         selected,
         isToPay,
         isToPayInvoiceId,
+        showInvoicePDF,
         warnInvoiceToPay,
         noPikapalkka,
         updateAdminInvoiceStatus,
@@ -208,6 +215,7 @@ const selectPanel = (
         salarySearchPageChange,
         warnSalaryToPay,
         isToPaySalaryId,
+        showSalaryPDF,
         isToLiftSalary,
         cancelUpdateAdminSalaryStatus,
         updateAdminSalaryStatus
@@ -247,6 +255,7 @@ const invoicePanel = (
   selected,
   isToPay,
   isToPayInvoiceId,
+  showInvoicePDF,
   warnInvoiceToPay,
   noPikapalkka,
   updateAdminInvoiceStatus,
@@ -278,6 +287,7 @@ const invoicePanel = (
               selected,
               isToPay,
               isToPayInvoiceId,
+              showInvoicePDF,
               warnInvoiceToPay,
               noPikapalkka,
               updateAdminInvoiceStatus,
@@ -360,6 +370,7 @@ const salaryPanel = (
   salarySearchPageChange,
   warnSalaryToPay,
   isToPaySalaryId,
+  showSalaryPDF,
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
   updateAdminSalaryStatus
@@ -386,6 +397,7 @@ const salaryPanel = (
             selected,
             warnSalaryToPay,
             isToPaySalaryId,
+            showSalaryPDF,
             isToLiftSalary,
             cancelUpdateAdminSalaryStatus,
             updateAdminSalaryStatus
@@ -495,6 +507,7 @@ const createInvoiceRow = (
   selected,
   isToPay,
   isToPayInvoiceId,
+  showInvoicePDF,
   warnInvoiceToPay,
   noPikapalkka,
   updateAdminInvoiceStatus,
@@ -530,13 +543,25 @@ const createInvoiceRow = (
         {convertIntToState(el.status)}
       </TableRowColumn>
       <TableRowColumn>
+      <div style={{ display: 'flex' }}>
         <Checkbox
           onCheck={() => {
             store.dispatch(warnInvoiceToPay(`${el.uuid}$$${el.invoice_id}`))
           }}
           disabled={el.invoicepaid !== 0 ? true : false}
           checked={isToPayInvoiceId !== `${el.uuid}$$${el.invoice_id}` ? false : true}
-        />        
+        />
+        <Link>
+          <p
+            style={{ marginLeft: '10px' }}
+            onClick={() => {
+              store.dispatch(showInvoicePDF(el.invoice_id))
+            }}          
+          >
+            <FontAwesome name="file-pdf-o" />
+          </p>
+        </Link>
+        </div>       
         <Dialog
           title={'Vahvista, että lasku maksetaan'}
           contentStyle={{
@@ -623,6 +648,7 @@ const createSalaryRow = (
   selected,
   warnSalaryToPay,
   isToPaySalaryId,
+  showSalaryPDF,
   isToLiftSalary,
   cancelUpdateAdminSalaryStatus,
   updateAdminSalaryStatus
@@ -645,6 +671,7 @@ const createSalaryRow = (
       </TableRowColumn>
       <TableRowColumn>{convertNameToState(el.status)}</TableRowColumn>
       <TableRowColumn>
+      <div style={{ display: 'flex' }}>
         <Checkbox
           onCheck={() => {
             store.dispatch(warnSalaryToPay(`${el.uuid}$$${el.id}`))
@@ -652,6 +679,17 @@ const createSalaryRow = (
           disabled={el.status === 'paid' ? true : false}
           checked={isToPaySalaryId !== `${el.uuid}$$${el.id}` ? false : true}
         />
+        <Link>
+          <p
+            style={{ marginLeft: '10px' }}
+            onClick={() => {
+              store.dispatch(showSalaryPDF(el.id))
+            }}          
+          >
+            <FontAwesome name="file-pdf-o" />
+          </p>
+        </Link>
+        </div>
         <Dialog
           open={isToLiftSalary}
           title={'Vahvista, että palkka maksetaan'}

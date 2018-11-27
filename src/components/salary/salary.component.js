@@ -56,7 +56,7 @@ const Salary = ({ salaryRows, salaryPages, salaryPageChange }) => (
                       <TableHeaderColumn>Päivämäärä</TableHeaderColumn>
                       <TableHeaderColumn>Bruttopalkka</TableHeaderColumn>
                       <TableHeaderColumn>Nettopalkka</TableHeaderColumn>
-                      <TableHeaderColumn>Palvelumaksu</TableHeaderColumn>
+                      {/* <TableHeaderColumn>Palvelumaksu</TableHeaderColumn> */}
                       <TableHeaderColumn>Matkakorvaus</TableHeaderColumn>
                       <TableHeaderColumn>Kulukorvaus</TableHeaderColumn>
                       <TableHeaderColumn>Tila</TableHeaderColumn>

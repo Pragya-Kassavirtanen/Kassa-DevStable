@@ -18,12 +18,14 @@ import {
   ADMIN_ADD_NEW_UPDATES,
   ADMIN_DELETE_COMPANY_UPDATE,
   ADMIN_GET_UPDATES,
-  NO_PIKAPALKKA
+  NO_PIKAPALKKA,
+  SHOW_SALARY_PDF,
+  SHOW_INVOICE_PDF
 } from '../constants'
 
 import { convertStateToInt, nestProperties } from '../utils/invoice.utils'
 
-import { apiPost, apiRequest, apiManualPost, apiManualRequest } from '../utils/request'
+import { apiPost, apiRequest, apiManualPost, apiManualRequest, apiBlobPost } from '../utils/request'
 
 import {
   searchAdminInvoiceSuccess,
@@ -451,6 +453,34 @@ function* adminGetUpdatesSaga() {
   }
 }
 
+function* showSalaryPDFSaga({ id }) {  
+  try {
+    const url = `${API_SERVER}/GenerateSalaryPDF`
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({
+      id: id,
+      uuid: uuid
+    })
+    yield call(apiBlobPost, url, body)
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* showInvoicePDFSaga({ invoice_id }) {  
+  try {
+    const url = `${API_SERVER}/InvoiceDownloadPDF`
+    const uuid = store.getState().client.user.data[2]
+    const body = JSON.stringify({
+      invoice_id: invoice_id,
+      uuid: uuid
+    })
+    yield call(apiBlobPost, url, body)
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
 /* export function* watchAdminChangeMenuSaga() {
   yield takeEvery(CHANGE_ADMIN_MENU, adminChangeMenuSaga)
 } */
@@ -505,4 +535,12 @@ export function* watchAdminDeleteCompanyUpdateSaga() {
 
 export function* watchAdminGetUpdatesSaga() {
   yield takeEvery(ADMIN_GET_UPDATES, adminGetUpdatesSaga)
+}
+
+export function* watchShowSalaryPDFSaga() {
+  yield takeEvery(SHOW_SALARY_PDF, showSalaryPDFSaga)
+}
+
+export function* watchShowInvoicePDFSaga() {
+  yield takeEvery(SHOW_INVOICE_PDF, showInvoicePDFSaga)
 }

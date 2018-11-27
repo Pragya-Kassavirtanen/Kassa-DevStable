@@ -10,7 +10,7 @@ const SalaryRow = ({
   date,
   gross_sum,
   net_sum,
-  service_cost,
+  //service_cost,
   allowance_cost,
   expense_cost,
   status
@@ -19,7 +19,7 @@ const SalaryRow = ({
     <TableRowColumn>{date}</TableRowColumn>
     <TableRowColumn>{gross_sum}</TableRowColumn>
     <TableRowColumn>{net_sum}</TableRowColumn>
-    <TableRowColumn>{service_cost}</TableRowColumn>
+    {/* <TableRowColumn>{service_cost}</TableRowColumn> */}
     <TableRowColumn>{allowance_cost}</TableRowColumn>
     <TableRowColumn>{expense_cost}</TableRowColumn>
     <TableRowColumn>{status}</TableRowColumn>

@@ -504,8 +504,7 @@ function* invoiceLocationChangeSaga() {
       yield put(change('invoice', 'due_date', due_date))
 
       yield put(change('invoice', 'invoice_reference', ''))
-      yield put(change('invoice', 'description', ''))
-      yield put(change('invoice', 'job_title', ''))
+      yield put(change('invoice', 'description', ''))      
       yield put(change('invoice', 'instant_payment', ''))
       yield put(change('invoice', 'status', ''))
       yield put(emptyInvoiceRows())
@@ -543,6 +542,7 @@ function* invoiceLocationChangeSaga() {
 
       yield put(change('invoice', 'country', 'Suomi'))
       yield put(change('invoice', 'delivery_method', 'Sähköposti'))
+      yield put(change('invoice', 'job_title', 'Tapaturmavakuutus'))
       let renewBillDate = new Date()
       yield put(change('invoice', 'billing_date', renewBillDate))
       yield put(changeInvoiceBillingDate(renewBillDate))

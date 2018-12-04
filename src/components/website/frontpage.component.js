@@ -24,9 +24,9 @@ const FrontPage = () => (
       <h6>Laskuta ilman yritystä</h6>
       <br />
       <p>
-        Kassavirtanen on palvelu, joka mahdollistaa laskuttamisen ilman omaa
-        yritystä. Kassavirtasen avulla nostat palkkaa, mutta toimit kuten
-        itsenäinen yrittäjä, ilman byrokratian aiheuttamia huolia.
+        Kassavirtanen on palvelu, joka mahdollistaa laskuttamisen edullisesti ja
+        helposti ilman omaa yritystä. Kassavirtasen avulla nostat palkkaa, mutta
+        toimit kuten itsenäinen yrittäjä, ilman byrokratian aiheuttamia huolia.
         <br /> Laskutus on helppoa, säästää aikaasi eikä sido sinua mihinkään.
       </p>
     </div>
@@ -68,12 +68,19 @@ const FrontPage = () => (
     <div className="frontpage-halvempi">
       <div className="row justify-content-center">
         <div className="col-xs-12 col-sm-12 col-lg-12">
-          <h6>Kevytyrittäjyys on helppoa</h6>
+          <h6>Kevytyrittäjyyttä Edullisesti</h6>
           <br />
           <p>
-            Palkkasi yhteydessä ovat kulut vain 2-4,0% palkan
-            arvonlisäverottomasta summasta. Laskun lähettäminen, muistutukset ja
-            perintä ovat ilmaisia.
+            Tarjoamme palvelut lompakkoystävällisin hinnoin, jotta arkesi
+            kevytyrittäjänä olisi entistä kevyempi. Palkkasi yhteydessä ovat
+            kulut vain 3-4,0% palkan arvonlisäverottomasta summasta. Laskun
+            lähettäminen, muistutukset ja perintä ovat käyttäjälle ilmaisia.
+          </p>
+          <br />
+          <h6 style={{ color: '#ff3297' }}>TARJOUS</h6>
+          <br />
+          <p style={{ color: '#ff3297', fontWeight: 'bold' }}>
+            Tarjoamme uusille asiakkaille 2% palvelumaksun vuoden 2018 loppuun!
           </p>
         </div>
       </div>

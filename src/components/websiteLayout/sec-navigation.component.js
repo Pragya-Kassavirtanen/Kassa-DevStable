@@ -10,9 +10,8 @@ import FontAwesome from 'react-fontawesome'
  */
 const brandLogo = require('../../images/kassavirtanen-logo.png')
 export default class Navigation extends React.Component {
-
   _createNavIcons = navItems => (
-    <ul className="nav nav-tabs">
+    <ul className="nav nav-pills pull-right">
       {navItems.map((navItem, iter) => (
         <li key={iter}>
           <Link

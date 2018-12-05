@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import {persistStore, autoRehydrate} from 'redux-persist'
 import { asyncSessionStorage } from 'redux-persist/storages'
 import { browserHistory } from 'react-router'
@@ -7,7 +7,6 @@ import createOidcMiddleware from 'redux-oidc'
 import createSagaMiddleware from 'redux-saga'
 
 import reducers from './reducers'
-import createLogger from 'redux-logger'
 import userManager from './utils/PHZUserManager'
 import rootSaga  from './sagas'
 
@@ -17,24 +16,17 @@ import rootSaga  from './sagas'
  * @author Skylar Kong
  */
 
-const logger = createLogger()
-
 // create the middleware with the userManager
 const oidcMiddleware = createOidcMiddleware(userManager)
 
 const sagaMiddleware = createSagaMiddleware()
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-const createStoreWithMiddleware = composeEnhancers(
-  applyMiddleware(
-    logger,
+const createStoreWithMiddleware = 
+  applyMiddleware(    
     oidcMiddleware,
     routerMiddleware(browserHistory),
     sagaMiddleware
-  ),
-  autoRehydrate()
-) (createStore)
+  )
 
 const initialState = {
   form: {
@@ -69,7 +61,7 @@ const initialState = {
   }
 }
 
-const store = createStoreWithMiddleware(reducers, initialState)
+const store = createStore(reducers, initialState, createStoreWithMiddleware, autoRehydrate)
 
 sagaMiddleware.run(rootSaga)
 

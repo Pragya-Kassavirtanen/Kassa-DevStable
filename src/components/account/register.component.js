@@ -208,6 +208,12 @@ const RegisterComponent = ({
                 määritelty erillistä vähimmäishintaa.
               </p>
               <p>
+                Hallintoyrityksellä on velvollisuus tarkistaa laskun
+                oikeellisuus, ja sen osoittautuessa aiheettomaksi tai
+                perusteettomaksi, on Hallintoyrityksellä oikeus periä siitä
+                aiheutunut palvelumaksu 3-4,0% suoraan palvelun käyttäjältä.
+              </p>
+              <p>
                 Pikapalkan palvelumaksu on 2,5 %, joka veloitetaan normaalin
                 palvelumaksun lisäksi. Pikapalkka on laskukohtainen, ja sen
                 käyttöönottamiseksi on valittava laskutuslomakkeesta erillinen

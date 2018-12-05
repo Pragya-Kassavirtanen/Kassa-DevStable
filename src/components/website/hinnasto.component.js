@@ -7,10 +7,11 @@ const pikapalkka_hinnasto = require('../../images/pikapalkka.png')
 const Hinnasto = () => (
   <div className="container-fluid cover">
     <div className="cover">
-      <img 
-      src={hinnasto_banner} 
-      alt="Kassavirtanen_hinnasto_banner"
-      style={{ width: '100%', height: '300px' }} />
+      <img
+        src={hinnasto_banner}
+        alt="Kassavirtanen_hinnasto_banner"
+        style={{ width: '100%', height: '300px' }}
+      />
     </div>
     <div className="hinnasto-content col-xs-12 col-sm-12 col-lg-12">
       <div className="hinnasto-intro">
@@ -38,14 +39,15 @@ const Hinnasto = () => (
           />
           <h1 className="percentage">PALKKA 3-4,0%</h1>
           <div className="hinnasto-palkka-content">
-            <p>Laskutat vain tekemästäsi työstä, 
-              ja me veloitamme palvelumaksun suoraan toimeksiantajaltasi. 
-              Mitä enemmän laskutat vuodessa, sitä edullisempi palvelumaksumme on!
+            <p>
+              Laskutat vain tekemästäsi työstä, ja me veloitamme palvelumaksun
+              suoraan toimeksiantajaltasi. Mitä enemmän laskutat vuodessa, sitä
+              edullisempi palvelumaksumme on!
             </p>
             <ul>
               <li className="list2">&lt; 100 000 € - 4,0%</li>
               <li className="list2">&gt; 100 000 € - 3,5%</li>
-              <li className="list2">&gt; 150 000 € - 3%</li>              
+              <li className="list2">&gt; 150 000 € - 3%</li>
             </ul>
           </div>
         </div>
@@ -78,6 +80,9 @@ const Hinnasto = () => (
         Arvonlisävero: kulutusvero, joka maksetaan myynnistä. Yleisesti käytössä
         oleva arvonlisäverokanta on 24%. <br />
         Työntekijän pidätyksiä ovat ennakonpidätys sekä sosiaaliturvamaksu.
+        <br /> <br />
+        Aiheettomiksi tai perusteettomiksi osoittautuneista lähetetyistä
+        laskuista peritään palvelumaksu 3-4,0% suoraan palvelun käyttäjältä.
         <br /> <br />
         Huomioithan, että Kassavirtasen kautta laskuttaessa YEL-maksuista
         huolehtimisesta sinulla on mahdollisuus päättää itse!{' '}
@@ -120,8 +125,8 @@ const Hinnasto = () => (
         asti perintäyhtiön kautta. <br />
         <br />
         Tämä on Kassavirtasen käyttäjälle kulutonta, sillä perintäkulut maksaa
-        velallinen. Muistutus- ja perintäpalvelumme ovat asialliset ja
-        tähtäävät <br />
+        velallinen. Muistutus- ja perintäpalvelumme ovat asialliset ja tähtäävät{' '}
+        <br />
         laskun maksamiseen aiheuttamatta turhia ongelmia toimeksiantajallesi.
       </p>
     </div>

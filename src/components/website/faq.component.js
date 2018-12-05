@@ -32,7 +32,7 @@ const FAQ = () => (
               <div>
                 <p>
                   Palvelun aloittaminen on maksutonta, maksat palvelun käytöstä
-                  vain palkkaa nostaessasi; 4,0% palkan arvonlisäverottomasta
+                  vain palkkaa nostaessasi; 3-4,0% palkan arvonlisäverottomasta
                   summasta.
                 </p>
               </div>

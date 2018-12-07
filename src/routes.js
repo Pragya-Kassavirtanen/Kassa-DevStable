@@ -26,6 +26,7 @@ import FAQ from './components/website/faq.component'
 import Hinnasto from './components/website/hinnasto.component'
 import Yhteystiedot from './containers/website/yhteystiedot.container'
 import Yrityksille from './components/website/yrityksille.component'
+import Welcome from './components/account/welcome.component'
 
 /**
  * TODO: Describe me
@@ -50,6 +51,7 @@ export default class RouteComponent extends React.Component {
         <Route path="/dashboard" component={Main}>
           <Route path="/dashboard/login" component={Login} />
           <Route path="/dashboard/register" component={Register} />
+          <Route path="/kiitos-reskisteroitymisesta" component={Welcome} />
           <Route path="/dashboard/callback" component={Callback} />
           <Route
             path="/dashboard/main"
@@ -103,9 +105,9 @@ export default class RouteComponent extends React.Component {
           <Route path="/home/hinnasto" component={Hinnasto} />
           <Route path="/home/faq" component={FAQ} />
           <Route path="/home/yrityksille" component={Yrityksille} />
-          <Route path="/home/yhteystiedot" component={Yhteystiedot} />
+          <Route path="/home/yhteystiedot" component={Yhteystiedot} />          
         </Route>
-        <Route path="/*" component={FrontMain} />
+        <Route path="/*" component={FrontMain} />        
       </Router>
     )
   }

@@ -125,8 +125,8 @@ const RegisterComponent = ({
         autoHideDuration={2500}
         bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
         onRequestClose={() => {
-          closeRegisterSnackbar()
-          browserHistory.push('/dashboard/login')
+          closeRegisterSnackbar()          
+          browserHistory.push('/kiitos-reskisteroitymisesta')
         }}
       />
       <div className="form-login-resetPassword">

@@ -26,19 +26,19 @@ const Footer = () => (
           <h5>NAVIGOI</h5>
           <ul>
             <li>
-              <Link to="/home/etusivu">Etusivu</Link>
+              <Link to="/">Etusivu</Link>
             </li>
             <li>
-              <Link to="/home/hinnasto">Hinnasto</Link>
+              <Link to="hinnasto">Hinnasto</Link>
             </li>
             <li>
-              <Link to="/home/yrityksille">Kevytyrittäjyys</Link>
+              <Link to="yrityksille">Kevytyrittäjyys</Link>
             </li>
             <li>
-              <Link to="/home/faq">Usein kysyttyä</Link>
+              <Link to="faq">Usein kysyttyä</Link>
             </li>
             <li>
-              <Link to="/home/yhteystiedot">Yhteystiedot</Link>
+              <Link to="yhteystiedot">Yhteystiedot</Link>
             </li>
           </ul>
         </article>
@@ -46,10 +46,10 @@ const Footer = () => (
           <h5>ALOITA KEVYTYRITTÄJYYS</h5>
           <ul>
             <li>
-              <Link to="/home/etusivu">Rekisteröidy</Link>
+              <Link to="/">Rekisteröidy</Link>
             </li>
             <li>
-              <Link to="/home/yhteystiedot">Yhteystiedot</Link>
+              <Link to="yhteystiedot">Yhteystiedot</Link>
             </li>
           </ul>
         </article>

@@ -1,5 +1,4 @@
 import React from 'react'
-import FrontPage from './frontpage.component'
 
 /**
  * The Front Page view
@@ -8,8 +7,7 @@ import FrontPage from './frontpage.component'
  */
 
 const Home = ({ children }) =>
-  <div>
-    <FrontPage/>
+  <div>    
     {children}
   </div>
 

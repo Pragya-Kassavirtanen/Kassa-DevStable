@@ -14,7 +14,7 @@ const Navigation = () =>
     <div className="container-fluid dashboard-header-insecure">
       <nav className="dashboard-header-brand">
         <div>
-          <Link to="/home/etusivu">
+          <Link to="/">
             <img className="navbar-brand dashboard-nav-brand" src={brandLogo} />
           </Link>
         </div>
@@ -22,7 +22,7 @@ const Navigation = () =>
       <div className="nav navbar-nav pull-right">
         <ul className="nav nav-tabs">
           <li>
-            <Link className="dashboard-nav-linklist" to="/home/etusivu">
+            <Link className="dashboard-nav-linklist" to="/">
               <NavIcon name="sign-out" size="2x" content="Etusivulle"/>
             </Link>
           </li>

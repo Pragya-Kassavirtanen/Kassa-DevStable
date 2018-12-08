@@ -44,7 +44,7 @@ export default class Navigation extends React.Component {
         </div>
         <div className="container-fluid dashboard-header-bottom">
           <div className="dashboard-header-brand">
-            <Link to="/home/etusivu">
+            <Link to="/">
               <img
                 className="navbar-brand dashboard-nav-brand"
                 src={brandLogo}

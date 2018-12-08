@@ -41,7 +41,7 @@ export default class Dashboard extends React.Component {
     // Chrome requires returnValue to be set.
     e.returnValue = ''
     //ToDo:: Refresh Token API
-    browserHistory.push('/home/etusivu')
+    browserHistory.push('/')
   }
 
   render() {

@@ -57,7 +57,7 @@ const Yrityksille = () => (
       <p>
         Kysy lisää palvelusopimuksesta
         <br />
-        <Link to="/home/yhteystiedot">asiakaspalvelustamme!</Link>
+        <Link to="yhteystiedot">asiakaspalvelustamme!</Link>
       </p>
     </div>
   </div>

@@ -28,28 +28,28 @@ const FrontMainContainer = connect(mapStateToProps, mapDispatchToProps, mergePro
 const navItems = [
   {  
     name: 'home',  
-    content: 'ETUSIVU',
-    url: '/home/etusivu'
+    content: 'ETUSIVU',    
+    url: '/'
   },
   { 
     name: 'list-alt',   
-    content: 'HINNASTO',
-    url: '/home/hinnasto'
+    content: 'HINNASTO',    
+    url: 'hinnasto'
   },
   {  
     name: 'info-circle', 
-    content: 'USEIN KYSYTTYÄ',
-    url: '/home/faq'
+    content: 'USEIN KYSYTTYÄ',    
+    url: 'faq'
   },
   { 
     name: 'users',
-    content: 'KEVYTYRITTÄJYYS',
-    url: '/home/yrityksille'
+    content: 'KEVYTYRITTÄJYYS',    
+    url: 'yrityksille'
   },
   {  
     name: 'envelope', 
-    content: 'YHTEYSTIEDOT',
-    url: '/home/yhteystiedot'
+    content: 'YHTEYSTIEDOT',    
+    url: 'yhteystiedot'
   }
 ]
 

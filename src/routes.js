@@ -51,7 +51,7 @@ export default class RouteComponent extends React.Component {
         <Route path="/dashboard" component={Main}>
           <Route path="/dashboard/login" component={Login} />
           <Route path="/dashboard/register" component={Register} />
-          <Route path="/kiitos-reskisteroitymisesta" component={Welcome} />
+          <Route path="/kiitos-rekisteroitymisesta" component={Welcome} />
           <Route path="/dashboard/callback" component={Callback} />
           <Route
             path="/dashboard/main"

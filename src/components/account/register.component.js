@@ -126,7 +126,7 @@ const RegisterComponent = ({
         bodyStyle={{ backgroundColor: 'forestGreen', opacity: 0.8 }}
         onRequestClose={() => {
           closeRegisterSnackbar()          
-          browserHistory.push('/kiitos-reskisteroitymisesta')
+          browserHistory.push('/kiitos-rekisteroitymisesta')
         }}
       />
       <div className="form-login-resetPassword">

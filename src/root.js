@@ -19,6 +19,12 @@ injectTapEventPlugin()
 //Google Analytics Tracking Code
 ReactGA.initialize('UA-129495772-1')
 ReactGA.pageview('/')
+ReactGA.pageview('hinnasto')
+ReactGA.pageview('faq')
+ReactGA.pageview('yrityksille')
+ReactGA.pageview('yhteystiedot')
+ReactGA.pageview('/kiitos-rekisteroitymisesta')
+ReactGA.pageview('/dashboard/login')
 
 export default class RootComponent extends React.Component {
   render() {

@@ -9,6 +9,8 @@ import { hideLink } from '../../utils/website.utils'
  *
  */
 
+const trustLogo = require('../../images/luotettava_kumppani_logo.png')
+
 const Footer = () => (
   <footer className="dashboard-footer">
     <div className="dashboard-footer-info">
@@ -128,6 +130,12 @@ const Footer = () => (
           </article>
         </div>
       </div>
+      <div className="row">      
+        <img          
+          className='dashboard-footer-trustBrand'
+          src={trustLogo}
+        />      
+      </div>      
       <div className="dashboard-footer-sign">
         <p> &copy; Kassavirtanen 2018</p>
       </div>

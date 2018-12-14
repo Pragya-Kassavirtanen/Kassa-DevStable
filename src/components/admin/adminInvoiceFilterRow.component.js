@@ -10,7 +10,11 @@ import {
 
 import { Field } from 'redux-form'
 
-import { renderCheckbox, renderTextField } from '../../utils/wrappers'
+import {
+  renderCheckbox,
+  renderTextField,
+  renderDatePicker
+} from '../../utils/wrappers'
 
 export default class AdminInvoiceFilterRow extends Component {
   render() {
@@ -41,7 +45,7 @@ const AdminInvoiceFilterRowComponent = ({ searchAdminInvoice }) => (
           </TableRowColumn>
           <TableRowColumn>
             <Field
-              name="invoice_reference"
+              name="referencenumber"
               label="Laskuviite"
               style={{ width: '100%' }}
               component={renderTextField}
@@ -49,18 +53,20 @@ const AdminInvoiceFilterRowComponent = ({ searchAdminInvoice }) => (
           </TableRowColumn>
           <TableRowColumn>
             <Field
-              name="minSum"
-              label="Vähimmäissumma"
+              name="startdate"
+              floatingLabelText="Alkupvm"
               style={{ width: '100%' }}
-              component={renderTextField}
+              component={renderDatePicker}
+              onChangeCallback={() => undefined}
             />
           </TableRowColumn>
           <TableRowColumn>
             <Field
-              name="maxsum"
-              label="Enimmäissumma"
+              name="enddate"
+              floatingLabelText="Loppupvm"
               style={{ width: '100%' }}
-              component={renderTextField}
+              component={renderDatePicker}
+              onChangeCallback={() => undefined}
             />
           </TableRowColumn>
           <TableRowColumn>

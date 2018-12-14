@@ -5,7 +5,7 @@ import { updateAdminInvoice } from '../../actions/index'
 
 let AdminInvoiceFormContainer = reduxForm({
   fields: [
-    'invoice_reference',
+    'referencenumber',
     'description',
     'total_sum',
     'due_date',

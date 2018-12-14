@@ -79,8 +79,8 @@ const FrontPage = () => (
           <br />
           <h6 style={{ color: '#ff3297' }}>TARJOUS</h6>
           <br />
-          <p style={{ color: '#ff3297', fontWeight: 'bold' }}>
-            Tarjoamme uusille asiakkaille 2% palvelumaksun vuoden 2018 loppuun!
+          <p style={{ color: '#ff3297', fontWeight: 'bold' }}>            
+            Tarjoamme uusille asiakkaille 2% palvelumaksun tammikuun loppuun!
           </p>
         </div>
       </div>

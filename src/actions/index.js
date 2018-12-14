@@ -226,7 +226,8 @@ import {
   EMPTY_PASSENGER_ROWS,
   EMPTY_ALLOWANCE_INPUT_ROWS,
   INVOICE_EDIT_SUCCESS,
-  LANGUAGE_CHANGE  
+  LANGUAGE_CHANGE,
+  UPDATE_ADMIN_INVOICE_STATUS_REJECTED  
 } from '../constants/index'
 
 export const addInvoiceRow = copy => ({ type: ADD_INVOICE_ROW, copy })
@@ -458,6 +459,7 @@ export const adminGetUpdatesSuccess = (result) => ({type: ADMIN_GET_UPDATES_SUCC
 export const noPikapalkka = () => ({type: NO_PIKAPALKKA})
 export const showSalaryPDF = (id) => ({type: SHOW_SALARY_PDF, id})
 export const showInvoicePDF = (invoice_id) => ({type: SHOW_INVOICE_PDF, invoice_id})
+export const updateAdminInvoiceStatusToRejected = () => ({type: UPDATE_ADMIN_INVOICE_STATUS_REJECTED})
 
 export const getNewSalaryStart = () => ({type: GET_NEW_SALARY_START})
 export const getNewSalarySuccess = result => ({type: GET_NEW_SALARY_SUCCESS, result})

@@ -22,7 +22,8 @@ import {
   watchAdminGetUpdatesSaga,
   watchAdminNoPikapalkkaSaga,
   watchShowSalaryPDFSaga,
-  watchShowInvoicePDFSaga
+  watchShowInvoicePDFSaga,
+  watchAdminUpdateInvoiceStatustoRejectedSaga
 } from './admin.saga'
 import { watchRehydrateSaga } from './rehydrate.saga'
 import { watchGetNewSalarySaga, watchSelectRowSalarySaga, watchGetSalariesSaga, watchPostSalarySaga, watchGetSalaryByIdSaga, watchSaveSalarySlipSaga } from './salary.saga'
@@ -126,6 +127,7 @@ export default function* rootSaga() {
     watchInvoiceLocationChangeSaga(),
     watchExpenseLocationChangeSaga(),
     watchAllowanceLocationChangeSaga(),
-    watchChangeAllowanceDateSaga()
+    watchChangeAllowanceDateSaga(),
+    watchAdminUpdateInvoiceStatustoRejectedSaga()
   ]
 }

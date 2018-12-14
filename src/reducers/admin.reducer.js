@@ -30,7 +30,8 @@ import {
   UPDATE_ADMIN_INVOICE_STATUS_SUCCESS,
   UPDATE_ADMIN_SALARY_STATUS_SUCCESS,
   ADMIN_GET_UPDATES_SUCCESS,
-  NO_PIKAPALKKA
+  NO_PIKAPALKKA,
+  UPDATE_ADMIN_INVOICE_STATUS_REJECTED
 } from '../constants'
 
 import DateTimeFormat from '../utils/DateTimeFormat'
@@ -54,7 +55,7 @@ const initialState = {
   isToLiftSalary: false,
   Status: '',
   newsupdate: '',
-  instant_payment:''
+  instant_payment: ''
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -211,21 +212,17 @@ const adminReducer = (state = initialState, action) => {
       return Object.assign({}, { ...state }, { showSpinner: true }) */
 
     case UPDATE_ADMIN_USER_RESULT:
-      return Object.assign(
-        {},
-        { ...state },
-        { showAdminSnackbar: true }
-      )
+      return Object.assign({}, { ...state }, { showAdminSnackbar: true })
 
     case UPDATE_ADMIN_USER_RESULT_FAILED:
+      return Object.assign({}, { ...state }, { showAdminFailSnackbar: true })
+
+    case HIDE_ADMIN_SNACKBAR:
       return Object.assign(
         {},
         { ...state },
-        { showAdminFailSnackbar: true }
+        { showAdminSnackbar: false, showAdminFailSnackbar: false }
       )
-
-    case HIDE_ADMIN_SNACKBAR:
-      return Object.assign({}, { ...state }, { showAdminSnackbar: false, showAdminFailSnackbar: false })
 
     case INVOICE_SEARCH_PAGE_CHANGE:
       return Object.assign(
@@ -289,14 +286,14 @@ const adminReducer = (state = initialState, action) => {
       )
 
     case NO_PIKAPALKKA:
-    return Object.assign(
-      {},
-      { ...state },
-      { 
-        isToPay: false,       
-        instant_payment: ''
-      }
-    )
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          isToPay: false,
+          instant_payment: ''
+        }
+      )
 
     case WARN_SALARY_TO_PAY:
       return Object.assign(
@@ -333,8 +330,18 @@ const adminReducer = (state = initialState, action) => {
       return Object.assign(
         {},
         { ...state },
-        {          
+        {
           isToPayInvoiceId: 0,
+          instant_payment: ''
+        }
+      )
+
+    case UPDATE_ADMIN_INVOICE_STATUS_REJECTED:
+      return Object.assign(
+        {},
+        { ...state },
+        {
+          isToPay: false,
           instant_payment: ''
         }
       )

@@ -7,8 +7,8 @@ import {
   expandAdminUser,
   invoiceSearchPageChange,
   salarySearchPageChange,
-  userSearchPageChange, 
-  adminDeleteCompanyUpdates,  
+  userSearchPageChange,
+  adminDeleteCompanyUpdates,
   tiedotteetSearchPageChange,
   warnInvoiceToPay,
   warnSalaryToPay,
@@ -19,7 +19,8 @@ import {
   cancelUpdateAdminInvoiceStatus,
   updateAdminSalaryStatus,
   cancelUpdateAdminSalaryStatus,
-  adminGetUpdates
+  adminGetUpdates,
+  updateAdminInvoiceStatusToRejected
 } from '../../actions/index'
 
 let AdminContainer = Admin
@@ -61,7 +62,7 @@ const mapStateToProps = state => {
     salarySearchPages: !!state.admin.salarySearchRows
       ? Math.ceil(state.admin.salarySearchRows.length / 10)
       : 0,
-     
+
     tiedotteetSearchPages: !!state.admin.releaseSearchRows
       ? Math.ceil(state.admin.releaseSearchRows.length / 10)
       : 0
@@ -89,8 +90,9 @@ const mapDispatchToProps = dispatch => {
       dispatch(salarySearchPageChange(selected)),
 
     userSearchPageChange: selected => dispatch(userSearchPageChange(selected)),
-    
-    tiedotteetSearchPageChange: selected => dispatch(tiedotteetSearchPageChange(selected)),
+
+    tiedotteetSearchPageChange: selected =>
+      dispatch(tiedotteetSearchPageChange(selected)),
 
     warnInvoiceToPay: selected => dispatch(warnInvoiceToPay(selected)),
 
@@ -98,9 +100,9 @@ const mapDispatchToProps = dispatch => {
 
     noPikapalkka: () => dispatch(noPikapalkka()),
 
-    showSalaryPDF: (id) => dispatch(showSalaryPDF(id)),
+    showSalaryPDF: id => dispatch(showSalaryPDF(id)),
 
-    showInvoicePDF: (invoice_id) => dispatch(showInvoicePDF(invoice_id)),
+    showInvoicePDF: invoice_id => dispatch(showInvoicePDF(invoice_id)),
 
     updateAdminInvoiceStatus: invoice_id =>
       dispatch(updateAdminInvoiceStatus(invoice_id)),
@@ -111,11 +113,14 @@ const mapDispatchToProps = dispatch => {
     updateAdminSalaryStatus: id => dispatch(updateAdminSalaryStatus(id)),
 
     cancelUpdateAdminSalaryStatus: () =>
-      dispatch(cancelUpdateAdminSalaryStatus()),   
+      dispatch(cancelUpdateAdminSalaryStatus()),
 
-    adminDeleteCompanyUpdates: (id) => dispatch(adminDeleteCompanyUpdates(id)),
+    adminDeleteCompanyUpdates: id => dispatch(adminDeleteCompanyUpdates(id)),
 
-    adminGetUpdates: () => dispatch(adminGetUpdates())
+    adminGetUpdates: () => dispatch(adminGetUpdates()),
+
+    updateAdminInvoiceStatusToRejected: () =>
+      dispatch(updateAdminInvoiceStatusToRejected())
   }
 }
 

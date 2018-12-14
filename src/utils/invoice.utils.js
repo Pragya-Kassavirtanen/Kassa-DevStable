@@ -174,10 +174,12 @@ export const convertStateToInt = state => {
       return 2
     case 'Käsittelyssä':
       return 3
-    case 'Alimaksettu':
+    case 'Hylätty':
       return 4
     case 'Ylimaksettu':
       return 5
+    case 'Alimaksettu':
+      return 6  
   }
 }
 
@@ -192,9 +194,11 @@ export const convertIntToState = state => {
     case 3:
       return 'Käsittelyssä'
     case 4:
-      return 'Alimaksettu'
+      return 'Hylätty'
     case 5:
       return 'Ylimaksettu'
+    case 6:
+      return 'Alimaksettu'  
   }
 }
 
@@ -204,6 +208,8 @@ export const convertNameToState = state => {
       return 'Käsittelyssä'
     case 'paid':
       return 'Maksettu'
+    case 'rejected':
+      return 'Hylätty'
   }
 }
 

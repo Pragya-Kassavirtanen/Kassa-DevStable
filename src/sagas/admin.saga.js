@@ -20,7 +20,8 @@ import {
   ADMIN_GET_UPDATES,
   NO_PIKAPALKKA,
   SHOW_SALARY_PDF,
-  SHOW_INVOICE_PDF
+  SHOW_INVOICE_PDF,
+  UPDATE_ADMIN_INVOICE_STATUS_REJECTED  
 } from '../constants'
 
 import { convertStateToInt, nestProperties } from '../utils/invoice.utils'
@@ -67,20 +68,46 @@ function* adminInvoiceSearchSaga() {
         instant_payment = 'quick_pay'
       }
 
+      let startdate
+      if (formValues.startdate !== undefined) {
+        startdate = formatFiToISO(
+          new DateTimeFormat('fi', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+          })
+            .format(new Date(formValues.startdate))
+            .split('.')
+        )
+      }
+
+      let enddate
+      if (formValues.enddate !== undefined) {
+        enddate = formatFiToISO(
+          new DateTimeFormat('fi', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+          })
+            .format(new Date(formValues.enddate))
+            .split('.')
+        )
+      }
+
       const body = {
         company_name: formValues.company_name,
         invoice_id: formValues.invoice_id,
-        invoice_reference: formValues.invoice_reference,
-        minSum: formValues.minSum,
-        maxsum: formValues.maxsum,
+        referencenumber: formValues.referencenumber,
+        startdate: startdate,
+        enddate: enddate,
         instant_payment: instant_payment        
       }
 
       nestedBody = nestProperties(body, 'Invoice', [
         'invoice_id',
-        'invoice_reference',
-        'minSum',
-        'maxsum',
+        'referencenumber',
+        'startdate',
+        'enddate',
         'instant_payment'
       ])
     }
@@ -330,11 +357,42 @@ function* adminUpdateInvoiceStatusSaga({ invoice_id }) {
     const id = invoice_id.split('$$')
     const uuid = id[0]
     const inv_id = id[1]
+    const inv_rejected=0 //the invoice is paid 
     const body = JSON.stringify({
       uuid: uuid,
       invoice_id: inv_id,
       invoicePaid: store.getState().admin.invoicepaid,
-      instant_payment: store.getState().admin.instant_payment
+      instant_payment: store.getState().admin.instant_payment,
+      invoice_rejected:inv_rejected
+    })
+    const result = yield call(apiManualPost, url, body)
+
+    if (result.data === 'Invoice status updated Successfully') {
+      yield put(updateAdminInvoiceStatusSuccess(result.data))
+    } else {
+      console.warn(result.data)
+    }
+    yield put(searchAdminInvoice())
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+function* adminUpdateInvoiceStatustoRejectedSaga() {
+  try {
+    const url = `${API_SERVER}/UpdateInvoiceStatus`
+    const invoice_id = store.getState().admin.isToPayInvoiceId
+    console.log('test invoice_id  '+invoice_id )
+    const id = invoice_id.split('$$')
+    const uuid = id[0]
+    const inv_id = id[1]
+    const inv_rejected=1  // invoice rejected by admin
+    const body = JSON.stringify({
+      uuid: uuid,
+      invoice_id: inv_id,
+      invoicePaid: store.getState().admin.invoicepaid,
+      instant_payment: store.getState().admin.instant_payment,
+      invoice_rejected:inv_rejected
     })
     const result = yield call(apiManualPost, url, body)
 
@@ -357,11 +415,13 @@ function* noPikapalkkaSaga() {
     const id = invoice_id.split('$$')
     const uuid = id[0]
     const inv_id = id[1]
+    const inv_rejected=0
     const body = JSON.stringify({
       uuid: uuid,
       invoice_id: inv_id,
       invoicePaid: store.getState().admin.invoicepaid,
-      instant_payment: store.getState().admin.instant_payment
+      instant_payment: store.getState().admin.instant_payment,
+      invoice_rejected:inv_rejected
     })
     const result = yield call(apiManualPost, url, body)
 
@@ -519,6 +579,10 @@ export function* watchAdminWagesSearchSaga() {
 
 export function* watchAdminUpdateInvoiceStatusSaga() {
   yield takeEvery(UPDATE_ADMIN_INVOICE_STATUS, adminUpdateInvoiceStatusSaga)
+}
+
+export function* watchAdminUpdateInvoiceStatustoRejectedSaga() {
+  yield takeEvery(UPDATE_ADMIN_INVOICE_STATUS_REJECTED, adminUpdateInvoiceStatustoRejectedSaga)
 }
 
 export function* watchAdminNoPikapalkkaSaga() {

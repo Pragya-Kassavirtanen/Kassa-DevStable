@@ -79,7 +79,8 @@ const AdminComponent = ({
   releaseSearchRows,
   adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
-  tiedotteetSearchPageChange
+  tiedotteetSearchPageChange,
+  updateAdminInvoiceStatusToRejected
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid">
@@ -125,7 +126,8 @@ const AdminComponent = ({
               releaseSearchRows,
               adminDeleteCompanyUpdates,
               tiedotteetSearchPages,
-              tiedotteetSearchPageChange
+              tiedotteetSearchPageChange,
+              updateAdminInvoiceStatusToRejected
             )}
           </div>
         </div>
@@ -181,7 +183,8 @@ const selectPanel = (
   releaseSearchRows,
   adminDeleteCompanyUpdates,
   tiedotteetSearchPages,
-  tiedotteetSearchPageChange
+  tiedotteetSearchPageChange,
+  updateAdminInvoiceStatusToRejected
 ) => {
   switch (selectedMenuItem) {
     case 0:
@@ -205,7 +208,8 @@ const selectPanel = (
         warnInvoiceToPay,
         noPikapalkka,
         updateAdminInvoiceStatus,
-        cancelUpdateAdminInvoiceStatus
+        cancelUpdateAdminInvoiceStatus,
+        updateAdminInvoiceStatusToRejected
       )
     case 2:
       return salaryPanel(
@@ -259,7 +263,8 @@ const invoicePanel = (
   warnInvoiceToPay,
   noPikapalkka,
   updateAdminInvoiceStatus,
-  cancelUpdateAdminInvoiceStatus
+  cancelUpdateAdminInvoiceStatus,
+  updateAdminInvoiceStatusToRejected
 ) => (
   <div className="col-xs-9 col-sm-9 col-lg-9">
     <div className="panel panel-default">
@@ -291,7 +296,8 @@ const invoicePanel = (
               warnInvoiceToPay,
               noPikapalkka,
               updateAdminInvoiceStatus,
-              cancelUpdateAdminInvoiceStatus
+              cancelUpdateAdminInvoiceStatus,
+              updateAdminInvoiceStatusToRejected
             )}
           </TableBody>
         </Table>
@@ -511,7 +517,8 @@ const createInvoiceRow = (
   warnInvoiceToPay,
   noPikapalkka,
   updateAdminInvoiceStatus,
-  cancelUpdateAdminInvoiceStatus
+  cancelUpdateAdminInvoiceStatus,
+  updateAdminInvoiceStatusToRejected
 ) =>
   invoices.slice(selected * 10, selected * 10 + 10).map(el => (
     <TableRow selectable={false} key={el.email+el.invoice_id}>
@@ -525,7 +532,7 @@ const createInvoiceRow = (
         {el.invoice_id}
       </TableRowColumn>
       <TableRowColumn>
-        {el.invoice_reference}
+        {el.referencenumber}
       </TableRowColumn>
       <TableRowColumn>        
           {new Intl.NumberFormat('fi-FI', {
@@ -607,6 +614,16 @@ const createInvoiceRow = (
                 primary={true}
                 onClick={() => {
                   store.dispatch(updateAdminInvoiceStatus(isToPayInvoiceId))
+                }}
+              />
+            </li>
+            <li>
+              <RaisedButton
+                style={{ margin: '10px' }}
+                label="Hylätty"
+                primary={true}
+                onClick={() => {
+                  store.dispatch(updateAdminInvoiceStatusToRejected())
                 }}
               />
             </li>

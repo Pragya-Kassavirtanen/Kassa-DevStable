@@ -14,16 +14,29 @@ const Yrityksille = () => (
       />
     </div>
     <div className="whitebackground">
+      <h6>Kevytyrittäjyys</h6>
+      <br />
+      <p>
+        Kevytyrittäjyys on jatkuvasti kasvava itsensä työllistämisen muoto,
+        jossa toimitaan yrittäjämäisesti oman alan parissa, ilman huolia
+        kirjanpidosta, laskutuksesta tai verotuksesta. Palvelu sopii parhaiten
+        henkilölle, joka ei vielä halua perustaa omaa yritystä ja haluaa
+        kokeilla oman liikeideansa toimivuutta tai jos toiminta on
+        sivu/pienimuotoista.
+      </p>
+    </div>
+    <div className="bluebackground">
       <h6>Yksityishenkilöille</h6>
       <br />
       <p>
         Yksityishenkilönä laskutat helposti ja turvallisesti ilman omaa
         yritystä, eikä sinun tarvitse huolehtia yrittäjiin kohdistuvasta
         byrokratiasta tai velvoitteista. <br />
-        Kassavirtanen huolehtii puolestasi siitä, että voit keskittyä tärkeimpään.
+        Kassavirtanen huolehtii puolestasi siitä, että voit keskittyä
+        tärkeimpään.       
       </p>
     </div>
-    <div className="bluebackground">
+    <div className="whitebackground">
       <h6>Yrityksille</h6>
       <br />
       <p>
@@ -39,7 +52,7 @@ const Yrityksille = () => (
         toimenpiteeksi niin yrityksellesi kuin työntekijällekin.
       </p>
     </div>
-    <div className="whitebackground">
+    <div className="bluebackground">
       <h6>Ala kuin ala</h6>
       <br />
       <p>
@@ -59,6 +72,16 @@ const Yrityksille = () => (
         Kysy lisää palvelusopimuksesta
         <br />
         <Link to="yhteystiedot">asiakaspalvelustamme!</Link>
+      </p>
+    </div>
+    <div className="whitebackground">
+      <h6>Ryhdy Kevytyrittäjäksi</h6>
+      <br />
+      <p>
+        Kevytyrittäjäksi ryhtyminen on helppoa, sillä erillistä yrityksen
+        perustamisilmoitusta ei tarvita, joten palveluun rekisteröityminen
+        riittää. Palveluun voi rekisteröityä ilmaiseksi, eikä se sido
+        rekisteröitynyttä mihinkään.
       </p>
     </div>
   </div>

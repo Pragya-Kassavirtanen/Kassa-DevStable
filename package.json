@@ -21,7 +21,8 @@
     "test:ava": "ava --verbose",
     "test:ava:tdd": "ava --verbose --watch",
     "license": "./node_modules/.bin/license-to-fail ./cfg/license-check-config.js",
-    "build": "webpack --env=dist"
+    "build": "webpack --env=dist",
+    "sitemap": "node ./cfg/sitemap.js"
   },
   "pre-commit": [
     "license",
@@ -141,6 +142,7 @@
     "redux-oidc": "^2.2.1",
     "redux-persist": "^4.10.2",
     "redux-saga": "^0.14.0",
+    "sitemap": "^2.1.0",
     "whatwg-fetch": "^2.0.2",
     "yarn": "^1.6.0"
   }

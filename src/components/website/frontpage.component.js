@@ -14,21 +14,44 @@ const man_etusivu = require('../../images/man_etusivu.png')
 const FrontPage = () => (
   <div className="container-fluid cover">
     <div className="cover">
-      <img className="img-fluid"
+      <img
+        className="img-fluid"
         src={herravirtanen_etusivu}
         alt="Kassavirtanen_herravirtanen_etusivu"
         style={{ width: '100%', height: 'auto' }}
       />
     </div>
     <div className="frontpage-intro col-xs-12 col-sm-12 col-lg-12">
-      <h6>Laskuta ilman yritystä</h6>
+      <h6>Kevytyrittäjä - Laskuta ilman yritystä</h6>
       <br />
       <p>
         Kassavirtanen on palvelu, joka mahdollistaa laskuttamisen edullisesti ja
         helposti ilman omaa yritystä. Kassavirtasen avulla nostat palkkaa, mutta
         toimit kuten itsenäinen yrittäjä, ilman byrokratian aiheuttamia huolia.
-        <br /> Laskutus on helppoa, säästää aikaasi eikä sido sinua mihinkään.
+        Laskutus on helppoa, säästää aikaasi eikä sido sinua mihinkään.
       </p>
+      <br />
+      <a href="yrityksille">
+        <button type="button" className="frontLinkButton">
+          YKSITYISHENKILÖILLE
+        </button>
+      </a>
+    </div>
+    <div className="frontpage-intro col-xs-12 col-sm-12 col-lg-12">
+      <h6>Yrittäjä – Työllistä Kevytyrittäjä</h6>
+      <br />
+      <p>
+        Kassavirtasen palvelu sopii erinomaisesti yrittäjille, jotka haluavat
+        palkata osaajan töihin helposti kausi- tai projektipohjaisesti.
+        Laskutuspalvelu huolehtii puolestanne kaikista työnantajan ja tekijän
+        velvoitteista.
+      </p>
+      <br />
+      <a href="yrityksille">
+        <button type="button" className="frontLinkButton" style={{paddingLeft:'62px',paddingRight:'62px'}}>
+          YRITYKSILLE
+        </button>
+      </a>
     </div>
     <div className="frontpage-signup col-xs-12 col-sm-12 col-lg-12">
       <h6>Rekisteröityminen</h6>
@@ -41,10 +64,11 @@ const FrontPage = () => (
     <div className="laskutus">
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-lg-6">
-          <img className="img-fluid"
+          <img
+            className="img-fluid"
             src={woman_etusivu}
             alt="Kassavirtanen_woman_etusivu"
-            style={{ width: '100%', marginTop: '70px', height: 'auto'  }}
+            style={{ width: '100%', marginTop: '70px', height: 'auto' }}
           />
           <h6>Laskutus</h6>
           <br />
@@ -54,7 +78,8 @@ const FrontPage = () => (
           </p>
         </div>
         <div className="col-xs-12 col-sm-6 col-lg-6">
-          <img className="img-fluid"
+          <img
+            className="img-fluid"
             src={man_etusivu}
             alt="Kassavirtanen_man_etusivu"
             style={{ width: '100%', marginTop: '70px', height: 'auto' }}
@@ -79,8 +104,8 @@ const FrontPage = () => (
           <br />
           <h6 style={{ color: '#ff3297' }}>TARJOUS</h6>
           <br />
-          <p style={{ color: '#ff3297', fontWeight: 'bold' }}>            
-            Tarjoamme uusille asiakkaille 2% palvelumaksun tammikuun loppuun!
+          <p style={{ color: '#ff3297', fontWeight: 'bold' }}>
+            Tarjoamme uusille asiakkaille 2% palvelumaksun helmikuun loppuun!
           </p>
         </div>
       </div>
@@ -90,8 +115,10 @@ const FrontPage = () => (
       <br />
       <p>
         Saat palkkasi nopeammin kuin toimeksiantajasi ehtii maksamaan!
-        Pikapalkan palvelumaksu on vain 2,5% normaaliveloituksen lisäksi, ja
-        saat rahat parhaimmassa tapauksessa tilillesi jo samana päivänä.
+        Kassavirtanen maksaa palkkiosi, ennen toimeksiantajasi maksusuoritusta.
+        Pikapalkkana saat rahat parhaimmassa tapauksessa tilillesi jo samana
+        päivänä. Pikapalkan palvelumaksu on vain 2,5% normaaliveloituksen
+        lisäksi.
       </p>
     </div>
   </div>

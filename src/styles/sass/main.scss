@@ -691,6 +691,20 @@ input[type="text"]::-ms-clear {
   margin-top: 10px;
 }
 
+.frontLinkButton {
+  background-color: #00bcd4; 
+  border-color: #00bcd4;
+  height: 36px;
+  color: white;
+  border-radius: 2px;
+  padding-right: 30px;
+  padding-left: 30px;  
+}
+
+.frontLinkButton:hover {
+  background-color: #00cbe6;  
+}
+
 .laskutus {
   padding-top: 50px;
   padding-bottom: 50px;
@@ -808,8 +822,8 @@ input[type="text"]::-ms-clear {
   color: white;
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 46px;
-  padding-bottom: 30px;
+  padding-top: 42px;
+  padding-bottom: 15px;
   margin-top: 48px;
 }
 

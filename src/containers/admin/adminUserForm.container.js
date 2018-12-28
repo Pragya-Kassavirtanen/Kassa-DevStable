@@ -9,8 +9,7 @@ let AdminUserFormContainer = reduxForm({
     'address',
     'firstname',
     'lastname',
-    'phone',
-    'address',
+    'phone',    
     'city',
     'market_name',
     'job_title',
@@ -29,7 +28,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    updateAdminUser: (email, uuid) => dispatch(updateAdminUser(email, uuid))    
+    updateAdminUser: (email) => dispatch(updateAdminUser(email))    
   }
 }
 

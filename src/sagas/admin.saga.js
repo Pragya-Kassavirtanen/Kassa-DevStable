@@ -311,21 +311,26 @@ function* adminInvoiceUpdateSaga({ id }) {
   }
 }
 
-function* adminUserUpdateSaga({ email, uuid }) {
+function* adminUserUpdateSaga({ email }) {
   try {
     const formValues = getFormValues(`AdminUserForm_${email.replace('.', '')}`)(
       store.getState()
-    )    
-    const refinedForm = Object.assign({}, { ...formValues }, { uuid: uuid })
+    )
+
     const invoiceUrl = `${API_SERVER}/UpdateUserContactDetails`
-    /* const body = JSON.parse(
-      JSON.stringify({
-        uuid: uuid,
-        tax_percent: parseFloat(formValues.tax_percent),
-        service_fee: parseFloat(formValues.service_fee)
-      })
-    ) */
-    const body = JSON.stringify({ ...refinedForm })
+    const body = JSON.stringify({
+      uuid: formValues.uuid,
+      tax_percentage: parseFloat(formValues.tax_percentage.toString().replace(/,/g, '.')).toString(),
+      service_payment: parseFloat(formValues.service_payment.toString().replace(/,/g, '.')).toString(),
+      firstname: formValues.firstname,
+      lastname: formValues.lastname,
+      account_number: formValues.account_number,
+      job_title: formValues.job_title,
+      phone: formValues.phone,
+      market_name: formValues.market_name,
+      city: formValues.city
+    })    
+    
     const result = yield call(apiManualPost, invoiceUrl, body)
 
     if(result.data === 'User contact information updated successfully!'){

@@ -4,7 +4,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Snackbar } from 'material-ui'
 import Contact from '../../containers/website/contact.container'
 
-const yhteystiedot_banner = require('../../images/yhteystiedot-banner.png')
+const yhteystiedot_banner = require('../../images/yhteystiedot-banner.jpg')
 
 export default class Yhteystiedot extends Component {
   render() {
@@ -21,9 +21,10 @@ const YhteystiedotComponent = ({
     <div className="container-fluid cover">
       <div className="cover">
         <img
+          className="img-fluid"
           src={yhteystiedot_banner}
           alt="Kassavirtanen_yhteystiedot_banner"
-          style={{ width: '100%', height: '300px' }}
+          style={{ width: '100%', height: 'auto' }}
         />
       </div>
       <div className="container-fluid content">

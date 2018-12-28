@@ -18,7 +18,7 @@ export default class AdminUserForm extends Component {
   }
 }
 
-const AdminUserFormComponent = ({ email, uuid, updateAdminUser }) => (
+const AdminUserFormComponent = ({ email, updateAdminUser }) => (
   <form>
     <Table>
       <TableBody displayRowCheckbox={false}>
@@ -105,7 +105,7 @@ const AdminUserFormComponent = ({ email, uuid, updateAdminUser }) => (
               label="Tallenna"
               className="pull-right"
               primary={true}
-              onClick={() => updateAdminUser(email, uuid)}
+              onClick={() => updateAdminUser(email)}
             />
           </TableRowColumn>
         </TableRow>

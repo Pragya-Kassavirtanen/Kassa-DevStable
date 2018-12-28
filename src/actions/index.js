@@ -422,7 +422,7 @@ export const searchAdminWagesFailed = () => ({ type: SEARCH_ADMIN_WAGES_FAILED }
 export const expandAdminUser = (expanded, uuid) => ({ type: EXPAND_ADMIN_USER, expanded, uuid})
 export const expandAdminUserTrue = result => ({ type: EXPAND_ADMIN_USER_TRUE, result})
 export const expandAdminUserFalse = uuid => ({ type: EXPAND_ADMIN_USER_FALSE, uuid})
-export const updateAdminUser = (email, uuid) => ({type: UPDATE_ADMIN_USER, email, uuid})
+export const updateAdminUser = (email) => ({type: UPDATE_ADMIN_USER, email})
 export const updateAdminUserResult = () => ({type: UPDATE_ADMIN_USER_RESULT})
 export const updateAdminUserResultFailed = () => ({type: UPDATE_ADMIN_USER_RESULT_FAILED})
 export const searchAdminInvoice = () => ({ type: SEARCH_ADMIN_INVOICE })

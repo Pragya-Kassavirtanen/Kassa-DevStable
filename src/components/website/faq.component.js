@@ -1,15 +1,15 @@
 import React from 'react'
 import { faqFunction } from '../../utils/website.utils'
 
-const usein_kysyttya_banner = require('../../images/usein-kysyttya-banner.png')
+const usein_kysyttya_banner = require('../../images/usein-kysyttya-banner.jpg')
 
 const FAQ = () => (
   <div className="container-fluid cover">
     <div className="cover">
-      <img
+      <img className="img-fluid"
         src={usein_kysyttya_banner}
         alt="Kassavirtanen_usein_kysyttya_banner"
-        style={{ width: '100%', height: '300px' }}
+        style={{ width: '100%', height: 'auto' }}
       />
     </div>
     <div className="container">

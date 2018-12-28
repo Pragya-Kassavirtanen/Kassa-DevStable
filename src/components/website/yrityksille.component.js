@@ -7,9 +7,10 @@ const Yrityksille = () => (
   <div className="container-fluid cover">
     <div className="cover">
       <img
+        className="img-fluid"
         src={yrityksille_banner}
         alt="Kassavirtanen_yrityksille_banner"
-        style={{ width: '100%', height: '300px' }}
+        style={{ width: '100%', height: 'auto' }}
       />
     </div>
     <div className="whitebackground">

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const hinnasto_banner = require('../../images/hinnasto-banner.png')
+const hinnasto_banner = require('../../images/hinnasto-banner.jpg')
 const palkka_hinnasto = require('../../images/palkka.png')
 const pikapalkka_hinnasto = require('../../images/pikapalkka.png')
 
@@ -8,9 +8,10 @@ const Hinnasto = () => (
   <div className="container-fluid cover">
     <div className="cover">
       <img
+        className="img-fluid"
         src={hinnasto_banner}
         alt="Kassavirtanen_hinnasto_banner"
-        style={{ width: '100%', height: '300px' }}
+        style={{ width: '100%', height: 'auto' }}
       />
     </div>
     <div className="hinnasto-content col-xs-12 col-sm-12 col-lg-12">

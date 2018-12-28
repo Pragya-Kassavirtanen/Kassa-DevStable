@@ -7,17 +7,17 @@ import SignUp from './signup.component'
  * @author Pragya Gupta
  */
 
-const herravirtanen_etusivu = require('../../images/herravirtanen_etusivu.png')
+const herravirtanen_etusivu = require('../../images/herravirtanen_etusivu.jpg')
 const woman_etusivu = require('../../images/woman_etusivu.png')
 const man_etusivu = require('../../images/man_etusivu.png')
 
 const FrontPage = () => (
   <div className="container-fluid cover">
     <div className="cover">
-      <img
+      <img className="img-fluid"
         src={herravirtanen_etusivu}
         alt="Kassavirtanen_herravirtanen_etusivu"
-        style={{ width: '100%', height: '300px' }}
+        style={{ width: '100%', height: 'auto' }}
       />
     </div>
     <div className="frontpage-intro col-xs-12 col-sm-12 col-lg-12">
@@ -41,10 +41,10 @@ const FrontPage = () => (
     <div className="laskutus">
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-lg-6">
-          <img
+          <img className="img-fluid"
             src={woman_etusivu}
             alt="Kassavirtanen_woman_etusivu"
-            style={{ width: '360px', marginTop: '70px' }}
+            style={{ width: '100%', marginTop: '70px', height: 'auto'  }}
           />
           <h6>Laskutus</h6>
           <br />
@@ -54,10 +54,10 @@ const FrontPage = () => (
           </p>
         </div>
         <div className="col-xs-12 col-sm-6 col-lg-6">
-          <img
+          <img className="img-fluid"
             src={man_etusivu}
             alt="Kassavirtanen_man_etusivu"
-            style={{ width: '360px', marginTop: '70px' }}
+            style={{ width: '100%', marginTop: '70px', height: 'auto' }}
           />
           <h6>Palkan nostaminen</h6>
           <br />

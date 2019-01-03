@@ -1,4 +1,5 @@
 import React from 'react'
+import {Helmet} from 'react-helmet'
 import SignUp from './signup.component'
 
 /**
@@ -13,6 +14,11 @@ const man_etusivu = require('../../images/man_etusivu.png')
 
 const FrontPage = () => (
   <div className="container-fluid cover">
+    <Helmet>
+      <title>kassavirtanen - laskuta ilman yritystä</title>
+      <meta name="description" 
+      content="Kassavirtanen on edullinen ja helppokäyttöinen laskutuspalvelu kevytyrittäjille. Ei kiinteitä maksuja tai sitoutumisia. Kokeile, kuinka helppoa se voi olla!" />
+    </Helmet>
     <div className="cover">
       <img
         className="img-fluid"

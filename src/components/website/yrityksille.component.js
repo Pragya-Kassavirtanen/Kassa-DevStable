@@ -1,10 +1,16 @@
 import React from 'react'
+import {Helmet} from 'react-helmet'
 import { Link } from 'react-router'
 
 const yrityksille_banner = require('../../images/yritykset-yksityiset-banner.png')
 
 const Yrityksille = () => (
   <div className="container-fluid cover">
+    <Helmet>
+      <title>kassavirtanen – ryhdy kevytyrittäjäksi helposti</title>
+      <meta name="description" 
+      content="Kevytyrittäjänä toimit kuin yrittäjä, laskutat vain tekemästäsi työstä laskutuspalvelun avulla. Yrittäjänä palkkaat myös kevytyrittäjän nopeasti ja helposti, ilman velvoitteita." />
+    </Helmet>
     <div className="cover">
       <img
         className="img-fluid"

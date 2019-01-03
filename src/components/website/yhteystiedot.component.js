@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Helmet} from 'react-helmet'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Snackbar } from 'material-ui'
@@ -19,6 +20,11 @@ const YhteystiedotComponent = ({
 }) => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <div className="container-fluid cover">
+    <Helmet>
+      <title>kassavirtanen – yhteystiedot</title>
+      <meta name="description" 
+      content="Löydät meidät osoitteesta Salomonkatu 17 B (9.krs), 00100 Helsinki. Palvelemme sinua parhaiten, kun varaat ajan tapaamiselle ennakkoon numerosta: 020 734 6905." />
+    </Helmet>
       <div className="cover">
         <img
           className="img-fluid"

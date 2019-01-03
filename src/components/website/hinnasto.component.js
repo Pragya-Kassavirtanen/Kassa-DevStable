@@ -1,4 +1,5 @@
 import React from 'react'
+import {Helmet} from 'react-helmet'
 
 const hinnasto_banner = require('../../images/hinnasto-banner.jpg')
 const palkka_hinnasto = require('../../images/palkka.png')
@@ -6,6 +7,11 @@ const pikapalkka_hinnasto = require('../../images/pikapalkka.png')
 
 const Hinnasto = () => (
   <div className="container-fluid cover">
+    <Helmet>
+      <title>kassavirtanen – edullinen laskutuspalvelu</title>
+      <meta name="description" 
+      content="Helppo laskutuspohja ja edulliset kustannukset. Palvelumaksu vain 3-4% palkan arvonlisäverottomasta summasta. Saat pikapalkan avulla rahat tilillesi jopa samana päivänä." />
+    </Helmet>
     <div className="cover">
       <img
         className="img-fluid"

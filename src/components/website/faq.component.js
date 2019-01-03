@@ -1,10 +1,16 @@
 import React from 'react'
+import {Helmet} from 'react-helmet'
 import { faqFunction } from '../../utils/website.utils'
 
 const usein_kysyttya_banner = require('../../images/usein-kysyttya-banner.jpg')
 
 const FAQ = () => (
   <div className="container-fluid cover">
+    <Helmet>
+      <title>kassavirtanen – kysymyksiä kevytyrittäjyydestä</title>
+      <meta name="description" 
+      content="Ei kiinteitä maksuja, kassavirtanen on käyttäjälle ilmainen laskutusohjelma. Voit ryhtyä kevytyrittäjäksi ilman sitoumuksia alalle kuin alalle." />
+    </Helmet>
     <div className="cover">
       <img className="img-fluid"
         src={usein_kysyttya_banner}

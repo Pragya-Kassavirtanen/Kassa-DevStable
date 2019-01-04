@@ -137,7 +137,7 @@ const Footer = () => (
         />      
       </div>      
       <div className="dashboard-footer-sign">
-        <p> &copy; Kassavirtanen 2018</p>
+        <p> &copy; Kassavirtanen 2019</p>
       </div>
     </div>
   </footer>

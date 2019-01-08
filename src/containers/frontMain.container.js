@@ -46,6 +46,11 @@ const navItems = [
     content: 'KEVYTYRITTÄJYYS',    
     url: 'yrityksille'
   },
+  { 
+    name: 'phone',
+    content: 'TUKI',    
+    url: 'tuki'
+  },
   {  
     name: 'envelope', 
     content: 'YHTEYSTIEDOT',    

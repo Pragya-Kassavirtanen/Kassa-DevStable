@@ -26,6 +26,7 @@ import FAQ from './components/website/faq.component'
 import Hinnasto from './components/website/hinnasto.component'
 import Yhteystiedot from './containers/website/yhteystiedot.container'
 import Yrityksille from './components/website/yrityksille.component'
+import Tuki from './components/website/tuki.component'
 import Welcome from './components/account/welcome.component'
 
 /**
@@ -105,6 +106,7 @@ export default class RouteComponent extends React.Component {
             <Route path="hinnasto" component={Hinnasto} />
             <Route path="faq" component={FAQ} />
             <Route path="yrityksille" component={Yrityksille} />
+            <Route path="tuki" component={Tuki} />
             <Route path="yhteystiedot" component={Yhteystiedot} />          
           </Route>
           <Route path="/*" component={FrontMain} />

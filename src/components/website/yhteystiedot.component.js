@@ -29,7 +29,7 @@ const YhteystiedotComponent = ({
         <img
           className="img-fluid"
           src={yhteystiedot_banner}
-          alt="Kassavirtanen_yhteystiedot_banner"
+          alt="ota_yhteyttä_kassavirtanen_laskutuspalvelu_kevytyrittäjille"
           style={{ width: '100%', height: 'auto' }}
         />
       </div>

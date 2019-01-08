@@ -16,7 +16,7 @@ const Hinnasto = () => (
       <img
         className="img-fluid"
         src={hinnasto_banner}
-        alt="Kassavirtanen_hinnasto_banner"
+        alt="edullinen_laskutuspalvelu_kevytyrittäjille"
         style={{ width: '100%', height: 'auto' }}
       />
     </div>
@@ -41,7 +41,7 @@ const Hinnasto = () => (
         <div className="hinnasto-palkka col-xs-12 col-sm-6 col-lg-6">
           <img
             src={palkka_hinnasto}
-            alt="Kassavirtanen_palkka_hinnasto"
+            alt="edullisin_laskutuspohja_kevytyrittäjille"
             style={{ width: '360px', marginTop: '30px' }}
           />
           <h1 className="percentage">PALKKA 3-4,0%</h1>
@@ -61,7 +61,7 @@ const Hinnasto = () => (
         <div className="hinnasto-pikapalkka col-xs-12 col-sm-6 col-lg-6">
           <img
             src={pikapalkka_hinnasto}
-            alt="Kassavirtanen_pikapalkka_hinnasto"
+            alt="kevytyrittäjän_pikapalkka_nopea_palkanmaksu"
             style={{ width: '360px', marginTop: '28px' }}
           />
           <div className="percentage">

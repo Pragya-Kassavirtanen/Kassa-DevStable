@@ -15,7 +15,7 @@ const Yrityksille = () => (
       <img
         className="img-fluid"
         src={yrityksille_banner}
-        alt="Kassavirtanen_yrityksille_banner"
+        alt="yrittäjyys_laskuta_tekemästäsi_työstä"
         style={{ width: '100%', height: 'auto' }}
       />
     </div>

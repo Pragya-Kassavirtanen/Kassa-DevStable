@@ -14,7 +14,7 @@ const FAQ = () => (
     <div className="cover">
       <img className="img-fluid"
         src={usein_kysyttya_banner}
-        alt="Kassavirtanen_usein_kysyttya_banner"
+        alt="ryhdy_kevytyrittäjäksi_laskuta_laskutuspohjan_avulla"
         style={{ width: '100%', height: 'auto' }}
       />
     </div>

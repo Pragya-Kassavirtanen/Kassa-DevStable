@@ -134,6 +134,7 @@ const Footer = () => (
         <img          
           className='dashboard-footer-trustBrand'
           src={trustLogo}
+          alt="luotettava_kumppani_laskutuspalvelu_yrittäjille"
         />      
       </div>      
       <div className="dashboard-footer-sign">

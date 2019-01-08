@@ -84,8 +84,8 @@ const TaxComponent = ({ onFileUpload, showSpinner }) =>
                     Salomonkatu 16<br />
                     00180 Helsinki<br />
                     <br /><br />
-                    Tai sähköpostitse:<br />
-                    verokortit@kassavirtanen.fi
+                    Tai sähköpostitse:<br />                    
+                    asiakaspalvelu@kassavirtanen.fi
                     </p>
                 </div>
               </div>

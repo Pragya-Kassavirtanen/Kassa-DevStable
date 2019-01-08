@@ -15,7 +15,7 @@ const Navigation = () =>
       <nav className="dashboard-header-brand">
         <div>
           <Link to="/">
-            <img className="navbar-brand dashboard-nav-brand" src={brandLogo} />
+            <img className="navbar-brand dashboard-nav-brand" src={brandLogo} alt="kassavirtanen_oy"/>
           </Link>
         </div>
       </nav>

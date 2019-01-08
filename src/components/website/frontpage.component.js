@@ -23,7 +23,7 @@ const FrontPage = () => (
       <img
         className="img-fluid"
         src={herravirtanen_etusivu}
-        alt="Kassavirtanen_herravirtanen_etusivu"
+        alt="kevytyrittäjyys_kassavirtanen_laskuta_ilman_yritystä"        
         style={{ width: '100%', height: 'auto' }}
       />
     </div>
@@ -73,7 +73,7 @@ const FrontPage = () => (
           <img
             className="img-fluid"
             src={woman_etusivu}
-            alt="Kassavirtanen_woman_etusivu"
+            alt="kevytyrittäjä_laskuta_laskutuspohjalla"
             style={{ width: '100%', marginTop: '70px', height: 'auto' }}
           />
           <h6>Laskutus</h6>
@@ -87,7 +87,7 @@ const FrontPage = () => (
           <img
             className="img-fluid"
             src={man_etusivu}
-            alt="Kassavirtanen_man_etusivu"
+            alt="pikapalkka_saa_palkkasi_tilillesi_jo_samana_päivänä"
             style={{ width: '100%', marginTop: '70px', height: 'auto' }}
           />
           <h6>Palkan nostaminen</h6>
